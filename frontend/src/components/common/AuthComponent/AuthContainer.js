@@ -3,61 +3,77 @@ import {AuthComponent} from "./AuthComponent"
 import {AuthContext} from "../../../context/AuthContext"
 import {useMessage} from "../../../hooks/message.hook"
 import {useHttp} from "../../../hooks/http.hook"
+import {useForm} from "antd/es/form/Form"
+import {compose} from "redux"
+import {connect} from "react-redux"
+import {getUser} from "../../../redux/users-reducer"
 
-const AuthContainer = () => {
+const AuthContainer = (props) => {
 
 
-   const auth = useContext(AuthContext)
-   const message = useMessage()
-   const {loading, error, request, clearError} = useHttp()
+    const auth = useContext(AuthContext)
+    const message = useMessage()
+    const {loading, error, request, clearError} = useHttp()
 
-   const [isLogIn, setIsLogin] = useState(true)
-    const [form, setForm] = useState({
-        name: '', username: '', email: '', password: ''
-    })
+    const [isLogIn, setIsLogin] = useState(true)
 
     useEffect(() => {
         message(error)
         clearError()
     }, [error, message, clearError])
 
-    // useEffect(() => {
-    //     window.M.updateTextFields()
-    // })
+    const [form] = useForm()
 
-    const changeHandler = event => {
-        setForm({...form, [event.target.id]: event.target.value})
+    // const {token} = useContext(AuthContext)
+    //
+    // const headers = {
+    //     Authorization: `Bearer ${token}`
+    // }
+
+    const onReset = () => {
+        form.resetFields()
     }
 
-    const registerHandler = async (e) => {
-        e.preventDefault()
+    const registerHandler = async (values) => {
         try {
-            console.log({...form})
-            const data = await request('api/auth/signup', 'POST', {...form})
+            const data = await request('api/auth/signup', 'POST', {
+                name: values.name, email: values.email, username: values.username, password: values.password
+            })
             message(data.message)
+            const dataLogin = await request('api/auth/signin', 'POST', {
+                name: '', email: '', username: values.username, password: values.password
+            })
+            auth.login(dataLogin.token, dataLogin.id)
+            props.getUser(data.username)
         } catch (e) {
         }
+        onReset()
     }
 
-    const loginHandler = async (e) => {
-        e.preventDefault()
+    const loginHandler = async (values) => {
         try {
-            const data = await request('api/auth/signin', 'POST', {...form})
+            const data = await request('api/auth/signin', 'POST', {
+                name: '', email: '', username: values.username, password: values.password
+            })
             auth.login(data.token, data.id)
-
+            props.getUser(data.username)
         } catch (e) {
         }
-
+        onReset()
     }
+
 
 
     return (
         <>
-            <AuthComponent changeHandler={changeHandler} isLogIn={isLogIn} setIsLogin={setIsLogin} form={form}
-                           setForm={setForm} registerHandler={registerHandler} loginHandler={loginHandler}
+            <AuthComponent isLogIn={isLogIn} setIsLogin={setIsLogin} form={form}
+                           registerHandler={registerHandler} loginHandler={loginHandler}
             />
         </>
     )
 }
 
-export default AuthContainer
+export default compose(
+    connect(null, {getUser})
+)(AuthContainer)
+

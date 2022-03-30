@@ -1,12 +1,12 @@
 import React, {useContext, useEffect, useRef, useState} from 'react'
 import {NavbarComponent} from "./NavbarComponent"
-import {useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom"
 import {AuthContext} from "../../../context/AuthContext"
-import {compose} from "redux";
-import {connect} from "react-redux";
-import {getProjects} from "../../../redux/projects-reducer";
+import {compose} from "redux"
+import {connect} from "react-redux"
+import {getProjects} from "../../../redux/projects-reducer"
 
-const NavbarContainer = (props) => {
+const NavbarContainer = props => {
 
     const [isProjectsMenu, setIsProjectsMenu] = useState(false)
     const [isStaffMenu, setIsStaffMenu] = useState(false)
@@ -76,7 +76,7 @@ const NavbarContainer = (props) => {
                              isStaffMenu={isStaffMenu} setIsStaffMenu={setIsStaffMenu} modalStaff={modalStaff}
                              modalStaffTitle={modalStaffTitle} buttonStaff={buttonStaff} modalProjects={modalProjects}
                              modalProjectsTitle={modalProjectsTitle} buttonProjects={buttonProjects}
-                             logoutHandler={logoutHandler} projects={props.projects}
+                             logoutHandler={logoutHandler} projects={props.projects} currentUser={props.currentUser}
             />
         </>
     )
@@ -84,7 +84,8 @@ const NavbarContainer = (props) => {
 
 
 const mapStateToProps = (state) => ({
-    projects: state.projectsReducer.projects
+    projects: state.projectsReducer.projects,
+    currentUser: state.userReducer.currentUser
 })
 
 export default compose(

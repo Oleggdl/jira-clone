@@ -5,7 +5,7 @@ import {NavLink} from "react-router-dom";
 export const NavbarComponent = ({
                                     isProjectsMenu, isStaffMenu, modalProjectsTitle, setIsStaffMenu, setIsProjectsMenu,
                                     buttonProjects, buttonStaff, modalProjects, modalStaff, modalStaffTitle,
-                                    logoutHandler, projects
+                                    logoutHandler, projects, currentUser
                                 }) => {
 
     function showProjectsMenu() {
@@ -40,8 +40,11 @@ export const NavbarComponent = ({
                             <ul>
                                 <li>
                                     <ul className="recent-projects">
-                                        {projects.map((project) => <li key={project.id} className="recent-projects-links">
-                                            <NavLink to={`scrum/${project.project_key}`}>{project.project_name}</NavLink></li>)}
+                                        {projects.map((project) => <li key={project.id}
+                                                                       className="recent-projects-links">
+                                            <NavLink
+                                                to={`scrum/${project.project_key}`}>{project.project_name}</NavLink>
+                                        </li>)}
                                     </ul>
                                 </li>
 
@@ -69,6 +72,7 @@ export const NavbarComponent = ({
                             <li className="dropdown-content-links"><NavLink to="/">Invite a colleague</NavLink></li>
                         </div>}
                     </li>
+                    <li className="user-link"><h2>{currentUser}</h2></li>
                     <li className="logoutLink">
                         <button onClick={logoutHandler} className="nav-button">Log out</button>
                     </li>

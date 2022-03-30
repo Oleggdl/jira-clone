@@ -1,7 +1,7 @@
 import React from 'react'
 import './Column.scss'
 import TaskBoardContainer from "../../Tasks/TaskBoardComponent/TaskBoardContainer"
-import {EllipsisOutlined} from "@ant-design/icons"
+
 
 const ColumnComponent = ({columnName, settingsColumnHandler, isSettings, isSettingsActive, settingsRef}) => {
 

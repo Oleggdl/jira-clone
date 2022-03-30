@@ -13,16 +13,9 @@ public class Sprint {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-//    @Column(name = "sprint_name")
     private String sprint_name;
-
-//    @Column(name = "start_date")
     private String start_date;
-
-//    @Column(name = "end_date")
     private String end_date;
-
-//    @Column(name = "scrum_project_id")
     private String scrum_project_id;
 
     public Sprint() {

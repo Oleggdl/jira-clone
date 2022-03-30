@@ -8,11 +8,9 @@ const {Option} = Select
 const {Title} = Typography
 
 
-const CreateTaskComponent = ({form, handleSubmit, onReset}) => {
+const CreateTaskComponent = ({form, handleSubmit, onReset, projects, sprints}) => {
 
-    const projects = ['project_1', 'project_2', 'project_3']
     const executors = ['executor_1', 'executor_2', 'executor_3']
-    const sprints = ['sprint_1', 'sprint_2', 'sprint_3']
     const creator = 'OIE zhA'
 
     return (
@@ -32,7 +30,8 @@ const CreateTaskComponent = ({form, handleSubmit, onReset}) => {
                     <Form.Item label="Project" name="project"
                                rules={[{required: true, message: 'Please select project!'}]}>
                         <Select placeholder="Select project" className="project-select">
-                            {projects.map((project, index) => <Option key={index} value={project}>{project}</Option>)}
+                            {projects.map(project =>
+                                <Option key={project.id} value={project.project_name}>{project.project_name}</Option>)}
                         </Select>
                     </Form.Item>
                     <Form.Item
@@ -57,7 +56,9 @@ const CreateTaskComponent = ({form, handleSubmit, onReset}) => {
                     <Form.Item label="Sprint" name="sprint_id"
                                rules={[{required: false}]}>
                         <Select placeholder="Select sprint" className="project-select">
-                            {sprints.map((sprint, index) => <Option key={index} value={sprint}>{sprint}</Option>)}
+                            {!!sprints ? sprints.map(sprint =>
+                                <Option key={sprint.id}
+                                        value={sprint.sprint_name}>{sprint.sprint_name}</Option>) : null}
                         </Select>
                     </Form.Item>
                     <Form.Item label="Author" name="creator_id"
@@ -65,7 +66,7 @@ const CreateTaskComponent = ({form, handleSubmit, onReset}) => {
                                value={'OIE zhA'}>
                         <Title level={4}>{creator}</Title>
                     </Form.Item>
-                    <Form.Item name="create_date" style={{height: 0, margin: 0} }> </Form.Item>
+                    <Form.Item name="create_date" style={{height: 0, margin: 0}}> </Form.Item>
                     <Form.Item wrapperCol={{offset: 7}}>
                         <Button type="primary" htmlType="submit" style={{width: "100px"}}>
                             Submit

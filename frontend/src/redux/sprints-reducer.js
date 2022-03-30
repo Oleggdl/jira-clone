@@ -7,6 +7,7 @@ let initialState = {
     sprints: []
 }
 
+
 const sprintsReducer = (state = initialState, action) => {
 
     switch (action.type) {
@@ -23,7 +24,7 @@ const sprintsReducer = (state = initialState, action) => {
 }
 
 
-export const getSprintsActionCreator = (sprints) => ({type: GET_SPRINTS, sprints})
+export const getSprintsActionCreator = sprints => ({type: GET_SPRINTS, sprints})
 
 export const getSprints = (authorization) => {
 

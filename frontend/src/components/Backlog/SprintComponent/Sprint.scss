@@ -8,6 +8,21 @@
   border-radius: 5px;
   width: 100%;
   margin-bottom: 20px;
+
+  .create-task-button {
+    border: none;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: .3s;
+    font-size: 1.5rem;
+    margin-top: 5px;
+    height: 30px;
+    font-weight: bold;
+
+    &:hover {
+      background-color: #c7c7c7;
+    }
+  }
 }
 
 .sprint-container-header {
