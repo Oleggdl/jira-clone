@@ -1,0 +1,19 @@
+    spring:
+      data:
+        rest:
+          base-path=/api:
+      jpa:
+        database: POSTGRESQL
+        show-sql: true
+        hibernate:
+          ddl-auto: update
+      datasource:
+        platform: postgres
+        url: jdbc:postgresql://localhost:5432/jira_clone?useSSL=false
+        username: postgres
+        password: 2461879qw
+        driverClassName: org.postgresql.Driver
+    # App Properties
+    app:
+      jwtSecret: MegaLargeSigningSecretKeyForDemoApplicationMegaLargeSigningSecretKeyForDemoApplication
+      jwtExpirationMs: 86400000

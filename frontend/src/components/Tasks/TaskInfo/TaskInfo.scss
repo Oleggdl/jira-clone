@@ -1,0 +1,116 @@
+@import 'src/styles/variables';
+@import 'src/styles/mixins';
+
+.task-info-wrapper {
+  position: fixed;
+  width: 100%;
+  top: -64px;
+  height: calc(100% + 64px);
+  background-color: rgb(0, 0, 0, 0.5);
+  z-index: 4;
+}
+
+.task-info-container {
+  position: absolute;
+  display: flex;
+  width: 70%;
+  height: 700px;
+  left: 15%;
+  top: calc(50% - 320px);
+  background-color: $main-background-color;
+  z-index: 5;
+  padding: 40px;
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+
+  .close-button {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    cursor: pointer;
+    border: unset;
+    width: 30px;
+    height: 30px;
+    background-color: unset;
+    transition: .3s;
+    border-radius: 3px;
+    padding: 3px 0 0 0;
+
+    &:hover {
+      background-color: $button-task-hover;
+    }
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  .task-info-left {
+    width: 70%;
+    //height: 700px;
+    padding-right: 40px;
+    overflow-y: auto;
+
+    h2 {
+      font-size: 2.6rem;
+    }
+
+    .task-info-left-description {
+      font-size: 1.6rem;
+      font-weight: 500;
+    }
+
+    .primary-button-submit:first-child {
+      span {
+        color: #ffffff;
+      }
+    }
+
+    .buttons-activity {
+
+      .button-active {
+        background-color: #a8a8a8;
+      }
+      button {
+        cursor: pointer;
+        margin-right: 10px;
+        border: 0;
+        transition: .3s;
+        border-radius: 3px;
+
+        &:hover {
+          background-color: $button-task-hover;
+        }
+      }
+    }
+  }
+
+  .task-info-right {
+    width: 30%;
+    padding: 20px;
+    border: 1px #bebebe solid;
+    border-radius: 5px;
+
+    h3 {
+      font-size: 2.1rem;
+    }
+
+    .supervisor-logo {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background-color: $main-color;
+      margin-right: 5px;
+    }
+
+    .supervisor-container {
+      display: flex;
+    }
+
+    h4 {
+      margin-top: 20px;
+      font-size: 1.6rem;
+    }
+  }
+}

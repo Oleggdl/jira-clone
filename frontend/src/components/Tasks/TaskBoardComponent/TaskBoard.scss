@@ -1,0 +1,63 @@
+@import 'src/styles/variables';
+@import 'src/styles/mixins';
+
+.task-component-container {
+  @include task-container;
+  position: relative;
+
+  display: block;
+  width: 100%;
+  border: unset;
+
+  text-align: left;
+
+  &:hover {
+    .task-component-settings {
+      opacity: 1;
+    }
+
+    .task-title {
+      color: $main-color;
+    }
+
+    background-color: $button-background-color;
+  }
+}
+
+.task-component-key {
+
+  padding-top: 20px;
+  display: flex;
+
+  span {
+    margin-top: 2px;
+  }
+
+  div {
+    padding-left: 7px;
+    font-size: 13px;
+    font-weight: 100;
+    color: $secondary-text;
+  }
+}
+
+.task-component-labels {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 1.3rem;
+  padding: 1px 3px;
+  border-radius: 2px;
+  background-color: $column-container-background;
+  color: $secondary-text;
+}
+
+.task-component-settings {
+  position: absolute;
+  right: 10px;
+  margin-left: 10px;
+  opacity: 0;
+  transition: .3s;
+  border-radius: 3px;
+  background-color: $column-container-background;
+  padding: 2px 5px;
+}

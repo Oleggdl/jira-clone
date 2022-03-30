@@ -1,0 +1,19 @@
+@import 'src/styles/variables';
+@import 'src/styles/mixins';
+
+
+.all-projects-container {
+  padding: 40px;
+  position: relative;
+  h2 {
+    font-size: 2.7rem;
+  }
+
+  .create-project-button{
+    position: absolute;
+    right: 40px;
+    span{
+      color: #ffffff;
+    }
+  }
+}

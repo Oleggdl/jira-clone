@@ -1,0 +1,10 @@
+@import 'src/styles/variables';
+
+.backlog-container {
+  position: relative;
+  left: 300px;
+  padding: 40px;
+  width: calc(100% - 300px);
+}
+
+

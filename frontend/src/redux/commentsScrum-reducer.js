@@ -1,0 +1,64 @@
+import {commentsScrumAPI} from "../api/api"
+
+
+const GET_COMMENTS_SCRUM = 'GET_COMMENTS_SCRUM'
+// const SET_COMMENT = 'SET_COMMENT'
+
+let initialState = {
+    commentsScrum: []
+}
+
+const commentsScrumReducer = (state = initialState, action) => {
+
+    switch (action.type) {
+        case GET_COMMENTS_SCRUM: {
+            return {
+                ...state,
+                commentsScrum: action.commentsScrum
+            }
+        }
+        // case SET_COMMENT: {
+        //     return {
+        //         ...state,
+        //         commentsScrum: [...state.commentsScrum, action.newComment]
+        //     }
+        // }
+
+        default:
+            return state
+    }
+}
+
+
+export const getCommentsScrumActionCreator = commentsScrum => ({type: GET_COMMENTS_SCRUM, commentsScrum})
+// export const setCommentActionCreator = newComment => ({type: SET_COMMENT, newComment})
+
+export const getCommentsScrum = (authorization) => {
+
+    return async dispatch => {
+        const response = await commentsScrumAPI.getCommentsScrum(authorization)
+        dispatch(getCommentsScrumActionCreator(response.data))
+    }
+}
+
+export const createCommentScrum = (data, authorization) => {
+
+    return async dispatch => {
+        const response = await commentsScrumAPI.createCommentScrum(data, authorization)
+        // dispatch(setCommentActionCreator(data))
+        const responseGetComments = await commentsScrumAPI.getCommentsScrum(authorization)
+        dispatch(getCommentsScrumActionCreator(responseGetComments.data))
+    }
+}
+
+export const deleteCommentScrum = (id, authorization) => {
+
+    return async dispatch => {
+        const response = await commentsScrumAPI.deleteCommentsScrum(id, authorization)
+        const responseGetComments = await commentsScrumAPI.getCommentsScrum(authorization)
+        dispatch(getCommentsScrumActionCreator(responseGetComments.data))
+
+    }
+}
+
+export default commentsScrumReducer

@@ -1,0 +1,61 @@
+@import 'src/styles/variables';
+@import 'src/styles/mixins';
+
+.task-backlog-component-container {
+  display: flex;
+  @include task-container;
+
+  &:hover {
+    .task-backlog-component-settings {
+      opacity: 1;
+    }
+    .task-title{
+      color: $main-color;
+    }
+    background-color: $button-background-color;
+  }
+}
+
+.task-backlog-component-key {
+
+  padding-top: 3px;
+  display: flex;
+  padding-right: 15px;
+
+  span {
+    margin-top: 2px;
+  }
+
+  div {
+    padding-left: 7px;
+    font-size: 13px;
+    font-weight: 100;
+    color: $secondary-text;
+  }
+}
+
+.task-backlog-component-labels {
+  display: inline-block;
+  margin-top: 2px;
+  margin-left: auto;
+  margin-right: 0;
+  font-size: 1.3rem;
+  padding: 1px 3px;
+  border-radius: 2px;
+  background-color: $column-container-background;
+  color: $secondary-text;
+}
+
+.task-backlog-component-settings {
+  margin-left: 10px;
+  opacity: 0;
+  transition: .3s;
+  border-radius: 3px;
+  background-color: $column-container-background;
+  padding: 2px 5px;
+}
+
+.task-title {
+  margin-top: 1px;
+  transition: .3s;
+}

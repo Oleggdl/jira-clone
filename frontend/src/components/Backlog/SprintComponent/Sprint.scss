@@ -1,0 +1,37 @@
+@import 'src/styles/variables';
+@import 'src/styles/mixins';
+
+.sprint-container {
+  background-color: $column-container-background;
+  position: relative;
+  padding: 13px;
+  border-radius: 5px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.sprint-container-header {
+  display: flex;
+  box-sizing: border-box;
+  margin-bottom: 15px;
+
+  h4 {
+    margin-top: 9px;
+    margin-bottom: 7px;
+  }
+
+  div {
+    font-size: 1.3rem;
+    color: $secondary-text;
+    padding: 12px 0 0 10px;
+    font-weight: 100;
+
+    span {
+      color: $secondary-text;
+    }
+  }
+
+  button {
+    @include button;
+  }
+}

@@ -1,0 +1,88 @@
+@import 'src/styles/variables';
+@import './src/styles/mixins';
+
+
+.column-container {
+  min-width: 300px;
+  height: 100%;
+  margin-right: 25px;
+  position: relative;
+  padding: 10px;
+  z-index: 1;
+  background-color: $column-container-background;
+  border-radius: 5px;
+
+  .column-title {
+    cursor: grab;
+    //cursor: grabbing;
+    @include disabled-selection;
+
+    &:hover {
+      .column-component-settings {
+        opacity: 1;
+        background-color: #d7d7d7;
+      }
+    }
+
+    .settings-window {
+      position: absolute;
+      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+      top: 45px;
+      right: 13px;
+      z-index: 2;
+      width: 170px;
+      height: 72px;
+      border-radius: 3px;
+      background-color: #ffffff;
+
+      button {
+        text-align: left;
+        padding: 7px 20px;
+        border: none;
+        width: 100%;
+        background: unset;
+        transition: .3s;
+        cursor: pointer;
+
+        &:hover {
+          background-color: #d7d7d7;
+        }
+      }
+    }
+  }
+
+  .settings-active {
+    opacity: 1!important;
+    background-color: #7a7c81;
+  }
+
+  h4 {
+    padding: 5px 0;
+    margin: 0;
+    text-transform: uppercase;
+  }
+
+  .column-component-settings {
+    position: absolute;
+    top: 10px;
+    right: 13px;
+    border: unset;
+    cursor: pointer;
+    margin: 0;
+    font-size: 3rem;
+    line-height: 0.4;
+    padding: 0 5px 18px 5px;
+    border-radius: 3px;
+    transition: .3s;
+    opacity: 0;
+
+    &:hover {
+      opacity: 1;
+      background-color: #9398a2;
+    }
+  }
+}
+
+.column-task-container {
+  padding-top: 10px;
+}
