@@ -2,7 +2,7 @@ import React, {useContext, useEffect} from 'react'
 import TaskBacklogComponent from "./TaskBacklogComponent"
 import {compose} from "redux"
 import {connect} from "react-redux"
-import {getSprints} from "../../../redux/sprints-reducer"
+import {getSprints} from "../../../redux/scrum/sprints-reducer"
 import {AuthContext} from "../../../context/AuthContext"
 
 const TaskBacklogContainer = props => {

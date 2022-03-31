@@ -1,4 +1,4 @@
-import {commentsScrumAPI} from "../api/api"
+import {commentsScrumAPI} from "../../api/api"
 
 
 const GET_COMMENTS_SCRUM = 'GET_COMMENTS_SCRUM'

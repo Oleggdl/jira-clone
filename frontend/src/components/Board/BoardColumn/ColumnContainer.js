@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useRef, useState} from 'react'
 import ColumnComponent from "./ColumnComponent"
 import {compose} from "redux"
 import {connect} from "react-redux"
-import {deleteColumnScrum} from "../../../redux/columns-reducer"
+import {deleteColumnScrum} from "../../../redux/scrum/columns-reducer"
 import {AuthContext} from "../../../context/AuthContext"
 
 const ColumnContainer = props => {

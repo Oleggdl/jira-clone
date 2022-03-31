@@ -55,3 +55,15 @@ export const commentsScrumAPI = {
         return instance.delete(`scrum/commentsScrum/${id}`, {headers: headers})
     },
 }
+
+export const backlogAPI = {
+    createBacklogElement(data, headers) {
+        return instance.post(`scrum/backlog`, data, {headers: headers})
+    },
+    getBacklogElements(headers) {
+        return instance.get(`scrum/backlog`, {headers: headers})
+    },
+    deleteBacklogElement(id, headers) {
+        return instance.delete(`scrum/backlog/${id}`, {headers: headers})
+    },
+}

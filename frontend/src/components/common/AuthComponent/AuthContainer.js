@@ -6,7 +6,7 @@ import {useHttp} from "../../../hooks/http.hook"
 import {useForm} from "antd/es/form/Form"
 import {compose} from "redux"
 import {connect} from "react-redux"
-import {getUser} from "../../../redux/users-reducer"
+import {getUser} from "../../../redux/scrum/users-reducer"
 
 const userName = 'userName'
 

@@ -4,8 +4,8 @@ import {useNavigate} from "react-router-dom"
 import {AuthContext} from "../../../context/AuthContext"
 import {compose} from "redux"
 import {connect} from "react-redux"
-import {getCurrentProject, getProjects} from "../../../redux/projects-reducer"
-import {getUser} from "../../../redux/users-reducer"
+import {getCurrentProject, getProjects} from "../../../redux/scrum/projects-reducer"
+import {getUser} from "../../../redux/scrum/users-reducer"
 
 const userName = 'userName'
 
@@ -83,8 +83,8 @@ const NavbarContainer = props => {
 
 
 
-    const currentProjectHandler = projectName => {
-        props.getCurrentProject(projectName)
+    const currentProjectHandler = project => {
+        props.getCurrentProject(project)
     }
 
     return (

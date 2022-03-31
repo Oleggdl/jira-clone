@@ -4,8 +4,8 @@ import {useForm} from "antd/es/form/Form"
 import {AuthContext} from "../../../context/AuthContext"
 import {compose} from "redux";
 import {connect} from "react-redux";
-import {createColumn, getColumns} from "../../../redux/columns-reducer";
-import {createCommentScrum, getCommentsScrum} from "../../../redux/commentsScrum-reducer";
+import {createColumn, getColumns} from "../../../redux/scrum/columns-reducer";
+import {createCommentScrum, getCommentsScrum} from "../../../redux/scrum/commentsScrum-reducer";
 
 const CommentsContainer = (props) => {
 

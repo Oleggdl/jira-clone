@@ -2,7 +2,7 @@ import React, {useContext, useEffect} from 'react'
 import BacklogElementComponent from "./BacklogElementComponent"
 import {compose} from "redux";
 import {connect} from "react-redux";
-import {getTasks} from "../../../redux/tasks-reducer"
+import {getTasks} from "../../../redux/scrum/tasks-reducer"
 import {AuthContext} from "../../../context/AuthContext";
 
 

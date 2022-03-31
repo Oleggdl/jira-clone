@@ -1,4 +1,4 @@
-import {columnsAPI, commentsScrumAPI} from "../api/api";
+import {columnsAPI, commentsScrumAPI} from "../../api/api";
 import {getCommentsScrumActionCreator} from "./commentsScrum-reducer";
 
 

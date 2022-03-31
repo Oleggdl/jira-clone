@@ -2,7 +2,7 @@ import React, {useContext, useEffect} from 'react'
 import AllProjectsComponent from "./AllProjectsComponent"
 import {compose} from "redux"
 import {connect} from "react-redux"
-import {getProjects} from "../../../redux/projects-reducer"
+import {getProjects} from "../../../redux/scrum/projects-reducer"
 import {AuthContext} from "../../../context/AuthContext"
 
 const AllProjectsContainer = props => {

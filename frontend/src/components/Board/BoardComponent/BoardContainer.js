@@ -3,7 +3,7 @@ import BoardComponent from "./BoardComponent"
 import {TaskContext} from "../../../context/TaskContext"
 import {compose} from "redux"
 import {connect} from "react-redux"
-import {getColumns, createColumn} from "../../../redux/columns-reducer"
+import {getColumns, createColumn} from "../../../redux/scrum/columns-reducer"
 import {AuthContext} from "../../../context/AuthContext"
 
 const BoardContainer = (props) => {

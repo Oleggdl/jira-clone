@@ -1,4 +1,4 @@
-import {sprintsAPI} from "../api/api"
+import {sprintsAPI} from "../../api/api"
 
 
 const GET_SPRINTS = 'GET_SPRINTS'
