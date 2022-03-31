@@ -4,7 +4,10 @@ import {useNavigate} from "react-router-dom"
 import {AuthContext} from "../../../context/AuthContext"
 import {compose} from "redux"
 import {connect} from "react-redux"
-import {getProjects} from "../../../redux/projects-reducer"
+import {getCurrentProject, getProjects} from "../../../redux/projects-reducer"
+import {getUser} from "../../../redux/users-reducer"
+
+const userName = 'userName'
 
 const NavbarContainer = props => {
 
@@ -39,6 +42,14 @@ const NavbarContainer = props => {
     }
 
     useEffect(() => {
+        const data = JSON.parse(localStorage.getItem(userName))
+
+        if (data && data.userName) {
+            props.getUser(data.userName)
+        }
+    }, [])
+
+    useEffect(() => {
         window.addEventListener("click", function (event) {
             if (event.target !== buttonStaff.current && event.target !== modalStaff.current
                 && event.target !== modalStaffTitle.current) {
@@ -70,6 +81,12 @@ const NavbarContainer = props => {
         })
     })
 
+
+
+    const currentProjectHandler = projectName => {
+        props.getCurrentProject(projectName)
+    }
+
     return (
         <>
             <NavbarComponent isProjectsMenu={isProjectsMenu} setIsProjectsMenu={setIsProjectsMenu}
@@ -77,6 +94,7 @@ const NavbarContainer = props => {
                              modalStaffTitle={modalStaffTitle} buttonStaff={buttonStaff} modalProjects={modalProjects}
                              modalProjectsTitle={modalProjectsTitle} buttonProjects={buttonProjects}
                              logoutHandler={logoutHandler} projects={props.projects} currentUser={props.currentUser}
+                             currentProjectHandler={currentProjectHandler}
             />
         </>
     )
@@ -85,10 +103,11 @@ const NavbarContainer = props => {
 
 const mapStateToProps = (state) => ({
     projects: state.projectsReducer.projects,
-    currentUser: state.userReducer.currentUser
+    currentUser: state.userReducer.currentUser,
+    currentProject: state.projectsReducer.currentProject
 })
 
 export default compose(
-    connect(mapStateToProps, {getProjects})
+    connect(mapStateToProps, {getProjects, getUser, getCurrentProject})
 )(NavbarContainer)
 

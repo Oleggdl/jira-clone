@@ -1,7 +1,11 @@
-import React, {useEffect, useRef, useState} from 'react'
+import React, {useContext, useEffect, useRef, useState} from 'react'
 import ColumnComponent from "./ColumnComponent"
+import {compose} from "redux"
+import {connect} from "react-redux"
+import {deleteColumnScrum} from "../../../redux/columns-reducer"
+import {AuthContext} from "../../../context/AuthContext"
 
-const ColumnContainer = ({columnName}) => {
+const ColumnContainer = props => {
 
     const [isSettings, setIsSettings] = useState(false)
     const [isSettingsActive, setIsSettingsActive] = useState('')
@@ -10,14 +14,14 @@ const ColumnContainer = ({columnName}) => {
 
     useEffect(() => {
         window.addEventListener("click", function (e) {
-             if(e.target !== settingsRef.current){
+            if (e.target !== settingsRef.current) {
                 setIsSettings(false)
                 setIsSettingsActive('')
             }
         })
 
         return window.removeEventListener("click", function (e) {
-            if(e.target !== settingsRef.current){
+            if (e.target !== settingsRef.current) {
                 setIsSettings(false)
                 setIsSettingsActive('')
             }
@@ -29,12 +33,25 @@ const ColumnContainer = ({columnName}) => {
         !!isSettingsActive ? setIsSettingsActive('') : setIsSettingsActive('settings-active')
     }
 
+    const {token} = useContext(AuthContext)
+
+    const headers = {
+        Authorization: `Bearer ${token}`
+    }
+
+    const deleteColumnHandler = (id) => {
+        props.deleteColumnScrum(id, headers)
+    }
+
     return (
         <>
-            <ColumnComponent columnName={columnName} settingsColumnHandler={settingsColumnHandler}
-                             isSettings={isSettings} isSettingsActive={isSettingsActive} settingsRef={settingsRef}/>
+            <ColumnComponent column={props.column} settingsColumnHandler={settingsColumnHandler}
+                             isSettings={isSettings} isSettingsActive={isSettingsActive} settingsRef={settingsRef}
+                             deleteColumnHandler={deleteColumnHandler}/>
         </>
     )
 }
 
-export default ColumnContainer
+export default compose(
+    connect(null, {deleteColumnScrum})
+)(ColumnContainer)

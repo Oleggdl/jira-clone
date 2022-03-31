@@ -1,9 +1,11 @@
 import {projectsAPI} from "../api/api"
 
 const GET_PROJECTS = 'GET_PROJECTS'
+const GET_CURRENT_PROJECT = 'GET_CURRENT_PROJECT'
 
 let initialState = {
-    projects: []
+    projects: [],
+    currentProject: {}
 }
 
 const projectsReducer = (state = initialState, action) => {
@@ -16,13 +18,21 @@ const projectsReducer = (state = initialState, action) => {
             }
         }
 
+        case GET_CURRENT_PROJECT: {
+            return {
+                ...state,
+                currentProject: action.project
+            }
+        }
+
         default:
             return state
     }
 }
 
 
-export const getProjectsActionCreator = (projects) => ({type: GET_PROJECTS, projects})
+export const getProjectsActionCreator = projects => ({type: GET_PROJECTS, projects})
+export const getCurrentProjectActionCreator = project => ({type: GET_CURRENT_PROJECT, project})
 
 export const getProjects = (authorization) => {
 
@@ -36,6 +46,13 @@ export const createProject = (data, authorization) => {
 
     return async dispatch => {
         const response = await projectsAPI.createProject(data, authorization)
+    }
+}
+
+export const getCurrentProject = project => {
+
+    return async dispatch => {
+        dispatch(getCurrentProjectActionCreator(project))
     }
 }
 

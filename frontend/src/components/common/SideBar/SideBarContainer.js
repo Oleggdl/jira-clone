@@ -1,17 +1,21 @@
-import React, {Component} from 'react'
-import SideBarComponent from "./SideBarComponent";
+import React from 'react'
+import SideBarComponent from "./SideBarComponent"
+import {compose} from "redux"
+import {connect} from "react-redux"
 
-class SideBarContainer extends Component {
+const SideBarContainer = props => {
 
-
-
-    render() {
-        return (
-            <>
-                <SideBarComponent/>
-            </>
-        )
-    }
+    return (
+        <>
+            <SideBarComponent currentProject={props.currentProject}/>
+        </>
+    )
 }
 
-export default SideBarContainer
+const mapStateToProps = state => ({
+    currentProject: state.projectsReducer.currentProject
+})
+
+export default compose(
+    connect(mapStateToProps, {})
+)(SideBarContainer)

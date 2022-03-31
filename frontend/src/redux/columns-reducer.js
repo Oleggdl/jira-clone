@@ -1,4 +1,5 @@
-import {columnsAPI} from "../api/api";
+import {columnsAPI, commentsScrumAPI} from "../api/api";
+import {getCommentsScrumActionCreator} from "./commentsScrum-reducer";
 
 
 const GET_COLUMNS = 'GET_COLUMNS'
@@ -39,6 +40,16 @@ export const createColumn = (data, authorization) => {
         const response = await columnsAPI.createColumn(data, authorization)
         const responseGetColumns = await columnsAPI.getColumns(authorization)
         dispatch(getColumnsActionCreator(responseGetColumns.data))
+    }
+}
+
+export const deleteColumnScrum = (id, authorization) => {
+
+    return async dispatch => {
+        const response = await columnsAPI.deleteColumnScrum(id, authorization)
+        const responseGetColumns = await columnsAPI.getColumns(authorization)
+        dispatch(getColumnsActionCreator(responseGetColumns.data))
+
     }
 }
 

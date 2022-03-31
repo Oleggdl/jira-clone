@@ -1,10 +1,9 @@
 import React from 'react'
 import './SideBar.scss'
-import {NavLink} from "react-router-dom";
-import {DatabaseOutlined, ProjectOutlined} from "@ant-design/icons";
+import {NavLink} from "react-router-dom"
+import {DatabaseOutlined, ProjectOutlined} from "@ant-design/icons"
 
-const SideBarComponent = () => {
-
+const SideBarComponent = ({currentProject}) => {
 
     return (
         <>
@@ -12,18 +11,16 @@ const SideBarComponent = () => {
                 <div className="project-container">
                     <div className="project-logo">
                     </div>
-                    <div className="project-container-name">
-                        Task management project
-                    </div>
+                    <div className="project-container-name">{currentProject.project_name}</div>
                 </div>
                 <h4>Planning</h4>
                 <ul>
                     <li className="board-link-container">
-                        <div><DatabaseOutlined /></div>
+                        <div><DatabaseOutlined/></div>
                         <NavLink to="backlog" className="board-link">Backlog</NavLink>
                     </li>
                     <li className="board-link-container">
-                        <div><ProjectOutlined /></div>
+                        <div><ProjectOutlined/></div>
                         <NavLink to="board" className="board-link">Board</NavLink>
                     </li>
                 </ul>

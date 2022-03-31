@@ -1,16 +1,34 @@
-import React, {Component} from 'react'
+import React, {useContext, useEffect} from 'react'
 import TaskBacklogComponent from "./TaskBacklogComponent"
+import {compose} from "redux"
+import {connect} from "react-redux"
+import {getSprints} from "../../../redux/sprints-reducer"
+import {AuthContext} from "../../../context/AuthContext"
 
-class TaskBacklogContainer extends Component {
+const TaskBacklogContainer = props => {
 
+    const {token} = useContext(AuthContext)
 
-    render() {
-        return (
-            <>
-                <TaskBacklogComponent task={this.props.task}/>
-            </>
-        )
+    const headers = {
+        Authorization: `Bearer ${token}`
     }
+
+
+    useEffect(() => {
+        props.getSprints(headers)
+    }, [])
+
+    return (
+        <>
+            <TaskBacklogComponent task={props.task} currentProject={props.currentProject}/>
+        </>
+    )
 }
 
-export default TaskBacklogContainer
+const mapStateToProps = state => ({
+    currentProject: state.projectsReducer.currentProject
+})
+
+export default compose(
+    connect(mapStateToProps, {getSprints})
+)(TaskBacklogContainer)

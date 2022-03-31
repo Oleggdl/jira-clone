@@ -4,7 +4,7 @@ import SprintContainer from "../SprintComponent/SprintContainer"
 import BacklogElementContainer from "../BacklogElement/BacklogElementContainer"
 import Search from "antd/es/input/Search"
 
-const BacklogComponent = () => {
+const BacklogComponent = ({sprints}) => {
 
 
     return (
@@ -16,11 +16,10 @@ const BacklogComponent = () => {
                     <span className="project-text">Project name</span>
                 </div>
                 <h2>Backlog</h2>
-                <div className="search-tasks-container"  style={{width: "320px"}}>
+                <div className="search-tasks-container" style={{width: "320px"}}>
                     <Search/>
                 </div>
-                <SprintContainer/>
-                <SprintContainer/>
+                {sprints && sprints.map(sprint => <SprintContainer key={sprint.id} sprint={sprint}/>)}
                 <BacklogElementContainer/>
             </div>
         </>

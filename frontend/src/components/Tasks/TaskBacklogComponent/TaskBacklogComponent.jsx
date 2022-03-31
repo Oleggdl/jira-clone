@@ -2,14 +2,14 @@ import React from 'react'
 import {EllipsisOutlined, SolutionOutlined} from "@ant-design/icons"
 import './TaskBacklog.scss'
 
-const TaskBacklogComponent = ({task}) => {
+const TaskBacklogComponent = ({task, currentProject}) => {
 
     return (
         <>
             <div className="task-backlog-component-container">
                 <div className="task-backlog-component-key">
                     <SolutionOutlined/>
-                    <div style={{}}>TST-{task ? task.id : 'id'}</div>
+                    <div style={{}}>{currentProject.project_key}-{task ? task.id : 'id'}</div>
                 </div>
 
                 <div className="task-title">{task ? task.task_name : 'Task name'}</div>

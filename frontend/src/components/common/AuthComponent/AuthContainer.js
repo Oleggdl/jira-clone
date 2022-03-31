@@ -8,6 +8,8 @@ import {compose} from "redux"
 import {connect} from "react-redux"
 import {getUser} from "../../../redux/users-reducer"
 
+const userName = 'userName'
+
 const AuthContainer = (props) => {
 
 
@@ -57,6 +59,9 @@ const AuthContainer = (props) => {
             })
             auth.login(data.token, data.id)
             props.getUser(data.username)
+            localStorage.setItem(userName, JSON.stringify({
+                userName: data.username
+            }))
         } catch (e) {
         }
         onReset()

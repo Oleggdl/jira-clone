@@ -48,7 +48,7 @@ const CreateProjectComponent = ({form, handleSubmit, onReset}) => {
                             Submit
                         </Button>
                         <Button style={{marginLeft: "15px", width: "100px"}} onClick={onReset}>
-                            <NavLink to="/all_projects">Cancel</NavLink>
+                            <NavLink to="/">Cancel</NavLink>
                         </Button>
                     </Form.Item>
                 </Form>

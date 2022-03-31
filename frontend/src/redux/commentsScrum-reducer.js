@@ -31,7 +31,6 @@ const commentsScrumReducer = (state = initialState, action) => {
 
 
 export const getCommentsScrumActionCreator = commentsScrum => ({type: GET_COMMENTS_SCRUM, commentsScrum})
-// export const setCommentActionCreator = newComment => ({type: SET_COMMENT, newComment})
 
 export const getCommentsScrum = (authorization) => {
 
@@ -45,7 +44,6 @@ export const createCommentScrum = (data, authorization) => {
 
     return async dispatch => {
         const response = await commentsScrumAPI.createCommentScrum(data, authorization)
-        // dispatch(setCommentActionCreator(data))
         const responseGetComments = await commentsScrumAPI.getCommentsScrum(authorization)
         dispatch(getCommentsScrumActionCreator(responseGetComments.data))
     }

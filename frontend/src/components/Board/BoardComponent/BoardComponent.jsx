@@ -21,7 +21,7 @@ const BoardComponent = ({isTaskInfo, columns, createColumnHandler}) => {
                         <Search/>
                     </div>
                     <div className="columns-container">
-                        {columns.map((column) => <ColumnContainer key={column.id} columnName={column.column_name}/>)}
+                        {columns.map((column) => <ColumnContainer key={column.id} column={column}/>)}
                         <button onClick={createColumnHandler} className="button-add-column">
                             <PlusSquareOutlined/>
                         </button>

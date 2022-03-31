@@ -39,6 +39,9 @@ export const columnsAPI = {
     getColumns(headers) {
         return instance.get(`scrum/columns`, {headers: headers})
     },
+    deleteColumnScrum(id, headers) {
+        return instance.delete(`scrum/columns/${id}`, {headers: headers})
+    },
 }
 
 export const commentsScrumAPI = {

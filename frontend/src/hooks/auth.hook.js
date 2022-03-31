@@ -1,6 +1,7 @@
 import {useCallback, useEffect, useState} from "react"
 
 const storageName = 'userData'
+const userName = 'userName'
 
 export const useAuth = () => {
     const [token, setToken] = useState(null)
@@ -19,6 +20,7 @@ export const useAuth = () => {
         setToken(null)
         setUserId(null)
         localStorage.removeItem(storageName)
+        localStorage.removeItem(userName)
     }, [])
 
     useEffect(() => {

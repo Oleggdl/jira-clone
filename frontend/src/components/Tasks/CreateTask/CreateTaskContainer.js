@@ -36,7 +36,7 @@ const CreateTaskContainer = props => {
     return (
         <>
             <CreateTaskComponent handleSubmit={handleSubmit} onReset={onReset} form={form} projects={props.projects}
-                                 sprints={props.sprints}/>
+                                 sprints={props.sprints} currentUser={props.currentUser}/>
         </>
     )
 }
@@ -45,7 +45,8 @@ const CreateTaskContainer = props => {
 const mapStateToProps = (state) => ({
     tasks: state.tasksReducer.tasks,
     projects: state.projectsReducer.projects,
-    sprints: state.sprintsReducer.sprints
+    sprints: state.sprintsReducer.sprints,
+    currentUser: state.userReducer.currentUser
 })
 
 export default compose(

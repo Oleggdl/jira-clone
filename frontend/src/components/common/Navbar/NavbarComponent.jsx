@@ -5,7 +5,7 @@ import {NavLink} from "react-router-dom";
 export const NavbarComponent = ({
                                     isProjectsMenu, isStaffMenu, modalProjectsTitle, setIsStaffMenu, setIsProjectsMenu,
                                     buttonProjects, buttonStaff, modalProjects, modalStaff, modalStaffTitle,
-                                    logoutHandler, projects, currentUser
+                                    logoutHandler, projects, currentUser, currentProjectHandler
                                 }) => {
 
     function showProjectsMenu() {
@@ -16,9 +16,8 @@ export const NavbarComponent = ({
         !!isStaffMenu ? setIsStaffMenu(false) : setIsStaffMenu(true)
     }
 
-    function createTask() {
 
-    }
+
 
 
     return (
@@ -27,7 +26,8 @@ export const NavbarComponent = ({
                 <div className="brand-logo"><h1>Jira-clone</h1></div>
                 <ul className="nav-container">
                     <li>
-                        <button onClick={createTask} className="nav-button" style={{padding: "unset"}}>
+                        <button onClick={() => {
+                        }} className="nav-button" style={{padding: "unset"}}>
                             <NavLink to="create_task">Create</NavLink>
                         </button>
                     </li>
@@ -40,11 +40,13 @@ export const NavbarComponent = ({
                             <ul>
                                 <li>
                                     <ul className="recent-projects">
-                                        {projects.map((project) => <li key={project.id}
-                                                                       className="recent-projects-links">
-                                            <NavLink
-                                                to={`scrum/${project.project_key}`}>{project.project_name}</NavLink>
-                                        </li>)}
+                                        {projects.map(project =>
+                                            <li key={project.id} className="recent-projects-links"
+                                                onClick={() => currentProjectHandler(project)}
+                                            >
+                                                <NavLink
+                                                    to={`scrum/${project.project_key}`}>{project.project_name}</NavLink>
+                                            </li>)}
                                     </ul>
                                 </li>
 

@@ -1,17 +1,23 @@
-import React, {Component} from 'react'
-import BacklogComponent from "./BacklogComponent";
+import React from 'react'
+import BacklogComponent from "./BacklogComponent"
+import {compose} from "redux"
+import {connect} from "react-redux"
 
-class BacklogContainer extends Component {
+const BacklogContainer = props => {
 
 
 
-    render() {
-        return (
-            <>
-                <BacklogComponent/>
-            </>
-        )
-    }
+    return (
+        <>
+            <BacklogComponent sprints={props.sprints}/>
+        </>
+    )
 }
 
-export default BacklogContainer
+const mapStateToProps = (state) => ({
+    sprints: state.sprintsReducer.sprints
+})
+
+export default compose(
+    connect(mapStateToProps, {})
+)(BacklogContainer)

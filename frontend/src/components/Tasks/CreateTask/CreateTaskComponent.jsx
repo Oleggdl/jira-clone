@@ -8,10 +8,9 @@ const {Option} = Select
 const {Title} = Typography
 
 
-const CreateTaskComponent = ({form, handleSubmit, onReset, projects, sprints}) => {
+const CreateTaskComponent = ({form, handleSubmit, onReset, projects, sprints, currentUser}) => {
 
     const executors = ['executor_1', 'executor_2', 'executor_3']
-    const creator = 'OIE zhA'
 
     return (
         <>
@@ -63,8 +62,8 @@ const CreateTaskComponent = ({form, handleSubmit, onReset, projects, sprints}) =
                     </Form.Item>
                     <Form.Item label="Author" name="creator_id"
                                rules={[{required: false}]}
-                               value={'OIE zhA'}>
-                        <Title level={4}>{creator}</Title>
+                               value={currentUser}>
+                        <Title level={4}>{currentUser}</Title>
                     </Form.Item>
                     <Form.Item name="create_date" style={{height: 0, margin: 0}}> </Form.Item>
                     <Form.Item wrapperCol={{offset: 7}}>
