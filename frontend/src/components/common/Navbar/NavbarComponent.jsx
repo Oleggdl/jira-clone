@@ -74,7 +74,7 @@ export const NavbarComponent = ({
                             <li className="dropdown-content-links"><NavLink to="/">Invite a colleague</NavLink></li>
                         </div>}
                     </li>
-                    <li className="user-link"><h2>{currentUser}</h2></li>
+                    <li className="user-link"><h2>{currentUser.username}</h2></li>
                     <li className="logoutLink">
                         <button onClick={logoutHandler} className="nav-button">Log out</button>
                     </li>

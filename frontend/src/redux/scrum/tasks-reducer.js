@@ -46,7 +46,7 @@ export const createTask = (data, authorization) => {
 
     return async dispatch => {
         const response = await tasksAPI.createTask(data, authorization)
-        dispatch(setCreatedTaskIdActionCreator(response.data.id))
+        dispatch(setCreatedTaskIdActionCreator(response.data))
     }
 }
 

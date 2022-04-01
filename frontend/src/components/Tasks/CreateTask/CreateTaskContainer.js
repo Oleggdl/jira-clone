@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import CreateTaskComponent from "./CreateTaskComponent"
 import {useForm} from "antd/es/form/Form"
 import {AuthContext} from "../../../context/AuthContext"
@@ -10,6 +10,8 @@ import {getSprints} from "../../../redux/scrum/sprints-reducer"
 import {createBacklogElement} from "../../../redux/scrum/backlog-reducer"
 
 const CreateTaskContainer = props => {
+
+    const [project, setProject] = useState(null)
 
     const [form] = useForm()
 
@@ -27,23 +29,21 @@ const CreateTaskContainer = props => {
     const handleSubmit = values => {
         props.createTask({
             create_date: values.create_date,
-            creator_id: values.creator_id,
+            creator_id: props.currentUser.id,
             executor_id: values.executor_id,
             sprint_id: values.sprint_id,
             task_description: values.task_description,
             task_name: values.task_name
         }, headers)
-
-        props.createBacklogElement({
-            scrum_project_id: JSON.parse(values.project).id,
-            scrum_task_id: props.createdTaskId
-        }, headers)
+        setProject(JSON.parse(values.project))
         onReset()
     }
 
-    const test = () => {
-        console.log(props.createdTaskId)
-    }
+    useEffect(() => {
+        if (!!props.createdTaskId && !!project) {
+            return props.createBacklogElement(props.createdTaskId.id, project.id, headers)
+        }
+    })
 
 
     useEffect(() => {
@@ -54,7 +54,7 @@ const CreateTaskContainer = props => {
     return (
         <>
             <CreateTaskComponent handleSubmit={handleSubmit} onReset={onReset} form={form} projects={props.projects}
-                                 sprints={props.sprints} currentUser={props.currentUser} test={test}/>
+                                 sprints={props.sprints} currentUser={props.currentUser}/>
         </>
     )
 }

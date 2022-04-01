@@ -1,13 +1,13 @@
 package com.example.jiraclone.entities.scrum;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
 
 @Entity
 @Data
-@Table(name = "scrum_project")
 public class ProjectScrum {
 
     @Id
@@ -20,16 +20,20 @@ public class ProjectScrum {
     private String project_description;
 //    private String supervisor;
 
+    @JsonIgnore
+    @OneToOne(mappedBy = "scrum_task_id")
+    private BacklogElement backlogElement;
+
     public ProjectScrum() {
     }
 
     public ProjectScrum(long id, String project_name, String project_key, String project_type,
-                        String project_description) {
+                        String project_description, BacklogElement backlogElement) {
         this.id = id;
         this.project_name = project_name;
         this.project_key = project_key;
         this.project_type = project_type;
         this.project_description = project_description;
-//        this.supervisor = supervisor;
+        this.backlogElement = backlogElement;
     }
 }

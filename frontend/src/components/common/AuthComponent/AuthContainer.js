@@ -46,7 +46,10 @@ const AuthContainer = (props) => {
                 name: '', email: '', username: values.username, password: values.password
             })
             auth.login(dataLogin.token, dataLogin.id)
-            props.getUser(data.username)
+            props.getUser(data)
+            localStorage.setItem(userName, JSON.stringify({
+                userName: data
+            }))
         } catch (e) {
         }
         onReset()
@@ -58,9 +61,9 @@ const AuthContainer = (props) => {
                 name: '', email: '', username: values.username, password: values.password
             })
             auth.login(data.token, data.id)
-            props.getUser(data.username)
+            props.getUser(data)
             localStorage.setItem(userName, JSON.stringify({
-                userName: data.username
+                userName: data
             }))
         } catch (e) {
         }

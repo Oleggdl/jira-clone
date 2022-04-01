@@ -1,5 +1,6 @@
 package com.example.jiraclone.controllers.scrum;
 
+import com.example.jiraclone.entities.scrum.BacklogElement;
 import com.example.jiraclone.entities.scrum.TaskScrum;
 import com.example.jiraclone.exceptions.ResourceNotFoundException;
 import com.example.jiraclone.repositories.scrum.TaskScrumRepository;

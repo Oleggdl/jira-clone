@@ -18,6 +18,7 @@ const BacklogElementContainer = (props) => {
     useEffect(() => {
         props.getTasks(headers)
     }, [])
+
     return (
         <>
             <BacklogElementComponent tasks={props.tasks}/>

@@ -81,8 +81,6 @@ const NavbarContainer = props => {
         })
     })
 
-
-
     const currentProjectHandler = project => {
         props.getCurrentProject(project)
     }

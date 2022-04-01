@@ -1,7 +1,7 @@
 const GET_USER = 'GET_USER'
 
 let initialState = {
-    currentUser: ''
+    currentUser: {}
 }
 
 const userReducer = (state = initialState, action) => {

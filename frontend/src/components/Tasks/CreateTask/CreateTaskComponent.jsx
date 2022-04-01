@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react'
+import React from 'react'
 import './CreateTask.scss'
 import {Button, Form, Input, Select, Typography} from "antd"
 import TextArea from "antd/es/input/TextArea"
@@ -10,7 +10,7 @@ const {Title} = Typography
 
 const CreateTaskComponent = ({form, handleSubmit, onReset, projects, sprints, currentUser}) => {
 
-    const executors = ['executor_1', 'executor_2', 'executor_3']
+    const executors = [{id: 1, name: 'executor_1'}, {id: 2, name: 'executor_2'}, {id: 3, name: 'executor_3'}]
 
     return (
         <>
@@ -19,7 +19,6 @@ const CreateTaskComponent = ({form, handleSubmit, onReset, projects, sprints, cu
                 <Form name="create_task"
                       initialValues={
                           {
-                              executor: executors[0],
                               create_date: `${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`
                           }}
                       form={form}
@@ -50,7 +49,7 @@ const CreateTaskComponent = ({form, handleSubmit, onReset, projects, sprints, cu
                                rules={[{required: false}]}>
                         <Select placeholder="Select executor" className="project-select">
                             {executors.map((executor, index) =>
-                                <Option key={index} value={executor}>{executor}</Option>)}
+                                <Option key={index} value={executor.id}>{executor.name}</Option>)}
                         </Select>
                     </Form.Item>
                     <Form.Item label="Sprint" name="sprint_id"
@@ -58,13 +57,13 @@ const CreateTaskComponent = ({form, handleSubmit, onReset, projects, sprints, cu
                         <Select placeholder="Select sprint" className="project-select">
                             {!!sprints ? sprints.map(sprint =>
                                 <Option key={sprint.id}
-                                        value={sprint.sprint_name}>{sprint.sprint_name}</Option>) : null}
+                                        value={sprint.id}>{sprint.sprint_name}</Option>) : null}
                         </Select>
                     </Form.Item>
                     <Form.Item label="Author" name="creator_id"
                                rules={[{required: false}]}
-                               value={currentUser}>
-                        <Title level={4}>{currentUser}</Title>
+                               value={currentUser.username}>
+                        <Title level={4}>{currentUser.username}</Title>
                     </Form.Item>
                     <Form.Item name="create_date" style={{height: 0, margin: 0}}> </Form.Item>
                     <Form.Item wrapperCol={{offset: 7}}>

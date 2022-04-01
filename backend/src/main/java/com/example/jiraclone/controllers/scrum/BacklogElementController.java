@@ -1,8 +1,12 @@
 package com.example.jiraclone.controllers.scrum;
 
 import com.example.jiraclone.entities.scrum.BacklogElement;
+import com.example.jiraclone.entities.scrum.ProjectScrum;
+import com.example.jiraclone.entities.scrum.TaskScrum;
 import com.example.jiraclone.exceptions.ResourceNotFoundException;
 import com.example.jiraclone.repositories.scrum.BacklogRepository;
+import com.example.jiraclone.repositories.scrum.ProjectScrumRepository;
+import com.example.jiraclone.repositories.scrum.TaskScrumRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +22,12 @@ public class BacklogElementController {
 
     @Autowired
     BacklogRepository backlogRepository;
+
+    @Autowired
+    TaskScrumRepository taskScrumRepository;
+
+    @Autowired
+    ProjectScrumRepository projectScrumRepository;
 
     @GetMapping("/backlog")
     public List<BacklogElement> getAllBacklogElement() {
@@ -38,20 +48,47 @@ public class BacklogElementController {
         return ResponseEntity.ok(backlogElement);
     }
 
-    @PutMapping("/backlog/{id}")
-    public ResponseEntity<BacklogElement> updateBacklogElement(@PathVariable Long id,
-                                                               @RequestBody BacklogElement backlogElementDetails) {
+    @PutMapping("/backlog/{backlogId}/{taskId}/{projectId}")
+    public ResponseEntity<BacklogElement> uniteBacklogAndTask(@PathVariable Long taskId,
+                                                              @PathVariable Long backlogId,
+                                                              @PathVariable Long projectId) {
 
-        BacklogElement backlogElement = backlogRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("BacklogElement not exist with id:" + id));
-
-        backlogElement.setScrum_project_id(backlogElementDetails.getScrum_project_id());
-        backlogElement.setScrum_task_id(backlogElementDetails.getScrum_task_id());
+        BacklogElement backlogElement = backlogRepository.findById(backlogId).get();
+        TaskScrum taskScrum = taskScrumRepository.findById(taskId).get();
+        ProjectScrum projectScrum = projectScrumRepository.findById(projectId).get();
+        backlogElement.setScrum_task_id(taskScrum);
+        backlogElement.setScrum_project_id(projectScrum);
 
         BacklogElement updateBacklogElement = backlogRepository.save(backlogElement);
-
         return ResponseEntity.ok(updateBacklogElement);
     }
+
+//    @PutMapping("/backlog/{BacklogId}/{taskId}")
+//    public ResponseEntity<BacklogElement> uniteBacklogAndProjects(@PathVariable Long taskId,
+//                                                              @PathVariable Long BacklogId) {
+//
+//        BacklogElement backlogElement = backlogRepository.findById(BacklogId).get();
+//        TaskScrum taskScrum = taskScrumRepository.findById(taskId).get();
+//        backlogElement.setScrum_task_id(taskScrum);
+//
+//        BacklogElement updateBacklogElement = backlogRepository.save(backlogElement);
+//        return ResponseEntity.ok(updateBacklogElement);
+//    }
+
+//    @PutMapping("/backlog/{id}")
+//    public ResponseEntity<BacklogElement> updateBacklogElement(@PathVariable Long id,
+//                                                               @RequestBody BacklogElement backlogElementDetails) {
+//
+//        BacklogElement backlogElement = backlogRepository.findById(id)
+//                .orElseThrow(() -> new ResourceNotFoundException("BacklogElement not exist with id:" + id));
+//
+//        backlogElement.setScrum_project_id(backlogElementDetails.getScrum_project_id());
+//        backlogElement.setScrum_task_id(backlogElementDetails.getScrum_task_id());
+//
+//        BacklogElement updateBacklogElement = backlogRepository.save(backlogElement);
+//
+//        return ResponseEntity.ok(updateBacklogElement);
+//    }
 
     @DeleteMapping("/backlog/{id}")
     public ResponseEntity<Map<String, Boolean>> deleteBacklogElement(@PathVariable Long id) {

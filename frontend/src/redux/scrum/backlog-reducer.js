@@ -24,7 +24,7 @@ const backlogReducer = (state = initialState, action) => {
 
 export const getBacklogElementsActionCreator = backlogElements => ({type: GET_BACKLOG_ELEMENTS, backlogElements})
 
-export const getBacklogElementsyy = (authorization) => {
+export const getBacklogElement = (authorization) => {
 
     return async dispatch => {
         const response = await backlogAPI.getBacklogElements(authorization)
@@ -32,11 +32,15 @@ export const getBacklogElementsyy = (authorization) => {
     }
 }
 
-export const createBacklogElement = (data, authorization) => {
+export const createBacklogElement = (taskId, projectId, authorization) => {
 
     return async dispatch => {
-        const response = await backlogAPI.createBacklogElement(data, authorization)
+        const responsePost = await backlogAPI.createBacklogElement({}, authorization)
+        const responsePut =
+            await backlogAPI.uniteBacklogProjectTask(responsePost.data.id, taskId, projectId, authorization)
     }
 }
+
+
 
 export default backlogReducer

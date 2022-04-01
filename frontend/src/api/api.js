@@ -66,4 +66,7 @@ export const backlogAPI = {
     deleteBacklogElement(id, headers) {
         return instance.delete(`scrum/backlog/${id}`, {headers: headers})
     },
+    uniteBacklogProjectTask(backlogId, taskId, projectId, headers) {
+        return instance.put(`scrum/backlog/${backlogId}/${taskId}/${projectId}`, null, {headers: headers})
+    },
 }
