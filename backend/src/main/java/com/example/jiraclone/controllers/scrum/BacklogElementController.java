@@ -79,33 +79,6 @@ public class BacklogElementController {
         return ResponseEntity.ok(updateBacklogElement);
     }
 
-//    @PutMapping("/backlog/{BacklogId}/{taskId}")
-//    public ResponseEntity<BacklogElement> uniteBacklogAndProjects(@PathVariable Long taskId,
-//                                                              @PathVariable Long BacklogId) {
-//
-//        BacklogElement backlogElement = backlogRepository.findById(BacklogId).get();
-//        TaskScrum taskScrum = taskScrumRepository.findById(taskId).get();
-//        backlogElement.setScrum_task_id(taskScrum);
-//
-//        BacklogElement updateBacklogElement = backlogRepository.save(backlogElement);
-//        return ResponseEntity.ok(updateBacklogElement);
-//    }
-
-//    @PutMapping("/backlog/{id}")
-//    public ResponseEntity<BacklogElement> updateBacklogElement(@PathVariable Long id,
-//                                                               @RequestBody BacklogElement backlogElementDetails) {
-//
-//        BacklogElement backlogElement = backlogRepository.findById(id)
-//                .orElseThrow(() -> new ResourceNotFoundException("BacklogElement not exist with id:" + id));
-//
-//        backlogElement.setScrum_project_id(backlogElementDetails.getScrum_project_id());
-//        backlogElement.setScrum_task_id(backlogElementDetails.getScrum_task_id());
-//
-//        BacklogElement updateBacklogElement = backlogRepository.save(backlogElement);
-//
-//        return ResponseEntity.ok(updateBacklogElement);
-//    }
-
     @DeleteMapping("/backlog/{id}")
     public ResponseEntity<Map<String, Boolean>> deleteBacklogElement(@PathVariable Long id) {
         BacklogElement backlogElement = backlogRepository.findById(id)

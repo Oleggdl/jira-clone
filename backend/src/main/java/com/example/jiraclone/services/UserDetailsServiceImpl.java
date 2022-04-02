@@ -1,6 +1,6 @@
 package com.example.jiraclone.services;
 
-import com.example.jiraclone.entities.User;
+import com.example.jiraclone.entities.Users;
 import com.example.jiraclone.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,9 +18,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username)
+        Users users = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
-        return UserDetailsImpl.build(user);
+        return UserDetailsImpl.build(users);
     }
 
 }

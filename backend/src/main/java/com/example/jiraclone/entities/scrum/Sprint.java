@@ -6,7 +6,6 @@ import javax.persistence.*;
 
 @Entity
 @Data
-@Table(name = "sprints")
 public class Sprint {
 
     @Id

@@ -25,6 +25,10 @@ public class ProjectScrum {
     @OneToMany(mappedBy = "scrum_task_id")
     private Set<BacklogElement> backlogElement;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "scrum_project")
+    private Set<UserScrumProject> userScrumProjects;
+
     public ProjectScrum() {
     }
 

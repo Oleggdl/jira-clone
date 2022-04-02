@@ -14,6 +14,19 @@ export const projectsAPI = {
     },
 }
 
+export const userScrumProjectAPI = {
+    createUserScrumProject(data, headers) {
+        return instance.post(`scrum/userScrumProject`, data, {headers: headers})
+    },
+    getUserScrumProject(headers) {
+        return instance.get(`scrum/userScrumProject`, {headers: headers})
+    },
+    putUserScrumProject(userScrumProjectId, userId, projectId, userRoleId, headers) {
+        return instance.put(`scrum/userScrumProject/${userScrumProjectId}/${userId}/${projectId}/${userRoleId}/`,
+            null, {headers: headers})
+    },
+}
+
 export const tasksAPI = {
     createTask(data, headers) {
         return instance.post(`scrum/tasks`, data, {headers: headers})

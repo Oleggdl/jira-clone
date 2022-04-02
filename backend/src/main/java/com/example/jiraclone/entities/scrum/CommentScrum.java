@@ -6,7 +6,6 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name = "comments_scrum")
 public class CommentScrum {
 
     @Id

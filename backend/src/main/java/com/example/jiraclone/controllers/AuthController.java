@@ -1,7 +1,7 @@
 package com.example.jiraclone.controllers;
 
 import com.example.jiraclone.configs.jwt.JwtUtils;
-import com.example.jiraclone.entities.User;
+import com.example.jiraclone.entities.Users;
 import com.example.jiraclone.pojo.JwtResponse;
 import com.example.jiraclone.pojo.LoginRequest;
 import com.example.jiraclone.pojo.MessageResponse;
@@ -68,11 +68,11 @@ public class AuthController {
                     .body(new MessageResponse("Error: Email is exist"));
         }
 
-        User user = new User(signupRequest.getUsername(),
+        Users users = new Users(signupRequest.getUsername(),
                 signupRequest.getEmail(),
                 passwordEncoder.encode(signupRequest.getPassword()));
 
-        userRepository.save(user);
+        userRepository.save(users);
         return ResponseEntity.ok(new MessageResponse("User CREATED"));
     }
 }

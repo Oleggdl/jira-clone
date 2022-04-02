@@ -1,4 +1,4 @@
-import {projectsAPI} from "../../api/api"
+import {projectsAPI, userScrumProjectAPI} from "../../api/api"
 
 const GET_PROJECTS = 'GET_PROJECTS'
 const GET_CURRENT_PROJECT = 'GET_CURRENT_PROJECT'
@@ -42,10 +42,13 @@ export const getProjects = (authorization) => {
     }
 }
 
-export const createProject = (data, authorization) => {
+export const createProject = (data, userId, userRoleId, authorization) => {
 
     return async dispatch => {
         const response = await projectsAPI.createProject(data, authorization)
+        const responsePost = await userScrumProjectAPI.createUserScrumProject({}, authorization)
+        const responsePut = await userScrumProjectAPI.putUserScrumProject(
+            responsePost.data.id, userId, response.data.id, userRoleId, authorization)
     }
 }
 

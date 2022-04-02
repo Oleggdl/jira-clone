@@ -21,7 +21,7 @@ const CreateProjectContainer = props => {
     }
 
     const handleSubmit = values => {
-        props.createProject(values, headers)
+        props.createProject(values, props.currentUser.id, 1, headers)
         props.getProjects(headers)
         onReset()
     }
@@ -34,7 +34,8 @@ const CreateProjectContainer = props => {
 }
 
 const mapStateToProps = (state) => ({
-    projects: state.projectsReducer.projects
+    projects: state.projectsReducer.projects,
+    currentUser: state.userReducer.currentUser,
 })
 
 export default compose(
