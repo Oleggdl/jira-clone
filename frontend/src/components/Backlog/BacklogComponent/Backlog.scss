@@ -5,6 +5,8 @@
   left: 300px;
   padding: 40px;
   width: calc(100% - 300px);
+  overflow-y: auto;
+  height: calc(100vh - 64px);
 }
 
 
