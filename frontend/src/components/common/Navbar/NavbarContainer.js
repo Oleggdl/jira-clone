@@ -32,7 +32,10 @@ const NavbarContainer = props => {
     }
 
     useEffect(() => {
-        props.getProjects(headers)
+        const data = JSON.parse(localStorage.getItem(userName))
+        if (data && data.userName) {
+            props.getUser(data.userName)
+        }
     }, [])
 
     const logoutHandler = (event) => {
@@ -41,13 +44,16 @@ const NavbarContainer = props => {
         history('/')
     }
 
-    useEffect(() => {
-        const data = JSON.parse(localStorage.getItem(userName))
-
-        if (data && data.userName) {
-            props.getUser(data.userName)
+    const showProjectsMenu = () => {
+        if (!!isProjectsMenu) {
+            setIsProjectsMenu(false)
+        } else {
+            if (!!props.currentUser.id) {
+                props.getProjects(props.currentUser.id, headers)
+            }
+            setIsProjectsMenu(true)
         }
-    }, [])
+    }
 
     useEffect(() => {
         window.addEventListener("click", function (event) {
@@ -87,12 +93,12 @@ const NavbarContainer = props => {
 
     return (
         <>
-            <NavbarComponent isProjectsMenu={isProjectsMenu} setIsProjectsMenu={setIsProjectsMenu}
-                             isStaffMenu={isStaffMenu} setIsStaffMenu={setIsStaffMenu} modalStaff={modalStaff}
-                             modalStaffTitle={modalStaffTitle} buttonStaff={buttonStaff} modalProjects={modalProjects}
-                             modalProjectsTitle={modalProjectsTitle} buttonProjects={buttonProjects}
-                             logoutHandler={logoutHandler} projects={props.projects} currentUser={props.currentUser}
-                             currentProjectHandler={currentProjectHandler}
+            <NavbarComponent isProjectsMenu={isProjectsMenu} isStaffMenu={isStaffMenu} setIsStaffMenu={setIsStaffMenu}
+                             modalStaff={modalStaff} modalStaffTitle={modalStaffTitle} buttonStaff={buttonStaff}
+                             modalProjects={modalProjects} modalProjectsTitle={modalProjectsTitle}
+                             buttonProjects={buttonProjects} logoutHandler={logoutHandler} projects={props.projects}
+                             currentUser={props.currentUser} currentProjectHandler={currentProjectHandler}
+                             showProjectsMenu={showProjectsMenu}
             />
         </>
     )

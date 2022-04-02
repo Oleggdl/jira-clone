@@ -49,7 +49,7 @@ const CreateTaskContainer = props => {
 
 
     useEffect(() => {
-        props.getProjects(headers)
+        props.getProjects(props.currentUser.id, headers)
         props.getSprints(headers)
     }, [])
 

@@ -34,11 +34,12 @@ const projectsReducer = (state = initialState, action) => {
 export const getProjectsActionCreator = projects => ({type: GET_PROJECTS, projects})
 export const getCurrentProjectActionCreator = project => ({type: GET_CURRENT_PROJECT, project})
 
-export const getProjects = (authorization) => {
+export const getProjects = (userId, authorization) => {
 
     return async dispatch => {
-        const response = await projectsAPI.getProjects(authorization)
-        dispatch(getProjectsActionCreator(response.data))
+        const response = await userScrumProjectAPI.getUserScrumProject(userId, authorization)
+        const arrayProjects = response.data.map(el => el.scrum_project)
+        dispatch(getProjectsActionCreator(arrayProjects))
     }
 }
 

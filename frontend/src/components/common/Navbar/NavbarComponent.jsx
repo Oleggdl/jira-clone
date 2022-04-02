@@ -3,21 +3,14 @@ import './Navbar.scss'
 import {NavLink} from "react-router-dom";
 
 export const NavbarComponent = ({
-                                    isProjectsMenu, isStaffMenu, modalProjectsTitle, setIsStaffMenu, setIsProjectsMenu,
+                                    isProjectsMenu, isStaffMenu, modalProjectsTitle, setIsStaffMenu,
                                     buttonProjects, buttonStaff, modalProjects, modalStaff, modalStaffTitle,
-                                    logoutHandler, projects, currentUser, currentProjectHandler
+                                    logoutHandler, projects, currentUser, currentProjectHandler, showProjectsMenu
                                 }) => {
-
-    function showProjectsMenu() {
-        !!isProjectsMenu ? setIsProjectsMenu(false) : setIsProjectsMenu(true)
-    }
 
     function showStaffMenu() {
         !!isStaffMenu ? setIsStaffMenu(false) : setIsStaffMenu(true)
     }
-
-
-
 
 
     return (

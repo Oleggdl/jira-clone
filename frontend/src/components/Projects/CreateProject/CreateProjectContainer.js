@@ -22,7 +22,7 @@ const CreateProjectContainer = props => {
 
     const handleSubmit = values => {
         props.createProject(values, props.currentUser.id, 1, headers)
-        props.getProjects(headers)
+        props.getProjects(props.currentUser.id, headers)
         onReset()
     }
 

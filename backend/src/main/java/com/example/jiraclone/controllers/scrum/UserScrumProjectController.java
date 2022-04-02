@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -38,6 +39,23 @@ public class UserScrumProjectController {
     @GetMapping("/userScrumProject")
     public List<UserScrumProject> getAllUserScrumProject() {
         return userScrumProjectRepository.findAll();
+    }
+
+    @GetMapping("/userScrumProject/forUsers/{userId}")
+    public List<UserScrumProject> getUserScrumProjects(@PathVariable Long userId) {
+
+        Users users = userRepository.findById(userId).get();
+        List<UserScrumProject> projectScrums = userScrumProjectRepository.findAll();
+
+        ArrayList<UserScrumProject> userScrumProjects = new ArrayList<>();
+
+        for (int i = 0; i <= projectScrums.size() - 1; i++) {
+
+            if (projectScrums.get(i).getUsers() == users) {
+                userScrumProjects.add(projectScrums.get(i));
+            }
+        }
+        return userScrumProjects;
     }
 
     @PostMapping("/userScrumProject")
