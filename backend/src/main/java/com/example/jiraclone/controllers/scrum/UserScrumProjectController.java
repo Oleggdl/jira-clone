@@ -64,11 +64,10 @@ public class UserScrumProjectController {
     }
 
     @PutMapping("/userScrumProject/{userScrumProjectId}/{userId}/{projectId}/{userRoleId}")
-    public ResponseEntity<UserScrumProject>
-    updateUserScrumProject(@PathVariable Long userScrumProjectId,
-                           @PathVariable Long userId,
-                           @PathVariable Long projectId,
-                           @PathVariable Long userRoleId){
+    public ResponseEntity<UserScrumProject> updateUserScrumProject(@PathVariable Long userScrumProjectId,
+                                                                   @PathVariable Long userId,
+                                                                   @PathVariable Long projectId,
+                                                                   @PathVariable Long userRoleId) {
 
         UserScrumProject userScrumProject = userScrumProjectRepository.findById(userScrumProjectId).get();
         Users user = userRepository.findById(userId).get();

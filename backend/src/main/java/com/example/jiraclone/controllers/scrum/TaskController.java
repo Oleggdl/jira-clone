@@ -1,13 +1,16 @@
 package com.example.jiraclone.controllers.scrum;
 
-import com.example.jiraclone.entities.scrum.BacklogElement;
-import com.example.jiraclone.entities.scrum.TaskScrum;
+import com.example.jiraclone.entities.Role;
+import com.example.jiraclone.entities.Users;
+import com.example.jiraclone.entities.scrum.*;
 import com.example.jiraclone.exceptions.ResourceNotFoundException;
+import com.example.jiraclone.repositories.scrum.ColumnScrumRepository;
 import com.example.jiraclone.repositories.scrum.TaskScrumRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,14 +23,12 @@ public class TaskController {
     @Autowired
     TaskScrumRepository taskScrumRepository;
 
+    @Autowired
+    ColumnScrumRepository columnScrumRepository;
+
     @GetMapping("/tasks")
     public List<TaskScrum> getAllTasks() {
         return taskScrumRepository.findAll();
-    }
-
-    @PostMapping("/tasks")
-    public TaskScrum createTask(@RequestBody TaskScrum taskScrum) {
-        return taskScrumRepository.save(taskScrum);
     }
 
     @GetMapping("/tasks/{id}")
@@ -37,6 +38,28 @@ public class TaskController {
                 .orElseThrow(() -> new ResourceNotFoundException("Task not exist with id:" + id));
 
         return ResponseEntity.ok(taskScrum);
+    }
+
+    @PostMapping("/tasks")
+    public TaskScrum createTask(@RequestBody TaskScrum taskScrum) {
+        return taskScrumRepository.save(taskScrum);
+    }
+
+    @GetMapping("/tasks/column/{columnId}")
+    public List<TaskScrum> getTaskByColumn(@PathVariable Long columnId) {
+
+        ColumnScrum columnScrum = columnScrumRepository.findById(columnId).get();
+        List<TaskScrum> projectScrums = taskScrumRepository.findAll();
+
+        ArrayList<TaskScrum> taskScrums = new ArrayList<>();
+
+        for (int i = 0; i <= projectScrums.size() - 1; i++) {
+
+            if (projectScrums.get(i).getState_id() == columnScrum) {
+                taskScrums.add(projectScrums.get(i));
+            }
+        }
+        return taskScrums;
     }
 
     @PutMapping("/tasks/{id}")
@@ -56,6 +79,19 @@ public class TaskController {
         TaskScrum updateTaskScrum = taskScrumRepository.save(taskScrum);
 
         return ResponseEntity.ok(updateTaskScrum);
+    }
+
+    @PutMapping("/tasks/column/{taskId}/{columnId}")
+    public ResponseEntity<TaskScrum> addTaskToColumn(@PathVariable Long taskId, @PathVariable Long columnId) {
+
+
+        TaskScrum taskScrum = taskScrumRepository.findById(taskId).get();
+        ColumnScrum columnScrum = columnScrumRepository.findById(columnId).get();
+
+        taskScrum.setState_id(columnScrum);
+
+        TaskScrum updatedTaskScrum = taskScrumRepository.save(taskScrum);
+        return ResponseEntity.ok(updatedTaskScrum);
     }
 
     @DeleteMapping("/tasks/{id}")

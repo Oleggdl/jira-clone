@@ -8,10 +8,10 @@ const AllProjectsComponent = ({projects}) => {
 
     const dataSource = projects.map((project) => ({
         key: project.id,
-        projectName: project.project_name,
-        projectKey: project.project_key,
-        projectType: project.project_type,
-        supervisor: 'Oleg',
+        projectName: project.scrum_project.project_name,
+        projectKey: project.scrum_project.project_key,
+        projectType: project.scrum_project.project_type,
+        supervisor: project.users.username,
         actions: 'actions',
 
     }))

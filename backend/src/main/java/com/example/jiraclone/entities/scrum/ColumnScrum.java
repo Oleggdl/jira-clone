@@ -1,8 +1,10 @@
 package com.example.jiraclone.entities.scrum;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Set;
 
 
 @Data
@@ -15,11 +17,7 @@ public class ColumnScrum {
 
     private String column_name;
 
-    public ColumnScrum() {
-    }
-
-    public ColumnScrum(long id, String column_name) {
-        this.id = id;
-        this.column_name = column_name;
-    }
+    @JsonIgnore
+    @OneToMany(mappedBy = "state_id")
+    private Set<TaskScrum> taskScrums;
 }

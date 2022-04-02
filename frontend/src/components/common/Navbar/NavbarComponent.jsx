@@ -34,11 +34,11 @@ export const NavbarComponent = ({
                                 <li>
                                     <ul className="recent-projects">
                                         {projects.map(project =>
-                                            <li key={project.id} className="recent-projects-links"
-                                                onClick={() => currentProjectHandler(project)}
-                                            >
-                                                <NavLink
-                                                    to={`scrum/${project.project_key}`}>{project.project_name}</NavLink>
+                                            <li key={project.scrum_project.id} className="recent-projects-links"
+                                                onClick={() => currentProjectHandler(project.scrum_project)}>
+                                                <NavLink to={`scrum/${project.scrum_project.project_key}`}>
+                                                    {project.scrum_project.project_name}
+                                                </NavLink>
                                             </li>)}
                                     </ul>
                                 </li>

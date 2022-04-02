@@ -17,7 +17,6 @@ const AllProjectsContainer = props => {
         props.getProjects(props.currentUser.id, headers)
     }, [])
 
-
     return (
         <>
             <AllProjectsComponent projects={props.projects}/>
@@ -27,7 +26,7 @@ const AllProjectsContainer = props => {
 
 const mapStateToProps = (state) => ({
     projects: state.projectsReducer.projects,
-    currentUser: state.userReducer.currentUser,
+    currentUser: state.userReducer.currentUser
 })
 
 export default compose(

@@ -34,8 +34,7 @@ const CreateProjectContainer = props => {
 }
 
 const mapStateToProps = (state) => ({
-    projects: state.projectsReducer.projects,
-    currentUser: state.userReducer.currentUser,
+    currentUser: state.userReducer.currentUser
 })
 
 export default compose(

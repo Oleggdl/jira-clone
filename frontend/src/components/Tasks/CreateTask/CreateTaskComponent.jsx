@@ -29,8 +29,8 @@ const CreateTaskComponent = ({form, handleSubmit, onReset, projects, sprints, cu
                                rules={[{required: true, message: 'Please select project!'}]}>
                         <Select placeholder="Select project" className="project-select">
                             {projects.map(project =>
-                                <Option key={project.id}
-                                        value={JSON.stringify(project)}>{project.project_name}</Option>)}
+                                <Option key={project.scrum_project.id}
+                                        value={JSON.stringify(project)}>{project.scrum_project.project_name}</Option>)}
                         </Select>
                     </Form.Item>
                     <Form.Item

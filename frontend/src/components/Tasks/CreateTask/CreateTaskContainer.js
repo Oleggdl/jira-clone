@@ -37,7 +37,7 @@ const CreateTaskContainer = props => {
             task_description: values.task_description,
             task_name: values.task_name
         }, headers)
-        setProject(JSON.parse(values.project))
+        setProject(JSON.parse(values.project).scrum_project)
         onReset()
     }
 

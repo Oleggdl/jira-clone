@@ -38,8 +38,7 @@ export const getProjects = (userId, authorization) => {
 
     return async dispatch => {
         const response = await userScrumProjectAPI.getUserScrumProject(userId, authorization)
-        const arrayProjects = response.data.map(el => el.scrum_project)
-        dispatch(getProjectsActionCreator(arrayProjects))
+        dispatch(getProjectsActionCreator(response.data))
     }
 }
 
