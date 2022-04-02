@@ -2,7 +2,7 @@ import React from 'react'
 import './BacklogElement.scss'
 import TaskBacklogContainer from "../../Tasks/TaskBacklogComponent/TaskBacklogContainer"
 
-const BacklogElementComponent = ({tasks}) => {
+const BacklogElementComponent = ({tasks, backlogForProject}) => {
 
 
     return (
@@ -13,7 +13,8 @@ const BacklogElementComponent = ({tasks}) => {
                     <div>(Tasks count: <span>{tasks.length}</span>)</div>
                     <button>Create a sprint</button>
                 </div>
-                {tasks.map(task => <TaskBacklogContainer key={task.id} task={task}/>)}
+                {backlogForProject.map(task => <TaskBacklogContainer key={task.scrum_task_id.id}
+                                                                     task={task.scrum_task_id}/>)}
 
             </div>
         </>

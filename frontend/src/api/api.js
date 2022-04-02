@@ -69,4 +69,7 @@ export const backlogAPI = {
     uniteBacklogProjectTask(backlogId, taskId, projectId, headers) {
         return instance.put(`scrum/backlog/${backlogId}/${taskId}/${projectId}`, null, {headers: headers})
     },
+    getBacklogForProject(projectId, headers) {
+        return instance.get(`scrum/backlog/tasks/${projectId}`, {headers: headers})
+    },
 }

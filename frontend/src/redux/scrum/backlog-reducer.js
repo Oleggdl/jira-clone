@@ -1,9 +1,11 @@
 import {backlogAPI} from "../../api/api"
 
 const GET_BACKLOG_ELEMENTS = 'GET_BACKLOG_ELEMENTS'
+const GET_BACKLOG_FOR_PROJECT = 'GET_BACKLOG_FOR_PROJECT'
 
 let initialState = {
-    backlogElements: []
+    backlogElements: [],
+    backlogForProject: []
 }
 
 const backlogReducer = (state = initialState, action) => {
@@ -16,6 +18,13 @@ const backlogReducer = (state = initialState, action) => {
             }
         }
 
+        case GET_BACKLOG_FOR_PROJECT: {
+            return {
+                ...state,
+                backlogForProject: action.backlogForProject
+            }
+        }
+
         default:
             return state
     }
@@ -23,6 +32,10 @@ const backlogReducer = (state = initialState, action) => {
 
 
 export const getBacklogElementsActionCreator = backlogElements => ({type: GET_BACKLOG_ELEMENTS, backlogElements})
+export const getBacklogForProjectActionCreator = backlogForProject => ({
+    type: GET_BACKLOG_FOR_PROJECT,
+    backlogForProject
+})
 
 export const getBacklogElement = (authorization) => {
 
@@ -41,6 +54,13 @@ export const createBacklogElement = (taskId, projectId, authorization) => {
     }
 }
 
+export const getBacklogForProject = (projectId, authorization) => {
+
+    return async dispatch => {
+        const response = await backlogAPI.getBacklogForProject(projectId, authorization)
+        dispatch(getBacklogForProjectActionCreator(response.data))
+    }
+}
 
 
 export default backlogReducer
