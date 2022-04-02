@@ -8,10 +8,12 @@ import {createTask} from "../../../redux/scrum/tasks-reducer"
 import {getCurrentProject, getProjects} from "../../../redux/scrum/projects-reducer"
 import {getSprints} from "../../../redux/scrum/sprints-reducer"
 import {createBacklogElement} from "../../../redux/scrum/backlog-reducer"
+import {useNavigate} from "react-router-dom"
 
 const CreateTaskContainer = props => {
 
     const [project, setProject] = useState(null)
+    const history = useNavigate()
 
     const [form] = useForm()
 

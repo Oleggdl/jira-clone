@@ -8,12 +8,11 @@ import com.example.jiraclone.repositories.scrum.BacklogRepository;
 import com.example.jiraclone.repositories.scrum.ProjectScrumRepository;
 import com.example.jiraclone.repositories.scrum.TaskScrumRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.relational.core.sql.In;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -32,6 +31,23 @@ public class BacklogElementController {
     @GetMapping("/backlog")
     public List<BacklogElement> getAllBacklogElement() {
         return backlogRepository.findAll();
+    }
+
+    @GetMapping("/backlog/tasks/{projectId}")
+    public List<BacklogElement> getBacklogElements(@PathVariable Long projectId) {
+
+        ProjectScrum projectScrum = projectScrumRepository.findById(projectId).get();
+        List<BacklogElement> backlogElements = backlogRepository.findAll();
+
+        ArrayList<BacklogElement> backlogProjectElements = new ArrayList<>();
+
+        for (int i = 0; i <= backlogElements.size() - 1; i++) {
+
+            if (backlogElements.get(i).getScrum_project_id() == projectScrum) {
+                backlogProjectElements.add(backlogElements.get(i));
+            }
+        }
+        return backlogProjectElements;
     }
 
     @PostMapping("/backlog")

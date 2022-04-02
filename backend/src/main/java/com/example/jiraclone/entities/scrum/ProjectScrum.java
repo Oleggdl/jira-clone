@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Data
@@ -21,14 +22,14 @@ public class ProjectScrum {
 //    private String supervisor;
 
     @JsonIgnore
-    @OneToOne(mappedBy = "scrum_task_id")
-    private BacklogElement backlogElement;
+    @OneToMany(mappedBy = "scrum_task_id")
+    private Set<BacklogElement> backlogElement;
 
     public ProjectScrum() {
     }
 
     public ProjectScrum(long id, String project_name, String project_key, String project_type,
-                        String project_description, BacklogElement backlogElement) {
+                        String project_description, Set<BacklogElement> backlogElement) {
         this.id = id;
         this.project_name = project_name;
         this.project_key = project_key;

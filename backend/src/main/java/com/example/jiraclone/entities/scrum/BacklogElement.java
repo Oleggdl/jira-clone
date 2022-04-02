@@ -16,7 +16,7 @@ public class BacklogElement {
     @JoinColumn(name = "scrum_project_id", referencedColumnName = "id")
     private ProjectScrum scrum_project_id;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "scrum_task_id", referencedColumnName = "id")
     private TaskScrum scrum_task_id;
 
