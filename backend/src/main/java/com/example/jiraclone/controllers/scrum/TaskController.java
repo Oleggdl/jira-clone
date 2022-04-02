@@ -49,14 +49,14 @@ public class TaskController {
     public List<TaskScrum> getTaskByColumn(@PathVariable Long columnId) {
 
         ColumnScrum columnScrum = columnScrumRepository.findById(columnId).get();
-        List<TaskScrum> projectScrums = taskScrumRepository.findAll();
+        List<TaskScrum> tasksScrum = taskScrumRepository.findAll();
 
         ArrayList<TaskScrum> taskScrums = new ArrayList<>();
 
-        for (int i = 0; i <= projectScrums.size() - 1; i++) {
+        for (int i = 0; i <= tasksScrum.size() - 1; i++) {
 
-            if (projectScrums.get(i).getState_id() == columnScrum) {
-                taskScrums.add(projectScrums.get(i));
+            if (tasksScrum.get(i).getState_id() == columnScrum) {
+                taskScrums.add(tasksScrum.get(i));
             }
         }
         return taskScrums;

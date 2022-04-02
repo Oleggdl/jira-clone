@@ -22,13 +22,4 @@ public class Role {
     @JsonIgnore
     @OneToMany(mappedBy = "user_role")
     private Set<UserScrumProject> userScrumProjects;
-
-    public Role() {
-    }
-
-    public Role(Long id, ERole name, Set<UserScrumProject> userScrumProjects) {
-        this.id = id;
-        this.name = name;
-        this.userScrumProjects = userScrumProjects;
-    }
 }

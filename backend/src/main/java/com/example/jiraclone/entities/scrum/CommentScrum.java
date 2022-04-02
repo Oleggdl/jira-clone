@@ -14,17 +14,12 @@ public class CommentScrum {
 
     private String content;
     private String create_date;
-    private String task_scrum_id;
-    private String user_id;
 
-    public CommentScrum() {
-    }
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "task_scrum_id", referencedColumnName = "id")
+    private TaskScrum task_scrum_id;
 
-    public CommentScrum(long id, String content, String create_date, String task_scrum_id, String user_id) {
-        this.id = id;
-        this.content = content;
-        this.create_date = create_date;
-        this.task_scrum_id = task_scrum_id;
-        this.user_id = user_id;
-    }
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private UserScrumProject user_id;
 }

@@ -28,4 +28,8 @@ public class TaskScrum {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "state_id", referencedColumnName = "id")
     private ColumnScrum state_id;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "task_scrum_id")
+    private Set<CommentScrum> commentScrums;
 }
