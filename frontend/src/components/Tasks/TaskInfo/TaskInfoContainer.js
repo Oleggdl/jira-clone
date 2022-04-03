@@ -1,10 +1,12 @@
 import React, {useContext, useEffect, useRef, useState} from 'react'
 import TaskInfoComponent from "./TaskInfoComponent"
-import {useForm} from "antd/es/form/Form";
-import {AuthContext} from "../../../context/AuthContext"
+import {useForm} from "antd/es/form/Form"
 import {TaskContext} from "../../../context/TaskContext"
+import {compose} from "redux"
+import {connect} from "react-redux"
+import {getSprints} from "../../../redux/scrum/sprints-reducer"
 
-const TaskInfoContainer = () => {
+const TaskInfoContainer = (props) => {
 
     const [isComments, setIsComments] = useState(true)
     const [isCommentsActive, setIsCommentsActive] = useState('button-active')
@@ -43,14 +45,6 @@ const TaskInfoContainer = () => {
     })
 
     const [form] = useForm()
-    const {token} = useContext(AuthContext)
-
-    const headers = {
-        Authorization: `Bearer ${token}`
-    }
-
-
-
 
     const textAreaDescriptionFocus = useRef(null)
     const [isTextAreaFocus, setIsTextAreaFocus] = useState(false)
@@ -77,9 +71,17 @@ const TaskInfoContainer = () => {
                                isHistoryHandler={isHistoryHandler} handleSubmit={handleSubmit} onReset={onReset}
                                form={form} taskInfoWrapper={taskInfoWrapper} isTextAreaFocus={isTextAreaFocus}
                                textAreaDescriptionFocus={textAreaDescriptionFocus} isComments={isComments}
-                               isCommentsActive={isCommentsActive} isHistoryActive={isHistoryActive}/>
+                               isCommentsActive={isCommentsActive} isHistoryActive={isHistoryActive}
+                               currentTask={props.currentTask}/>
         </>
     )
 }
 
-export default TaskInfoContainer
+const mapStateToProps = state => ({
+    currentTask: state.tasksReducer.currentTask
+})
+
+export default compose(
+    connect(mapStateToProps, {getSprints})
+)(TaskInfoContainer)
+

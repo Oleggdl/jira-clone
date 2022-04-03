@@ -3,7 +3,9 @@ import './CommentElement.scss'
 import {Button} from "antd";
 
 
-const CommentElementComponent = ({comment, isConfirmWindow, deleteHandler, cancelHandler, confirmHandler}) => {
+const CommentElementComponent = ({
+                                     comment, isConfirmWindow, deleteHandler, cancelHandler, confirmHandler
+                                 }) => {
 
     return (
         <>
@@ -11,7 +13,7 @@ const CommentElementComponent = ({comment, isConfirmWindow, deleteHandler, cance
                 <div className="comments-user-logo"></div>
                 <div>
                     <div className="author-name">
-                        <h3>OIE zhA</h3>
+                        <h3>{comment.user_id.users.username}</h3>
                         <h5>{comment.create_date}</h5>
                     </div>
                     <p className="comment">{comment.content}</p>

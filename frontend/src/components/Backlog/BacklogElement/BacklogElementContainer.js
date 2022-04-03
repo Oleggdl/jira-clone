@@ -16,11 +16,11 @@ const BacklogElementContainer = (props) => {
     }
 
     useEffect(() => {
-        props.getBacklogForProject(props.currentProject.id, headers)
+        props.getBacklogForProject(props.currentProject.scrum_project.id, headers)
     }, [])
 
     const createSprintHandler = () => {
-        props.createSprint(props.currentProject.id, headers)
+        props.createSprint(props.currentProject.scrum_project.id, headers)
     }
 
     return (

@@ -3,8 +3,9 @@ import './Backlog.scss'
 import SprintContainer from "../SprintComponent/SprintContainer"
 import BacklogElementContainer from "../BacklogElement/BacklogElementContainer"
 import Search from "antd/es/input/Search"
+import TaskInfoContainer from "../../Tasks/TaskInfo/TaskInfoContainer";
 
-const BacklogComponent = ({sprints}) => {
+const BacklogComponent = ({sprints, isTaskInfo}) => {
 
 
     return (
@@ -23,6 +24,7 @@ const BacklogComponent = ({sprints}) => {
                     <SprintContainer key={sprint.id} sprint={sprint} index={index}/>)}
                 <BacklogElementContainer/>
             </div>
+            {isTaskInfo && <TaskInfoContainer/>}
         </>
     )
 }

@@ -5,6 +5,9 @@
   display: flex;
   @include task-container;
 
+  border: unset;
+  width: 100%;
+
   &:hover {
     .task-backlog-component-settings {
       opacity: 1;

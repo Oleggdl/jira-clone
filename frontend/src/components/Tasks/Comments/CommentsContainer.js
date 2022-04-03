@@ -2,10 +2,9 @@ import React, {useContext, useEffect, useRef, useState} from 'react'
 import CommentsComponent from "./CommentsComponent"
 import {useForm} from "antd/es/form/Form"
 import {AuthContext} from "../../../context/AuthContext"
-import {compose} from "redux";
-import {connect} from "react-redux";
-import {createColumn, getColumns} from "../../../redux/scrum/columns-reducer";
-import {createCommentScrum, getCommentsScrum} from "../../../redux/scrum/commentsScrum-reducer";
+import {compose} from "redux"
+import {connect} from "react-redux"
+import {createCommentScrum, getCommentsScrum} from "../../../redux/scrum/commentsScrum-reducer"
 
 const CommentsContainer = (props) => {
 
@@ -23,7 +22,8 @@ const CommentsContainer = (props) => {
     }
 
     const handleSubmit = values => {
-        props.createCommentScrum(values, headers)
+        console.log(props.currentUser)
+        props.createCommentScrum(props.currentProject.id, props.currentTask.id, values, headers)
         onReset()
     }
 
@@ -37,7 +37,7 @@ const CommentsContainer = (props) => {
     }, [textAreaAddComment, onReset])
 
     useEffect(() => {
-        props.getCommentsScrum('taskId', headers)
+        props.getCommentsScrum(props.currentTask.id, headers)
     }, [])
 
     return (
@@ -51,7 +51,10 @@ const CommentsContainer = (props) => {
 }
 
 const mapStateToProps = (state) => ({
-    commentsScrum: state.commentsScrumReducer.commentsScrum
+    commentsScrum: state.commentsScrumReducer.commentsScrum,
+    currentTask: state.tasksReducer.currentTask,
+    currentUser: state.userReducer.currentUser,
+    currentProject: state.projectsReducer.currentProject
 })
 
 export default compose(

@@ -4,6 +4,8 @@ import {compose} from "redux"
 import {connect} from "react-redux"
 import {getSprints} from "../../../redux/scrum/sprints-reducer"
 import {AuthContext} from "../../../context/AuthContext"
+import {TaskContext} from "../../../context/TaskContext"
+import {setCurrentTask} from "../../../redux/scrum/tasks-reducer"
 
 const TaskBacklogContainer = props => {
 
@@ -14,12 +16,20 @@ const TaskBacklogContainer = props => {
     }
 
     useEffect(() => {
-        props.getSprints(props.currentProject.id, headers)
+        props.getSprints(props.currentProject.scrum_project.id, headers)
     }, [])
+
+    const {setIsTaskInfo} = useContext(TaskContext)
+
+    const taskInfoHandler = (value) => {
+        props.setCurrentTask(value)
+        setIsTaskInfo(true)
+    }
 
     return (
         <>
-            <TaskBacklogComponent task={props.task} currentProject={props.currentProject}/>
+            <TaskBacklogComponent task={props.task} currentProject={props.currentProject.scrum_project}
+                                  taskInfoHandler={taskInfoHandler}/>
         </>
     )
 }
@@ -29,5 +39,5 @@ const mapStateToProps = state => ({
 })
 
 export default compose(
-    connect(mapStateToProps, {getSprints})
+    connect(mapStateToProps, {getSprints, setCurrentTask})
 )(TaskBacklogContainer)

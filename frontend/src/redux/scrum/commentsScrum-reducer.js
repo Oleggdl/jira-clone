@@ -34,11 +34,13 @@ export const getCommentsScrum = (taskId, authorization) => {
     }
 }
 
-export const createCommentScrum = (data, authorization) => {
+export const createCommentScrum = (userId, taskId, data, authorization) => {
 
     return async dispatch => {
         const response = await commentsScrumAPI.createCommentScrum(data, authorization)
-        const responseGetComments = await commentsScrumAPI.getCommentsScrum(authorization)
+        const responsePut =
+            await commentsScrumAPI.createCommentScrumForTask(response.data.id, userId, taskId, authorization)
+        const responseGetComments = await commentsScrumAPI.getCommentsScrum(taskId, authorization)
         dispatch(getCommentsScrumActionCreator(responseGetComments.data))
     }
 }

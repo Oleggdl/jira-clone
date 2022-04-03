@@ -2,7 +2,7 @@ import {tasksAPI} from "../../api/api"
 
 const GET_TASKS = 'GET_TASKS'
 const SET_CREATED_TASK_ID = 'SET_CREATED_TASK_ID'
-const SET_CURRENT_TASK_ID = 'SET_CURRENT_TASK_ID'
+const SET_CURRENT_TASK = 'SET_CURRENT_TASK'
 
 let initialState = {
     tasks: [],
@@ -27,7 +27,7 @@ const tasksReducer = (state = initialState, action) => {
             }
         }
 
-        case SET_CURRENT_TASK_ID: {
+        case SET_CURRENT_TASK: {
             return {
                 ...state,
                 currentTask: action.currentTask
@@ -42,7 +42,7 @@ const tasksReducer = (state = initialState, action) => {
 
 export const getTasksActionCreator = tasks => ({type: GET_TASKS, tasks})
 export const setCreatedTaskIdActionCreator = createdTaskId => ({type: SET_CREATED_TASK_ID, createdTaskId})
-export const setCurrentTaskIdActionCreator = currentTask => ({type: SET_CURRENT_TASK_ID, currentTask})
+export const setCurrentTaskIdActionCreator = currentTask => ({type: SET_CURRENT_TASK, currentTask})
 
 export const getTasks = (authorization) => {
 

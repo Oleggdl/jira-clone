@@ -5,9 +5,11 @@ import {connect} from "react-redux"
 
 const SideBarContainer = props => {
 
+    console.log(props.currentProject)
+
     return (
         <>
-            <SideBarComponent currentProject={props.currentProject}/>
+            <SideBarComponent currentProject={props.currentProject.scrum_project}/>
         </>
     )
 }
