@@ -17,7 +17,11 @@ public class ColumnScrum {
 
     private String column_name;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "sprint_column", referencedColumnName = "id")
+    private Sprint sprint_column;
+
     @JsonIgnore
-    @OneToMany(mappedBy = "state_id")
-    private Set<TaskScrum> taskScrums;
+    @OneToMany(mappedBy = "sprint_column")
+    private Set<TaskSprint> taskSprints;
 }

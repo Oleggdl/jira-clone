@@ -61,8 +61,8 @@ export const commentsScrumAPI = {
     createCommentScrum(data, headers) {
         return instance.post(`scrum/commentsScrum`, data, {headers: headers})
     },
-    getCommentsScrum(headers) {
-        return instance.get(`scrum/commentsScrum`, {headers: headers})
+    getCommentsScrum(taskId, headers) {
+        return instance.get(`commentsScrum/task/${taskId}`, {headers: headers})
     },
     deleteCommentsScrum(id, headers) {
         return instance.delete(`scrum/commentsScrum/${id}`, {headers: headers})

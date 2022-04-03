@@ -27,4 +27,8 @@ public class ProjectScrum {
     @JsonIgnore
     @OneToMany(mappedBy = "scrum_project")
     private Set<UserScrumProject> userScrumProjects;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "scrum_project_sprint")
+    private Set<Sprint> sprints;
 }

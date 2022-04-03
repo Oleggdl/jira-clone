@@ -8,11 +8,13 @@ import com.example.jiraclone.repositories.scrum.BacklogRepository;
 import com.example.jiraclone.repositories.scrum.ProjectScrumRepository;
 import com.example.jiraclone.repositories.scrum.TaskScrumRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.relational.core.sql.In;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController

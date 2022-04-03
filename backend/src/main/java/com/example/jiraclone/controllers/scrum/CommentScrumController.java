@@ -1,14 +1,14 @@
 package com.example.jiraclone.controllers.scrum;
 
-import com.example.jiraclone.entities.Users;
-import com.example.jiraclone.entities.scrum.*;
+import com.example.jiraclone.entities.scrum.CommentScrum;
+import com.example.jiraclone.entities.scrum.TaskScrum;
+import com.example.jiraclone.entities.scrum.UserScrumProject;
 import com.example.jiraclone.exceptions.ResourceNotFoundException;
 import com.example.jiraclone.repositories.scrum.CommentScrumRepository;
 import com.example.jiraclone.repositories.scrum.TaskScrumRepository;
 import com.example.jiraclone.repositories.scrum.UserScrumProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.config.Task;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;

@@ -14,22 +14,21 @@ public class TaskScrum {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "scrum_task_id")
-    private Set<BacklogElement> backlogElement;
-
     private String task_name;
     private String create_date;
     private String task_description;
     private Long creator_id;
     private Long executor_id;
-    private Long sprint_id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "state_id", referencedColumnName = "id")
-    private ColumnScrum state_id;
+    @JsonIgnore
+    @OneToMany(mappedBy = "scrum_task_id")
+    private Set<BacklogElement> backlogElement;
 
     @JsonIgnore
     @OneToMany(mappedBy = "task_scrum_id")
     private Set<CommentScrum> commentScrums;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "task_scrum")
+    private Set<TaskSprint> taskSprints;
 }

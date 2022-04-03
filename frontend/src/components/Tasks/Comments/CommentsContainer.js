@@ -37,7 +37,7 @@ const CommentsContainer = (props) => {
     }, [textAreaAddComment, onReset])
 
     useEffect(() => {
-        props.getCommentsScrum(headers)
+        props.getCommentsScrum('taskId', headers)
     }, [])
 
     return (

@@ -17,12 +17,6 @@ const commentsScrumReducer = (state = initialState, action) => {
                 commentsScrum: action.commentsScrum
             }
         }
-        // case SET_COMMENT: {
-        //     return {
-        //         ...state,
-        //         commentsScrum: [...state.commentsScrum, action.newComment]
-        //     }
-        // }
 
         default:
             return state
@@ -32,10 +26,10 @@ const commentsScrumReducer = (state = initialState, action) => {
 
 export const getCommentsScrumActionCreator = commentsScrum => ({type: GET_COMMENTS_SCRUM, commentsScrum})
 
-export const getCommentsScrum = (authorization) => {
+export const getCommentsScrum = (taskId, authorization) => {
 
     return async dispatch => {
-        const response = await commentsScrumAPI.getCommentsScrum(authorization)
+        const response = await commentsScrumAPI.getCommentsScrum(taskId, authorization)
         dispatch(getCommentsScrumActionCreator(response.data))
     }
 }

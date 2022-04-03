@@ -48,7 +48,6 @@ public class ProjectController {
         projectScrum.setProject_name(projectScrumDetails.getProject_name());
         projectScrum.setProject_key(projectScrumDetails.getProject_key());
         projectScrum.setProject_type(projectScrumDetails.getProject_type());
-//        project.setSupervisor(projectDetails.getSupervisor());//todo
         projectScrum.setProject_description(projectScrumDetails.getProject_description());
 
         ProjectScrum updateProjectScrum = projectScrumRepository.save(projectScrum);
