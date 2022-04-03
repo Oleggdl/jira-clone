@@ -8,7 +8,7 @@ const SprintContainer = props => {
 
     return (
         <>
-            <SprintComponent sprint={props.sprint}/>
+            <SprintComponent sprint={props.sprint} index={props.index}/>
         </>
     )
 }

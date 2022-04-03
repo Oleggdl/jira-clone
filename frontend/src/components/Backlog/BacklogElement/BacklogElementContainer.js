@@ -4,6 +4,7 @@ import {compose} from "redux"
 import {connect} from "react-redux"
 import {AuthContext} from "../../../context/AuthContext"
 import {getBacklogForProject} from "../../../redux/scrum/backlog-reducer"
+import {createSprint} from "../../../redux/scrum/sprints-reducer";
 
 
 const BacklogElementContainer = (props) => {
@@ -18,9 +19,13 @@ const BacklogElementContainer = (props) => {
         props.getBacklogForProject(props.currentProject.id, headers)
     }, [])
 
+    const createSprintHandler = () => {
+        props.createSprint(props.currentProject.id, headers)
+    }
+
     return (
         <>
-            <BacklogElementComponent tasks={props.tasks} backlogForProject={props.backlogForProject}/>
+            <BacklogElementComponent tasks={props.tasks} backlogForProject={props.backlogForProject} createSprintHandler={createSprintHandler}/>
         </>
     )
 }
@@ -31,5 +36,5 @@ const mapStateToProps = (state) => ({
 })
 
 export default compose(
-    connect(mapStateToProps, {getBacklogForProject})
+    connect(mapStateToProps, {getBacklogForProject, createSprint})
 )(BacklogElementContainer)

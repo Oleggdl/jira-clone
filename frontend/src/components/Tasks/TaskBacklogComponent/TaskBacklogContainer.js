@@ -13,9 +13,8 @@ const TaskBacklogContainer = props => {
         Authorization: `Bearer ${token}`
     }
 
-
     useEffect(() => {
-        props.getSprints(headers)
+        props.getSprints(props.currentProject.id, headers)
     }, [])
 
     return (

@@ -40,9 +40,14 @@ export const sprintsAPI = {
     createSprint(data, headers) {
         return instance.post(`scrum/sprints`, data, {headers: headers})
     },
-    getSprints(headers) {
-        return instance.get(`scrum/sprints`, {headers: headers})
+    getSprints(projectId, headers) {
+        return instance.get(`scrum/sprints/project/${projectId}`, {headers: headers})
     },
+    createSprintWithProject(sprintId, projectId, headers) {
+        return instance.put(`scrum/sprints/project/${sprintId}/${projectId}`, null, {headers: headers})
+    },
+
+
 }
 
 export const columnsAPI = {

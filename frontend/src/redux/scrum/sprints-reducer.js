@@ -26,18 +26,21 @@ const sprintsReducer = (state = initialState, action) => {
 
 export const getSprintsActionCreator = sprints => ({type: GET_SPRINTS, sprints})
 
-export const getSprints = (authorization) => {
+export const getSprints = (projectId, authorization) => {
 
     return async dispatch => {
-        const response = await sprintsAPI.getSprints(authorization)
+        const response = await sprintsAPI.getSprints(projectId, authorization)
         dispatch(getSprintsActionCreator(response.data))
     }
 }
 
-export const createSprint = (data, authorization) => {
+export const createSprint = (projectId, authorization) => {
 
     return async dispatch => {
-        const response = await sprintsAPI.createSprint(data, authorization)
+        const response = await sprintsAPI.createSprint({is_started: false}, authorization)
+        const responsePut = await sprintsAPI.createSprintWithProject(response.data.id, projectId, authorization)
+        const responseGet = await sprintsAPI.getSprints(projectId, authorization)
+        dispatch(getSprintsActionCreator(responseGet.data))
     }
 }
 

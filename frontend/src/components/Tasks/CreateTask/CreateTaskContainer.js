@@ -8,12 +8,10 @@ import {createTask} from "../../../redux/scrum/tasks-reducer"
 import {getCurrentProject, getProjects} from "../../../redux/scrum/projects-reducer"
 import {getSprints} from "../../../redux/scrum/sprints-reducer"
 import {createBacklogElement} from "../../../redux/scrum/backlog-reducer"
-import {useNavigate} from "react-router-dom"
 
 const CreateTaskContainer = props => {
 
     const [project, setProject] = useState(null)
-    const history = useNavigate()
 
     const [form] = useForm()
 
@@ -50,7 +48,7 @@ const CreateTaskContainer = props => {
 
     useEffect(() => {
         props.getProjects(props.currentUser.id, headers)
-        props.getSprints(headers)
+        props.getSprints(1, headers)
     }, [])
 
     return (

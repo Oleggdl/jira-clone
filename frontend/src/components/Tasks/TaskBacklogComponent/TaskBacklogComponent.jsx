@@ -9,7 +9,7 @@ const TaskBacklogComponent = ({task, currentProject}) => {
             <div className="task-backlog-component-container">
                 <div className="task-backlog-component-key">
                     <SolutionOutlined/>
-                    <div style={{}}>{currentProject.project_key}-{task ? task.id : 'id'}</div>
+                    <div>{currentProject.project_key}-{task ? task.id : 'id'}</div>
                 </div>
 
                 <div className="task-title">{task ? task.task_name : 'Task name'}</div>

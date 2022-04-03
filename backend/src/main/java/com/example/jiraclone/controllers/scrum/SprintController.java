@@ -65,8 +65,8 @@ public class SprintController {
     public ResponseEntity<Sprint> putSprint(@PathVariable Long sprintId,
                                             @PathVariable Long projectId) {
 
-        Sprint sprint = sprintRepository.findById(projectId).get();
-        ProjectScrum projectScrum = projectScrumRepository.findById(sprintId).get();
+        Sprint sprint = sprintRepository.findById(sprintId).get();
+        ProjectScrum projectScrum = projectScrumRepository.findById(projectId).get();
 
         sprint.setScrum_project_sprint(projectScrum);
 

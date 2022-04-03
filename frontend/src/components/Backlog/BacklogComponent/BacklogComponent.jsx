@@ -19,7 +19,8 @@ const BacklogComponent = ({sprints}) => {
                 <div className="search-tasks-container" style={{width: "320px"}}>
                     <Search/>
                 </div>
-                {sprints && sprints.map(sprint => <SprintContainer key={sprint.id} sprint={sprint}/>)}
+                {sprints && sprints.map((sprint, index) =>
+                    <SprintContainer key={sprint.id} sprint={sprint} index={index}/>)}
                 <BacklogElementContainer/>
             </div>
         </>
