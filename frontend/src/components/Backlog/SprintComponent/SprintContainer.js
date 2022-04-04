@@ -5,10 +5,11 @@ import {connect} from "react-redux"
 
 const SprintContainer = props => {
 
-
     return (
         <>
-            <SprintComponent sprint={props.sprint} index={props.index}/>
+            <SprintComponent sprint={props.sprint} index={props.index}
+                             setBacklogForProjectSprint={props.setBacklogForProjectSprint}
+                             backlogForProjectSprint={props.backlogForProjectSprint}/>
         </>
     )
 }

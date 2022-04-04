@@ -1,10 +1,9 @@
-import React, {useContext, useEffect} from 'react'
+import React, {useContext} from 'react'
 import BacklogElementComponent from "./BacklogElementComponent"
 import {compose} from "redux"
 import {connect} from "react-redux"
 import {AuthContext} from "../../../context/AuthContext"
-import {getBacklogForProject} from "../../../redux/scrum/backlog-reducer"
-import {createSprint} from "../../../redux/scrum/sprints-reducer";
+import {createSprint} from "../../../redux/scrum/sprints-reducer"
 
 
 const BacklogElementContainer = (props) => {
@@ -15,26 +14,25 @@ const BacklogElementContainer = (props) => {
         Authorization: `Bearer ${token}`
     }
 
-    useEffect(() => {
-        props.getBacklogForProject(props.currentProject.scrum_project.id, headers)
-    }, [])
-
     const createSprintHandler = () => {
         props.createSprint(props.currentProject.scrum_project.id, headers)
     }
 
     return (
         <>
-            <BacklogElementComponent tasks={props.tasks} backlogForProject={props.backlogForProject} createSprintHandler={createSprintHandler}/>
+            <BacklogElementComponent tasks={props.tasks} backlogForProject={props.backlogForProject}
+                                     createSprintHandler={createSprintHandler}
+                                     setBacklogForProject={props.setBacklogForProject}
+            />
         </>
     )
 }
 
 const mapStateToProps = (state) => ({
-    backlogForProject: state.backlogReducer.backlogForProject,
+    sprints: state.sprintsReducer.sprints,
     currentProject: state.projectsReducer.currentProject
 })
 
 export default compose(
-    connect(mapStateToProps, {getBacklogForProject, createSprint})
+    connect(mapStateToProps, {createSprint})
 )(BacklogElementContainer)

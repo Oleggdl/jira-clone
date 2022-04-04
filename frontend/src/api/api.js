@@ -45,9 +45,19 @@ export const sprintsAPI = {
     },
     createSprintWithProject(sprintId, projectId, headers) {
         return instance.put(`scrum/sprints/project/${sprintId}/${projectId}`, null, {headers: headers})
+    }
+}
+
+export const taskSprintAPI = {
+    createTaskSprint(data, headers) {
+        return instance.post(`scrum/taskSprint`, data, {headers: headers})
     },
-
-
+    createTaskSprintPut(taskSprintId, sprintId, taskId, headers) {
+        return instance.put(`scrum/taskSprint/${taskSprintId}/${sprintId}/${taskId}`, null, {headers: headers})
+    },
+    getTaskSprints(sprintId, headers) {
+        return instance.get(`scrum/taskSprint/${sprintId}`, {headers: headers})
+    }
 }
 
 export const columnsAPI = {
