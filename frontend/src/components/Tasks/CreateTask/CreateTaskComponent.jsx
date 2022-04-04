@@ -8,7 +8,7 @@ const {Option} = Select
 const {Title} = Typography
 
 
-const CreateTaskComponent = ({form, handleSubmit, onReset, projects, sprints, currentUser}) => {
+const CreateTaskComponent = ({form, handleSubmit, onReset, projects, currentUser}) => {
 
     const executors = [{id: 1, name: 'executor_1'}, {id: 2, name: 'executor_2'}, {id: 3, name: 'executor_3'}]
 
@@ -30,7 +30,7 @@ const CreateTaskComponent = ({form, handleSubmit, onReset, projects, sprints, cu
                         <Select placeholder="Select project" className="project-select">
                             {projects.map(project =>
                                 <Option key={project.scrum_project.id}
-                                        value={JSON.stringify(project)}>{project.scrum_project.project_name}</Option>)}
+                                        value={project.scrum_project.id}>{project.scrum_project.project_name}</Option>)}
                         </Select>
                     </Form.Item>
                     <Form.Item
@@ -50,14 +50,6 @@ const CreateTaskComponent = ({form, handleSubmit, onReset, projects, sprints, cu
                         <Select placeholder="Select executor" className="project-select">
                             {executors.map((executor, index) =>
                                 <Option key={index} value={executor.id}>{executor.name}</Option>)}
-                        </Select>
-                    </Form.Item>
-                    <Form.Item label="Sprint" name="sprint_id"
-                               rules={[{required: false}]}>
-                        <Select placeholder="Select sprint" className="project-select">
-                            {!!sprints ? sprints.map(sprint =>
-                                <Option key={sprint.id}
-                                        value={sprint.id}>{sprint.sprint_name}</Option>) : null}
                         </Select>
                     </Form.Item>
                     <Form.Item label="Author" name="creator_id"

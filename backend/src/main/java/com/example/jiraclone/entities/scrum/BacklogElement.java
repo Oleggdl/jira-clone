@@ -12,11 +12,11 @@ public class BacklogElement {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "scrum_project_id", referencedColumnName = "id")
     private ProjectScrum scrum_project_id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "scrum_task_id", referencedColumnName = "id")
     private TaskScrum scrum_task_id;
 }

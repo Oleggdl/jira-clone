@@ -1,9 +1,7 @@
 package com.example.jiraclone.controllers.scrum;
 
-import com.example.jiraclone.entities.scrum.ColumnScrum;
-import com.example.jiraclone.entities.scrum.Sprint;
-import com.example.jiraclone.entities.scrum.TaskScrum;
-import com.example.jiraclone.entities.scrum.TaskSprint;
+import com.example.jiraclone.entities.scrum.*;
+import com.example.jiraclone.exceptions.ResourceNotFoundException;
 import com.example.jiraclone.repositories.scrum.ColumnScrumRepository;
 import com.example.jiraclone.repositories.scrum.SprintRepository;
 import com.example.jiraclone.repositories.scrum.TaskScrumRepository;
@@ -13,7 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -106,5 +106,16 @@ public class TaskSprintController {
 
         TaskSprint updatedTaskSprint = taskSprintRepository.save(taskSprint);
         return ResponseEntity.ok(updatedTaskSprint);
+    }
+
+    @DeleteMapping("/taskSprint/{id}")
+    public ResponseEntity<Map<String, Boolean>> deleteTaskSprint(@PathVariable Long id) {
+        TaskSprint taskSprint = taskSprintRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("BacklogElement not exist with id:" + id));
+
+        taskSprintRepository.delete((taskSprint));
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("deleted", Boolean.TRUE);
+        return ResponseEntity.ok(response);
     }
 }

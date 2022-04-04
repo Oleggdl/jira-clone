@@ -57,6 +57,9 @@ export const taskSprintAPI = {
     },
     getTaskSprints(sprintId, headers) {
         return instance.get(`scrum/taskSprint/${sprintId}`, {headers: headers})
+    },
+    deleteTaskSprints(taskSprintId, headers) {
+        return instance.delete(`scrum/taskSprint/${taskSprintId}`, {headers: headers})
     }
 }
 

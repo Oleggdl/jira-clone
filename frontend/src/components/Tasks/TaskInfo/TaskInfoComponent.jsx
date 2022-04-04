@@ -12,7 +12,11 @@ const TaskInfoComponent = ({
                                isComments, isCommentsActive, isHistoryActive, currentTask
                            }) => {
 
-    const description = currentTask.task_description === null ? '' : currentTask.task_description
+    console.log(currentTask)
+
+    const description = currentTask.scrum_task_id
+        ? (currentTask.scrum_task_id.task_description === null ? '' : currentTask.scrum_task_id.task_description)
+        : (currentTask.task_scrum.task_description === null ? '' : currentTask.task_scrum.task_description)
 
     return (
         <>
@@ -20,7 +24,9 @@ const TaskInfoComponent = ({
                 <div className="task-info-container">
                     <div className="task-info-left">
                         <button className="close-button" onClick={taskInfoCloseHandler}><CloseOutlined/></button>
-                        <h2>{currentTask.task_name}</h2>
+                        <h2>{currentTask.scrum_task_id
+                            ? currentTask.scrum_task_id?.task_name
+                            : currentTask.task_scrum?.task_name}</h2>
                         <p className="task-info-left-description">Description</p>
                         <Form initialValues={
                             {

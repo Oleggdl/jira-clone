@@ -3,20 +3,7 @@ import './Sprint.scss'
 import TaskBacklogContainer from "../../Tasks/TaskBacklogComponent/TaskBacklogContainer"
 import {Droppable} from "react-beautiful-dnd"
 
-const SprintComponent = ({sprint, index, backlogForProjectSprint}) => {
-
-    // const tasks = [{
-    //     id: 1,
-    //     task_name: "Test task",
-    //     create_date: "30.03.2022 00:15:19",
-    //     task_description: "Test task description",
-    //     creator_id: null,
-    //     executor_id: "executor_3",
-    //     sprint_id: "sprint_1",
-    //     state_id: null
-    // }]
-    //
-    // console.log(sprint)
+const SprintComponent = ({sprint, index, backlogForProjectSprint, taskSprints, setCurrentSprint}) => {
 
     return (
         <>
@@ -33,12 +20,16 @@ const SprintComponent = ({sprint, index, backlogForProjectSprint}) => {
                     {sprint.is_started ? <button>Complete a sprint</button> :
                         <button>Start a sprint</button>}
                 </div>
-                <Droppable droppableId="Sprint">
+                <Droppable droppableId={`Sprint${sprint?.id}`}>
                     {provided => (
                         <div className={`todos`} ref={provided.innerRef} {...provided.droppableProps}>
-                            {backlogForProjectSprint?.map((task, index) => (
-                                <TaskBacklogContainer index={index} task={task} key={task.id}/>
-                            ))}
+                            {
+                                taskSprints.map(taskSprint => {
+                                    return taskSprint.id === sprint.id ? (taskSprint.taskSprint.map((task, index) => (
+                                        <TaskBacklogContainer index={index} task={task} key={task.id}/>
+                                    ))) : false
+                                })
+                            }
                             {provided.placeholder}
                         </div>
                     )}
