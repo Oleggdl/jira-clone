@@ -66,6 +66,24 @@ public class UserScrumProjectController {
         return userScrumProjects;
     }
 
+    @GetMapping("/userScrumProject/forUsers/favorite/{userId}")
+    public List<UserScrumProject> getUserScrumProjectsFavorite(@PathVariable Long userId) {
+
+        Users users = userRepository.findById(userId).get();
+        List<UserScrumProject> projectScrums = userScrumProjectRepository.findAll();
+
+        ArrayList<UserScrumProject> userScrumProjects = new ArrayList<>();
+
+        for (int i = 0; i <= projectScrums.size() - 1; i++) {
+
+            if ((projectScrums.get(i).getUsers() == users)
+                    && projectScrums.get(i).getScrum_project().getIs_favorite() == true) {
+                userScrumProjects.add(projectScrums.get(i));
+            }
+        }
+        return userScrumProjects;
+    }
+
 
     @GetMapping("/userScrumProject/usersOnProject/{projectId}")
     public List<UserScrumProject> getUsersOnProject(@PathVariable Long projectId) {

@@ -19,6 +19,7 @@ public class ProjectScrum {
     private String project_key;
     private String project_type;
     private String project_description;
+    private Boolean is_favorite;
 
     @JsonIgnore
     @OneToMany(mappedBy = "scrum_task_id")

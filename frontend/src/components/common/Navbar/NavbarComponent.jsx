@@ -5,13 +5,15 @@ import {NavLink} from "react-router-dom";
 export const NavbarComponent = ({
                                     isProjectsMenu, isStaffMenu, modalProjectsTitle, setIsStaffMenu,
                                     buttonProjects, buttonStaff, modalProjects, modalStaff, modalStaffTitle,
-                                    logoutHandler, projects, currentUser, currentProjectHandler, showProjectsMenu
+                                    logoutHandler, projects, currentUser, currentProjectHandler, showProjectsMenu,
+                                    favoriteProjects, getFavoriteProjectHandler
                                 }) => {
 
     function showStaffMenu() {
         !!isStaffMenu ? setIsStaffMenu(false) : setIsStaffMenu(true)
     }
 
+    console.log(favoriteProjects)
 
     return (
         <nav>
@@ -25,15 +27,15 @@ export const NavbarComponent = ({
                         </button>
                     </li>
                     <li className="projects-container">
-                        <button onClick={showProjectsMenu} className="nav-button"
-                                ref={buttonProjects}>Projects
+                        <button onMouseUp={showProjectsMenu} onMouseDown={getFavoriteProjectHandler}
+                                className="nav-button" ref={buttonProjects}>Projects
                         </button>
                         {isProjectsMenu && <div className="dropdown-content" ref={modalProjects}>
                             <h3 ref={modalProjectsTitle}>Recent</h3>
                             <ul>
                                 <li>
                                     <ul className="recent-projects">
-                                        {projects.map(project =>
+                                        {favoriteProjects && favoriteProjects.map(project =>
                                             <li key={project.scrum_project.id} className="recent-projects-links"
                                                 onClick={() => currentProjectHandler(project)}>
                                                 <NavLink to={`scrum/${project.scrum_project.project_key}`}>

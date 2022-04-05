@@ -30,6 +30,9 @@ export const userScrumProjectAPI = {
     getUserScrumProject(userId, headers) {
         return instance.get(`/scrum/userScrumProject/forUsers/${userId}`, {headers: headers})
     },
+    getUserScrumProjectFavorite(userId, headers) {
+        return instance.get(`/scrum/userScrumProject/forUsers/favorite/${userId}`, {headers: headers})
+    },
     putUserScrumProject(userScrumProjectId, userId, projectId, userRoleId, headers) {
         return instance.put(`scrum/userScrumProject/${userScrumProjectId}/${userId}/${projectId}/${userRoleId}/`,
             null, {headers: headers})

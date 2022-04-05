@@ -3,11 +3,13 @@ import {projectsAPI, userScrumProjectAPI} from "../../api/api"
 const GET_PROJECTS = 'GET_PROJECTS'
 const GET_CURRENT_PROJECT = 'GET_CURRENT_PROJECT'
 const GET_PROJECT_DATA = 'GET_PROJECT_DATA'
+const GET_FAVORITE_PROJECT = 'GET_FAVORITE_PROJECT'
 
 let initialState = {
     projects: [],
     currentProject: {},
-    projectData: {}
+    projectData: {},
+    favoriteProjects: []
 }
 
 const projectsReducer = (state = initialState, action) => {
@@ -34,6 +36,13 @@ const projectsReducer = (state = initialState, action) => {
             }
         }
 
+        case GET_FAVORITE_PROJECT: {
+            return {
+                ...state,
+                favoriteProjects: action.favoriteProjects
+            }
+        }
+
         default:
             return state
     }
@@ -43,6 +52,7 @@ const projectsReducer = (state = initialState, action) => {
 export const getProjectsActionCreator = projects => ({type: GET_PROJECTS, projects})
 export const getCurrentProjectActionCreator = project => ({type: GET_CURRENT_PROJECT, project})
 export const getProjectDataActionCreator = projectData => ({type: GET_PROJECT_DATA, projectData})
+export const getFavoriteProjectDataActionCreator = favoriteProjects => ({type: GET_FAVORITE_PROJECT, favoriteProjects})
 
 export const getProjects = (userId, authorization) => {
 
@@ -51,6 +61,15 @@ export const getProjects = (userId, authorization) => {
         dispatch(getProjectsActionCreator(response.data))
     }
 }
+
+export const getFavoriteProjects = (userId, authorization) => {
+
+    return async dispatch => {
+        const response = await userScrumProjectAPI.getUserScrumProjectFavorite(userId, authorization)
+        dispatch(getFavoriteProjectDataActionCreator(response.data))
+    }
+}
+
 
 export const searchProject = (query, userId, authorization) => {
 

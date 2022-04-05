@@ -50,25 +50,39 @@ export const AuthComponent = ({
                           autoComplete="off">
                         <Form.Item
                             label="Name" name="name"
-                            rules={[{required: true, message: 'Please input name!'}]}>
+                            rules={[{required: true, message: 'Please input name!'},
+                                {max: 30, message: `Name cannot be longer than 30 characters`},
+                                {min: 3, message: 'Name must be at least 3 characters'},
+                                {pattern: new RegExp(/[a-z]/gi), message: 'Name must contain letters'}]}>
                             <Input placeholder="Enter name"/>
                         </Form.Item>
                         <Form.Item
                             label="Username"
                             name="username"
-                            rules={[{required: true, message: 'Please input username!'}]}>
+                            rules={[{required: true, message: 'Please input username!'},
+                                {max: 30, message: `Username cannot be longer than 30 characters`},
+                                {min: 3, message: 'Username must be at least 3 characters'},
+                                {pattern: new RegExp(/[a-z]/gi), message: 'Username must contain letters'}]}>
                             <Input placeholder="Enter username"/>
                         </Form.Item>
                         <Form.Item
                             label="Email"
                             name="email"
-                            rules={[{required: true, message: 'Please input email!'}]}>
+                            rules={[{required: true, message: 'Please input email!'},
+                                {required: true, message: 'Please input username!'},
+                                {max: 30, message: `Email cannot be longer than 30 characters`},
+                                {min: 3, message: 'Email must be at least 3 characters'},
+                                {pattern: new RegExp(/@/gi), message: 'Email must contain @'}]}>
                             <Input placeholder="Enter email"/>
                         </Form.Item>
                         <Form.Item
                             label="Password"
                             name="password"
-                            rules={[{required: true, message: 'Please input password!'}]}>
+                            rules={[{required: true, message: 'Please input password!'},
+                                {max: 30, message: `Password cannot be longer than 30 characters`},
+                                {min: 8, message: 'Password must be at least 8 characters'},
+                                {pattern: new RegExp(/[0-9]/g), message: 'Password must contain numbers'},
+                                {pattern: new RegExp(/[a-z]/gi), message: 'Password must contain letters'}]}>
                             <Password placeholder="Enter password"/>
                         </Form.Item>
                         <Form.Item className="button-container">

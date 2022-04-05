@@ -4,7 +4,7 @@ import {useNavigate} from "react-router-dom"
 import {AuthContext} from "../../../context/AuthContext"
 import {compose} from "redux"
 import {connect} from "react-redux"
-import {getCurrentProject, getProjects} from "../../../redux/scrum/projects-reducer"
+import {getCurrentProject, getFavoriteProjects, getProjects} from "../../../redux/scrum/projects-reducer"
 import {getUser} from "../../../redux/scrum/users-reducer"
 
 const userName = 'userName'
@@ -55,6 +55,10 @@ const NavbarContainer = props => {
         }
     }
 
+    const getFavoriteProjectHandler = () => {
+        props.getFavoriteProjects(props.currentUser.id, headers)
+    }
+
     useEffect(() => {
         window.addEventListener("click", function (event) {
             if (event.target !== buttonStaff.current && event.target !== modalStaff.current
@@ -98,7 +102,8 @@ const NavbarContainer = props => {
                              modalProjects={modalProjects} modalProjectsTitle={modalProjectsTitle}
                              buttonProjects={buttonProjects} logoutHandler={logoutHandler} projects={props.projects}
                              currentUser={props.currentUser} currentProjectHandler={currentProjectHandler}
-                             showProjectsMenu={showProjectsMenu}
+                             showProjectsMenu={showProjectsMenu} favoriteProjects={props.favoriteProjects}
+                             getFavoriteProjectHandler={getFavoriteProjectHandler}
             />
         </>
     )
@@ -108,10 +113,11 @@ const NavbarContainer = props => {
 const mapStateToProps = (state) => ({
     projects: state.projectsReducer.projects,
     currentUser: state.userReducer.currentUser,
-    currentProject: state.projectsReducer.currentProject
+    currentProject: state.projectsReducer.currentProject,
+    favoriteProjects: state.projectsReducer.favoriteProjects,
 })
 
 export default compose(
-    connect(mapStateToProps, {getProjects, getUser, getCurrentProject})
+    connect(mapStateToProps, {getProjects, getUser, getCurrentProject, getFavoriteProjects})
 )(NavbarContainer)
 

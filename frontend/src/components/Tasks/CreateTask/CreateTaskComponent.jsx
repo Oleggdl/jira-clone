@@ -38,13 +38,17 @@ const CreateTaskComponent = ({
                     <Form.Item
                         label="Task name"
                         name="task_name"
-                        rules={[{required: true, message: 'Please input task name!'}]}>
+                        rules={[{required: true, message: 'Please input task name!'},
+                            {max: 50, message: `Task name cannot be longer than 50 characters`},
+                            {min: 3, message: 'Task name must be at least 3 characters'},
+                            {pattern: new RegExp(/[a-z]/gi), message: 'Task name must contain letters'}]}>
                         <Input placeholder="Enter task name"/>
                     </Form.Item>
                     <Form.Item
                         label="Task description"
                         name="task_description"
-                        rules={[{required: false}]}>
+                        rules={[{required: false},
+                            {max: 1000, message: `Task name cannot be longer than 1000 characters`}]}>
                         <TextArea row={4} placeholder="Enter task description"/>
                     </Form.Item>
                     <Form.Item label="Executor" name="executor_id"

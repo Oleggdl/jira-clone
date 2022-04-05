@@ -41,14 +41,14 @@
 @mixin form {
 
   background-color: $aside-background-color;
-  width: 500px;
+  width: 650px;
   margin-left: auto;
   margin-right: auto;
   padding: 20px;
   position: absolute;
   border-radius: 5px;
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-  left: calc(50% - 250px);
+  left: calc(50% - 300px);
   top: 25%;
 
   h2 {
@@ -61,6 +61,6 @@
   }
 
   .ant-form-item-label {
-    width: 130px;
+    width: 160px;
   }
 }
