@@ -9,14 +9,11 @@ import HistoryContainer from "../History/HistoryContainer"
 const TaskInfoComponent = ({
                                isCommentsHandler, isHistoryHandler, onReset, handleSubmit, form,
                                taskInfoCloseHandler, taskInfoWrapper, isTextAreaFocus, textAreaDescriptionFocus,
-                               isComments, isCommentsActive, isHistoryActive, currentTask
+                               isComments, isCommentsActive, isHistoryActive, currentTask, currentTaskScrum,
+                               currentTaskFromServer
                            }) => {
 
-    console.log(currentTask)
-
-    const description = currentTask.scrum_task_id
-        ? (currentTask.scrum_task_id.task_description === null ? '' : currentTask.scrum_task_id.task_description)
-        : (currentTask.task_scrum.task_description === null ? '' : currentTask.task_scrum.task_description)
+    console.log(currentTaskFromServer)
 
     return (
         <>
@@ -24,13 +21,12 @@ const TaskInfoComponent = ({
                 <div className="task-info-container">
                     <div className="task-info-left">
                         <button className="close-button" onClick={taskInfoCloseHandler}><CloseOutlined/></button>
-                        <h2>{currentTask.scrum_task_id
-                            ? currentTask.scrum_task_id?.task_name
-                            : currentTask.task_scrum?.task_name}</h2>
+                        <h2>{currentTaskScrum?.task_name}</h2>
                         <p className="task-info-left-description">Description</p>
                         <Form initialValues={
                             {
-                                description: `${description}`
+                                description: `${currentTaskFromServer?.task_description === null
+                                    ? '' : currentTaskFromServer?.task_description}`
                             }}
                               form={form}
                               onFinish={values => handleSubmit(values)}
@@ -57,24 +53,25 @@ const TaskInfoComponent = ({
                     </div>
                     <div className="task-info-right">
                         <h3>Information</h3>
-                        <h4>Supervisor</h4>
+                        <h4>Author</h4>
                         <div className="supervisor-container">
                             <div className="supervisor-logo"></div>
-                            <span>No appointment</span>
+                            <span>{currentTaskScrum?.creator_id?.username}</span>
                         </div>
                         <h4>Marks</h4>
                         <div>
                             Marks
                         </div>
                         <h4>Sprint</h4>
-                        <p>Sprint name</p>
-                        <h4>Author</h4>
+                        <p>{currentTaskScrum?.sprint?.name ? currentTaskScrum?.sprint?.name : 'None'}</p>
+                        <h4>Executor</h4>
                         <div className="supervisor-container">
                             <div className="supervisor-logo"></div>
-                            <span>OIE zhA</span>
+                            <span>{currentTaskScrum?.executor_id?.username
+                                ? currentTaskScrum?.executor_id?.username : 'NO APPOINTMENT'}</span>
                         </div>
                         <h4>Create date</h4>
-                        <p>{currentTask.create_date}</p>
+                        <p>{currentTaskScrum?.create_date}</p>
                     </div>
                 </div>
             </div>

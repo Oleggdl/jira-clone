@@ -8,9 +8,10 @@ const {Option} = Select
 const {Title} = Typography
 
 
-const CreateTaskComponent = ({form, handleSubmit, onReset, projects, currentUser}) => {
-
-    const executors = [{id: 1, name: 'executor_1'}, {id: 2, name: 'executor_2'}, {id: 3, name: 'executor_3'}]
+const CreateTaskComponent = ({
+                                 form, handleSubmit, onReset, projects, currentUser, usersOnProject,
+                                 getExecutorsHandler
+                             }) => {
 
     return (
         <>
@@ -27,7 +28,8 @@ const CreateTaskComponent = ({form, handleSubmit, onReset, projects, currentUser
 
                     <Form.Item label="Project" name="project"
                                rules={[{required: true, message: 'Please select project!'}]}>
-                        <Select placeholder="Select project" className="project-select">
+                        <Select placeholder="Select project" className="project-select"
+                                onChange={(e) => getExecutorsHandler(e)}>
                             {projects.map(project =>
                                 <Option key={project.scrum_project.id}
                                         value={project.scrum_project.id}>{project.scrum_project.project_name}</Option>)}
@@ -48,8 +50,8 @@ const CreateTaskComponent = ({form, handleSubmit, onReset, projects, currentUser
                     <Form.Item label="Executor" name="executor_id"
                                rules={[{required: false}]}>
                         <Select placeholder="Select executor" className="project-select">
-                            {executors.map((executor, index) =>
-                                <Option key={index} value={executor.id}>{executor.name}</Option>)}
+                            {usersOnProject.map((executor, index) =>
+                                <Option key={index} value={executor.users.id}>{executor.users.username}</Option>)}
                         </Select>
                     </Form.Item>
                     <Form.Item label="Author" name="creator_id"

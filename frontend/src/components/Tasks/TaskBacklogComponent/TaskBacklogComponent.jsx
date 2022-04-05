@@ -3,7 +3,7 @@ import {EllipsisOutlined, SolutionOutlined} from "@ant-design/icons"
 import './TaskBacklog.scss'
 import {Draggable} from "react-beautiful-dnd"
 
-const TaskBacklogComponent = ({currentProject, taskInfoHandler, task, index, setCurrentBacklog, setCurrentTask}) => {
+const TaskBacklogComponent = ({currentProject, taskInfoHandler, task, index}) => {
 
     return (
         <>

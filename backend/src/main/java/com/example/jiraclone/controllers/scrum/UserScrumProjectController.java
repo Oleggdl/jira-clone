@@ -4,7 +4,9 @@ package com.example.jiraclone.controllers.scrum;
 import com.example.jiraclone.entities.Role;
 import com.example.jiraclone.entities.Users;
 import com.example.jiraclone.entities.scrum.ProjectScrum;
+import com.example.jiraclone.entities.scrum.TaskScrum;
 import com.example.jiraclone.entities.scrum.UserScrumProject;
+import com.example.jiraclone.exceptions.ResourceNotFoundException;
 import com.example.jiraclone.repositories.RoleRepository;
 import com.example.jiraclone.repositories.UserRepository;
 import com.example.jiraclone.repositories.scrum.ProjectScrumRepository;
@@ -14,7 +16,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -55,6 +59,24 @@ public class UserScrumProjectController {
         return userScrumProjects;
     }
 
+
+    @GetMapping("/userScrumProject/usersOnProject/{projectId}")
+    public List<UserScrumProject> getUsersOnProject(@PathVariable Long projectId) {
+
+        ProjectScrum projectScrum = projectScrumRepository.findById(projectId).get();
+        List<UserScrumProject> userScrumProject = userScrumProjectRepository.findAll();
+
+        ArrayList<UserScrumProject> userScrumProjectsArray = new ArrayList<>();
+
+        for (int i = 0; i <= userScrumProject.size() - 1; i++) {
+
+            if (userScrumProject.get(i).getScrum_project() == projectScrum) {
+                userScrumProjectsArray.add(userScrumProject.get(i));
+            }
+        }
+        return userScrumProjectsArray;
+    }
+
     @PostMapping("/userScrumProject")
     public UserScrumProject createUserScrumProject(@RequestBody UserScrumProject userScrumProject) {
         return userScrumProjectRepository.save(userScrumProject);
@@ -78,5 +100,16 @@ public class UserScrumProjectController {
 
         UserScrumProject updatedUserScrumProject = userScrumProjectRepository.save(userScrumProject);
         return ResponseEntity.ok(updatedUserScrumProject);
+    }
+
+    @DeleteMapping("/userScrumProject/{id}")
+    public ResponseEntity<Map<String, Boolean>> deleteUserScrumProject(@PathVariable Long id) {
+        UserScrumProject userScrumProject = userScrumProjectRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("UserScrumProject not exist with id:" + id));
+
+        userScrumProjectRepository.delete((userScrumProject));
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("deleted", Boolean.TRUE);
+        return ResponseEntity.ok(response);
     }
 }

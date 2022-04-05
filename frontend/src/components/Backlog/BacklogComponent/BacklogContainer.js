@@ -16,9 +16,9 @@ const BacklogContainer = props => {
     const [backlogForProjectSprint, setBacklogForProjectSprint] = useState([])
 
 
-    const [currentSprint, setCurrentSprint] = useState(null)
-    const [currentBacklog, setCurrentBacklog] = useState(null)
-    const [currentTask, setCurrentTask] = useState(null)
+    const [currentSprintDnd, setCurrentSprintDnd] = useState(null)
+    const [currentBacklogDnd, setCurrentBacklogDnd] = useState(null)
+    const [currentTaskDnd, setCurrentTaskDnd] = useState(null)
 
     const {token} = useContext(AuthContext)
 
@@ -69,8 +69,6 @@ const BacklogContainer = props => {
 
 
     useEffect(() => {
-
-
         if (!!props.taskSprints) {
             return props.unsetTaskSprints()
         }
@@ -79,7 +77,7 @@ const BacklogContainer = props => {
     return (
         <>
             <TaskContext.Provider value={{isTaskInfo, setIsTaskInfo}}>
-                <TaskSprintContext.Provider value={{setCurrentSprint, setCurrentBacklog, setCurrentTask}}>
+                <TaskSprintContext.Provider value={{setCurrentSprintDnd, setCurrentBacklogDnd, setCurrentTaskDnd}}>
                     <BacklogComponent sprints={props.sprints} isTaskInfo={isTaskInfo}
                                       backlogForProject={backlogForProject} setBacklogForProject={setBacklogForProject}
                                       backlogForProjectSprint={backlogForProjectSprint}
@@ -99,5 +97,8 @@ const mapStateToProps = (state) => ({
 })
 
 export default compose(
-    connect(mapStateToProps, {unsetTaskSprints, getBacklogForProject, createTaskSprint, createBacklogElementFromSprint})
+    connect(mapStateToProps, {
+        unsetTaskSprints, getBacklogForProject, createTaskSprint,
+        createBacklogElementFromSprint,
+    })
 )(BacklogContainer)

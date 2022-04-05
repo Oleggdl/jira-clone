@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useRef} from 'react'
+import React, {useContext} from 'react'
 import BacklogElementComponent from "./BacklogElementComponent"
 import {compose} from "redux"
 import {connect} from "react-redux"

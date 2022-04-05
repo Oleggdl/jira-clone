@@ -16,15 +16,15 @@ public class UserScrumProject {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "users", referencedColumnName = "id")
     private Users users;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "scrum_project", referencedColumnName = "id")
     private ProjectScrum scrum_project;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "user_role", referencedColumnName = "id")
     private Role user_role;
 
@@ -32,4 +32,12 @@ public class UserScrumProject {
     @JsonIgnore
     @OneToMany(mappedBy = "user_id")
     private Set<CommentScrum> commentScrums;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "creator_id")
+    private Set<TaskScrum> taskScrumsForCreator;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "executor_id")
+    private Set<TaskScrum> taskScrumsForExecutor;
 }

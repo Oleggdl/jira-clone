@@ -1,5 +1,6 @@
 package com.example.jiraclone.entities.scrum;
 
+import com.example.jiraclone.entities.Users;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
@@ -17,8 +18,14 @@ public class TaskScrum {
     private String task_name;
     private String create_date;
     private String task_description;
-    private Long creator_id;
-    private Long executor_id;
+
+    @ManyToOne()
+    @JoinColumn(name = "creator_id", referencedColumnName = "id")
+    private Users creator_id;
+
+    @ManyToOne()
+    @JoinColumn(name = "executor_id", referencedColumnName = "id")
+    private Users executor_id;
 
     @JsonIgnore
     @OneToMany(mappedBy = "scrum_task_id")

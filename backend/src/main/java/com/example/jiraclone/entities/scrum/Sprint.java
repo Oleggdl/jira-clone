@@ -19,7 +19,7 @@ public class Sprint {
     private String end_date;
     private Boolean is_started;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "scrum_project_sprint", referencedColumnName = "id")
     private ProjectScrum scrum_project_sprint;
 

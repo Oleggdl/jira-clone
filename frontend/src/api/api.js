@@ -31,8 +31,20 @@ export const tasksAPI = {
     createTask(data, headers) {
         return instance.post(`scrum/tasks`, data, {headers: headers})
     },
+    putTask(taskId, creatorId, executorId, headers) {
+        return instance.put(`scrum/tasks/${taskId}/${creatorId}/${executorId}`, null, {headers: headers})
+    },
+    updateTaskDescription(taskId, data, headers) {
+        return instance.put(`scrum/tasks/description/${taskId}`, data, {headers: headers})
+    },
     getTasks(headers) {
         return instance.get(`scrum/tasks`, {headers: headers})
+    },
+    getTaskById(id, headers) {
+        return instance.get(`scrum/tasks/${id}`, {headers: headers})
+    },
+    getUsersOnProject(projectId, headers) {
+        return instance.get(`/scrum/userScrumProject/usersOnProject/${projectId}`, {headers: headers})
     },
 }
 

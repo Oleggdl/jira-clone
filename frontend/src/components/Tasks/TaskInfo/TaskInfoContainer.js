@@ -5,6 +5,8 @@ import {TaskContext} from "../../../context/TaskContext"
 import {compose} from "redux"
 import {connect} from "react-redux"
 import {getSprints} from "../../../redux/scrum/sprints-reducer"
+import {AuthContext} from "../../../context/AuthContext"
+import {getCurrentTaskFromServer, updateTaskDescription} from "../../../redux/scrum/tasks-reducer";
 
 const TaskInfoContainer = (props) => {
 
@@ -60,8 +62,20 @@ const TaskInfoContainer = (props) => {
         }
     }, [textAreaDescriptionFocus, onReset])
 
+
+    const currentTaskScrum = !!props.currentTask.scrum_task_id
+        ? props.currentTask.scrum_task_id
+        : props.currentTask.task_scrum
+
+
+
+    const {token} = useContext(AuthContext)
+    const headers = {
+        Authorization: `Bearer ${token}`
+    }
+
     const handleSubmit = values => {
-        // props.createTask(values, headers)
+        props.updateTaskDescription(currentTaskScrum.id, {task_description: values.description}, headers)
         onReset()
     }
 
@@ -72,16 +86,18 @@ const TaskInfoContainer = (props) => {
                                form={form} taskInfoWrapper={taskInfoWrapper} isTextAreaFocus={isTextAreaFocus}
                                textAreaDescriptionFocus={textAreaDescriptionFocus} isComments={isComments}
                                isCommentsActive={isCommentsActive} isHistoryActive={isHistoryActive}
-                               currentTask={props.currentTask}/>
+                               currentTaskScrum={currentTaskScrum} currentTaskFromServer={props.currentTaskFromServer}/>
         </>
     )
 }
 
 const mapStateToProps = state => ({
-    currentTask: state.tasksReducer.currentTask
+    currentTask: state.tasksReducer.currentTask,
+    currentProject: state.projectsReducer.currentProject,
+    currentTaskFromServer: state.tasksReducer.currentTaskFromServer,
 })
 
 export default compose(
-    connect(mapStateToProps, {getSprints})
+    connect(mapStateToProps, {getSprints, updateTaskDescription, getCurrentTaskFromServer})
 )(TaskInfoContainer)
 

@@ -15,11 +15,11 @@ public class CommentScrum {
     private String content;
     private String create_date;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "task_scrum_id", referencedColumnName = "id")
     private TaskScrum task_scrum_id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private UserScrumProject user_id;
 }

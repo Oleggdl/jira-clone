@@ -45,13 +45,19 @@ export const getBacklogElement = (authorization) => {
     }
 }
 
-export const createBacklogElement = (data, projectId, authorization) => {
+export const createBacklogElement = (data, projectId, creatorId, executorId, authorization) => {
 
     return async dispatch => {
         const responseCreateTask = await tasksAPI.createTask(data, authorization)
+
+        const responseTaskPut =
+            await tasksAPI.putTask(responseCreateTask.data.id, creatorId, executorId, authorization)
+
         const responsePost = await backlogAPI.createBacklogElement({}, authorization)
-        const responsePut =
-            await backlogAPI.uniteBacklogProjectTask(responsePost.data.id, responseCreateTask.data.id, projectId, authorization)
+
+        const responsePut = await backlogAPI.uniteBacklogProjectTask(responsePost.data.id,
+            responseCreateTask.data.id, projectId, authorization)
+
         const response = await backlogAPI.getBacklogForProject(projectId, authorization)
         dispatch(getBacklogForProjectActionCreator(response.data))
     }
