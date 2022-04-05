@@ -1,6 +1,6 @@
 import React from 'react'
 import './CommentElement.scss'
-import {Button} from "antd";
+import {Button} from "antd"
 
 
 const CommentElementComponent = ({

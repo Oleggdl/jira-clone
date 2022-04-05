@@ -15,10 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import java.util.*;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -40,6 +38,15 @@ public class UserScrumProjectController {
     @GetMapping("/userScrumProject")
     public List<UserScrumProject> getAllUserScrumProject() {
         return userScrumProjectRepository.findAll();
+    }
+
+    @GetMapping("/userScrumProject/{id}")
+    public ResponseEntity<UserScrumProject> getUserScrumProjectById(@PathVariable Long id) {
+
+        UserScrumProject userScrumProject = userScrumProjectRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("userScrumProjectRepository not exist with id:" + id));
+
+        return ResponseEntity.ok(userScrumProject);
     }
 
     @GetMapping("/userScrumProject/forUsers/{userId}")
@@ -74,6 +81,29 @@ public class UserScrumProjectController {
                 userScrumProjectsArray.add(userScrumProject.get(i));
             }
         }
+        return userScrumProjectsArray;
+    }
+
+    @GetMapping("/userScrumProject/search/{userId}")
+    public List<UserScrumProject> searchProject(HttpServletRequest request, @PathVariable Long userId) {
+
+        String projectName = request.getParameter("projectName");
+
+        List<UserScrumProject> userScrumProject = userScrumProjectRepository.findAll();
+        Users users = userRepository.findById(userId).get();
+
+        ArrayList<UserScrumProject> userScrumProjectsArray = new ArrayList<>();
+
+        for (int i = 0; i <= userScrumProject.size() - 1; i++) {
+
+            if (userScrumProject.get(i).getScrum_project().getProject_name().toUpperCase().contains(projectName
+                    .toUpperCase()) && userScrumProject.get(i).getUsers() == users) {
+                userScrumProjectsArray.add(userScrumProject.get(i));
+
+            }
+        }
+
+
         return userScrumProjectsArray;
     }
 

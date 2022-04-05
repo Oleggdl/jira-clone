@@ -9,8 +9,17 @@ export const projectsAPI = {
     createProject(data, headers) {
         return instance.post(`scrum/projects`, data, {headers: headers})
     },
+    updateProject(id, data, headers) {
+        return instance.put(`scrum/projects/${id}`, data, {headers: headers})
+    },
     getProjects(headers) {
         return instance.get(`scrum/projects`, {headers: headers})
+    },
+    getProjectById(id, headers) {
+        return instance.get(`scrum/userScrumProject/${id}`, {headers: headers})
+    },
+    searchProjects(query, userId, headers) {
+        return instance.get(`scrum/userScrumProject/search/${userId}?projectName=${query}`, {headers: headers})
     },
 }
 

@@ -1,28 +1,7 @@
 @import 'src/styles/variables';
+@import 'src/styles/mixins';
 
 
 .create-project-container {
-  background-color: $aside-background-color;
-  width: 500px;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 20px;
-  position: absolute;
-  border-radius: 5px;
-  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-  left: calc(50% - 250px);
-  top: 25%;
-
-  h2 {
-    text-align: center;
-  }
-  button:first-child{
-    span {
-      color: #ffffff;
-    }
-  }
-
-  .ant-form-item-label {
-    width: 130px;
-  }
+  @include form;
 }
