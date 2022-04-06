@@ -76,8 +76,16 @@ const TaskInfoContainer = (props) => {
 
     const handleSubmit = values => {
         props.updateTaskDescription(currentTaskScrum.id, {task_description: values.description}, headers)
-        onReset()
+        setIsTextAreaFocus(false)
     }
+
+    const getCurrentTaskFromServer = (value) => {
+        const id = !!value.scrum_task_id
+            ? value.scrum_task_id.id
+            : value.task_scrum.id
+        props.getCurrentTaskFromServer(id, headers)
+    }
+
 
     return (
         <>
@@ -86,7 +94,8 @@ const TaskInfoContainer = (props) => {
                                form={form} taskInfoWrapper={taskInfoWrapper} isTextAreaFocus={isTextAreaFocus}
                                textAreaDescriptionFocus={textAreaDescriptionFocus} isComments={isComments}
                                isCommentsActive={isCommentsActive} isHistoryActive={isHistoryActive}
-                               currentTaskScrum={currentTaskScrum} currentTaskFromServer={props.currentTaskFromServer}/>
+                               currentTaskScrum={currentTaskScrum} currentTaskFromServer={props.currentTaskFromServer}
+                               getCurrentTaskFromServer={getCurrentTaskFromServer} currentTask={props.currentTask}/>
         </>
     )
 }

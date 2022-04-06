@@ -1,4 +1,4 @@
-import {backlogAPI, taskSprintAPI} from "../../api/api"
+import {backlogAPI, tasksAPI, taskSprintAPI} from "../../api/api"
 
 
 const GET_TASK_SPRINTS = 'GET_TASK_SPRINTS'
@@ -61,6 +61,21 @@ export const createTaskSprint = (sprintId, taskId, backlogIdEl, authorization) =
         const responseDel = await backlogAPI.deleteBacklogElement(backlogIdEl, authorization)
         const response = await taskSprintAPI.createTaskSprint({}, authorization)
         const responsePut = await taskSprintAPI.createTaskSprintPut(response.data.id, sprintId, taskId, authorization)
+        const responseGet = await taskSprintAPI.getTaskSprints(sprintId, authorization)
+        dispatch(getTaskSprintsActionCreator(responseGet.data))
+
+    }
+}
+
+export const createNewTaskSprint = (data, sprintId, creatorId, authorization) => {
+
+    return async dispatch => {
+        const responseCreateTask = await tasksAPI.createTask(data, authorization)
+        const responseTaskPut =
+            await tasksAPI.putTask(responseCreateTask.data.id, creatorId, creatorId, authorization)
+        const response = await taskSprintAPI.createTaskSprint({}, authorization)
+        const responsePut = await taskSprintAPI.createTaskSprintPut(response.data.id,
+            sprintId, responseCreateTask.data.id, authorization)
         const responseGet = await taskSprintAPI.getTaskSprints(sprintId, authorization)
         dispatch(getTaskSprintsActionCreator(responseGet.data))
 

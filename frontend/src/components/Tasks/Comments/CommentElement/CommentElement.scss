@@ -4,16 +4,26 @@
 .comment-container {
 
   position: relative;
-
   display: flex;
   margin-bottom: 20px;
 
+  form {
+    width: 100%;
+  }
+
   .author-name {
     display: flex;
+    width: 100%;
 
     h5 {
       line-height: 2.45;
       margin-left: 10px;
+    }
+
+    p {
+      margin-left: 10px;
+      margin-top: 3px;
+      font-weight: 200;
     }
   }
 
@@ -64,6 +74,12 @@
       span {
         color: #ffffff;
       }
+    }
+  }
+
+  .ant-btn-primary {
+    span {
+      color: #ffffff;
     }
   }
 }

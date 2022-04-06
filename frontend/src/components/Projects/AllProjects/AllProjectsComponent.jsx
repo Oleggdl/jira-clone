@@ -9,12 +9,17 @@ import ProjectInfoContainer from "./ProjectInfo/ProjectInfoContainer";
 
 const AllProjectsComponent = ({
                                   projects, onSearch, showActionsHandler, isActions, setIsActions,
-                                  projectWrapper, isDeleteModal, setIsDeleteModal, getProjectById
+                                  projectWrapper, isDeleteModal, setIsDeleteModal, getProjectById,
+                                  currentProjectHandler
                               }) => {
+
 
     const dataSource = projects.map((project) => ({
         key: project.id,
-        projectName: project.scrum_project.project_name,
+        projectName: (<NavLink onMouseDown={() => currentProjectHandler(project)}
+                               to={`/scrum/${project.scrum_project.project_key}`}>
+            {project.scrum_project.project_name}
+        </NavLink>),
         projectKey: project.scrum_project.project_key,
         projectType: project.scrum_project.project_type,
         supervisor: project.users.username

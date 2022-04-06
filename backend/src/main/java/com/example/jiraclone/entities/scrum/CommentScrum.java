@@ -14,6 +14,7 @@ public class CommentScrum {
 
     private String content;
     private String create_date;
+    private Boolean is_changed;
 
     @ManyToOne()
     @JoinColumn(name = "task_scrum_id", referencedColumnName = "id")

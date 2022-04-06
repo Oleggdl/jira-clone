@@ -10,10 +10,8 @@ const TaskInfoComponent = ({
                                isCommentsHandler, isHistoryHandler, onReset, handleSubmit, form,
                                taskInfoCloseHandler, taskInfoWrapper, isTextAreaFocus, textAreaDescriptionFocus,
                                isComments, isCommentsActive, isHistoryActive, currentTask, currentTaskScrum,
-                               currentTaskFromServer
+                               currentTaskFromServer, getCurrentTaskFromServer
                            }) => {
-
-    console.log(currentTaskFromServer)
 
     return (
         <>
@@ -36,7 +34,9 @@ const TaskInfoComponent = ({
                             </Form.Item>
                             {isTextAreaFocus && <Form.Item>
                                 <Button type="primary" htmlType="submit" style={{width: "100px"}}
-                                        className="primary-button-submit">
+                                        className="primary-button-submit"
+                                        onMouseUp={() => getCurrentTaskFromServer(currentTask)}
+                                >
                                     Submit
                                 </Button>
                                 <Button style={{marginLeft: "15px", width: "100px"}} onClick={onReset}>Cancel</Button>

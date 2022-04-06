@@ -13,8 +13,6 @@ export const NavbarComponent = ({
         !!isStaffMenu ? setIsStaffMenu(false) : setIsStaffMenu(true)
     }
 
-    console.log(favoriteProjects)
-
     return (
         <nav>
             <div className="projects-wrapper">

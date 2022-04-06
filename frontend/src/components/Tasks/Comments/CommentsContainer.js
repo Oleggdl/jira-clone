@@ -22,8 +22,9 @@ const CommentsContainer = (props) => {
     }
 
     const handleSubmit = values => {
-        console.log(props.currentUser)
-        props.createCommentScrum(props.currentProject.id, props.currentTask.id, values, headers)
+        props.createCommentScrum(props.currentProject.id, props.currentTask?.task_scrum
+            ? props.currentTask?.task_scrum?.id
+            : props.currentTask?.scrum_task_id?.id, values, headers)
         onReset()
     }
 
@@ -37,7 +38,9 @@ const CommentsContainer = (props) => {
     }, [textAreaAddComment, onReset])
 
     useEffect(() => {
-        props.getCommentsScrum(props.currentTask.id, headers)
+        const taskId = props.currentTask?.task_scrum ? props.currentTask?.task_scrum?.id
+            : props.currentTask?.scrum_task_id?.id
+        props.getCommentsScrum(taskId, headers)
     }, [])
 
     return (

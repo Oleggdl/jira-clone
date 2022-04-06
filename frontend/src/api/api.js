@@ -109,6 +109,9 @@ export const commentsScrumAPI = {
     createCommentScrumForTask(commentId, userId, taskId, headers) {
         return instance.put(`scrum/commentsScrum/user/${commentId}/${userId}/${taskId}`, null, {headers: headers})
     },
+    updateCommentScrum(id, data, headers) {
+        return instance.put(`scrum/commentsScrum/${id}`, data, {headers: headers})
+    },
     deleteCommentsScrum(id, headers) {
         return instance.delete(`scrum/commentsScrum/${id}`, {headers: headers})
     },

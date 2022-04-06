@@ -45,14 +45,26 @@ export const createCommentScrum = (userId, taskId, data, authorization) => {
     }
 }
 
-export const deleteCommentScrum = (id, authorization) => {
+export const deleteCommentScrum = (id, taskId, authorization) => {
 
     return async dispatch => {
         const response = await commentsScrumAPI.deleteCommentsScrum(id, authorization)
-        const responseGetComments = await commentsScrumAPI.getCommentsScrum(authorization)
+        const responseGetComments = await commentsScrumAPI.getCommentsScrum(taskId, authorization)
         dispatch(getCommentsScrumActionCreator(responseGetComments.data))
 
     }
 }
+
+export const updateCommentScrum = (id, data, taskId, authorization) => {
+
+    return async dispatch => {
+        const response = await commentsScrumAPI.updateCommentScrum(id, data, authorization)
+        const responseGetComments = await commentsScrumAPI.getCommentsScrum(taskId, authorization)
+        dispatch(getCommentsScrumActionCreator(responseGetComments.data))
+
+    }
+}
+
+
 
 export default commentsScrumReducer

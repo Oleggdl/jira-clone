@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useRef, useState} from 'react'
 import AllProjectsComponent from "./AllProjectsComponent"
 import {compose} from "redux"
 import {connect} from "react-redux"
-import {getProjectById, getProjects, searchProject} from "../../../redux/scrum/projects-reducer"
+import {getCurrentProject, getProjectById, getProjects, searchProject} from "../../../redux/scrum/projects-reducer"
 import {AuthContext} from "../../../context/AuthContext"
 
 const AllProjectsContainer = props => {
@@ -34,6 +34,10 @@ const AllProjectsContainer = props => {
         props.getProjects(props.currentUser.id, headers)
     }, [])
 
+    const currentProjectHandler = project => {
+        props.getCurrentProject(project)
+    }
+
     useEffect(() => {
         window.addEventListener("click", function (event) {
             if (event.target === projectWrapper.current) {
@@ -42,7 +46,7 @@ const AllProjectsContainer = props => {
                 props.getProjects(props.currentUser.id, headers)
             }
         })
-        return window.addEventListener("click", function (event) {
+        return window.addEventListener("click", function (event) {//todo
             if (event.target === projectWrapper.current) {
                 setIsDeleteModal(false)
                 setIsActions(false)
@@ -56,7 +60,8 @@ const AllProjectsContainer = props => {
             <AllProjectsComponent projects={props.projects} onSearch={onSearch} isActions={isActions}
                                   showActionsHandler={showActionsHandler} projectWrapper={projectWrapper}
                                   isDeleteModal={isDeleteModal} setIsDeleteModal={setIsDeleteModal}
-                                  setIsActions={setIsActions} getProjectById={getProjectById}/>
+                                  setIsActions={setIsActions} getProjectById={getProjectById}
+                                  currentProjectHandler={currentProjectHandler}/>
         </>
     )
 }
@@ -67,6 +72,6 @@ const mapStateToProps = (state) => ({
 })
 
 export default compose(
-    connect(mapStateToProps, {getProjects, searchProject, getProjectById})
+    connect(mapStateToProps, {getProjects, searchProject, getProjectById, getCurrentProject})
 )(AllProjectsContainer)
 

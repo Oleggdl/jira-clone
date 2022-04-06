@@ -3,7 +3,10 @@ import {EllipsisOutlined, SolutionOutlined} from "@ant-design/icons"
 import './TaskBacklog.scss'
 import {Draggable} from "react-beautiful-dnd"
 
-const TaskBacklogComponent = ({currentProject, taskInfoHandler, task, index}) => {
+const TaskBacklogComponent = ({
+                                  currentProject, taskInfoHandler, task, index, getCurrentTaskFromServer,
+                                  setIsTaskInfo
+                              }) => {
 
     return (
         <>
@@ -17,7 +20,11 @@ const TaskBacklogComponent = ({currentProject, taskInfoHandler, task, index}) =>
                         ref={provided.innerRef}
                     >
                         <div>
-                            <div onClick={() => taskInfoHandler(task)} className="task-backlog-component-container">
+                            <div onMouseDown={() => {
+                                taskInfoHandler(task)
+                                getCurrentTaskFromServer(task)
+                            }} className="task-backlog-component-container"
+                                 onMouseUp={() => setIsTaskInfo(true)}>
                                 <div className="task-backlog-component-key">
                                     <SolutionOutlined/>
                                     <div>{currentProject.project_key}-{task.task_scrum

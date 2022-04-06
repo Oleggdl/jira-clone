@@ -19,11 +19,14 @@ const TaskBacklogContainer = props => {
     }
 
     const taskInfoHandler = (value) => {
-        const id =!!value.scrum_task_id
+        props.setCurrentTask(value)
+        // setIsTaskInfo(true)
+    }
+
+    const getCurrentTaskFromServer = (value) => {
+        const id = !!value.scrum_task_id
             ? value.scrum_task_id.id
             : value.task_scrum.id
-        props.setCurrentTask(value)
-        setIsTaskInfo(true)
         props.getCurrentTaskFromServer(id, headers)
     }
 
@@ -31,15 +34,14 @@ const TaskBacklogContainer = props => {
         <>
             <TaskBacklogComponent currentProject={props.currentProject.scrum_project}
                                   taskInfoHandler={taskInfoHandler} index={props.index} task={props.task}
-                                  currentTaskFromServer={props.currentTaskFromServer}/>
+                                  getCurrentTaskFromServer={getCurrentTaskFromServer}
+                                  setIsTaskInfo={setIsTaskInfo}/>
         </>
     )
 }
 
 const mapStateToProps = state => ({
     currentProject: state.projectsReducer.currentProject,
-
-
 })
 
 export default compose(

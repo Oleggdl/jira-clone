@@ -3,7 +3,12 @@ import './Sprint.scss'
 import TaskBacklogContainer from "../../Tasks/TaskBacklogComponent/TaskBacklogContainer"
 import {Droppable} from "react-beautiful-dnd"
 
-const SprintComponent = ({sprint, index, backlogForProjectSprint, taskSprints, setCurrentSprint}) => {
+const SprintComponent = ({
+                             sprint, index, backlogForProjectSprint, taskSprints, isCreateTask, onSetIsCreateTask,
+                             onKeyDown, taskInputRef, isInputVisible, onKeyUp
+                         }) => {
+
+    const taskCount = taskSprints.map(taskSprint => taskSprint.id === sprint.id ? taskSprint.taskSprint.length : null)
 
     return (
         <>
@@ -16,7 +21,7 @@ const SprintComponent = ({sprint, index, backlogForProjectSprint, taskSprints, s
                         <div> –</div>
                         <div>{sprint.end_date}</div>
                     </>}
-                    <div>(Tasks count: <span>{backlogForProjectSprint.length}</span>)</div>
+                    <div>(Tasks count: <span>{taskCount}</span>)</div>
                     {sprint.is_started ? <button>Complete a sprint</button> :
                         <button>Start a sprint</button>}
                 </div>
@@ -34,9 +39,13 @@ const SprintComponent = ({sprint, index, backlogForProjectSprint, taskSprints, s
                         </div>
                     )}
                 </Droppable>
-                <button className="create-task-button" onClick={() => {
-                }}>Create task
-                </button>
+                <input className={`task-creations-input ${isInputVisible}`} ref={taskInputRef} onKeyDown={e => {
+                    onKeyDown(e)
+                }} onKeyUp={onKeyUp}/>
+                {!isCreateTask &&
+                    <button style={{display: "block"}} className="create-task-button" onMouseUp={() => {
+                        onSetIsCreateTask()
+                    }}>Create task</button>}
             </div>
         </>
     )

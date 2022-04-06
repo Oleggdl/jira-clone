@@ -92,9 +92,7 @@ public class CommentScrumController {
                 .orElseThrow(() -> new ResourceNotFoundException("CommentScrum not exist with id:" + id));
 
         commentScrum.setContent(commentScrumDetails.getContent());
-        commentScrum.setCreate_date(commentScrumDetails.getCreate_date());
-        commentScrum.setTask_scrum_id(commentScrumDetails.getTask_scrum_id());
-        commentScrum.setUser_id(commentScrumDetails.getUser_id());
+        commentScrum.setIs_changed(commentScrumDetails.getIs_changed());
 
         CommentScrum updateCommentScrum = commentScrumRepository.save(commentScrum);
 

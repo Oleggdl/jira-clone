@@ -38,7 +38,8 @@ const CommentsComponent = ({
                         </Form.Item>}
                     </Form>
                 </div>
-                {commentsScrum.map(comment => <CommentElementContainer key={comment.id} comment={comment}/>).reverse()}
+                {(commentsScrum.sort((a, b) => b.id - a.id)).map(comment =>
+                    <CommentElementContainer key={comment.id} comment={comment}/>)}
             </div>
         </>
     )

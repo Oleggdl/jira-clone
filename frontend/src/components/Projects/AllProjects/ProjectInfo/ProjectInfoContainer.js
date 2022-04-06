@@ -43,8 +43,7 @@ const ProjectInfoContainer = props => {
 
     return (
         <>
-            <ProjectInfoComponent projects={props.projects}
-                                  onCancel={onCancel}
+            <ProjectInfoComponent projects={props.projects} form={form} onCancel={onCancel}
                                   handleSubmit={handleSubmit} projectWrapper={props.projectWrapper}
                                   onDeleteHandler={onDeleteHandler} isDeleteModal={props.isDeleteModal}
                                   setIsDeleteModal={props.setIsDeleteModal} onConfirmDelete={onConfirmDelete}
