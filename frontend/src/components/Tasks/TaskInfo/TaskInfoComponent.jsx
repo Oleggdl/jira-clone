@@ -1,7 +1,7 @@
 import React from 'react'
 import './TaskInfo.scss'
 import TextArea from "antd/es/input/TextArea"
-import {Button, Form} from "antd"
+import {Button, Form, Input} from "antd"
 import {CloseOutlined} from "@ant-design/icons"
 import CommentsContainer from "../Comments/CommentsContainer"
 import HistoryContainer from "../History/HistoryContainer"
@@ -10,7 +10,8 @@ const TaskInfoComponent = ({
                                isCommentsHandler, isHistoryHandler, onReset, handleSubmit, form,
                                taskInfoCloseHandler, taskInfoWrapper, isTextAreaFocus, textAreaDescriptionFocus,
                                isComments, isCommentsActive, isHistoryActive, currentTask, currentTaskScrum,
-                               currentTaskFromServer, getCurrentTaskFromServer
+                               currentTaskFromServer, getCurrentTaskFromServer, isTaskNameEditable,
+                               setIsTaskNameEditable, changeTaskNameHandler, formTaskName, getBacklogForProjectHandler
                            }) => {
 
     return (
@@ -19,7 +20,35 @@ const TaskInfoComponent = ({
                 <div className="task-info-container">
                     <div className="task-info-left">
                         <button className="close-button" onClick={taskInfoCloseHandler}><CloseOutlined/></button>
-                        <h2>{currentTaskScrum?.task_name}</h2>
+                        {!isTaskNameEditable
+                            ? <h2 onDoubleClick={() => setIsTaskNameEditable(true)}>
+                                {currentTaskFromServer?.task_name}</h2>
+                            : <Form form={formTaskName} onFinish={values => {
+                                changeTaskNameHandler(values)
+                                setIsTaskNameEditable(false)
+                            }}
+                                    initialValues={{task_name: currentTaskFromServer?.task_name}}
+                                    autoComplete="off">
+                                <Form.Item
+                                    name="task_name"
+                                    rules={[{required: true, message: 'Please input task name!'},
+                                        {max: 50, message: `Task name cannot be longer than 50 characters`},
+                                        {min: 3, message: 'Task name must be at least 3 characters'},
+                                        {
+                                            pattern: new RegExp(/[a-z]/gi),
+                                            message: 'Task name must contain letters'
+                                        }]}>
+                                    <Input placeholder="Enter task name" style={{fontSize: "2.6rem"}}/>
+                                </Form.Item>
+                                <Form.Item>
+                                    <Button className="submit-button" type="primary" htmlType="submit"
+                                            style={{width: "100px"}} onMouseUp={getBacklogForProjectHandler}>
+                                        Submit
+                                    </Button>
+                                    <Button style={{marginLeft: "15px", width: "100px"}}
+                                            onClick={() => setIsTaskNameEditable(false)}>Cancel</Button>
+                                </Form.Item>
+                            </Form>}
                         <p className="task-info-left-description">Description</p>
                         <Form initialValues={
                             {

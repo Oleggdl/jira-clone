@@ -13,6 +13,8 @@ const CreateTaskComponent = ({
                                  getExecutorsHandler
                              }) => {
 
+    const executor = !!parseInt(currentUser.id) ? null : currentUser.id
+
     return (
         <>
             <div className="create-task-container">
@@ -20,7 +22,9 @@ const CreateTaskComponent = ({
                 <Form name="create_task"
                       initialValues={
                           {
-                              create_date: `${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`
+                              create_date: `${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`,
+                              task_description: null,
+                              executor_id: executor
                           }}
                       form={form}
                       onFinish={values => handleSubmit(values)}

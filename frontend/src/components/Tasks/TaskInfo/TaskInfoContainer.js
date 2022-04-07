@@ -6,13 +6,15 @@ import {compose} from "redux"
 import {connect} from "react-redux"
 import {getSprints} from "../../../redux/scrum/sprints-reducer"
 import {AuthContext} from "../../../context/AuthContext"
-import {getCurrentTaskFromServer, updateTaskDescription} from "../../../redux/scrum/tasks-reducer";
+import {getCurrentTaskFromServer, updateTaskDescription, updateTaskName} from "../../../redux/scrum/tasks-reducer";
+import {getBacklogForProject} from "../../../redux/scrum/backlog-reducer";
 
 const TaskInfoContainer = (props) => {
 
     const [isComments, setIsComments] = useState(true)
     const [isCommentsActive, setIsCommentsActive] = useState('button-active')
     const [isHistoryActive, setIsHistoryActive] = useState('')
+    const [isTaskNameEditable, setIsTaskNameEditable] = useState(false)
 
 
     const isCommentsHandler = () => {
@@ -34,19 +36,20 @@ const TaskInfoContainer = (props) => {
     }
 
     useEffect(() => {
-        window.addEventListener("click", function (event) {
+        window.addEventListener("mouseup", function (event) {
             if (event.target === taskInfoWrapper.current) {
                 setIsTaskInfo(false)
             }
         })
-        return window.addEventListener("click", function (event) {
+        return window.removeEventListener("mouseup", function (event) {
             if (event.target === taskInfoWrapper.current) {
                 setIsTaskInfo(false)
             }
         })
-    })
+    }, [])
 
     const [form] = useForm()
+    const [formTaskName] = useForm()
 
     const textAreaDescriptionFocus = useRef(null)
     const [isTextAreaFocus, setIsTextAreaFocus] = useState(false)
@@ -68,7 +71,6 @@ const TaskInfoContainer = (props) => {
         : props.currentTask.task_scrum
 
 
-
     const {token} = useContext(AuthContext)
     const headers = {
         Authorization: `Bearer ${token}`
@@ -86,6 +88,17 @@ const TaskInfoContainer = (props) => {
         props.getCurrentTaskFromServer(id, headers)
     }
 
+    const changeTaskNameHandler = values => {
+        props.updateTaskName(currentTaskScrum.id, {task_name: values.task_name}, headers)
+    }
+
+    useEffect(() => {
+        return props.setBacklogForProject(props.backlogForProject)
+    }, [])
+
+    const getBacklogForProjectHandler = () => {
+        props.getBacklogForProject(props.currentProject.scrum_project.id, headers)
+    }
 
     return (
         <>
@@ -95,7 +108,11 @@ const TaskInfoContainer = (props) => {
                                textAreaDescriptionFocus={textAreaDescriptionFocus} isComments={isComments}
                                isCommentsActive={isCommentsActive} isHistoryActive={isHistoryActive}
                                currentTaskScrum={currentTaskScrum} currentTaskFromServer={props.currentTaskFromServer}
-                               getCurrentTaskFromServer={getCurrentTaskFromServer} currentTask={props.currentTask}/>
+                               getCurrentTaskFromServer={getCurrentTaskFromServer} currentTask={props.currentTask}
+                               isTaskNameEditable={isTaskNameEditable} setIsTaskNameEditable={setIsTaskNameEditable}
+                               changeTaskNameHandler={changeTaskNameHandler} formTaskName={formTaskName}
+                               getBacklogForProjectHandler={getBacklogForProjectHandler}
+            />
         </>
     )
 }
@@ -104,9 +121,13 @@ const mapStateToProps = state => ({
     currentTask: state.tasksReducer.currentTask,
     currentProject: state.projectsReducer.currentProject,
     currentTaskFromServer: state.tasksReducer.currentTaskFromServer,
+    backlogForProject: state.backlogReducer.backlogForProject,
 })
 
 export default compose(
-    connect(mapStateToProps, {getSprints, updateTaskDescription, getCurrentTaskFromServer})
+    connect(mapStateToProps, {
+        getSprints, updateTaskDescription, updateTaskName, getCurrentTaskFromServer,
+        getBacklogForProject
+    })
 )(TaskInfoContainer)
 

@@ -14,9 +14,9 @@
     position: absolute;
     height: 0;
     width: 0;
-    margin: 0!important;
+    margin: 0 !important;
     border: 0;
-    padding: 0!important;
+    padding: 0 !important;
     background-color: unset;
     cursor: default;
   }
@@ -76,7 +76,17 @@
     }
   }
 
+  .start-sprint-button {
+
+    span {
+      color: #ffffff;
+    }
+
+  }
+
   button {
-    @include button;
+    margin-top: 5px;
+    margin-left: auto;
+    margin-right: 0;
   }
 }

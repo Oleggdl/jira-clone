@@ -49,6 +49,9 @@ export const tasksAPI = {
     updateTaskDescription(taskId, data, headers) {
         return instance.put(`scrum/tasks/description/${taskId}`, data, {headers: headers})
     },
+    updateTaskName(taskId, data, headers) {
+        return instance.put(`scrum/tasks/name/${taskId}`, data, {headers: headers})
+    },
     getTasks(headers) {
         return instance.get(`scrum/tasks`, {headers: headers})
     },
@@ -69,6 +72,9 @@ export const sprintsAPI = {
     },
     createSprintWithProject(sprintId, projectId, headers) {
         return instance.put(`scrum/sprints/project/${sprintId}/${projectId}`, null, {headers: headers})
+    },
+    startSprint(data, id, headers) {
+        return instance.put(`scrum/sprints/${id}`, data, {headers: headers})
     }
 }
 
@@ -84,18 +90,31 @@ export const taskSprintAPI = {
     },
     deleteTaskSprints(taskSprintId, headers) {
         return instance.delete(`scrum/taskSprint/${taskSprintId}`, {headers: headers})
-    }
+    },
+    searchTask(query, sprintId, headers) {
+        return instance.get(`scrum/taskSprint/search/${sprintId}?taskName=${query}`, {headers: headers})
+    },
+    startSprintColumn(taskSprintId, columnId, headers) {
+        return instance.put(`scrum/taskSprint/${taskSprintId}/${columnId}`, null, {headers: headers})
+    },
+
 }
 
 export const columnsAPI = {
     createColumn(data, headers) {
         return instance.post(`scrum/columns`, data, {headers: headers})
     },
+    createColumnPut(columnId, sprintId, headers) {
+        return instance.put(`scrum/columns/${columnId}/${sprintId}`, null, {headers: headers})
+    },
     getColumns(headers) {
         return instance.get(`scrum/columns`, {headers: headers})
     },
     deleteColumnScrum(id, headers) {
         return instance.delete(`scrum/columns/${id}`, {headers: headers})
+    },
+    getColumnsForSprint(sprintId, headers) {
+        return instance.get(`scrum/columns/${sprintId}`, {headers: headers})
     },
 }
 
@@ -133,4 +152,7 @@ export const backlogAPI = {
     getBacklogForProject(projectId, headers) {
         return instance.get(`scrum/backlog/tasks/${projectId}`, {headers: headers})
     },
+    searchTask(query, projectId, headers) {
+        return instance.get(`scrum/backlog/search/${projectId}?taskName=${query}`, {headers: headers})
+    }
 }

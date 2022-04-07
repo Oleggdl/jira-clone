@@ -1,4 +1,5 @@
 import {backlogAPI, tasksAPI} from "../../api/api"
+import {getProjectsActionCreator} from "./projects-reducer";
 
 const GET_BACKLOG_ELEMENTS = 'GET_BACKLOG_ELEMENTS'
 const GET_BACKLOG_FOR_PROJECT = 'GET_BACKLOG_FOR_PROJECT'
@@ -79,6 +80,14 @@ export const getBacklogForProject = (projectId, authorization) => {
 
     return async dispatch => {
         const response = await backlogAPI.getBacklogForProject(projectId, authorization)
+        dispatch(getBacklogForProjectActionCreator(response.data))
+    }
+}
+
+export const searchTasks = (query, projectId, authorization) => {
+
+    return async dispatch => {
+        const response = await backlogAPI.searchTask(query, projectId, authorization)
         dispatch(getBacklogForProjectActionCreator(response.data))
     }
 }

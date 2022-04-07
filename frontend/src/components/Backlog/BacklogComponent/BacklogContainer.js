@@ -3,8 +3,8 @@ import BacklogComponent from "./BacklogComponent"
 import {compose} from "redux"
 import {connect} from "react-redux"
 import {TaskContext} from "../../../context/TaskContext"
-import {createTaskSprint, unsetTaskSprints} from "../../../redux/scrum/taskSprint-reducer"
-import {createBacklogElementFromSprint, getBacklogForProject} from "../../../redux/scrum/backlog-reducer"
+import {createTaskSprint, searchTasksInSprints, unsetTaskSprints} from "../../../redux/scrum/taskSprint-reducer"
+import {createBacklogElementFromSprint, getBacklogForProject, searchTasks} from "../../../redux/scrum/backlog-reducer"
 import {AuthContext} from "../../../context/AuthContext"
 import {TaskSprintContext} from "../../../context/TaskSprintContext";
 
@@ -19,6 +19,7 @@ const BacklogContainer = props => {
     const [currentSprintDnd, setCurrentSprintDnd] = useState(null)
     const [currentBacklogDnd, setCurrentBacklogDnd] = useState(null)
     const [currentTaskDnd, setCurrentTaskDnd] = useState(null)
+
 
     const {token} = useContext(AuthContext)
 
@@ -67,6 +68,14 @@ const BacklogContainer = props => {
         setBacklogForProject(active)
     }
 
+    const onSearch = query => {
+        const q = query.replace(/[\\\}\{\/\]\[\+\-\.\,\#\@\!\%\^\&\*(\)\`\~\$\;\:]/g, '')
+        props.searchTasks(q, props.currentProject.id, headers)
+        props.searchTasksInSprints(q, 2, headers)
+
+        // props.sprints && props.sprints.map(sprint => props.searchTasksInSprints(q, sprint.id, headers))
+    }
+
 
     useEffect(() => {
         if (!!props.taskSprints) {
@@ -80,7 +89,7 @@ const BacklogContainer = props => {
                 <TaskSprintContext.Provider value={{setCurrentSprintDnd, setCurrentBacklogDnd, setCurrentTaskDnd}}>
                     <BacklogComponent sprints={props.sprints} isTaskInfo={isTaskInfo}
                                       backlogForProject={backlogForProject} setBacklogForProject={setBacklogForProject}
-                                      backlogForProjectSprint={backlogForProjectSprint}
+                                      backlogForProjectSprint={backlogForProjectSprint} onSearch={onSearch}
                                       setBacklogForProjectSprint={setBacklogForProjectSprint}
                                       onDragEnd={onDragEnd}/>
                 </TaskSprintContext.Provider>
@@ -99,6 +108,6 @@ const mapStateToProps = (state) => ({
 export default compose(
     connect(mapStateToProps, {
         unsetTaskSprints, getBacklogForProject, createTaskSprint,
-        createBacklogElementFromSprint,
+        createBacklogElementFromSprint, searchTasks, searchTasksInSprints
     })
 )(BacklogContainer)

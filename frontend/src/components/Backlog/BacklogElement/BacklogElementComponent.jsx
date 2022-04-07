@@ -3,8 +3,12 @@ import './BacklogElement.scss'
 import TaskBacklogContainer from "../../Tasks/TaskBacklogComponent/TaskBacklogContainer"
 import {Droppable} from "react-beautiful-dnd"
 
-const BacklogElementComponent = ({backlogForProject, createSprintHandler, testRef}) => {
+const BacklogElementComponent = ({
+                                     backlogForProject, createSprintHandler, isInputVisible, taskInputRef,
+                                     onKeyDown, onSetIsCreateTask, isCreateTask
+                                 }) => {
 
+    console.log(backlogForProject)
 
     return (
         <>
@@ -12,7 +16,7 @@ const BacklogElementComponent = ({backlogForProject, createSprintHandler, testRe
                 <div className="sprint-container-header">
                     <h4>Backlog</h4>
                     <div>(Tasks count: <span>{backlogForProject?.length}</span>)</div>
-                    <button onClick={createSprintHandler}>Create a sprint</button>
+                    <button className="create-sprint-button" onClick={createSprintHandler}>Create a sprint</button>
                 </div>
                 <Droppable droppableId="Backlog">
                     {provided => (
@@ -24,6 +28,13 @@ const BacklogElementComponent = ({backlogForProject, createSprintHandler, testRe
                         </div>
                     )}
                 </Droppable>
+                <input className={`task-creations-input ${isInputVisible}`} ref={taskInputRef} onKeyDown={e => {
+                    onKeyDown(e)
+                }}/>
+                {!isCreateTask &&
+                    <button style={{display: "block"}} className="create-task-button" onMouseUp={() => {
+                        onSetIsCreateTask()
+                    }}>Create task</button>}
             </div>
 
         </>

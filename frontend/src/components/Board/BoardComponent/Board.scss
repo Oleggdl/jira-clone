@@ -7,6 +7,10 @@
   width: calc(100% - 300px);
   overflow-y: auto;
   height: calc(100vh - 64px);
+
+  .empty-board {
+    font-size: 3rem;
+  }
 }
 
 .project-path {

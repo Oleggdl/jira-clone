@@ -2,16 +2,21 @@ import React from 'react'
 import './Sprint.scss'
 import TaskBacklogContainer from "../../Tasks/TaskBacklogComponent/TaskBacklogContainer"
 import {Droppable} from "react-beautiful-dnd"
+import {Button} from "antd";
+import SprintStartWindowContainer from "./SprintStartWindow/SprintStartWindowContainer";
 
 const SprintComponent = ({
-                             sprint, index, backlogForProjectSprint, taskSprints, isCreateTask, onSetIsCreateTask,
-                             onKeyDown, taskInputRef, isInputVisible, onKeyUp
+                             sprint, index, taskSprints, isCreateTask, onSetIsCreateTask,
+                             onKeyDown, taskInputRef, isInputVisible, onKeyUp, setIsSprintStartingMod,
+                             isSprintStartingMod
                          }) => {
 
     const taskCount = taskSprints.map(taskSprint => taskSprint.id === sprint.id ? taskSprint.taskSprint.length : null)
 
     return (
         <>
+            {isSprintStartingMod && <SprintStartWindowContainer setIsSprintStartingMod={setIsSprintStartingMod}
+                                                                sprint={sprint} index={index} taskCount={taskCount}/>}
             <div className="sprint-container">
                 <div className="sprint-container-header">
                     <h4>{sprint.sprint_name || `BoardSprint ${index + 1}`}</h4>
@@ -23,7 +28,9 @@ const SprintComponent = ({
                     </>}
                     <div>(Tasks count: <span>{taskCount}</span>)</div>
                     {sprint.is_started ? <button>Complete a sprint</button> :
-                        <button>Start a sprint</button>}
+                        (index === 0 ? <Button className="start-sprint-button" type="primary"
+                                               onClick={() => setIsSprintStartingMod(true)}>Start a sprint</Button>
+                            : <Button disabled={true}>Start a sprint</Button>)}
                 </div>
                 <Droppable droppableId={`Sprint${sprint?.id}`}>
                     {provided => (

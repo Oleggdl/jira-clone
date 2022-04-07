@@ -83,7 +83,6 @@ public class SprintController {
         sprint.setSprint_name(sprintDetails.getSprint_name());
         sprint.setStart_date(sprintDetails.getStart_date());
         sprint.setEnd_date(sprintDetails.getEnd_date());
-        sprint.setScrum_project_sprint(sprintDetails.getScrum_project_sprint());
 
         Sprint updateSprint = sprintRepository.save(sprint);
 

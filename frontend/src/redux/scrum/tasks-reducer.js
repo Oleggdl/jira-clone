@@ -1,4 +1,5 @@
-import {tasksAPI} from "../../api/api"
+import {backlogAPI, projectsAPI, tasksAPI} from "../../api/api"
+import {getProjectsActionCreator} from "./projects-reducer";
 
 const GET_TASKS = 'GET_TASKS'
 const SET_CREATED_TASK_ID = 'SET_CREATED_TASK_ID'
@@ -87,6 +88,16 @@ export const updateTaskDescription = (taskId, data, authorization) => {
 
     return async dispatch => {
         const response = await tasksAPI.updateTaskDescription(taskId, data, authorization)
+        dispatch(getUsersOnProjectActionCreator(response.data))
+        const responseGet = await tasksAPI.getTaskById(taskId, authorization)
+        dispatch(getCurrentTaskFromServerActionCreator(responseGet.data))
+    }
+}
+
+export const updateTaskName = (taskId, data, authorization) => {
+
+    return async dispatch => {
+        const response = await tasksAPI.updateTaskName(taskId, data, authorization)
         dispatch(getUsersOnProjectActionCreator(response.data))
         const responseGet = await tasksAPI.getTaskById(taskId, authorization)
         dispatch(getCurrentTaskFromServerActionCreator(responseGet.data))

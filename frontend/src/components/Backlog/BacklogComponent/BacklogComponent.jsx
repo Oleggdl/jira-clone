@@ -8,7 +8,7 @@ import {DragDropContext} from "react-beautiful-dnd"
 
 const BacklogComponent = ({
                               sprints, isTaskInfo, backlogForProject, setBacklogForProject, onDragEnd,
-                              setBacklogForProjectSprint, backlogForProjectSprint
+                              setBacklogForProjectSprint, backlogForProjectSprint, onSearch,
                           }) => {
 
     return (
@@ -21,7 +21,8 @@ const BacklogComponent = ({
                 </div>
                 <h2>Backlog</h2>
                 <div className="search-tasks-container" style={{width: "320px"}}>
-                    <Search/>
+                    <Search style={{width: "300px", margin: "10px 0"}}
+                            onSearch={(value) => onSearch(value)} enterButton/>
                 </div>
 
                 <DragDropContext onDragEnd={onDragEnd}>
@@ -37,7 +38,8 @@ const BacklogComponent = ({
 
                 </DragDropContext>
             </div>
-            {isTaskInfo && <TaskInfoContainer/>}
+            {isTaskInfo && <TaskInfoContainer setBacklogForProject={setBacklogForProject}/>}
+
         </>
     )
 }

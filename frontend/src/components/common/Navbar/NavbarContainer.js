@@ -6,8 +6,10 @@ import {compose} from "redux"
 import {connect} from "react-redux"
 import {getCurrentProject, getFavoriteProjects, getProjects} from "../../../redux/scrum/projects-reducer"
 import {getUser} from "../../../redux/scrum/users-reducer"
+import {setCurrentSprint} from "../../../redux/scrum/sprints-reducer";
 
 const userName = 'userName'
+const currentSprint = 'currentSprint'
 
 const NavbarContainer = props => {
 
@@ -35,6 +37,13 @@ const NavbarContainer = props => {
         const data = JSON.parse(localStorage.getItem(userName))
         if (data && data.userName) {
             props.getUser(data.userName)
+        }
+    }, [])
+
+    useEffect(() => {
+        const data = JSON.parse(localStorage.getItem(currentSprint))
+        if (data && data.currentSprint) {
+            props.setCurrentSprint(data.currentSprint)
         }
     }, [])
 
@@ -118,6 +127,6 @@ const mapStateToProps = (state) => ({
 })
 
 export default compose(
-    connect(mapStateToProps, {getProjects, getUser, getCurrentProject, getFavoriteProjects})
+    connect(mapStateToProps, {getProjects, getUser, getCurrentProject, getFavoriteProjects, setCurrentSprint})
 )(NavbarContainer)
 

@@ -54,11 +54,20 @@
 
     h2 {
       font-size: 2.6rem;
+      @include disabled-selection;
     }
 
     .task-info-left-description {
       font-size: 1.6rem;
       font-weight: 500;
+    }
+
+    .submit-button {
+
+      span {
+        color: #ffffff;
+      }
+
     }
 
     .primary-button-submit:first-child {
@@ -72,6 +81,7 @@
       .button-active {
         background-color: #a8a8a8;
       }
+
       button {
         cursor: pointer;
         margin-right: 10px;
@@ -107,7 +117,7 @@
     .supervisor-container {
       display: flex;
 
-      span{
+      span {
         font-size: 1.4rem;
         font-weight: bold;
         text-transform: uppercase;

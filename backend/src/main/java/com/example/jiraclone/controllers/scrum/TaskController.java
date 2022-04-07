@@ -58,10 +58,10 @@ public class TaskController {
         TaskScrum taskScrum = taskScrumRepository.findById(taskId).get();
 
         Users creator = userRepository.findById(creatorId).get();
-        if (executorId != null) {
-            Users executor = userRepository.findById(executorId).get();
-            taskScrum.setExecutor_id(executor);
-        }
+
+        Users executor = userRepository.findById(executorId).get();
+        taskScrum.setExecutor_id(executor);
+
 
         taskScrum.setCreator_id(creator);
 
@@ -95,6 +95,20 @@ public class TaskController {
                 .orElseThrow(() -> new ResourceNotFoundException("Task not exist with id:" + id));
 
         taskScrum.setTask_description(taskScrumDetails.getTask_description());
+
+        TaskScrum updateTaskScrum = taskScrumRepository.save(taskScrum);
+
+        return ResponseEntity.ok(updateTaskScrum);
+    }
+
+    @PutMapping("/tasks/name/{id}")
+    public ResponseEntity<TaskScrum> updateTaskName(@PathVariable Long id,
+                                                    @RequestBody TaskScrum taskScrumDetails) {
+
+        TaskScrum taskScrum = taskScrumRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Task not exist with id:" + id));
+
+        taskScrum.setTask_name(taskScrumDetails.getTask_name());
 
         TaskScrum updateTaskScrum = taskScrumRepository.save(taskScrum);
 

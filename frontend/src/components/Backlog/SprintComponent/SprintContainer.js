@@ -17,6 +17,8 @@ const SprintContainer = props => {
 
     const [isCreateTask, setIsCreateTask] = useState(false)
     const [isInputVisible, setIsInputVisible] = useState('input-visible')
+    const [isSprintStartingMod, setIsSprintStartingMod] = useState(false)
+
 
     const taskInputRef = useRef(null)
 
@@ -66,9 +68,9 @@ const SprintContainer = props => {
 
     const onKeyUp = (e) => {
         if (e.keyCode === 13) {
-           setTimeout(() => {
-               props.getTaskSprints(props.sprint.id, headers)
-           }, 100)
+            setTimeout(() => {
+                props.getTaskSprints(props.sprint.id, headers)
+            }, 100)
         }
     }
 
@@ -78,7 +80,8 @@ const SprintContainer = props => {
                              backlogForProjectSprint={props.backlogForProjectSprint}
                              onSetIsCreateTask={onSetIsCreateTask} taskInputRef={taskInputRef}
                              isCreateTask={isCreateTask} onKeyDown={onKeyDown} isInputVisible={isInputVisible}
-                             onKeyUp={onKeyUp}
+                             onKeyUp={onKeyUp} setIsSprintStartingMod={setIsSprintStartingMod}
+                             isSprintStartingMod={isSprintStartingMod}
             />
         </>
     )

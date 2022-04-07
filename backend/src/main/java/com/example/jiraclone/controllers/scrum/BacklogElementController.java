@@ -1,8 +1,10 @@
 package com.example.jiraclone.controllers.scrum;
 
+import com.example.jiraclone.entities.Users;
 import com.example.jiraclone.entities.scrum.BacklogElement;
 import com.example.jiraclone.entities.scrum.ProjectScrum;
 import com.example.jiraclone.entities.scrum.TaskScrum;
+import com.example.jiraclone.entities.scrum.UserScrumProject;
 import com.example.jiraclone.exceptions.ResourceNotFoundException;
 import com.example.jiraclone.repositories.scrum.BacklogRepository;
 import com.example.jiraclone.repositories.scrum.ProjectScrumRepository;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -50,6 +53,27 @@ public class BacklogElementController {
             }
         }
         return backlogProjectElements;
+    }
+
+    @GetMapping("/backlog/search/{projectId}")
+    public List<BacklogElement> searchTasksInBacklog(HttpServletRequest request, @PathVariable Long projectId) {
+
+        String taskName = request.getParameter("taskName");
+
+        List<BacklogElement> backlogElements = backlogRepository.findAll();
+        ProjectScrum projectScrum = projectScrumRepository.findById(projectId).get();
+
+        ArrayList<BacklogElement> backlogElementsArray = new ArrayList<>();
+
+        for (int i = 0; i <= backlogElements.size() - 1; i++) {
+
+            if (backlogElements.get(i).getScrum_task_id().getTask_name().toUpperCase().contains(taskName
+                    .toUpperCase()) && backlogElements.get(i).getScrum_project_id() == projectScrum) {
+                backlogElementsArray.add(backlogElements.get(i));
+
+            }
+        }
+        return backlogElementsArray;
     }
 
     @PostMapping("/backlog")

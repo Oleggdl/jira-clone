@@ -1,5 +1,4 @@
-import {columnsAPI, commentsScrumAPI} from "../../api/api";
-import {getCommentsScrumActionCreator} from "./commentsScrum-reducer";
+import {columnsAPI} from "../../api/api"
 
 
 const GET_COLUMNS = 'GET_COLUMNS'
@@ -26,28 +25,39 @@ const columnsReducer = (state = initialState, action) => {
 
 export const getColumnsActionCreator = (columns) => ({type: GET_COLUMNS, columns})
 
-export const getColumns = (authorization) => {
+export const getColumns = (sprintId, authorization) => {
 
     return async dispatch => {
-        const response = await columnsAPI.getColumns(authorization)
+        const response = await columnsAPI.getColumnsForSprint(sprintId, authorization)
         dispatch(getColumnsActionCreator(response.data))
     }
 }
 
-export const createColumn = (data, authorization) => {
+export const createColumn = (data, sprintId, authorization) => {
 
     return async dispatch => {
         const response = await columnsAPI.createColumn(data, authorization)
-        const responseGetColumns = await columnsAPI.getColumns(authorization)
+        const responseGetColumns = await columnsAPI.getColumnsForSprint(sprintId, authorization)
         dispatch(getColumnsActionCreator(responseGetColumns.data))
     }
 }
 
-export const deleteColumnScrum = (id, authorization) => {
+export const startSprintColumns = (data, sprintId, authorization) => {
+
+    return async dispatch => {
+        const response = await columnsAPI.createColumn(data, authorization)
+        const responsePut = await columnsAPI.createColumnPut(response.data.id, sprintId, authorization)
+
+        const responseGetColumns = await columnsAPI.getColumnsForSprint(sprintId, authorization)
+        dispatch(getColumnsActionCreator(responseGetColumns.data))
+    }
+}
+
+export const deleteColumnScrum = (id, sprintId, authorization) => {
 
     return async dispatch => {
         const response = await columnsAPI.deleteColumnScrum(id, authorization)
-        const responseGetColumns = await columnsAPI.getColumns(authorization)
+        const responseGetColumns = await columnsAPI.getColumnsForSprint(sprintId, authorization)
         dispatch(getColumnsActionCreator(responseGetColumns.data))
 
     }

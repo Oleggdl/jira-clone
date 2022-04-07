@@ -18,26 +18,29 @@ const BoardContainer = (props) => {
     }
 
     useEffect(() => {
-        props.getColumns(headers)
+        if (!!props.currentSprint) {
+            props.getColumns(props.currentSprint?.id, headers)
+        }
     }, [])
 
 
     const createColumnHandler = () => {
-        props.createColumn({column_name: `${columnName}`}, headers)
+        props.createColumn({column_name: `${columnName}`}, props.currentSprint?.id, headers)
     }
 
     return (
         <>
             <TaskContext.Provider value={{isTaskInfo, setIsTaskInfo}}>
                 <BoardComponent isTaskInfo={isTaskInfo} columns={props.columns}
-                                createColumnHandler={createColumnHandler}/>
+                                createColumnHandler={createColumnHandler} currentSprint={props.currentSprint}/>
             </TaskContext.Provider>
         </>
     )
 }
 
 const mapStateToProps = (state) => ({
-    columns: state.columnsReducer.columns
+    columns: state.columnsReducer.columns,
+    currentSprint: state.sprintsReducer.currentSprint
 })
 
 export default compose(

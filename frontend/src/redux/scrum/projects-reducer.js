@@ -70,7 +70,6 @@ export const getFavoriteProjects = (userId, authorization) => {
     }
 }
 
-
 export const searchProject = (query, userId, authorization) => {
 
     return async dispatch => {

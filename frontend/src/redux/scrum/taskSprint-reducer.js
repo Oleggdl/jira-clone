@@ -1,4 +1,5 @@
 import {backlogAPI, tasksAPI, taskSprintAPI} from "../../api/api"
+import {getBacklogForProjectActionCreator} from "./backlog-reducer";
 
 
 const GET_TASK_SPRINTS = 'GET_TASK_SPRINTS'
@@ -78,8 +79,24 @@ export const createNewTaskSprint = (data, sprintId, creatorId, authorization) =>
             sprintId, responseCreateTask.data.id, authorization)
         const responseGet = await taskSprintAPI.getTaskSprints(sprintId, authorization)
         dispatch(getTaskSprintsActionCreator(responseGet.data))
+    }
+}
+
+export const setTaskSprintColumn = (taskSprintId, columnId, authorization) => {
+
+    return async dispatch => {
+        const responseTaskSprint = await taskSprintAPI.startSprintColumn(taskSprintId, columnId, authorization)
 
     }
+
+}
+
+export const searchTasksInSprints = (query, sprintId, authorization) => {
+
+    // return async dispatch => {
+    //     const response = await taskSprintAPI.searchTask(query, sprintId, authorization)
+    //     dispatch(getTaskSprintsActionCreator(response.data))
+    // }
 }
 
 export default taskSprintReducer

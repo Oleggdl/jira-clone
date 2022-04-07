@@ -15,8 +15,7 @@ const SideBarContainer = props => {
     }
 
     const getBacklogElements = () => {
-        props.getBacklogForProject(props.currentProject.scrum_project.id, headers)
-
+        // props.getBacklogForProject(props.currentProject.scrum_project.id, headers)
     }
 
     const getSprints = () => {

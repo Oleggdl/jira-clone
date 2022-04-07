@@ -49,7 +49,7 @@ const CreateTaskContainer = props => {
             <CreateTaskComponent handleSubmit={handleSubmit} onReset={onReset} form={form} projects={props.projects}
                                  sprints={props.sprints} currentUser={props.currentUser}
                                  usersOnProject={props.usersOnProject} getExecutorsHandler={getExecutorsHandler}
-                                 executorRef={executorRef}/>
+                                 executorRef={executorRef} />
         </>
     )
 }

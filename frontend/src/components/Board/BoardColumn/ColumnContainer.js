@@ -40,7 +40,7 @@ const ColumnContainer = props => {
     }
 
     const deleteColumnHandler = (id) => {
-        props.deleteColumnScrum(id, headers)
+        props.deleteColumnScrum(id, props.currentSprint.id, headers)
     }
 
     return (
@@ -52,6 +52,10 @@ const ColumnContainer = props => {
     )
 }
 
+const mapStateToProps = (state) => ({
+    currentSprint: state.sprintsReducer.currentSprint
+})
+
 export default compose(
-    connect(null, {deleteColumnScrum})
+    connect(mapStateToProps, {deleteColumnScrum})
 )(ColumnContainer)

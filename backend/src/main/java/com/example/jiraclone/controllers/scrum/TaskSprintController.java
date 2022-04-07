@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -48,6 +49,26 @@ public class TaskSprintController {
         for (int i = 0; i <= taskSprints.size() - 1; i++) {
 
             if (taskSprints.get(i).getSprint_task_sprint() == sprint) {
+                taskSprintsArray.add(taskSprints.get(i));
+            }
+        }
+        return taskSprintsArray;
+    }
+
+    @GetMapping("/taskSprint/search/{sprintId}")
+    public List<TaskSprint> searchTasksInBacklog(HttpServletRequest request, @PathVariable Long sprintId) {
+
+        String taskName = request.getParameter("taskName");
+
+        List<TaskSprint> taskSprints = taskSprintRepository.findAll();
+        Sprint sprint = sprintRepository.findById(sprintId).get();;
+
+        ArrayList<TaskSprint> taskSprintsArray = new ArrayList<>();
+
+        for (int i = 0; i <= taskSprints.size() - 1; i++) {
+
+            if (taskSprints.get(i).getTask_scrum().getTask_name().toUpperCase().contains(taskName
+                    .toUpperCase()) && taskSprints.get(i).getSprint_task_sprint() == sprint) {
                 taskSprintsArray.add(taskSprints.get(i));
             }
         }
@@ -111,7 +132,7 @@ public class TaskSprintController {
     @DeleteMapping("/taskSprint/{id}")
     public ResponseEntity<Map<String, Boolean>> deleteTaskSprint(@PathVariable Long id) {
         TaskSprint taskSprint = taskSprintRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("BacklogElement not exist with id:" + id));
+                .orElseThrow(() -> new ResourceNotFoundException("TaskSprint not exist with id:" + id));
 
         taskSprintRepository.delete((taskSprint));
         Map<String, Boolean> response = new HashMap<>();

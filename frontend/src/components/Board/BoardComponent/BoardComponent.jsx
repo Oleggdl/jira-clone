@@ -5,7 +5,7 @@ import TaskInfoContainer from "../../Tasks/TaskInfo/TaskInfoContainer"
 import Search from "antd/es/input/Search"
 import {PlusSquareOutlined} from "@ant-design/icons"
 
-const BoardComponent = ({isTaskInfo, columns, createColumnHandler}) => {
+const BoardComponent = ({isTaskInfo, columns, createColumnHandler, currentSprint}) => {
 
     return (
         <>
@@ -19,12 +19,14 @@ const BoardComponent = ({isTaskInfo, columns, createColumnHandler}) => {
                 <div className="search-tasks-container" style={{width: "320px"}}>
                     <Search/>
                 </div>
-                <div className="columns-container">
+                {currentSprint ? <div className="columns-container">
                     {columns.map((column) => <ColumnContainer key={column.id} column={column}/>)}
                     <button onClick={createColumnHandler} className="button-add-column">
                         <PlusSquareOutlined/>
                     </button>
-                </div>
+                </div> : <div>
+                    <h2 className="empty-board">No sprint started</h2>
+                </div>}
             </div>
             {isTaskInfo && <TaskInfoContainer/>}
         </>
