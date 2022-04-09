@@ -4,6 +4,7 @@ import {compose} from "redux"
 import {connect} from "react-redux"
 import {createNewTaskSprint, getTaskSprints, unsetTaskSprints} from "../../../redux/scrum/taskSprint-reducer"
 import {AuthContext} from "../../../context/AuthContext"
+import {deleteSprint, startSprint} from "../../../redux/scrum/sprints-reducer";
 
 const SprintContainer = props => {
 
@@ -66,12 +67,19 @@ const SprintContainer = props => {
         }
     }
 
+    const completeSprint = () => {
+        props.deleteSprint(props.sprint.id, headers)
+        // props.startSprint({
+        //     is_started: false
+        // }, props.sprint.id, props.currentProject.scrum_project.id, headers)
+    }
+
     const onKeyUp = (e) => {
-        if (e.keyCode === 13) {
-            setTimeout(() => {
-                props.getTaskSprints(props.sprint.id, headers)
-            }, 100)
-        }
+        // if (e.keyCode === 13) {
+        //     setTimeout(() => {
+        //         props.getTaskSprints(props.sprint.id, headers)
+        //     }, 100)
+        // }
     }
 
     return (
@@ -81,7 +89,7 @@ const SprintContainer = props => {
                              onSetIsCreateTask={onSetIsCreateTask} taskInputRef={taskInputRef}
                              isCreateTask={isCreateTask} onKeyDown={onKeyDown} isInputVisible={isInputVisible}
                              onKeyUp={onKeyUp} setIsSprintStartingMod={setIsSprintStartingMod}
-                             isSprintStartingMod={isSprintStartingMod}
+                             isSprintStartingMod={isSprintStartingMod} completeSprint={completeSprint}
             />
         </>
     )
@@ -90,8 +98,9 @@ const SprintContainer = props => {
 const mapStateToProps = (state) => ({
     taskSprints: state.taskSprintReducer.taskSprints,
     currentUser: state.userReducer.currentUser,
+    currentProject: state.projectsReducer.currentProject
 })
 
 export default compose(
-    connect(mapStateToProps, {getTaskSprints, createNewTaskSprint, unsetTaskSprints})
+    connect(mapStateToProps, {getTaskSprints, createNewTaskSprint, unsetTaskSprints, startSprint, deleteSprint})
 )(SprintContainer)

@@ -8,8 +8,6 @@ const BacklogElementComponent = ({
                                      onKeyDown, onSetIsCreateTask, isCreateTask
                                  }) => {
 
-    console.log(backlogForProject)
-
     return (
         <>
             <div className="sprint-container">

@@ -21,6 +21,9 @@ export const projectsAPI = {
     searchProjects(query, userId, headers) {
         return instance.get(`scrum/userScrumProject/search/${userId}?projectName=${query}`, {headers: headers})
     },
+    deleteProject(id, headers) {
+        return instance.delete(`scrum/projects/${id}`, {headers: headers})
+    },
 }
 
 export const userScrumProjectAPI = {
@@ -75,6 +78,12 @@ export const sprintsAPI = {
     },
     startSprint(data, id, headers) {
         return instance.put(`scrum/sprints/${id}`, data, {headers: headers})
+    },
+    getStartedSprint(projectId, headers) {
+        return instance.get(`scrum/sprints/startedSprint/${projectId}`, {headers: headers})
+    },
+    deleteSprint(id, headers) {
+        return instance.delete(`scrum/sprints/${id}`, {headers: headers})
     }
 }
 
@@ -96,6 +105,9 @@ export const taskSprintAPI = {
     },
     startSprintColumn(taskSprintId, columnId, headers) {
         return instance.put(`scrum/taskSprint/${taskSprintId}/${columnId}`, null, {headers: headers})
+    },
+    getTaskSprintForColumn(sprintId, columnId, headers) {
+        return instance.get(`scrum/taskSprint/${sprintId}/${columnId}`, {headers: headers})
     },
 
 }

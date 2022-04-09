@@ -2,13 +2,17 @@ package com.example.jiraclone.entities.scrum;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Set;
 
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 @Entity
-@Data
 public class ProjectScrum {
 
     @Id
@@ -22,14 +26,14 @@ public class ProjectScrum {
     private Boolean is_favorite;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "scrum_task_id")
+    @OneToMany(mappedBy = "scrum_project_id", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<BacklogElement> backlogElement;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "scrum_project")
+    @OneToMany(mappedBy = "scrum_project", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<UserScrumProject> userScrumProjects;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "scrum_project_sprint")
+    @OneToMany(mappedBy = "scrum_project_sprint", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Sprint> sprints;
 }

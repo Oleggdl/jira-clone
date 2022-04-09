@@ -47,6 +47,24 @@ public class SprintController {
         return sprintsArray;
     }
 
+    @GetMapping("/sprints/startedSprint/{projectId}")
+    public List<Sprint> getStartedSprint(@PathVariable Long projectId) {
+
+        ProjectScrum projectScrum = projectScrumRepository.findById(projectId).get();
+        List<Sprint> sprints = sprintRepository.findAll();
+
+        ArrayList<Sprint> sprintsArray = new ArrayList<>();
+
+        for (int i = 0; i <= sprints.size() - 1; i++) {
+
+            if ((sprints.get(i).getScrum_project_sprint() == projectScrum) && sprints.get(i).getIs_started() == true) {
+                sprintsArray.add(sprints.get(i));
+            }
+        }
+        return sprintsArray;
+    }
+
+
     @PostMapping("/sprints")
     public Sprint createSprint(@RequestBody Sprint sprint) {
         return sprintRepository.save(sprint);
@@ -83,6 +101,7 @@ public class SprintController {
         sprint.setSprint_name(sprintDetails.getSprint_name());
         sprint.setStart_date(sprintDetails.getStart_date());
         sprint.setEnd_date(sprintDetails.getEnd_date());
+        sprint.setIs_started(sprintDetails.getIs_started());
 
         Sprint updateSprint = sprintRepository.save(sprint);
 

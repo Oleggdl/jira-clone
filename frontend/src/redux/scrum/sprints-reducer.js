@@ -70,4 +70,20 @@ export const setCurrentSprint = (currentSprint) => {
     }
 }
 
+export const getStartedSprint = (projectId, authorization) => {
+
+    return async dispatch => {
+        const response = await sprintsAPI.getStartedSprint(projectId, authorization)
+        dispatch(setCurrentSprintActionCreator(response.data[0]))
+    }
+}
+
+export const deleteSprint = (id, authorization) => {
+
+    return async dispatch => {
+        const response = await sprintsAPI.deleteSprint(id, authorization)
+
+    }
+}
+
 export default sprintsReducer

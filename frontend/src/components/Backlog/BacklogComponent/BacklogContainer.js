@@ -11,7 +11,6 @@ import {TaskSprintContext} from "../../../context/TaskSprintContext";
 const BacklogContainer = props => {
 
     const [isTaskInfo, setIsTaskInfo] = useState(false)
-
     const [backlogForProject, setBacklogForProject] = useState(props.backlogForProject)
     const [backlogForProjectSprint, setBacklogForProjectSprint] = useState([])
 
@@ -70,7 +69,7 @@ const BacklogContainer = props => {
 
     const onSearch = query => {
         const q = query.replace(/[\\\}\{\/\]\[\+\-\.\,\#\@\!\%\^\&\*(\)\`\~\$\;\:]/g, '')
-        props.searchTasks(q, props.currentProject.id, headers)
+        props.searchTasks(q, props.currentProject.scrum_project.id, headers)
         props.searchTasksInSprints(q, 2, headers)
 
         // props.sprints && props.sprints.map(sprint => props.searchTasksInSprints(q, sprint.id, headers))
@@ -88,7 +87,7 @@ const BacklogContainer = props => {
             <TaskContext.Provider value={{isTaskInfo, setIsTaskInfo}}>
                 <TaskSprintContext.Provider value={{setCurrentSprintDnd, setCurrentBacklogDnd, setCurrentTaskDnd}}>
                     <BacklogComponent sprints={props.sprints} isTaskInfo={isTaskInfo}
-                                      backlogForProject={backlogForProject} setBacklogForProject={setBacklogForProject}
+                                      backlogForProject={props.backlogForProject} setBacklogForProject={setBacklogForProject}
                                       backlogForProjectSprint={backlogForProjectSprint} onSearch={onSearch}
                                       setBacklogForProjectSprint={setBacklogForProjectSprint}
                                       onDragEnd={onDragEnd}/>

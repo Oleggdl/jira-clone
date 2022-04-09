@@ -68,7 +68,7 @@ public class ColumnController {
         return ResponseEntity.ok(updatedColumnScrum);
     }
 
-    @DeleteMapping("/columns/{id}")
+    @DeleteMapping("/columns/{id}")//todo
     public ResponseEntity<Map<String, Boolean>> deleteColumn(@PathVariable Long id) {
         ColumnScrum columnScrum = columnScrumRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Column not exist with id:" + id));

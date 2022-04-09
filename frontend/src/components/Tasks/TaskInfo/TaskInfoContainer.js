@@ -92,9 +92,9 @@ const TaskInfoContainer = (props) => {
         props.updateTaskName(currentTaskScrum.id, {task_name: values.task_name}, headers)
     }
 
-    useEffect(() => {
-        return props.setBacklogForProject(props.backlogForProject)
-    }, [])
+    // useEffect(() => {
+    //     return props.setBacklogForProject(props.backlogForProject)
+    // }, [])
 
     const getBacklogForProjectHandler = () => {
         props.getBacklogForProject(props.currentProject.scrum_project.id, headers)

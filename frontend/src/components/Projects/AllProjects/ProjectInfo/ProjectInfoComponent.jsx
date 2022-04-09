@@ -1,10 +1,11 @@
 import {Button, Checkbox, Form, Input, Typography} from "antd"
 import TextArea from "antd/es/input/TextArea"
 import React from "react"
+import DeleteProjectContainer from "../../../common/DeleteProject/DeleteProjectContainer";
 
 const ProjectInfoComponent = ({
                                   projectData, handleSubmit, form, onCancel, onDeleteHandler, isDeleteModal,
-                                  onConfirmDelete, setIsDeleteModal, projectWrapper, projectDataAll
+                                  onConfirmDelete, setIsDeleteModal, projectWrapper, projectDataAll, setIsActions
                               }) => {
 
     return (
@@ -47,7 +48,7 @@ const ProjectInfoComponent = ({
                             {max: 12, message: `Project description cannot be longer than 600 characters`}]}>
                         <TextArea row={4} placeholder="Enter project description"/>
                     </Form.Item>
-                    <Typography.Paragraph style={{marginLeft: "106px"}} level={5}>Author:
+                    <Typography.Paragraph style={{marginLeft: "84px"}} level={5}>Supervisor:
                         <span style={{marginLeft: "10px", fontWeight: "bold"}}>
                             {projectDataAll.users.username}</span>
                     </Typography.Paragraph>
@@ -65,11 +66,8 @@ const ProjectInfoComponent = ({
                         <Button style={{marginLeft: "15px", width: "100px"}} onClick={onCancel}>Cancel</Button>
                     </Form.Item>
                     <div className="delete-project" onClick={onDeleteHandler}>Delete project</div>
-                    {isDeleteModal && <div className="delete-window">
-                        <h5>Delete project permanently?</h5>
-                        <Button className="primary-button" type="primary" onClick={onConfirmDelete}>Confirm</Button>
-                        <Button onClick={() => setIsDeleteModal(false)}>Cancel</Button>
-                    </div>}
+                    {isDeleteModal && <DeleteProjectContainer setIsDeleteModal={setIsDeleteModal}
+                                                              projectData={projectData} setIsActions={setIsActions}/>}
                 </Form>
                 <div className="project-settings-wrapper" ref={projectWrapper}></div>
             </div>

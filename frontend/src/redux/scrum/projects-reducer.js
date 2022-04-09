@@ -112,5 +112,14 @@ export const updateProject = (id, userScrumId, data, authorization) => {
     }
 }
 
+export const deleteProject = (id, userId, authorization) => {
+
+    return async dispatch => {
+        const responsePut = await projectsAPI.deleteProject(id, authorization)
+        const response = await userScrumProjectAPI.getUserScrumProject(userId, authorization)
+        dispatch(getProjectsActionCreator(response.data))
+    }
+}
+
 
 export default projectsReducer

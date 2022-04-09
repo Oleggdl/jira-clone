@@ -2,7 +2,6 @@ import React from 'react'
 import './SprintStartWindow.scss'
 import {Button, DatePicker, Form, Input} from "antd"
 import moment from "moment";
-import {NavLink} from "react-router-dom";
 
 const SprintStartWindowComponent = ({
                                         form, handleSubmit, onCancel, startSprintWrapper, index, sprint,
@@ -17,6 +16,7 @@ const SprintStartWindowComponent = ({
         <>
             <div className="sprint-wrapper" ref={startSprintWrapper}>
                 <div className="sprint-launch-container">
+                    <button onMouseUp={setTaskSprintColumn}>Test</button>
                     <h2>Sprint launch</h2>
                     <p><span style={{fontWeight: "bold"}}>{taskCount}</span> tasks were included in this sprint</p>
                     <Form form={form}
@@ -52,7 +52,7 @@ const SprintStartWindowComponent = ({
                         <Form.Item className="start-sprint-buttons">
                             <Button type="primary" htmlType="submit" style={{width: "100px"}}
                                     className="primary-button-submit"
-                                    onMouseUp={setTaskSprintColumn}>
+                            >
                                 Submit
                                 {/*<NavLink to="/scrum/board">Submit</NavLink>*/}
                             </Button>

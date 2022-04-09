@@ -1,12 +1,13 @@
 import {backlogAPI, tasksAPI, taskSprintAPI} from "../../api/api"
-import {getBacklogForProjectActionCreator} from "./backlog-reducer";
 
 
 const GET_TASK_SPRINTS = 'GET_TASK_SPRINTS'
 const UNSET_TASK_SPRINT = 'UNSET_TASK_SPRINT'
+const GET_TASK_SPRINT_FOR_COLUMN = 'GET_TASK_SPRINT_FOR_COLUMN'
 
 let initialState = {
-    taskSprints: []
+    taskSprints: [],
+    taskSprintsForColumn: []
 }
 
 
@@ -27,6 +28,16 @@ const taskSprintReducer = (state = initialState, action) => {
             }
         }
 
+        case GET_TASK_SPRINT_FOR_COLUMN: {
+            return {
+                ...state,
+                taskSprintsForColumn: [...state.taskSprintsForColumn, {
+                    id: action.columnId,
+                    taskSprintForColumn: action.taskSprintsForColumn
+                }]
+            }
+        }
+
         default:
             return state
     }
@@ -40,6 +51,11 @@ export const getTaskSprintsActionCreator = (taskSprints, sprintId) => ({
 })
 
 export const unsetTaskSprintsActionCreator = () => ({type: UNSET_TASK_SPRINT})
+export const getTaskSprintForColumnActionCreator = (taskSprintsForColumn, columnId) => ({
+    type: GET_TASK_SPRINT_FOR_COLUMN,
+    taskSprintsForColumn,
+    columnId
+})
 
 export const getTaskSprints = (sprintId, authorization) => {
 
@@ -64,7 +80,6 @@ export const createTaskSprint = (sprintId, taskId, backlogIdEl, authorization) =
         const responsePut = await taskSprintAPI.createTaskSprintPut(response.data.id, sprintId, taskId, authorization)
         const responseGet = await taskSprintAPI.getTaskSprints(sprintId, authorization)
         dispatch(getTaskSprintsActionCreator(responseGet.data))
-
     }
 }
 
@@ -78,7 +93,7 @@ export const createNewTaskSprint = (data, sprintId, creatorId, authorization) =>
         const responsePut = await taskSprintAPI.createTaskSprintPut(response.data.id,
             sprintId, responseCreateTask.data.id, authorization)
         const responseGet = await taskSprintAPI.getTaskSprints(sprintId, authorization)
-        dispatch(getTaskSprintsActionCreator(responseGet.data))
+        dispatch(getTaskSprintsActionCreator(responseGet.data, sprintId))
     }
 }
 
@@ -91,12 +106,28 @@ export const setTaskSprintColumn = (taskSprintId, columnId, authorization) => {
 
 }
 
+export const setTasksInSprints = (query, sprintId, authorization) => {
+
+    return async dispatch => {
+        const response = await taskSprintAPI.searchTask(query, sprintId, authorization)
+        dispatch(getTaskSprintsActionCreator(response.data))
+    }
+}
+
 export const searchTasksInSprints = (query, sprintId, authorization) => {
 
     // return async dispatch => {
     //     const response = await taskSprintAPI.searchTask(query, sprintId, authorization)
     //     dispatch(getTaskSprintsActionCreator(response.data))
     // }
+}
+
+export const getTaskSprintForColumn = (sprintId, columnId, authorization) => {
+
+    return async dispatch => {
+        const response = await taskSprintAPI.getTaskSprintForColumn(sprintId, columnId, authorization)
+        dispatch(getTaskSprintForColumnActionCreator(response.data, columnId))
+    }
 }
 
 export default taskSprintReducer

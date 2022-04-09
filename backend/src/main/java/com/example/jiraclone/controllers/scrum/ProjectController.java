@@ -60,7 +60,7 @@ public class ProjectController {
         ProjectScrum projectScrum = projectScrumRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Project not exist with id:" + id));
 
-        projectScrumRepository.delete((projectScrum));
+        projectScrumRepository.delete(projectScrum);
         Map<String, Boolean> response = new HashMap<>();
         response.put("deleted", Boolean.TRUE);
         return ResponseEntity.ok(response);

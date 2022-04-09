@@ -60,7 +60,7 @@ const BacklogElementContainer = (props) => {
                 executor_id: null,
                 task_description: null,
                 task_name: taskInputRef.current.value
-            }, props.currentProject.id, props.currentUser.id, props.currentUser.id, headers)
+            }, props.currentProject.scrum_project.id, props.currentUser.id, props.currentUser.id, headers)
             taskInputRef.current.value = null
             setIsCreateTask(false)
             setIsInputVisible('input-visible')

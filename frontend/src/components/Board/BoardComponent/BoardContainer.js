@@ -27,7 +27,6 @@ const BoardContainer = (props) => {
     const createColumnHandler = () => {
         props.createColumn({column_name: `${columnName}`}, props.currentSprint?.id, headers)
     }
-
     return (
         <>
             <TaskContext.Provider value={{isTaskInfo, setIsTaskInfo}}>

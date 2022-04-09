@@ -2,13 +2,17 @@ package com.example.jiraclone.entities.scrum;
 
 import com.example.jiraclone.entities.Users;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Set;
 
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 @Entity
-@Data
 public class TaskScrum {
 
     @Id

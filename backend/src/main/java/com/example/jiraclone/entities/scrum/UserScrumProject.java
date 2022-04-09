@@ -3,13 +3,17 @@ package com.example.jiraclone.entities.scrum;
 import com.example.jiraclone.entities.Role;
 import com.example.jiraclone.entities.Users;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Set;
 
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 @Entity
-@Data
 public class UserScrumProject {
 
     @Id
@@ -20,7 +24,7 @@ public class UserScrumProject {
     @JoinColumn(name = "users", referencedColumnName = "id")
     private Users users;
 
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name = "scrum_project", referencedColumnName = "id")
     private ProjectScrum scrum_project;
 

@@ -8,8 +8,6 @@ import {AuthContext} from "../../../../context/AuthContext"
 import {startSprintColumns} from "../../../../redux/scrum/columns-reducer";
 import {setTaskSprintColumn} from "../../../../redux/scrum/taskSprint-reducer";
 
-const currentSprint = 'currentSprint'
-
 const SprintStartWindowContainer = (props) => {
 
     const [form] = useForm()
@@ -35,31 +33,25 @@ const SprintStartWindowContainer = (props) => {
 
     const handleSubmit = (data) => {
         props.startSprint({
-            spring_name: data.spring_name,
-            start_date: data.start_date,
-            end_date: data.end_date,
+            sprint_name: data.sprint_name,
+            start_date: data.start_date._i,
+            end_date: data.end_date._i,
             is_started: true
-        }, props.sprint.id, props.currentProject.id, headers)
+        }, props.sprint.id, props.currentProject.scrum_project.id, headers)
         props.startSprintColumns({column_name: 'TO DO'}, props.sprint.id, headers)
         props.startSprintColumns({column_name: 'IN WORK'}, props.sprint.id, headers)
         props.startSprintColumns({column_name: 'DONE'}, props.sprint.id, headers)
-        console.log(props.sprint)
-        props.setCurrentSprint(props.sprint)
-        localStorage.setItem(currentSprint, JSON.stringify({
-            currentSprint: props.sprint
-        }))
     }
 
     const setTaskSprintColumn = () => {
-        setTimeout(() => {
-            let columnId = null
-            props.columns.map(col => col.column_name === 'TO DO' ? columnId = col.id : null)
-            props.taskSprints.map(taskSprint => {
-                if (taskSprint.id === props.sprint.id) {
-                    taskSprint.taskSprint.map(ts => props.setTaskSprintColumn(ts.id, columnId, headers))
-                }
-            })
-        }, 1000)
+        let columnId = null
+        console.log(props.columns)
+        props.columns.map(col => col.column_name === 'TO DO' ? columnId = col.id : null)
+        props.taskSprints.map(taskSprint => {
+            if (taskSprint.id === props.sprint.id) {
+                taskSprint.taskSprint.map(ts => props.setTaskSprintColumn(ts.id, columnId, headers))
+            }
+        })
     }
 
     const onCancel = () => {

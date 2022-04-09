@@ -6,10 +6,9 @@ import {compose} from "redux"
 import {connect} from "react-redux"
 import {getCurrentProject, getFavoriteProjects, getProjects} from "../../../redux/scrum/projects-reducer"
 import {getUser} from "../../../redux/scrum/users-reducer"
-import {setCurrentSprint} from "../../../redux/scrum/sprints-reducer";
+import {getStartedSprint} from "../../../redux/scrum/sprints-reducer";
 
 const userName = 'userName'
-const currentSprint = 'currentSprint'
 
 const NavbarContainer = props => {
 
@@ -28,7 +27,6 @@ const NavbarContainer = props => {
     const auth = useContext(AuthContext)
 
     const {token} = useContext(AuthContext)
-
     const headers = {
         Authorization: `Bearer ${token}`
     }
@@ -37,13 +35,6 @@ const NavbarContainer = props => {
         const data = JSON.parse(localStorage.getItem(userName))
         if (data && data.userName) {
             props.getUser(data.userName)
-        }
-    }, [])
-
-    useEffect(() => {
-        const data = JSON.parse(localStorage.getItem(currentSprint))
-        if (data && data.currentSprint) {
-            props.setCurrentSprint(data.currentSprint)
         }
     }, [])
 
@@ -104,6 +95,10 @@ const NavbarContainer = props => {
         props.getCurrentProject(project)
     }
 
+    const startedSprintHandler = () => {
+        props.getStartedSprint(props.currentProject.scrum_project.id, headers)
+    }
+
     return (
         <>
             <NavbarComponent isProjectsMenu={isProjectsMenu} isStaffMenu={isStaffMenu} setIsStaffMenu={setIsStaffMenu}
@@ -113,6 +108,7 @@ const NavbarContainer = props => {
                              currentUser={props.currentUser} currentProjectHandler={currentProjectHandler}
                              showProjectsMenu={showProjectsMenu} favoriteProjects={props.favoriteProjects}
                              getFavoriteProjectHandler={getFavoriteProjectHandler}
+                             startedSprintHandler={startedSprintHandler}
             />
         </>
     )
@@ -122,11 +118,11 @@ const NavbarContainer = props => {
 const mapStateToProps = (state) => ({
     projects: state.projectsReducer.projects,
     currentUser: state.userReducer.currentUser,
-    currentProject: state.projectsReducer.currentProject,
     favoriteProjects: state.projectsReducer.favoriteProjects,
+    currentProject: state.projectsReducer.currentProject
 })
 
 export default compose(
-    connect(mapStateToProps, {getProjects, getUser, getCurrentProject, getFavoriteProjects, setCurrentSprint})
+    connect(mapStateToProps, {getProjects, getUser, getCurrentProject, getFavoriteProjects, getStartedSprint})
 )(NavbarContainer)
 

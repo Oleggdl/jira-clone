@@ -2,6 +2,7 @@ import {columnsAPI} from "../../api/api"
 
 
 const GET_COLUMNS = 'GET_COLUMNS'
+const GET_COLUMNS_STARTED = 'GET_COLUMNS_TARTED'
 
 let initialState = {
     columns: []
@@ -17,13 +18,21 @@ const columnsReducer = (state = initialState, action) => {
             }
         }
 
+        case GET_COLUMNS_STARTED: {
+            return {
+                ...state,
+                columns: action.columns
+            }
+        }
+
         default:
             return state
     }
 }
 
 
-export const getColumnsActionCreator = (columns) => ({type: GET_COLUMNS, columns})
+export const getColumnsActionCreator = columns => ({type: GET_COLUMNS, columns})
+export const getColumnsStartedActionCreator = columns => ({type: GET_COLUMNS, columns})
 
 export const getColumns = (sprintId, authorization) => {
 
@@ -49,6 +58,7 @@ export const startSprintColumns = (data, sprintId, authorization) => {
         const responsePut = await columnsAPI.createColumnPut(response.data.id, sprintId, authorization)
 
         const responseGetColumns = await columnsAPI.getColumnsForSprint(sprintId, authorization)
+        console.log(responseGetColumns)
         dispatch(getColumnsActionCreator(responseGetColumns.data))
     }
 }

@@ -1,22 +1,26 @@
 package com.example.jiraclone.entities.scrum;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 @Entity
-@Data
 public class BacklogElement {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name = "scrum_project_id", referencedColumnName = "id")
     private ProjectScrum scrum_project_id;
 
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name = "scrum_task_id", referencedColumnName = "id")
     private TaskScrum scrum_task_id;
 }

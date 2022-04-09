@@ -26,7 +26,7 @@ const BacklogComponent = ({
                 </div>
 
                 <DragDropContext onDragEnd={onDragEnd}>
-                    {sprints && sprints.map((sprint, index) =>
+                    {sprints && sprints.sort((a, b) => a.id - b.id).map((sprint, index) =>
                         <SprintContainer sprint={sprint} index={index} key={sprint.id}
                                          backlogForProjectSprint={backlogForProjectSprint}
                                          setBacklogForProjectSprint={setBacklogForProjectSprint}/>)}

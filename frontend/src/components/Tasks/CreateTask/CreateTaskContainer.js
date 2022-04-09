@@ -59,7 +59,6 @@ const mapStateToProps = (state) => ({
     projects: state.projectsReducer.projects,
     sprints: state.sprintsReducer.sprints,
     currentUser: state.userReducer.currentUser,
-    currentProject: state.projectsReducer.currentProject,
     usersOnProject: state.tasksReducer.usersOnProject
 })
 

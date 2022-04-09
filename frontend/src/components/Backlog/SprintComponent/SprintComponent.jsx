@@ -3,12 +3,12 @@ import './Sprint.scss'
 import TaskBacklogContainer from "../../Tasks/TaskBacklogComponent/TaskBacklogContainer"
 import {Droppable} from "react-beautiful-dnd"
 import {Button} from "antd";
-import SprintStartWindowContainer from "./SprintStartWindow/SprintStartWindowContainer";
+import SprintStartWindowContainer from "./SprintStartWindow/SprintStartWindowContainer"
 
 const SprintComponent = ({
                              sprint, index, taskSprints, isCreateTask, onSetIsCreateTask,
                              onKeyDown, taskInputRef, isInputVisible, onKeyUp, setIsSprintStartingMod,
-                             isSprintStartingMod
+                             isSprintStartingMod, completeSprint
                          }) => {
 
     const taskCount = taskSprints.map(taskSprint => taskSprint.id === sprint.id ? taskSprint.taskSprint.length : null)
@@ -27,9 +27,11 @@ const SprintComponent = ({
                         <div>{sprint.end_date}</div>
                     </>}
                     <div>(Tasks count: <span>{taskCount}</span>)</div>
-                    {sprint.is_started ? <button>Complete a sprint</button> :
-                        (index === 0 ? <Button className="start-sprint-button" type="primary"
-                                               onClick={() => setIsSprintStartingMod(true)}>Start a sprint</Button>
+                    {sprint.is_started ?
+                        <Button className="start-sprint-button" type="primary"
+                                onClick={completeSprint}>Complete a sprint</Button>
+                        : (index === 0 ? <Button className="start-sprint-button" type="primary"
+                                                 onClick={() => setIsSprintStartingMod(true)}>Start a sprint</Button>
                             : <Button disabled={true}>Start a sprint</Button>)}
                 </div>
                 <Droppable droppableId={`Sprint${sprint?.id}`}>

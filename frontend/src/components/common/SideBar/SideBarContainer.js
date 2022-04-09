@@ -3,7 +3,7 @@ import SideBarComponent from "./SideBarComponent"
 import {compose} from "redux"
 import {connect} from "react-redux"
 import {AuthContext} from "../../../context/AuthContext"
-import {getSprints} from "../../../redux/scrum/sprints-reducer"
+import {getSprints, getStartedSprint} from "../../../redux/scrum/sprints-reducer"
 import {getBacklogForProject} from "../../../redux/scrum/backlog-reducer"
 
 const SideBarContainer = props => {
@@ -15,9 +15,12 @@ const SideBarContainer = props => {
     }
 
     const getBacklogElements = () => {
-        // props.getBacklogForProject(props.currentProject.scrum_project.id, headers)
+        props.getBacklogForProject(props.currentProject.scrum_project.id, headers)
     }
 
+    const getStartedSprint = () => {
+        props.getStartedSprint(props.currentProject.scrum_project.id, headers)
+    }
     const getSprints = () => {
         props.getSprints(props.currentProject.scrum_project.id, headers)
     }
@@ -25,7 +28,7 @@ const SideBarContainer = props => {
     return (
         <>
             <SideBarComponent currentProject={props.currentProject.scrum_project} getSprints={getSprints}
-                              getBacklogElements={getBacklogElements}/>
+                              getBacklogElements={getBacklogElements} getStartedSprint={getStartedSprint}/>
         </>
     )
 }
@@ -35,5 +38,5 @@ const mapStateToProps = state => ({
 })
 
 export default compose(
-    connect(mapStateToProps, {getSprints, getBacklogForProject})
+    connect(mapStateToProps, {getSprints, getBacklogForProject, getStartedSprint})
 )(SideBarContainer)

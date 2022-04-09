@@ -4,7 +4,7 @@ import {connect} from "react-redux"
 import {useForm} from "antd/es/form/Form"
 import ProjectInfoComponent from "./ProjectInfoComponent"
 import {AuthContext} from "../../../../context/AuthContext"
-import {getProjectById, getProjects, updateProject} from "../../../../redux/scrum/projects-reducer";
+import {deleteProject, getProjectById, getProjects, updateProject} from "../../../../redux/scrum/projects-reducer";
 
 const ProjectInfoContainer = props => {
 
@@ -37,17 +37,15 @@ const ProjectInfoContainer = props => {
         !!props.isDeleteModal ? props.setIsDeleteModal(false) : props.setIsDeleteModal(true)
     }
 
-    const onConfirmDelete = () => {
-
-    }
 
     return (
         <>
             <ProjectInfoComponent projects={props.projects} form={form} onCancel={onCancel}
                                   handleSubmit={handleSubmit} projectWrapper={props.projectWrapper}
                                   onDeleteHandler={onDeleteHandler} isDeleteModal={props.isDeleteModal}
-                                  setIsDeleteModal={props.setIsDeleteModal} onConfirmDelete={onConfirmDelete}
-                                  projectData={props.projectData.scrum_project} projectDataAll={props.projectData}/>
+                                  setIsDeleteModal={props.setIsDeleteModal} projectDataAll={props.projectData}
+                                  projectData={props.projectData.scrum_project} setIsActions={props.setIsActions}
+            />
         </>
     )
 }
@@ -59,6 +57,6 @@ const mapStateToProps = (state) => ({
 })
 
 export default compose(
-    connect(mapStateToProps, {updateProject, getProjectById, getProjects})
+    connect(mapStateToProps, {updateProject, getProjectById, getProjects, deleteProject})
 )(ProjectInfoContainer)
 

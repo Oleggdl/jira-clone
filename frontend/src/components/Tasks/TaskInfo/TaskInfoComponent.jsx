@@ -14,6 +14,8 @@ const TaskInfoComponent = ({
                                setIsTaskNameEditable, changeTaskNameHandler, formTaskName, getBacklogForProjectHandler
                            }) => {
 
+    console.log(currentTask)
+
     return (
         <>
             <div className="task-info-wrapper" ref={taskInfoWrapper}>

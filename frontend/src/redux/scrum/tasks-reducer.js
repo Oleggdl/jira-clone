@@ -1,5 +1,4 @@
-import {backlogAPI, projectsAPI, tasksAPI} from "../../api/api"
-import {getProjectsActionCreator} from "./projects-reducer";
+import {tasksAPI} from "../../api/api"
 
 const GET_TASKS = 'GET_TASKS'
 const SET_CREATED_TASK_ID = 'SET_CREATED_TASK_ID'

@@ -5,7 +5,7 @@ import TaskBoardContainer from "../../Tasks/TaskBoardComponent/TaskBoardContaine
 
 const ColumnComponent = ({
                              column, settingsColumnHandler, isSettings, isSettingsActive, settingsRef,
-                             deleteColumnHandler
+                             deleteColumnHandler, taskSprintsForColumn
                          }) => {
 
 
@@ -13,6 +13,7 @@ const ColumnComponent = ({
         <>
             <div className="column-container">
                 <div className="column-title">
+                    <button onClick={() => console.log(taskSprintsForColumn)}>Test</button>
                     <h4>{column.column_name}</h4>
                     <button ref={settingsRef} className={`column-component-settings ${isSettingsActive}`}
                             onClick={settingsColumnHandler}>...
@@ -24,9 +25,15 @@ const ColumnComponent = ({
                 </div>
 
                 <div className="column-task-container">
-                    <TaskBoardContainer/>
-                    <TaskBoardContainer/>
-                    <TaskBoardContainer/>
+                    {!!taskSprintsForColumn ? taskSprintsForColumn.map(taskSprintForColumn => {
+                            if (taskSprintForColumn.id === column.id) {
+
+                                taskSprintForColumn.taskSprintForColumn.map(ts =>
+                                    <TaskBoardContainer key={ts.id}
+                                                        taskSprint={ts.task_scrum}/>)
+                            }
+                        })
+                        : null}
                 </div>
             </div>
         </>
