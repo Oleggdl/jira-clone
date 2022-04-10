@@ -1,4 +1,4 @@
-import {tasksAPI} from "../../api/api"
+import {tasksAPI, taskSprintAPI} from "../../api/api"
 
 const GET_TASKS = 'GET_TASKS'
 const SET_CREATED_TASK_ID = 'SET_CREATED_TASK_ID'
@@ -110,7 +110,6 @@ export const getCurrentTaskFromServer = (taskId, authorization) => {
         dispatch(getCurrentTaskFromServerActionCreator(response.data))
     }
 }
-
 
 export const setCurrentTask = (task) => {
 

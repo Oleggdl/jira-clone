@@ -20,11 +20,7 @@ const TaskBacklogComponent = ({
                         ref={provided.innerRef}
                     >
                         <div>
-                            <div onMouseDown={() => {
-                                taskInfoHandler(task)
-                                getCurrentTaskFromServer(task)
-                            }} className="task-backlog-component-container"
-                                 onMouseUp={() => setIsTaskInfo(true)}>
+                            <div className="task-backlog-component-container">
                                 <div className="task-backlog-component-key">
                                     <SolutionOutlined/>
                                     <div>{currentProject.project_key}-{task.task_scrum
@@ -35,7 +31,12 @@ const TaskBacklogComponent = ({
                                     ? task.scrum_task_id.task_name
                                     : task.task_scrum.task_name}</div>
                                 <div className="task-backlog-component-labels">Ready</div>
-                                <div className="task-backlog-component-settings"><EllipsisOutlined/></div>
+                                <div className="task-backlog-component-settings"
+                                     onMouseDown={() => {
+                                         taskInfoHandler(task)
+                                         getCurrentTaskFromServer(task)
+                                     }} onMouseUp={() => setIsTaskInfo(true)}
+                                ><EllipsisOutlined/></div>
                             </div>
                         </div>
                     </div>

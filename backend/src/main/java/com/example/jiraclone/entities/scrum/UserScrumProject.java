@@ -34,14 +34,14 @@ public class UserScrumProject {
 
 
     @JsonIgnore
-    @OneToMany(mappedBy = "user_id")
+    @OneToMany(mappedBy = "user_id", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<CommentScrum> commentScrums;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "creator_id")
+    @OneToMany(mappedBy = "creator_id", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<TaskScrum> taskScrumsForCreator;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "executor_id")
+    @OneToMany(mappedBy = "executor_id", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<TaskScrum> taskScrumsForExecutor;
 }

@@ -83,6 +83,15 @@ export const getBacklogForProject = (projectId, authorization) => {
     }
 }
 
+export const deleteTask = (taskId, authorization) => {
+
+    return async dispatch => {
+        const responseDel = await tasksAPI.deleteTask(taskId, authorization)
+        const response = await backlogAPI.getBacklogElements(authorization)
+        dispatch(getBacklogElementsActionCreator(response.data))
+    }
+}
+
 export const searchTasks = (query, projectId, authorization) => {
 
     return async dispatch => {

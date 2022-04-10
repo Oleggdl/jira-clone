@@ -6,8 +6,8 @@ import {compose} from "redux"
 import {connect} from "react-redux"
 import {getSprints} from "../../../redux/scrum/sprints-reducer"
 import {AuthContext} from "../../../context/AuthContext"
-import {getCurrentTaskFromServer, updateTaskDescription, updateTaskName} from "../../../redux/scrum/tasks-reducer";
-import {getBacklogForProject} from "../../../redux/scrum/backlog-reducer";
+import {getCurrentTaskFromServer, updateTaskDescription, updateTaskName} from "../../../redux/scrum/tasks-reducer"
+import {deleteTask, getBacklogForProject} from "../../../redux/scrum/backlog-reducer"
 
 const TaskInfoContainer = (props) => {
 
@@ -15,6 +15,7 @@ const TaskInfoContainer = (props) => {
     const [isCommentsActive, setIsCommentsActive] = useState('button-active')
     const [isHistoryActive, setIsHistoryActive] = useState('')
     const [isTaskNameEditable, setIsTaskNameEditable] = useState(false)
+    const [isDeleteTask, setIsDeleteTask] = useState(false)
 
 
     const isCommentsHandler = () => {
@@ -30,20 +31,34 @@ const TaskInfoContainer = (props) => {
     }
 
     const taskInfoWrapper = useRef()
+    const taskDelRef = useRef()
     const {setIsTaskInfo} = useContext(TaskContext)
     const taskInfoCloseHandler = () => {
         setIsTaskInfo(false)
     }
 
     useEffect(() => {
-        window.addEventListener("mouseup", function (event) {
+        window.addEventListener("click", function (event) {
             if (event.target === taskInfoWrapper.current) {
                 setIsTaskInfo(false)
             }
         })
-        return window.removeEventListener("mouseup", function (event) {
+        return window.removeEventListener("click", function (event) {
             if (event.target === taskInfoWrapper.current) {
                 setIsTaskInfo(false)
+            }
+        })
+    }, [])
+
+    useEffect(() => {
+        window.addEventListener("click", function (event) {
+            if (event.target === taskDelRef.current) {
+                setIsDeleteTask(false)
+            }
+        })
+        return window.removeEventListener("click", function (event) {
+            if (event.target === taskDelRef.current) {
+                setIsDeleteTask(false)
             }
         })
     }, [])
@@ -100,6 +115,11 @@ const TaskInfoContainer = (props) => {
         props.getBacklogForProject(props.currentProject.scrum_project.id, headers)
     }
 
+    const confirmDeleteTask = () => {
+        props.deleteTask(currentTaskScrum.id, headers)
+        setIsTaskInfo(false)
+    }
+
     return (
         <>
             <TaskInfoComponent isCommentsHandler={isCommentsHandler} taskInfoCloseHandler={taskInfoCloseHandler}
@@ -111,7 +131,9 @@ const TaskInfoContainer = (props) => {
                                getCurrentTaskFromServer={getCurrentTaskFromServer} currentTask={props.currentTask}
                                isTaskNameEditable={isTaskNameEditable} setIsTaskNameEditable={setIsTaskNameEditable}
                                changeTaskNameHandler={changeTaskNameHandler} formTaskName={formTaskName}
-                               getBacklogForProjectHandler={getBacklogForProjectHandler}
+                               getBacklogForProjectHandler={getBacklogForProjectHandler} taskDelRef={taskDelRef}
+                               setIsDeleteTask={setIsDeleteTask} isDeleteTask={isDeleteTask}
+                               confirmDeleteTask={confirmDeleteTask}
             />
         </>
     )
@@ -127,7 +149,7 @@ const mapStateToProps = state => ({
 export default compose(
     connect(mapStateToProps, {
         getSprints, updateTaskDescription, updateTaskName, getCurrentTaskFromServer,
-        getBacklogForProject
+        getBacklogForProject, deleteTask
     })
 )(TaskInfoContainer)
 

@@ -11,7 +11,8 @@ const TaskInfoComponent = ({
                                taskInfoCloseHandler, taskInfoWrapper, isTextAreaFocus, textAreaDescriptionFocus,
                                isComments, isCommentsActive, isHistoryActive, currentTask, currentTaskScrum,
                                currentTaskFromServer, getCurrentTaskFromServer, isTaskNameEditable,
-                               setIsTaskNameEditable, changeTaskNameHandler, formTaskName, getBacklogForProjectHandler
+                               setIsTaskNameEditable, changeTaskNameHandler, formTaskName, getBacklogForProjectHandler,
+                               setIsDeleteTask, isDeleteTask, taskDelRef, confirmDeleteTask
                            }) => {
 
     return (
@@ -20,35 +21,57 @@ const TaskInfoComponent = ({
                 <div className="task-info-container">
                     <div className="task-info-left">
                         <button className="close-button" onClick={taskInfoCloseHandler}><CloseOutlined/></button>
-                        {!isTaskNameEditable
-                            ? <h2 onDoubleClick={() => setIsTaskNameEditable(true)}>
-                                {currentTaskFromServer?.task_name}</h2>
-                            : <Form form={formTaskName} onFinish={values => {
-                                changeTaskNameHandler(values)
-                                setIsTaskNameEditable(false)
-                            }}
-                                    initialValues={{task_name: currentTaskFromServer?.task_name}}
-                                    autoComplete="off">
-                                <Form.Item
-                                    name="task_name"
-                                    rules={[{required: true, message: 'Please input task name!'},
-                                        {max: 50, message: `Task name cannot be longer than 50 characters`},
-                                        {min: 3, message: 'Task name must be at least 3 characters'},
-                                        {
-                                            pattern: new RegExp(/[a-z]/gi),
-                                            message: 'Task name must contain letters'
-                                        }]}>
-                                    <Input placeholder="Enter task name" style={{fontSize: "2.6rem"}}/>
-                                </Form.Item>
-                                <Form.Item>
-                                    <Button className="submit-button" type="primary" htmlType="submit"
-                                            style={{width: "100px"}} onMouseUp={getBacklogForProjectHandler}>
-                                        Submit
+                        <div style={{display: "flex"}}>
+                            {!isTaskNameEditable
+                                ? <h2 onDoubleClick={() => setIsTaskNameEditable(true)}>
+                                    {currentTaskFromServer?.task_name}</h2>
+                                : <Form form={formTaskName} onFinish={values => {
+                                    changeTaskNameHandler(values)
+                                    setIsTaskNameEditable(false)
+                                }}
+                                        initialValues={{task_name: currentTaskFromServer?.task_name}}
+                                        autoComplete="off">
+                                    <Form.Item
+                                        name="task_name"
+                                        style={{marginRight: "15px"}}
+                                        rules={[{required: true, message: 'Please input task name!'},
+                                            {max: 50, message: `Task name cannot be longer than 50 characters`},
+                                            {min: 3, message: 'Task name must be at least 3 characters'},
+                                            {
+                                                pattern: new RegExp(/[a-z]/gi),
+                                                message: 'Task name must contain letters'
+                                            }]}>
+                                        <Input placeholder="Enter task name" style={{fontSize: "2.6rem"}}/>
+                                    </Form.Item>
+                                    <Form.Item>
+                                        <Button className="submit-button" type="primary" htmlType="submit"
+                                                style={{width: "100px"}} onMouseUp={getBacklogForProjectHandler}>
+                                            Submit
+                                        </Button>
+                                        <Button style={{marginLeft: "15px", width: "100px"}}
+                                                onClick={() => setIsTaskNameEditable(false)}>Cancel</Button>
+                                    </Form.Item>
+                                </Form>}
+                            <button className="delete-task-button" onClick={() => setIsDeleteTask(true)}>
+                                Delete task
+                            </button>
+                            {isDeleteTask && <>
+                                <div className="delete-task-container">
+                                    <h3>Remove <span>{currentTaskFromServer?.task_name}</span>?</h3>
+                                    <p>You are about to permanently delete this task, as well as the comments,
+                                        data, and attachments associated with it.</p>
+                                    <p>Instead, you can choose to resolve it or close it.</p>
+                                    <Button danger={true} onClick={() => confirmDeleteTask()}
+                                            className="confirm-delete-task">
+                                        Delete
                                     </Button>
-                                    <Button style={{marginLeft: "15px", width: "100px"}}
-                                            onClick={() => setIsTaskNameEditable(false)}>Cancel</Button>
-                                </Form.Item>
-                            </Form>}
+                                    <Button onClick={() => setIsDeleteTask(false)}>
+                                        Cancel
+                                    </Button>
+                                </div>
+                                <div className="delete-task-wrapper" ref={taskDelRef}></div>
+                            </>}
+                        </div>
                         <p className="task-info-left-description">Description</p>
                         <Form initialValues={
                             {
@@ -104,7 +127,6 @@ const TaskInfoComponent = ({
                     </div>
                 </div>
             </div>
-
         </>
     )
 }

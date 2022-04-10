@@ -64,6 +64,9 @@ export const tasksAPI = {
     getUsersOnProject(projectId, headers) {
         return instance.get(`/scrum/userScrumProject/usersOnProject/${projectId}`, {headers: headers})
     },
+    deleteTask(id, headers) {
+        return instance.delete(`/scrum/tasks/${id}`, {headers: headers})
+    },
 }
 
 export const sprintsAPI = {
