@@ -2,9 +2,15 @@ import React, {useContext, useEffect, useRef, useState} from 'react'
 import SprintComponent from "./SprintComponent"
 import {compose} from "redux"
 import {connect} from "react-redux"
-import {createNewTaskSprint, getTaskSprints, unsetTaskSprints} from "../../../redux/scrum/taskSprint-reducer"
+import {
+    createNewTaskSprint,
+    createTaskSprintFromSprint,
+    getTaskSprints,
+    unsetTaskSprints
+} from "../../../redux/scrum/taskSprint-reducer"
 import {AuthContext} from "../../../context/AuthContext"
 import {deleteSprint, startSprint} from "../../../redux/scrum/sprints-reducer";
+import {createBacklogElementFromSprint} from "../../../redux/scrum/backlog-reducer";
 
 const SprintContainer = props => {
 
@@ -68,10 +74,26 @@ const SprintContainer = props => {
     }
 
     const completeSprint = () => {
+        if (props.sprints.length === 1) {
+            props.taskSprints.map(sprint => {
+                if (sprint.id === props.sprint.id) {
+                    sprint.taskSprint.map(taskSprint =>
+                        props.createBacklogElementFromSprint(taskSprint.id, taskSprint.task_scrum.id,
+                            props.currentProject.scrum_project.id, headers))
+                }
+                return null
+            })
+        } else {
+            props.taskSprints.map(sprint => {
+                if (sprint.id === props.sprint.id) {
+                    sprint.taskSprint.map(taskSprint =>
+                        props.createTaskSprintFromSprint(taskSprint.id, taskSprint.task_scrum.id,
+                            props.sprints[1].id, headers))
+                }
+                return null
+            })
+        }
         props.deleteSprint(props.sprint.id, headers)
-        // props.startSprint({
-        //     is_started: false
-        // }, props.sprint.id, props.currentProject.scrum_project.id, headers)
     }
 
     const onKeyUp = (e) => {
@@ -98,9 +120,13 @@ const SprintContainer = props => {
 const mapStateToProps = (state) => ({
     taskSprints: state.taskSprintReducer.taskSprints,
     currentUser: state.userReducer.currentUser,
-    currentProject: state.projectsReducer.currentProject
+    currentProject: state.projectsReducer.currentProject,
+    sprints: state.sprintsReducer.sprints
 })
 
 export default compose(
-    connect(mapStateToProps, {getTaskSprints, createNewTaskSprint, unsetTaskSprints, startSprint, deleteSprint})
+    connect(mapStateToProps, {
+        getTaskSprints, createNewTaskSprint, unsetTaskSprints, startSprint, deleteSprint,
+        createBacklogElementFromSprint, createTaskSprintFromSprint
+    })
 )(SprintContainer)

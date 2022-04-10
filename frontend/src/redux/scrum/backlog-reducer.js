@@ -1,5 +1,4 @@
-import {backlogAPI, tasksAPI} from "../../api/api"
-import {getProjectsActionCreator} from "./projects-reducer";
+import {backlogAPI, tasksAPI, taskSprintAPI} from "../../api/api"
 
 const GET_BACKLOG_ELEMENTS = 'GET_BACKLOG_ELEMENTS'
 const GET_BACKLOG_FOR_PROJECT = 'GET_BACKLOG_FOR_PROJECT'
@@ -67,7 +66,7 @@ export const createBacklogElement = (data, projectId, creatorId, executorId, aut
 export const createBacklogElementFromSprint = (taskSprintId, taskId, projectId, authorization) => {
 
     return async dispatch => {
-        const responseDel = await backlogAPI.deleteBacklogElement(taskSprintId, authorization)
+        const responseDel = await taskSprintAPI.deleteTaskSprints(taskSprintId, authorization)
         const responsePost = await backlogAPI.createBacklogElement({}, authorization)
         const responsePut =
             await backlogAPI.uniteBacklogProjectTask(responsePost.data.id, taskId, projectId, authorization)
