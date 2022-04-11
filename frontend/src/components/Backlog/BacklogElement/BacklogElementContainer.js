@@ -24,8 +24,8 @@ const BacklogElementContainer = (props) => {
         taskInputRef.current.focus()
     }
 
-    const createSprintHandler = () => {
-        props.createSprint(props.currentProject.scrum_project.id, headers)
+    const createSprintHandler = (data) => {
+        props.createSprint({is_started: false}, props.currentProject.scrum_project.id, headers)
     }
 
     useEffect(() => {

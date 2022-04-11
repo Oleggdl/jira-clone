@@ -4,11 +4,12 @@ import TaskBacklogContainer from "../../Tasks/TaskBacklogComponent/TaskBacklogCo
 import {Droppable} from "react-beautiful-dnd"
 import {Button} from "antd";
 import SprintStartWindowContainer from "./SprintStartWindow/SprintStartWindowContainer"
+import {EllipsisOutlined} from "@ant-design/icons";
 
 const SprintComponent = ({
                              sprint, index, taskSprints, isCreateTask, onSetIsCreateTask,
                              onKeyDown, taskInputRef, isInputVisible, onKeyUp, setIsSprintStartingMod,
-                             isSprintStartingMod, completeSprint
+                             isSprintStartingMod, completeSprint, isSettingsSprint, setIsSettingsSprint
                          }) => {
 
     const taskCount = taskSprints.map(taskSprint => taskSprint.id === sprint.id ? taskSprint.taskSprint.length : null)
@@ -33,6 +34,12 @@ const SprintComponent = ({
                         : (index === 0 ? <Button className="start-sprint-button" type="primary"
                                                  onClick={() => setIsSprintStartingMod(true)}>Start a sprint</Button>
                             : <Button disabled={true}>Start a sprint</Button>)}
+                    <div className="sprint-settings" onClick={() =>
+                        setIsSettingsSprint(true)}><EllipsisOutlined/></div>
+                    {isSettingsSprint && <div className="sprint-settings-window">
+                        <div>Test1</div>
+                        <div>Test2</div>
+                    </div>}
                 </div>
                 <Droppable droppableId={`Sprint${sprint?.id}`}>
                     {provided => (

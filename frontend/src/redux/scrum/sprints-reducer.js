@@ -44,10 +44,10 @@ export const getSprints = (projectId, authorization) => {
     }
 }
 
-export const createSprint = (projectId, authorization) => {
+export const createSprint = (data, projectId, authorization) => {
 
     return async dispatch => {
-        const response = await sprintsAPI.createSprint({is_started: false}, authorization)
+        const response = await sprintsAPI.createSprint(data, authorization)
         const responsePut = await sprintsAPI.createSprintWithProject(response.data.id, projectId, authorization)
         const responseGet = await sprintsAPI.getSprints(projectId, authorization)
         dispatch(getSprintsActionCreator(responseGet.data))

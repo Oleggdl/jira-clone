@@ -25,6 +25,7 @@ const SprintContainer = props => {
     const [isCreateTask, setIsCreateTask] = useState(false)
     const [isInputVisible, setIsInputVisible] = useState('input-visible')
     const [isSprintStartingMod, setIsSprintStartingMod] = useState(false)
+    const [isSettingsSprint, setIsSettingsSprint] = useState(false)
 
 
     const taskInputRef = useRef(null)
@@ -112,6 +113,7 @@ const SprintContainer = props => {
                              isCreateTask={isCreateTask} onKeyDown={onKeyDown} isInputVisible={isInputVisible}
                              onKeyUp={onKeyUp} setIsSprintStartingMod={setIsSprintStartingMod}
                              isSprintStartingMod={isSprintStartingMod} completeSprint={completeSprint}
+                             isSettingsSprint={isSettingsSprint} setIsSettingsSprint={setIsSettingsSprint}
             />
         </>
     )
