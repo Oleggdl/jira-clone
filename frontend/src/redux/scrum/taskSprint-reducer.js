@@ -5,6 +5,7 @@ import {getBacklogElementsActionCreator} from "./backlog-reducer";
 const GET_TASK_SPRINTS = 'GET_TASK_SPRINTS'
 const UNSET_TASK_SPRINT = 'UNSET_TASK_SPRINT'
 const GET_TASK_SPRINT_FOR_COLUMN = 'GET_TASK_SPRINT_FOR_COLUMN'
+const UNSET_TASK_SPRINT_FOR_COLUMN = 'UNSET_TASK_SPRINT_FOR_COLUMN'
 
 let initialState = {
     taskSprints: [],
@@ -39,6 +40,13 @@ const taskSprintReducer = (state = initialState, action) => {
             }
         }
 
+        case UNSET_TASK_SPRINT_FOR_COLUMN: {
+            return {
+                ...state,
+                taskSprintsForColumn: []
+            }
+        }
+
         default:
             return state
     }
@@ -52,6 +60,7 @@ export const getTaskSprintsActionCreator = (taskSprints, sprintId) => ({
 })
 
 export const unsetTaskSprintsActionCreator = () => ({type: UNSET_TASK_SPRINT})
+export const unsetTaskSprintsForColumnActionCreator = () => ({type: UNSET_TASK_SPRINT_FOR_COLUMN})
 export const getTaskSprintForColumnActionCreator = (taskSprintsForColumn, columnId) => ({
     type: GET_TASK_SPRINT_FOR_COLUMN,
     taskSprintsForColumn,
@@ -70,6 +79,13 @@ export const unsetTaskSprints = () => {
 
     return async dispatch => {
         dispatch(unsetTaskSprintsActionCreator())
+    }
+}
+
+export const unsetTaskSprintsForColumn = () => {
+
+    return async dispatch => {
+        dispatch(unsetTaskSprintsForColumnActionCreator())
     }
 }
 

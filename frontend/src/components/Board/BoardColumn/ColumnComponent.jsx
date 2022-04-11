@@ -13,7 +13,6 @@ const ColumnComponent = ({
         <>
             <div className="column-container">
                 <div className="column-title">
-                    <button onClick={() => console.log(taskSprintsForColumn)}>Test</button>
                     <h4>{column.column_name}</h4>
                     <button ref={settingsRef} className={`column-component-settings ${isSettingsActive}`}
                             onClick={settingsColumnHandler}>...
@@ -26,12 +25,10 @@ const ColumnComponent = ({
 
                 <div className="column-task-container">
                     {!!taskSprintsForColumn ? taskSprintsForColumn.map(taskSprintForColumn => {
-                            if (taskSprintForColumn.id === column.id) {
-
-                                taskSprintForColumn.taskSprintForColumn.map(ts =>
-                                    <TaskBoardContainer key={ts.id}
-                                                        taskSprint={ts.task_scrum}/>)
-                            }
+                            return taskSprintForColumn.id === column.id
+                                ? (taskSprintForColumn.taskSprintForColumn.map(ts =>
+                                    <TaskBoardContainer key={ts.id} taskSprint={ts}/>))
+                                : false
                         })
                         : null}
                 </div>
@@ -41,3 +38,4 @@ const ColumnComponent = ({
 }
 
 export default ColumnComponent
+

@@ -9,8 +9,8 @@ import {
     unsetTaskSprints
 } from "../../../redux/scrum/taskSprint-reducer"
 import {AuthContext} from "../../../context/AuthContext"
-import {deleteSprint, startSprint} from "../../../redux/scrum/sprints-reducer";
-import {createBacklogElementFromSprint} from "../../../redux/scrum/backlog-reducer";
+import {deleteSprint, startSprint} from "../../../redux/scrum/sprints-reducer"
+import {createBacklogElementFromSprint} from "../../../redux/scrum/backlog-reducer"
 
 const SprintContainer = props => {
 
@@ -26,9 +26,11 @@ const SprintContainer = props => {
     const [isInputVisible, setIsInputVisible] = useState('input-visible')
     const [isSprintStartingMod, setIsSprintStartingMod] = useState(false)
     const [isSettingsSprint, setIsSettingsSprint] = useState(false)
+    const [isDeleteSprint, setIsDeleteSprint] = useState(false)
 
 
     const taskInputRef = useRef(null)
+    const sprintDelRef = useRef(null)
 
     const onSetIsCreateTask = () => {
         !!isCreateTask ? setIsCreateTask(false) : setIsCreateTask(true)
@@ -46,7 +48,7 @@ const SprintContainer = props => {
                 setIsCreateTask(false)
             }
         })
-        return window.addEventListener("mousedown", function (event) {
+        return window.removeEventListener("mousedown", function (event) {
             if (event.target !== taskInputRef.current) {
                 if (!taskInputRef) {
                     taskInputRef.current.value = null
@@ -56,6 +58,19 @@ const SprintContainer = props => {
             }
         })
     })
+
+    useEffect(() => {
+        window.addEventListener("click", function (event) {
+            if (event.target === sprintDelRef.current) {
+                setIsDeleteSprint(false)
+            }
+        })
+        return window.removeEventListener("click", function (event) {
+            if (event.target === sprintDelRef.current) {
+                setIsDeleteSprint(false)
+            }
+        })
+    }, [])
 
     const onKeyDown = (e) => {
         if (e.keyCode === 13) {
@@ -105,6 +120,14 @@ const SprintContainer = props => {
         // }
     }
 
+    const isSettingsSprintHandler = () => {
+        !!isSettingsSprint ? setIsSettingsSprint(false) : setIsSettingsSprint(true)
+    }
+
+    const deleteSprintHandler = () => {
+        props.deleteSprint(props.sprint.id, headers)
+    }
+
     return (
         <>
             <SprintComponent sprint={props.sprint} taskSprints={props.taskSprints} index={props.index}
@@ -114,6 +137,9 @@ const SprintContainer = props => {
                              onKeyUp={onKeyUp} setIsSprintStartingMod={setIsSprintStartingMod}
                              isSprintStartingMod={isSprintStartingMod} completeSprint={completeSprint}
                              isSettingsSprint={isSettingsSprint} setIsSettingsSprint={setIsSettingsSprint}
+                             isSettingsSprintHandler={isSettingsSprintHandler} isDeleteSprint={isDeleteSprint}
+                             setIsDeleteSprint={setIsDeleteSprint} sprintDelRef={sprintDelRef}
+                             deleteSprintHandler={deleteSprintHandler}
             />
         </>
     )

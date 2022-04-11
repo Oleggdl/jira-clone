@@ -20,7 +20,8 @@ const BoardComponent = ({isTaskInfo, columns, createColumnHandler, currentSprint
                     <Search/>
                 </div>
                 {currentSprint ? <div className="columns-container">
-                    {columns.map((column) => <ColumnContainer key={column.id} column={column}/>)}
+                    {columns.sort((a, b) => a.id - b.id).map((column) => <ColumnContainer key={column.id}
+                                                                                          column={column}/>)}
                     <button onClick={createColumnHandler} className="button-add-column">
                         <PlusSquareOutlined/>
                     </button>

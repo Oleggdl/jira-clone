@@ -80,7 +80,6 @@ const TaskInfoContainer = (props) => {
         }
     }, [textAreaDescriptionFocus, onReset])
 
-
     const currentTaskScrum = !!props.currentTask.scrum_task_id
         ? props.currentTask.scrum_task_id
         : props.currentTask.task_scrum

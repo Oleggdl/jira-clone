@@ -4,7 +4,7 @@ import {compose} from "redux"
 import {connect} from "react-redux"
 import {deleteColumnScrum} from "../../../redux/scrum/columns-reducer"
 import {AuthContext} from "../../../context/AuthContext"
-import {getTaskSprintForColumn} from "../../../redux/scrum/taskSprint-reducer";
+import {getTaskSprintForColumn, unsetTaskSprintsForColumn} from "../../../redux/scrum/taskSprint-reducer";
 
 const ColumnContainer = props => {
 
@@ -46,6 +46,10 @@ const ColumnContainer = props => {
 
     useEffect(() => {
         props.getTaskSprintForColumn(props.currentSprint.id, props.column.id, headers)
+
+        return () => {
+            props.unsetTaskSprintsForColumn()
+        }
     }, [])
 
     return (
@@ -61,10 +65,8 @@ const ColumnContainer = props => {
 const mapStateToProps = (state) => ({
     currentSprint: state.sprintsReducer.currentSprint,
     taskSprintsForColumn: state.taskSprintReducer.taskSprintsForColumn,
-
-
 })
 
 export default compose(
-    connect(mapStateToProps, {deleteColumnScrum, getTaskSprintForColumn})
+    connect(mapStateToProps, {deleteColumnScrum, getTaskSprintForColumn, unsetTaskSprintsForColumn})
 )(ColumnContainer)

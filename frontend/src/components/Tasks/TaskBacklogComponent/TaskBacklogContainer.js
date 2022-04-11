@@ -20,7 +20,6 @@ const TaskBacklogContainer = props => {
 
     const taskInfoHandler = (value) => {
         props.setCurrentTask(value)
-        // setIsTaskInfo(true)
     }
 
     const getCurrentTaskFromServer = (value) => {
