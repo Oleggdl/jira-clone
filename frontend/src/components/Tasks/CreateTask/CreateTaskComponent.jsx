@@ -8,9 +8,12 @@ const {Option} = Select
 const {Title} = Typography
 
 
-const CreateTaskComponent = ({form, handleSubmit, onReset, projects, sprints, currentUser}) => {
+const CreateTaskComponent = ({
+                                 form, handleSubmit, onReset, projects, currentUser, usersOnProject,
+                                 getExecutorsHandler
+                             }) => {
 
-    const executors = [{id: 1, name: 'executor_1'}, {id: 2, name: 'executor_2'}, {id: 3, name: 'executor_3'}]
+    const executor = !!parseInt(currentUser.id) ? null : currentUser.id
 
     return (
         <>
@@ -19,7 +22,9 @@ const CreateTaskComponent = ({form, handleSubmit, onReset, projects, sprints, cu
                 <Form name="create_task"
                       initialValues={
                           {
-                              create_date: `${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`
+                              create_date: `${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`,
+                              task_description: null,
+                              executor_id: executor
                           }}
                       form={form}
                       onFinish={values => handleSubmit(values)}
@@ -27,37 +32,34 @@ const CreateTaskComponent = ({form, handleSubmit, onReset, projects, sprints, cu
 
                     <Form.Item label="Project" name="project"
                                rules={[{required: true, message: 'Please select project!'}]}>
-                        <Select placeholder="Select project" className="project-select">
+                        <Select placeholder="Select project" className="project-select"
+                                onChange={(e) => getExecutorsHandler(e)}>
                             {projects.map(project =>
-                                <Option key={project.id}
-                                        value={JSON.stringify(project)}>{project.project_name}</Option>)}
+                                <Option key={project.scrum_project.id}
+                                        value={project.scrum_project.id}>{project.scrum_project.project_name}</Option>)}
                         </Select>
                     </Form.Item>
                     <Form.Item
                         label="Task name"
                         name="task_name"
-                        rules={[{required: true, message: 'Please input task name!'}]}>
+                        rules={[{required: true, message: 'Please input task name!'},
+                            {max: 50, message: `Task name cannot be longer than 50 characters`},
+                            {min: 3, message: 'Task name must be at least 3 characters'},
+                            {pattern: new RegExp(/[a-z]/gi), message: 'Task name must contain letters'}]}>
                         <Input placeholder="Enter task name"/>
                     </Form.Item>
                     <Form.Item
                         label="Task description"
                         name="task_description"
-                        rules={[{required: false}]}>
+                        rules={[{required: false},
+                            {max: 1000, message: `Task name cannot be longer than 1000 characters`}]}>
                         <TextArea row={4} placeholder="Enter task description"/>
                     </Form.Item>
                     <Form.Item label="Executor" name="executor_id"
                                rules={[{required: false}]}>
                         <Select placeholder="Select executor" className="project-select">
-                            {executors.map((executor, index) =>
-                                <Option key={index} value={executor.id}>{executor.name}</Option>)}
-                        </Select>
-                    </Form.Item>
-                    <Form.Item label="Sprint" name="sprint_id"
-                               rules={[{required: false}]}>
-                        <Select placeholder="Select sprint" className="project-select">
-                            {!!sprints ? sprints.map(sprint =>
-                                <Option key={sprint.id}
-                                        value={sprint.id}>{sprint.sprint_name}</Option>) : null}
+                            {usersOnProject.map((executor, index) =>
+                                <Option key={index} value={executor.users.id}>{executor.users.username}</Option>)}
                         </Select>
                     </Form.Item>
                     <Form.Item label="Author" name="creator_id"

@@ -26,12 +26,6 @@ const AuthContainer = (props) => {
 
     const [form] = useForm()
 
-    // const {token} = useContext(AuthContext)
-    //
-    // const headers = {
-    //     Authorization: `Bearer ${token}`
-    // }
-
     const onReset = () => {
         form.resetFields()
     }
@@ -46,9 +40,9 @@ const AuthContainer = (props) => {
                 name: '', email: '', username: values.username, password: values.password
             })
             auth.login(dataLogin.token, dataLogin.id)
-            props.getUser(data)
+            props.getUser(dataLogin)
             localStorage.setItem(userName, JSON.stringify({
-                userName: data
+                userName: dataLogin
             }))
         } catch (e) {
         }

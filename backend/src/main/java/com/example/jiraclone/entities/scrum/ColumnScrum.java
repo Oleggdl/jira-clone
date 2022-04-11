@@ -1,13 +1,18 @@
 package com.example.jiraclone.entities.scrum;
 
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.Set;
 
 
-@Data
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 @Entity
-@Table(name = "scrum_columns")
 public class ColumnScrum {
 
     @Id
@@ -16,11 +21,11 @@ public class ColumnScrum {
 
     private String column_name;
 
-    public ColumnScrum() {
-    }
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "sprint_column", referencedColumnName = "id")
+    private Sprint sprint_column;
 
-    public ColumnScrum(long id, String column_name) {
-        this.id = id;
-        this.column_name = column_name;
-    }
+    @JsonIgnore
+    @OneToMany(mappedBy = "sprint_column")
+    private Set<TaskSprint> taskSprints;
 }

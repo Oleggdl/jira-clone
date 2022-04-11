@@ -1,8 +1,8 @@
-import React, {useRef} from 'react'
+import React from 'react'
 import './Comments.scss'
 import TextArea from "antd/es/input/TextArea"
 import {Button, Form} from "antd"
-import CommentElementContainer from "./CommentElement/CommentElementContainer";
+import CommentElementContainer from "./CommentElement/CommentElementContainer"
 
 
 const CommentsComponent = ({
@@ -38,7 +38,8 @@ const CommentsComponent = ({
                         </Form.Item>}
                     </Form>
                 </div>
-                {commentsScrum.map(comment => <CommentElementContainer key={comment.id} comment={comment}/>).reverse()}
+                {(commentsScrum.sort((a, b) => b.id - a.id)).map(comment =>
+                    <CommentElementContainer key={comment.id} comment={comment}/>)}
             </div>
         </>
     )

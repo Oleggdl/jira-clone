@@ -1,34 +1,49 @@
-import React, {useContext, useEffect} from 'react'
+import React, {useContext} from 'react'
 import TaskBacklogComponent from "./TaskBacklogComponent"
 import {compose} from "redux"
 import {connect} from "react-redux"
 import {getSprints} from "../../../redux/scrum/sprints-reducer"
-import {AuthContext} from "../../../context/AuthContext"
+import {TaskContext} from "../../../context/TaskContext"
+import {getCurrentTaskFromServer, setCurrentTask} from "../../../redux/scrum/tasks-reducer"
+import {AuthContext} from "../../../context/AuthContext";
+// import {TaskSprintContext} from "../../../context/TaskSprintContext"
 
 const TaskBacklogContainer = props => {
 
-    const {token} = useContext(AuthContext)
+    const {setIsTaskInfo} = useContext(TaskContext)
+    // const {setCurrentBacklog, setCurrentTask} = useContext(TaskSprintContext)
 
+    const {token} = useContext(AuthContext)
     const headers = {
         Authorization: `Bearer ${token}`
     }
 
+    const taskInfoHandler = (value) => {
+        props.setCurrentTask(value)
+        // setIsTaskInfo(true)
+    }
 
-    useEffect(() => {
-        props.getSprints(headers)
-    }, [])
+    const getCurrentTaskFromServer = (value) => {
+        const id = !!value.scrum_task_id
+            ? value.scrum_task_id.id
+            : value.task_scrum.id
+        props.getCurrentTaskFromServer(id, headers)
+    }
 
     return (
         <>
-            <TaskBacklogComponent task={props.task} currentProject={props.currentProject}/>
+            <TaskBacklogComponent currentProject={props.currentProject.scrum_project}
+                                  taskInfoHandler={taskInfoHandler} index={props.index} task={props.task}
+                                  getCurrentTaskFromServer={getCurrentTaskFromServer}
+                                  setIsTaskInfo={setIsTaskInfo}/>
         </>
     )
 }
 
 const mapStateToProps = state => ({
-    currentProject: state.projectsReducer.currentProject
+    currentProject: state.projectsReducer.currentProject,
 })
 
 export default compose(
-    connect(mapStateToProps, {getSprints})
+    connect(mapStateToProps, {getSprints, setCurrentTask, getCurrentTaskFromServer})
 )(TaskBacklogContainer)

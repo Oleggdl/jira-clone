@@ -2,9 +2,11 @@ import {sprintsAPI} from "../../api/api"
 
 
 const GET_SPRINTS = 'GET_SPRINTS'
+const SET_CURRENT_SPRINT = 'SET_CURRENT_SPRINT'
 
 let initialState = {
-    sprints: []
+    sprints: [],
+    currentSprint: null
 }
 
 
@@ -18,6 +20,13 @@ const sprintsReducer = (state = initialState, action) => {
             }
         }
 
+        case SET_CURRENT_SPRINT: {
+            return {
+                ...state,
+                currentSprint: action.currentSprint
+            }
+        }
+
         default:
             return state
     }
@@ -25,19 +34,55 @@ const sprintsReducer = (state = initialState, action) => {
 
 
 export const getSprintsActionCreator = sprints => ({type: GET_SPRINTS, sprints})
+export const setCurrentSprintActionCreator = currentSprint => ({type: SET_CURRENT_SPRINT, currentSprint})
 
-export const getSprints = (authorization) => {
+export const getSprints = (projectId, authorization) => {
 
     return async dispatch => {
-        const response = await sprintsAPI.getSprints(authorization)
+        const response = await sprintsAPI.getSprints(projectId, authorization)
         dispatch(getSprintsActionCreator(response.data))
     }
 }
 
-export const createSprint = (data, authorization) => {
+export const createSprint = (data, projectId, authorization) => {
 
     return async dispatch => {
         const response = await sprintsAPI.createSprint(data, authorization)
+        const responsePut = await sprintsAPI.createSprintWithProject(response.data.id, projectId, authorization)
+        const responseGet = await sprintsAPI.getSprints(projectId, authorization)
+        dispatch(getSprintsActionCreator(responseGet.data))
+    }
+}
+
+export const startSprint = (data, id, projectId, authorization) => {
+
+    return async dispatch => {
+        const response = await sprintsAPI.startSprint(data, id, authorization)
+        const responseGet = await sprintsAPI.getSprints(projectId, authorization)
+        dispatch(getSprintsActionCreator(responseGet.data))
+    }
+}
+
+export const setCurrentSprint = (currentSprint) => {
+
+    return async dispatch => {
+        dispatch(setCurrentSprintActionCreator(currentSprint))
+    }
+}
+
+export const getStartedSprint = (projectId, authorization) => {
+
+    return async dispatch => {
+        const response = await sprintsAPI.getStartedSprint(projectId, authorization)
+        dispatch(setCurrentSprintActionCreator(response.data[0]))
+    }
+}
+
+export const deleteSprint = (id, authorization) => {
+
+    return async dispatch => {
+        const response = await sprintsAPI.deleteSprint(id, authorization)
+
     }
 }
 

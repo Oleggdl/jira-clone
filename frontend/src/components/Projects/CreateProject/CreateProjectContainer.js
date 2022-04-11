@@ -2,7 +2,7 @@ import React, {useContext} from 'react'
 import CreateProjectComponent from "./CreateProjectComponent"
 import {compose} from "redux"
 import {connect} from "react-redux"
-import {createProject} from "../../../redux/scrum/projects-reducer"
+import {createProject, getProjects} from "../../../redux/scrum/projects-reducer"
 import {useForm} from "antd/es/form/Form"
 import {AuthContext} from "../../../context/AuthContext"
 
@@ -21,7 +21,8 @@ const CreateProjectContainer = props => {
     }
 
     const handleSubmit = values => {
-        props.createProject(values, headers)
+        props.createProject(values, props.currentUser.id, 1, headers)
+        props.getProjects(props.currentUser.id, headers)
         onReset()
     }
 
@@ -33,9 +34,9 @@ const CreateProjectContainer = props => {
 }
 
 const mapStateToProps = (state) => ({
-    projects: state.projectsReducer.projects
+    currentUser: state.userReducer.currentUser
 })
 
 export default compose(
-    connect(mapStateToProps, {createProject})
+    connect(mapStateToProps, {createProject, getProjects})
 )(CreateProjectContainer)

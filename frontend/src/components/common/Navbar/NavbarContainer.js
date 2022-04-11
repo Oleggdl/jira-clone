@@ -4,8 +4,9 @@ import {useNavigate} from "react-router-dom"
 import {AuthContext} from "../../../context/AuthContext"
 import {compose} from "redux"
 import {connect} from "react-redux"
-import {getCurrentProject, getProjects} from "../../../redux/scrum/projects-reducer"
+import {getCurrentProject, getFavoriteProjects, getProjects} from "../../../redux/scrum/projects-reducer"
 import {getUser} from "../../../redux/scrum/users-reducer"
+import {getStartedSprint} from "../../../redux/scrum/sprints-reducer";
 
 const userName = 'userName'
 
@@ -26,13 +27,15 @@ const NavbarContainer = props => {
     const auth = useContext(AuthContext)
 
     const {token} = useContext(AuthContext)
-
     const headers = {
         Authorization: `Bearer ${token}`
     }
 
     useEffect(() => {
-        props.getProjects(headers)
+        const data = JSON.parse(localStorage.getItem(userName))
+        if (data && data.userName) {
+            props.getUser(data.userName)
+        }
     }, [])
 
     const logoutHandler = (event) => {
@@ -41,13 +44,20 @@ const NavbarContainer = props => {
         history('/')
     }
 
-    useEffect(() => {
-        const data = JSON.parse(localStorage.getItem(userName))
-
-        if (data && data.userName) {
-            props.getUser(data.userName)
+    const showProjectsMenu = () => {
+        if (!!isProjectsMenu) {
+            setIsProjectsMenu(false)
+        } else {
+            if (!!props.currentUser.id) {
+                props.getProjects(props.currentUser.id, headers)
+            }
+            setIsProjectsMenu(true)
         }
-    }, [])
+    }
+
+    const getFavoriteProjectHandler = () => {
+        props.getFavoriteProjects(props.currentUser.id, headers)
+    }
 
     useEffect(() => {
         window.addEventListener("click", function (event) {
@@ -85,14 +95,20 @@ const NavbarContainer = props => {
         props.getCurrentProject(project)
     }
 
+    const startedSprintHandler = () => {
+        props.getStartedSprint(props.currentProject.scrum_project.id, headers)
+    }
+
     return (
         <>
-            <NavbarComponent isProjectsMenu={isProjectsMenu} setIsProjectsMenu={setIsProjectsMenu}
-                             isStaffMenu={isStaffMenu} setIsStaffMenu={setIsStaffMenu} modalStaff={modalStaff}
-                             modalStaffTitle={modalStaffTitle} buttonStaff={buttonStaff} modalProjects={modalProjects}
-                             modalProjectsTitle={modalProjectsTitle} buttonProjects={buttonProjects}
-                             logoutHandler={logoutHandler} projects={props.projects} currentUser={props.currentUser}
-                             currentProjectHandler={currentProjectHandler}
+            <NavbarComponent isProjectsMenu={isProjectsMenu} isStaffMenu={isStaffMenu} setIsStaffMenu={setIsStaffMenu}
+                             modalStaff={modalStaff} modalStaffTitle={modalStaffTitle} buttonStaff={buttonStaff}
+                             modalProjects={modalProjects} modalProjectsTitle={modalProjectsTitle}
+                             buttonProjects={buttonProjects} logoutHandler={logoutHandler} projects={props.projects}
+                             currentUser={props.currentUser} currentProjectHandler={currentProjectHandler}
+                             showProjectsMenu={showProjectsMenu} favoriteProjects={props.favoriteProjects}
+                             getFavoriteProjectHandler={getFavoriteProjectHandler}
+                             startedSprintHandler={startedSprintHandler}
             />
         </>
     )
@@ -102,10 +118,11 @@ const NavbarContainer = props => {
 const mapStateToProps = (state) => ({
     projects: state.projectsReducer.projects,
     currentUser: state.userReducer.currentUser,
+    favoriteProjects: state.projectsReducer.favoriteProjects,
     currentProject: state.projectsReducer.currentProject
 })
 
 export default compose(
-    connect(mapStateToProps, {getProjects, getUser, getCurrentProject})
+    connect(mapStateToProps, {getProjects, getUser, getCurrentProject, getFavoriteProjects, getStartedSprint})
 )(NavbarContainer)
 

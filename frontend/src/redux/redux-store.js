@@ -7,6 +7,7 @@ import columnsReducer from "./scrum/columns-reducer"
 import commentsScrumReducer from "./scrum/commentsScrum-reducer"
 import userReducer from "./scrum/users-reducer"
 import backlogReducer from "./scrum/backlog-reducer"
+import taskSprintReducer from "./scrum/taskSprint-reducer"
 
 let reducers = combineReducers({
     projectsReducer: projectsReducer,
@@ -15,7 +16,8 @@ let reducers = combineReducers({
     columnsReducer: columnsReducer,
     commentsScrumReducer: commentsScrumReducer,
     userReducer: userReducer,
-    backlogReducer: backlogReducer
+    backlogReducer: backlogReducer,
+    taskSprintReducer: taskSprintReducer
 })
 
 const store = createStore(reducers, applyMiddleware(thunkMiddleware))

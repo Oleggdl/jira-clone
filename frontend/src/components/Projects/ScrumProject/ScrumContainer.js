@@ -1,17 +1,35 @@
-import React, {Component} from 'react'
+import React, {useContext, useEffect} from 'react'
 import ScrumComponent from "./ScrumComponent"
+import {compose} from "redux"
+import {connect} from "react-redux"
+import {AuthContext} from "../../../context/AuthContext"
+import {getBacklogForProject} from "../../../redux/scrum/backlog-reducer"
 
-class ScrumContainer extends Component {
+const ScrumContainer = props => {
 
+    const {token} = useContext(AuthContext)
 
-
-    render() {
-        return (
-            <>
-                <ScrumComponent/>
-            </>
-        )
+    const headers = {
+        Authorization: `Bearer ${token}`
     }
+
+    useEffect(() => {
+        props.getBacklogForProject(props.currentProject.scrum_project.id, headers)
+    }, [])
+
+    return (
+        <>
+            <ScrumComponent/>
+        </>
+    )
+
 }
 
-export default ScrumContainer
+const mapStateToProps = (state) => ({
+    currentProject: state.projectsReducer.currentProject
+})
+
+
+export default compose(
+    connect(mapStateToProps, {getBacklogForProject})
+)(ScrumContainer)

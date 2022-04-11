@@ -1,11 +1,19 @@
-import {tasksAPI} from "../../api/api"
+import {tasksAPI, taskSprintAPI} from "../../api/api"
 
 const GET_TASKS = 'GET_TASKS'
 const SET_CREATED_TASK_ID = 'SET_CREATED_TASK_ID'
+const SET_CURRENT_TASK = 'SET_CURRENT_TASK'
+const GET_USERS_ON_PROJECT = 'GET_USERS_ON_PROJECT'
+const SET_CURRENT_TASK_ID = 'SET_CURRENT_TASK_ID'
+const GET_CURRENT_TASK_FROM_SERVER = 'GET_CURRENT_TASK_FROM_SERVER'
 
 let initialState = {
     tasks: [],
-    createdTaskId: null
+    createdTaskId: null,
+    currentTask: {},
+    usersOnProject: [],
+    currentTaskId: null,
+    currentTaskFromServer: {}
 }
 
 const tasksReducer = (state = initialState, action) => {
@@ -25,28 +33,88 @@ const tasksReducer = (state = initialState, action) => {
             }
         }
 
+        case SET_CURRENT_TASK: {
+            return {
+                ...state,
+                currentTask: action.currentTask
+            }
+        }
+
+        case GET_USERS_ON_PROJECT: {
+            return {
+                ...state,
+                usersOnProject: action.usersOnProject
+            }
+        }
+
+        case SET_CURRENT_TASK_ID: {
+            return {
+                ...state,
+                currentTaskId: action.currentTaskId
+            }
+        }
+
+        case GET_CURRENT_TASK_FROM_SERVER: {
+            return {
+                ...state,
+                currentTaskFromServer: action.currentTaskFromServer
+            }
+        }
+
         default:
             return state
     }
 }
 
 
-export const getTasksActionCreator = tasks => ({type: GET_TASKS, tasks})
-export const setCreatedTaskIdActionCreator = createdTaskId => ({type: SET_CREATED_TASK_ID, createdTaskId})
+// export const getTasksActionCreator = tasks => ({type: GET_TASKS, tasks})
+// export const setCreatedTaskIdActionCreator = createdTaskId => ({type: SET_CREATED_TASK_ID, createdTaskId})
+export const setCurrentTaskActionCreator = currentTask => ({type: SET_CURRENT_TASK, currentTask})
+export const getUsersOnProjectActionCreator = usersOnProject => ({type: GET_USERS_ON_PROJECT, usersOnProject})
+export const setCurrentTaskIdActionCreator = currentTaskId => ({type: SET_CURRENT_TASK_ID, currentTaskId})
+export const getCurrentTaskFromServerActionCreator = currentTaskFromServer =>
+    ({type: GET_CURRENT_TASK_FROM_SERVER, currentTaskFromServer})
 
-export const getTasks = (authorization) => {
+export const getUsersOnProject = (projectId, authorization) => {
 
     return async dispatch => {
-        const response = await tasksAPI.getTasks(authorization)
-        dispatch(getTasksActionCreator(response.data))
+        const response = await tasksAPI.getUsersOnProject(projectId, authorization)
+        dispatch(getUsersOnProjectActionCreator(response.data))
     }
 }
 
-export const createTask = (data, authorization) => {
+export const updateTaskDescription = (taskId, data, authorization) => {
 
     return async dispatch => {
-        const response = await tasksAPI.createTask(data, authorization)
-        dispatch(setCreatedTaskIdActionCreator(response.data))
+        const response = await tasksAPI.updateTaskDescription(taskId, data, authorization)
+        dispatch(getUsersOnProjectActionCreator(response.data))
+        const responseGet = await tasksAPI.getTaskById(taskId, authorization)
+        dispatch(getCurrentTaskFromServerActionCreator(responseGet.data))
+    }
+}
+
+export const updateTaskName = (taskId, data, authorization) => {
+
+    return async dispatch => {
+        const response = await tasksAPI.updateTaskName(taskId, data, authorization)
+        dispatch(getUsersOnProjectActionCreator(response.data))
+        const responseGet = await tasksAPI.getTaskById(taskId, authorization)
+        dispatch(getCurrentTaskFromServerActionCreator(responseGet.data))
+    }
+}
+
+export const getCurrentTaskFromServer = (taskId, authorization) => {
+
+    return async dispatch => {
+        const response = await tasksAPI.getTaskById(taskId, authorization)
+        dispatch(getCurrentTaskFromServerActionCreator(response.data))
+    }
+}
+
+export const setCurrentTask = (task) => {
+
+    return async dispatch => {
+        dispatch(setCurrentTaskActionCreator(task))
     }
 }
 

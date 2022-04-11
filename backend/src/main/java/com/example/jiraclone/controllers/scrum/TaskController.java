@@ -1,9 +1,14 @@
 package com.example.jiraclone.controllers.scrum;
 
-import com.example.jiraclone.entities.scrum.BacklogElement;
+import com.example.jiraclone.entities.Users;
 import com.example.jiraclone.entities.scrum.TaskScrum;
+import com.example.jiraclone.entities.scrum.TaskSprint;
+import com.example.jiraclone.entities.scrum.UserScrumProject;
 import com.example.jiraclone.exceptions.ResourceNotFoundException;
+import com.example.jiraclone.repositories.UserRepository;
+import com.example.jiraclone.repositories.scrum.ColumnScrumRepository;
 import com.example.jiraclone.repositories.scrum.TaskScrumRepository;
+import com.example.jiraclone.repositories.scrum.UserScrumProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,14 +25,15 @@ public class TaskController {
     @Autowired
     TaskScrumRepository taskScrumRepository;
 
+    @Autowired
+    ColumnScrumRepository columnScrumRepository;
+
+    @Autowired
+    UserRepository userRepository;
+
     @GetMapping("/tasks")
     public List<TaskScrum> getAllTasks() {
         return taskScrumRepository.findAll();
-    }
-
-    @PostMapping("/tasks")
-    public TaskScrum createTask(@RequestBody TaskScrum taskScrum) {
-        return taskScrumRepository.save(taskScrum);
     }
 
     @GetMapping("/tasks/{id}")
@@ -37,6 +43,31 @@ public class TaskController {
                 .orElseThrow(() -> new ResourceNotFoundException("Task not exist with id:" + id));
 
         return ResponseEntity.ok(taskScrum);
+    }
+
+    @PostMapping("/tasks")
+    public TaskScrum createTask(@RequestBody TaskScrum taskScrum) {
+        return taskScrumRepository.save(taskScrum);
+    }
+
+    @PutMapping("/tasks/{taskId}/{creatorId}/{executorId}")
+    public ResponseEntity<TaskScrum> createTaskWithUsers(@PathVariable Long taskId,
+                                                         @PathVariable Long creatorId,
+                                                         @PathVariable Long executorId) {
+
+        TaskScrum taskScrum = taskScrumRepository.findById(taskId).get();
+
+        Users creator = userRepository.findById(creatorId).get();
+
+        Users executor = userRepository.findById(executorId).get();
+        taskScrum.setExecutor_id(executor);
+
+
+        taskScrum.setCreator_id(creator);
+
+        TaskScrum updatedTaskScrum = taskScrumRepository.save(taskScrum);
+        return ResponseEntity.ok(updatedTaskScrum);
+
     }
 
     @PutMapping("/tasks/{id}")
@@ -50,8 +81,34 @@ public class TaskController {
         taskScrum.setCreator_id(taskScrumDetails.getCreator_id());
         taskScrum.setTask_description(taskScrumDetails.getTask_description());
         taskScrum.setExecutor_id(taskScrumDetails.getExecutor_id());
-        taskScrum.setSprint_id(taskScrumDetails.getSprint_id());
-        taskScrum.setState_id(taskScrumDetails.getState_id());
+
+        TaskScrum updateTaskScrum = taskScrumRepository.save(taskScrum);
+
+        return ResponseEntity.ok(updateTaskScrum);
+    }
+
+    @PutMapping("/tasks/description/{id}")
+    public ResponseEntity<TaskScrum> updateTaskDescription(@PathVariable Long id,
+                                                           @RequestBody TaskScrum taskScrumDetails) {
+
+        TaskScrum taskScrum = taskScrumRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Task not exist with id:" + id));
+
+        taskScrum.setTask_description(taskScrumDetails.getTask_description());
+
+        TaskScrum updateTaskScrum = taskScrumRepository.save(taskScrum);
+
+        return ResponseEntity.ok(updateTaskScrum);
+    }
+
+    @PutMapping("/tasks/name/{id}")
+    public ResponseEntity<TaskScrum> updateTaskName(@PathVariable Long id,
+                                                    @RequestBody TaskScrum taskScrumDetails) {
+
+        TaskScrum taskScrum = taskScrumRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Task not exist with id:" + id));
+
+        taskScrum.setTask_name(taskScrumDetails.getTask_name());
 
         TaskScrum updateTaskScrum = taskScrumRepository.save(taskScrum);
 

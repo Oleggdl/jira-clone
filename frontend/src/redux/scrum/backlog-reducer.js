@@ -1,9 +1,11 @@
-import {backlogAPI} from "../../api/api"
+import {backlogAPI, tasksAPI, taskSprintAPI} from "../../api/api"
 
 const GET_BACKLOG_ELEMENTS = 'GET_BACKLOG_ELEMENTS'
+const GET_BACKLOG_FOR_PROJECT = 'GET_BACKLOG_FOR_PROJECT'
 
 let initialState = {
-    backlogElements: []
+    backlogElements: [],
+    backlogForProject: []
 }
 
 const backlogReducer = (state = initialState, action) => {
@@ -16,6 +18,13 @@ const backlogReducer = (state = initialState, action) => {
             }
         }
 
+        case GET_BACKLOG_FOR_PROJECT: {
+            return {
+                ...state,
+                backlogForProject: action.backlogForProject
+            }
+        }
+
         default:
             return state
     }
@@ -23,6 +32,10 @@ const backlogReducer = (state = initialState, action) => {
 
 
 export const getBacklogElementsActionCreator = backlogElements => ({type: GET_BACKLOG_ELEMENTS, backlogElements})
+export const getBacklogForProjectActionCreator = backlogForProject => ({
+    type: GET_BACKLOG_FOR_PROJECT,
+    backlogForProject
+})
 
 export const getBacklogElement = (authorization) => {
 
@@ -32,15 +45,60 @@ export const getBacklogElement = (authorization) => {
     }
 }
 
-export const createBacklogElement = (taskId, projectId, authorization) => {
+export const createBacklogElement = (data, projectId, creatorId, executorId, authorization) => {
 
     return async dispatch => {
+        const responseCreateTask = await tasksAPI.createTask(data, authorization)
+
+        const responseTaskPut =
+            await tasksAPI.putTask(responseCreateTask.data.id, creatorId, executorId, authorization)
+
         const responsePost = await backlogAPI.createBacklogElement({}, authorization)
-        const responsePut =
-            await backlogAPI.uniteBacklogProjectTask(responsePost.data.id, taskId, projectId, authorization)
+
+        const responsePut = await backlogAPI.uniteBacklogProjectTask(responsePost.data.id,
+            responseCreateTask.data.id, projectId, authorization)
+
+        const response = await backlogAPI.getBacklogForProject(projectId, authorization)
+        dispatch(getBacklogForProjectActionCreator(response.data))
     }
 }
 
+export const createBacklogElementFromSprint = (taskSprintId, taskId, projectId, authorization) => {
+
+    return async dispatch => {
+        const responseDel = await taskSprintAPI.deleteTaskSprints(taskSprintId, authorization)
+        const responsePost = await backlogAPI.createBacklogElement({}, authorization)
+        const responsePut =
+            await backlogAPI.uniteBacklogProjectTask(responsePost.data.id, taskId, projectId, authorization)
+        const response = await backlogAPI.getBacklogElements(authorization)
+        dispatch(getBacklogElementsActionCreator(response.data))
+    }
+}
+
+export const getBacklogForProject = (projectId, authorization) => {
+
+    return async dispatch => {
+        const response = await backlogAPI.getBacklogForProject(projectId, authorization)
+        dispatch(getBacklogForProjectActionCreator(response.data))
+    }
+}
+
+export const deleteTask = (taskId, authorization) => {
+
+    return async dispatch => {
+        const responseDel = await tasksAPI.deleteTask(taskId, authorization)
+        const response = await backlogAPI.getBacklogElements(authorization)
+        dispatch(getBacklogElementsActionCreator(response.data))
+    }
+}
+
+export const searchTasks = (query, projectId, authorization) => {
+
+    return async dispatch => {
+        const response = await backlogAPI.searchTask(query, projectId, authorization)
+        dispatch(getBacklogForProjectActionCreator(response.data))
+    }
+}
 
 
 export default backlogReducer

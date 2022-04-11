@@ -1,6 +1,6 @@
 package com.example.jiraclone.services;
 
-import com.example.jiraclone.entities.User;
+import com.example.jiraclone.entities.Users;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,13 +25,13 @@ public class UserDetailsImpl implements UserDetails {
         this.password = password;
     }
 
-    public static UserDetailsImpl build(User user) {
+    public static UserDetailsImpl build(Users users) {
 
         return new UserDetailsImpl(
-                user.getId(),
-                user.getUsername(),
-                user.getEmail(),
-                user.getPassword());
+                users.getId(),
+                users.getUsername(),
+                users.getEmail(),
+                users.getPassword());
     }
 
     @Override

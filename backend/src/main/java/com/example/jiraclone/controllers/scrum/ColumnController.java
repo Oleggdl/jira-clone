@@ -2,12 +2,15 @@ package com.example.jiraclone.controllers.scrum;
 
 
 import com.example.jiraclone.entities.scrum.ColumnScrum;
+import com.example.jiraclone.entities.scrum.Sprint;
 import com.example.jiraclone.exceptions.ResourceNotFoundException;
 import com.example.jiraclone.repositories.scrum.ColumnScrumRepository;
+import com.example.jiraclone.repositories.scrum.SprintRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,9 +24,29 @@ public class ColumnController {
     @Autowired
     ColumnScrumRepository columnScrumRepository;
 
+    @Autowired
+    SprintRepository sprintRepository;
+
     @GetMapping("/columns")
     public List<ColumnScrum> getAllColumns() {
         return columnScrumRepository.findAll();
+    }
+
+    @GetMapping("/columns/{sprintId}")
+    public List<ColumnScrum> getAllColumnsForSprint(@PathVariable Long sprintId) {
+
+        Sprint sprint = sprintRepository.findById(sprintId).get();
+        List<ColumnScrum> columnScrums = columnScrumRepository.findAll();
+
+        ArrayList<ColumnScrum> columnScrumsArray = new ArrayList<>();
+
+        for (int i = 0; i <= columnScrums.size() - 1; i++) {
+
+            if (columnScrums.get(i).getSprint_column() == sprint) {
+                columnScrumsArray.add(columnScrums.get(i));
+            }
+        }
+        return columnScrumsArray;
     }
 
     @PostMapping("/columns")
@@ -31,29 +54,21 @@ public class ColumnController {
         return columnScrumRepository.save(columnScrum);
     }
 
-    @GetMapping("/columns/{id}")
-    public ResponseEntity<ColumnScrum> getColumnById(@PathVariable Long id) {
+    @PutMapping("/columns/{columnId}/{sprintId}")
+    public ResponseEntity<ColumnScrum> createColumnForSprint(@PathVariable Long columnId,
+                                                             @PathVariable Long sprintId) {
 
-        ColumnScrum columnScrum = columnScrumRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Column not exist with id:" + id));
+        ColumnScrum columnScrum = columnScrumRepository.findById(columnId).get();
+        Sprint sprint = sprintRepository.findById(sprintId).get();
 
-        return ResponseEntity.ok(columnScrum);
+        columnScrum.setSprint_column(sprint);
+
+        ColumnScrum updatedColumnScrum = columnScrumRepository.save(columnScrum);
+
+        return ResponseEntity.ok(updatedColumnScrum);
     }
 
-    @PutMapping("/columns/{id}")
-    public ResponseEntity<ColumnScrum> updateColumn(@PathVariable Long id,
-                                                    @RequestBody ColumnScrum columnScrumDetails) {
-
-        ColumnScrum columnScrum = columnScrumRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Column not exist with id:" + id));
-
-        columnScrum.setColumn_name(columnScrumDetails.getColumn_name());
-        ColumnScrum updateColumnScrum = columnScrumRepository.save(columnScrum);
-
-        return ResponseEntity.ok(updateColumnScrum);
-    }
-
-    @DeleteMapping("/columns/{id}")
+    @DeleteMapping("/columns/{id}")//todo
     public ResponseEntity<Map<String, Boolean>> deleteColumn(@PathVariable Long id) {
         ColumnScrum columnScrum = columnScrumRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Column not exist with id:" + id));

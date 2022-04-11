@@ -1,26 +1,82 @@
 import React from 'react'
 import './TaskInfo.scss'
 import TextArea from "antd/es/input/TextArea"
-import {Button, Form} from "antd"
+import {Button, Form, Input} from "antd"
 import {CloseOutlined} from "@ant-design/icons"
 import CommentsContainer from "../Comments/CommentsContainer"
 import HistoryContainer from "../History/HistoryContainer"
 
-const TaskInfoComponent = ({isCommentsHandler, isHistoryHandler, onReset, handleSubmit, form,
+const TaskInfoComponent = ({
+                               isCommentsHandler, isHistoryHandler, onReset, handleSubmit, form,
                                taskInfoCloseHandler, taskInfoWrapper, isTextAreaFocus, textAreaDescriptionFocus,
-                               isComments, isCommentsActive, isHistoryActive}) => {
+                               isComments, isCommentsActive, isHistoryActive, currentTask, currentTaskScrum,
+                               currentTaskFromServer, getCurrentTaskFromServer, isTaskNameEditable,
+                               setIsTaskNameEditable, changeTaskNameHandler, formTaskName, getBacklogForProjectHandler,
+                               setIsDeleteTask, isDeleteTask, taskDelRef, confirmDeleteTask
+                           }) => {
 
     return (
         <>
             <div className="task-info-wrapper" ref={taskInfoWrapper}>
                 <div className="task-info-container">
                     <div className="task-info-left">
-                        <button className="close-button" onClick={taskInfoCloseHandler}><CloseOutlined /></button>
-                        <h2>Task name</h2>
+                        <button className="close-button" onClick={taskInfoCloseHandler}><CloseOutlined/></button>
+                        <div style={{display: "flex"}}>
+                            {!isTaskNameEditable
+                                ? <h2 onDoubleClick={() => setIsTaskNameEditable(true)}>
+                                    {currentTaskFromServer?.task_name}</h2>
+                                : <Form form={formTaskName} onFinish={values => {
+                                    changeTaskNameHandler(values)
+                                    setIsTaskNameEditable(false)
+                                }}
+                                        initialValues={{task_name: currentTaskFromServer?.task_name}}
+                                        autoComplete="off">
+                                    <Form.Item
+                                        name="task_name"
+                                        style={{marginRight: "15px"}}
+                                        rules={[{required: true, message: 'Please input task name!'},
+                                            {max: 50, message: `Task name cannot be longer than 50 characters`},
+                                            {min: 3, message: 'Task name must be at least 3 characters'},
+                                            {
+                                                pattern: new RegExp(/[a-z]/gi),
+                                                message: 'Task name must contain letters'
+                                            }]}>
+                                        <Input placeholder="Enter task name" style={{fontSize: "2.6rem"}}/>
+                                    </Form.Item>
+                                    <Form.Item>
+                                        <Button className="submit-button" type="primary" htmlType="submit"
+                                                style={{width: "100px"}} onMouseUp={getBacklogForProjectHandler}>
+                                            Submit
+                                        </Button>
+                                        <Button style={{marginLeft: "15px", width: "100px"}}
+                                                onClick={() => setIsTaskNameEditable(false)}>Cancel</Button>
+                                    </Form.Item>
+                                </Form>}
+                            <button className="delete-task-button" onClick={() => setIsDeleteTask(true)}>
+                                Delete task
+                            </button>
+                            {isDeleteTask && <>
+                                <div className="delete-task-container">
+                                    <h3>Remove <span>{currentTaskFromServer?.task_name}</span>?</h3>
+                                    <p>You are about to permanently delete this task, as well as the comments,
+                                        data, and attachments associated with it.</p>
+                                    <p>Instead, you can choose to resolve it or close it.</p>
+                                    <Button danger={true} onClick={() => confirmDeleteTask()}
+                                            className="confirm-delete-task">
+                                        Delete
+                                    </Button>
+                                    <Button onClick={() => setIsDeleteTask(false)}>
+                                        Cancel
+                                    </Button>
+                                </div>
+                                <div className="delete-task-wrapper" ref={taskDelRef}></div>
+                            </>}
+                        </div>
                         <p className="task-info-left-description">Description</p>
                         <Form initialValues={
                             {
-                                description: 'Description'
+                                description: `${currentTaskFromServer?.task_description === null
+                                    ? '' : currentTaskFromServer?.task_description}`
                             }}
                               form={form}
                               onFinish={values => handleSubmit(values)}
@@ -30,7 +86,9 @@ const TaskInfoComponent = ({isCommentsHandler, isHistoryHandler, onReset, handle
                             </Form.Item>
                             {isTextAreaFocus && <Form.Item>
                                 <Button type="primary" htmlType="submit" style={{width: "100px"}}
-                                        className="primary-button-submit">
+                                        className="primary-button-submit"
+                                        onMouseUp={() => getCurrentTaskFromServer(currentTask)}
+                                >
                                     Submit
                                 </Button>
                                 <Button style={{marginLeft: "15px", width: "100px"}} onClick={onReset}>Cancel</Button>
@@ -42,33 +100,33 @@ const TaskInfoComponent = ({isCommentsHandler, isHistoryHandler, onReset, handle
                             <button className={isHistoryActive} onClick={isHistoryHandler}>History</button>
                         </div>
                         <div>
-                            {isComments ? <CommentsContainer/> : <HistoryContainer/>}
+                            {isComments ? <CommentsContainer currentTask={currentTask}/> : <HistoryContainer/>}
                         </div>
                     </div>
                     <div className="task-info-right">
                         <h3>Information</h3>
-                        <h4>Supervisor</h4>
+                        <h4>Author</h4>
                         <div className="supervisor-container">
-                            <div className="supervisor-logo"> </div>
-                            <span>No appointment</span>
+                            <div className="supervisor-logo"></div>
+                            <span>{currentTaskScrum?.creator_id?.username}</span>
                         </div>
                         <h4>Marks</h4>
                         <div>
                             Marks
                         </div>
                         <h4>Sprint</h4>
-                        <p>Sprint name</p>
-                        <h4>Author</h4>
+                        <p>{currentTaskScrum?.sprint?.name ? currentTaskScrum?.sprint?.name : 'None'}</p>
+                        <h4>Executor</h4>
                         <div className="supervisor-container">
-                            <div className="supervisor-logo"> </div>
-                            <span>OIE zhA</span>
+                            <div className="supervisor-logo"></div>
+                            <span>{currentTaskScrum?.executor_id?.username
+                                ? currentTaskScrum?.executor_id?.username : 'NO APPOINTMENT'}</span>
                         </div>
                         <h4>Create date</h4>
-                        <p>Date creation</p>
+                        <p>{currentTaskScrum?.create_date}</p>
                     </div>
                 </div>
             </div>
-
         </>
     )
 }

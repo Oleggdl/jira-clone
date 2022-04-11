@@ -19,7 +19,6 @@ const userReducer = (state = initialState, action) => {
     }
 }
 
-
 export const getCurrentUserActionCreator = currentUser => ({type: GET_USER, currentUser})
 
 export const getUser = (user) => {
@@ -28,6 +27,5 @@ export const getUser = (user) => {
         dispatch(getCurrentUserActionCreator(user))
     }
 }
-
 
 export default userReducer

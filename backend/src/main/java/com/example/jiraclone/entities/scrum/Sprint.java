@@ -1,12 +1,17 @@
 package com.example.jiraclone.entities.scrum;
 
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.Set;
 
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 @Entity
-@Data
-@Table(name = "sprints")
 public class Sprint {
 
     @Id
@@ -16,16 +21,17 @@ public class Sprint {
     private String sprint_name;
     private String start_date;
     private String end_date;
-    private String scrum_project_id;
+    private Boolean is_started;
 
-    public Sprint() {
-    }
+    @ManyToOne
+    @JoinColumn(name = "scrum_project_sprint", referencedColumnName = "id")
+    private ProjectScrum scrum_project_sprint;
 
-    public Sprint(long id, String sprint_name, String start_date, String end_date, String scrum_project_id) {
-        this.id = id;
-        this.sprint_name = sprint_name;
-        this.start_date = start_date;
-        this.end_date = end_date;
-        this.scrum_project_id = scrum_project_id;
-    }
+    @JsonIgnore
+    @OneToMany(mappedBy = "sprint_column", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<ColumnScrum> columnScrums;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "sprint_task_sprint", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<TaskSprint> taskSprintsAndSprints;
 }

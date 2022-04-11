@@ -47,9 +47,8 @@ public class ProjectController {
 
         projectScrum.setProject_name(projectScrumDetails.getProject_name());
         projectScrum.setProject_key(projectScrumDetails.getProject_key());
-        projectScrum.setProject_type(projectScrumDetails.getProject_type());
-//        project.setSupervisor(projectDetails.getSupervisor());//todo
         projectScrum.setProject_description(projectScrumDetails.getProject_description());
+        projectScrum.setIs_favorite(projectScrumDetails.getIs_favorite());
 
         ProjectScrum updateProjectScrum = projectScrumRepository.save(projectScrum);
 
@@ -61,7 +60,7 @@ public class ProjectController {
         ProjectScrum projectScrum = projectScrumRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Project not exist with id:" + id));
 
-        projectScrumRepository.delete((projectScrum));
+        projectScrumRepository.delete(projectScrum);
         Map<String, Boolean> response = new HashMap<>();
         response.put("deleted", Boolean.TRUE);
         return ResponseEntity.ok(response);

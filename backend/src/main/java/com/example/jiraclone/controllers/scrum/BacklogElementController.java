@@ -1,8 +1,10 @@
 package com.example.jiraclone.controllers.scrum;
 
+import com.example.jiraclone.entities.Users;
 import com.example.jiraclone.entities.scrum.BacklogElement;
 import com.example.jiraclone.entities.scrum.ProjectScrum;
 import com.example.jiraclone.entities.scrum.TaskScrum;
+import com.example.jiraclone.entities.scrum.UserScrumProject;
 import com.example.jiraclone.exceptions.ResourceNotFoundException;
 import com.example.jiraclone.repositories.scrum.BacklogRepository;
 import com.example.jiraclone.repositories.scrum.ProjectScrumRepository;
@@ -11,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +36,44 @@ public class BacklogElementController {
     @GetMapping("/backlog")
     public List<BacklogElement> getAllBacklogElement() {
         return backlogRepository.findAll();
+    }
+
+    @GetMapping("/backlog/tasks/{projectId}")
+    public List<BacklogElement> getBacklogElements(@PathVariable Long projectId) {
+
+        ProjectScrum projectScrum = projectScrumRepository.findById(projectId).get();
+        List<BacklogElement> backlogElements = backlogRepository.findAll();
+
+        ArrayList<BacklogElement> backlogProjectElements = new ArrayList<>();
+
+        for (int i = 0; i <= backlogElements.size() - 1; i++) {
+
+            if (backlogElements.get(i).getScrum_project_id() == projectScrum) {
+                backlogProjectElements.add(backlogElements.get(i));
+            }
+        }
+        return backlogProjectElements;
+    }
+
+    @GetMapping("/backlog/search/{projectId}")
+    public List<BacklogElement> searchTasksInBacklog(HttpServletRequest request, @PathVariable Long projectId) {
+
+        String taskName = request.getParameter("taskName");
+
+        List<BacklogElement> backlogElements = backlogRepository.findAll();
+        ProjectScrum projectScrum = projectScrumRepository.findById(projectId).get();
+
+        ArrayList<BacklogElement> backlogElementsArray = new ArrayList<>();
+
+        for (int i = 0; i <= backlogElements.size() - 1; i++) {
+
+            if (backlogElements.get(i).getScrum_task_id().getTask_name().toUpperCase().contains(taskName
+                    .toUpperCase()) && backlogElements.get(i).getScrum_project_id() == projectScrum) {
+                backlogElementsArray.add(backlogElements.get(i));
+
+            }
+        }
+        return backlogElementsArray;
     }
 
     @PostMapping("/backlog")
@@ -62,33 +104,6 @@ public class BacklogElementController {
         BacklogElement updateBacklogElement = backlogRepository.save(backlogElement);
         return ResponseEntity.ok(updateBacklogElement);
     }
-
-//    @PutMapping("/backlog/{BacklogId}/{taskId}")
-//    public ResponseEntity<BacklogElement> uniteBacklogAndProjects(@PathVariable Long taskId,
-//                                                              @PathVariable Long BacklogId) {
-//
-//        BacklogElement backlogElement = backlogRepository.findById(BacklogId).get();
-//        TaskScrum taskScrum = taskScrumRepository.findById(taskId).get();
-//        backlogElement.setScrum_task_id(taskScrum);
-//
-//        BacklogElement updateBacklogElement = backlogRepository.save(backlogElement);
-//        return ResponseEntity.ok(updateBacklogElement);
-//    }
-
-//    @PutMapping("/backlog/{id}")
-//    public ResponseEntity<BacklogElement> updateBacklogElement(@PathVariable Long id,
-//                                                               @RequestBody BacklogElement backlogElementDetails) {
-//
-//        BacklogElement backlogElement = backlogRepository.findById(id)
-//                .orElseThrow(() -> new ResourceNotFoundException("BacklogElement not exist with id:" + id));
-//
-//        backlogElement.setScrum_project_id(backlogElementDetails.getScrum_project_id());
-//        backlogElement.setScrum_task_id(backlogElementDetails.getScrum_task_id());
-//
-//        BacklogElement updateBacklogElement = backlogRepository.save(backlogElement);
-//
-//        return ResponseEntity.ok(updateBacklogElement);
-//    }
 
     @DeleteMapping("/backlog/{id}")
     public ResponseEntity<Map<String, Boolean>> deleteBacklogElement(@PathVariable Long id) {

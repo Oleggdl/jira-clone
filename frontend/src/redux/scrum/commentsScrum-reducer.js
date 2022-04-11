@@ -17,12 +17,6 @@ const commentsScrumReducer = (state = initialState, action) => {
                 commentsScrum: action.commentsScrum
             }
         }
-        // case SET_COMMENT: {
-        //     return {
-        //         ...state,
-        //         commentsScrum: [...state.commentsScrum, action.newComment]
-        //     }
-        // }
 
         default:
             return state
@@ -32,31 +26,45 @@ const commentsScrumReducer = (state = initialState, action) => {
 
 export const getCommentsScrumActionCreator = commentsScrum => ({type: GET_COMMENTS_SCRUM, commentsScrum})
 
-export const getCommentsScrum = (authorization) => {
+export const getCommentsScrum = (taskId, authorization) => {
 
     return async dispatch => {
-        const response = await commentsScrumAPI.getCommentsScrum(authorization)
+        const response = await commentsScrumAPI.getCommentsScrum(taskId, authorization)
         dispatch(getCommentsScrumActionCreator(response.data))
     }
 }
 
-export const createCommentScrum = (data, authorization) => {
+export const createCommentScrum = (userId, taskId, data, authorization) => {
 
     return async dispatch => {
         const response = await commentsScrumAPI.createCommentScrum(data, authorization)
-        const responseGetComments = await commentsScrumAPI.getCommentsScrum(authorization)
+        const responsePut =
+            await commentsScrumAPI.createCommentScrumForTask(response.data.id, userId, taskId, authorization)
+        const responseGetComments = await commentsScrumAPI.getCommentsScrum(taskId, authorization)
         dispatch(getCommentsScrumActionCreator(responseGetComments.data))
     }
 }
 
-export const deleteCommentScrum = (id, authorization) => {
+export const deleteCommentScrum = (id, taskId, authorization) => {
 
     return async dispatch => {
         const response = await commentsScrumAPI.deleteCommentsScrum(id, authorization)
-        const responseGetComments = await commentsScrumAPI.getCommentsScrum(authorization)
+        const responseGetComments = await commentsScrumAPI.getCommentsScrum(taskId, authorization)
         dispatch(getCommentsScrumActionCreator(responseGetComments.data))
 
     }
 }
+
+export const updateCommentScrum = (id, data, taskId, authorization) => {
+
+    return async dispatch => {
+        const response = await commentsScrumAPI.updateCommentScrum(id, data, authorization)
+        const responseGetComments = await commentsScrumAPI.getCommentsScrum(taskId, authorization)
+        dispatch(getCommentsScrumActionCreator(responseGetComments.data))
+
+    }
+}
+
+
 
 export default commentsScrumReducer
