@@ -42,4 +42,8 @@ public class TaskScrum {
     @JsonIgnore
     @OneToMany(mappedBy = "task_scrum", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<TaskSprint> taskSprints;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "task_scrum_marks", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<MarksScrum> marksScrums;
 }

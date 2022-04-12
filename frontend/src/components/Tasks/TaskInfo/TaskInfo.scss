@@ -151,7 +151,6 @@
 
 .delete-task-container {
   position: absolute;
-  height: 280px;
   width: 400px;
   top: calc(50% - 320px);
   left: calc(50% - 200px);
@@ -187,4 +186,9 @@
   span {
     color: #ff4d4f;
   }
+}
+
+.add-mark-button {
+  width: 100%;
+  @include button;
 }

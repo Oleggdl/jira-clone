@@ -114,6 +114,7 @@ const TaskInfoComponent = ({
                         <div>
                             Marks
                         </div>
+                        <button className="add-mark-button">Add mark</button>
                         <h4>Sprint</h4>
                         <p>{currentTaskScrum?.sprint?.name ? currentTaskScrum?.sprint?.name : 'None'}</p>
                         <h4>Executor</h4>
