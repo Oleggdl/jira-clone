@@ -8,6 +8,7 @@ import {getSprints} from "../../../redux/scrum/sprints-reducer"
 import {AuthContext} from "../../../context/AuthContext"
 import {getCurrentTaskFromServer, updateTaskDescription, updateTaskName} from "../../../redux/scrum/tasks-reducer"
 import {deleteTask, getBacklogForProject} from "../../../redux/scrum/backlog-reducer"
+import {getMarksScrum} from "../../../redux/scrum/marksScrum-reducer";
 
 const TaskInfoContainer = (props) => {
 
@@ -75,6 +76,7 @@ const TaskInfoContainer = (props) => {
     }
 
     useEffect(() => {
+        props.getMarksScrum(currentTaskScrum.id, headers)
         textAreaDescriptionFocus.current.resizableTextArea.textArea.onfocus = function () {
             setIsTextAreaFocus(true)
         }
@@ -126,7 +128,7 @@ const TaskInfoContainer = (props) => {
                                form={form} taskInfoWrapper={taskInfoWrapper} isTextAreaFocus={isTextAreaFocus}
                                textAreaDescriptionFocus={textAreaDescriptionFocus} isComments={isComments}
                                isCommentsActive={isCommentsActive} isHistoryActive={isHistoryActive}
-                               currentTaskScrum={currentTaskScrum} currentTaskFromServer={props.currentTaskFromServer}
+                               currentTaskFromServer={props.currentTaskFromServer}
                                getCurrentTaskFromServer={getCurrentTaskFromServer} currentTask={props.currentTask}
                                isTaskNameEditable={isTaskNameEditable} setIsTaskNameEditable={setIsTaskNameEditable}
                                changeTaskNameHandler={changeTaskNameHandler} formTaskName={formTaskName}
@@ -148,7 +150,7 @@ const mapStateToProps = state => ({
 export default compose(
     connect(mapStateToProps, {
         getSprints, updateTaskDescription, updateTaskName, getCurrentTaskFromServer,
-        getBacklogForProject, deleteTask
+        getBacklogForProject, deleteTask, getMarksScrum
     })
 )(TaskInfoContainer)
 

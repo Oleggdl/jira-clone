@@ -62,7 +62,7 @@ public class MarksScrumController {
         return ResponseEntity.ok(marksScrum);
     }
 
-    @PutMapping("/marksScrum/user/{markId}/{taskId}")
+    @PutMapping("/marksScrum/tasks/{markId}/{taskId}")
     public ResponseEntity<MarksScrum> putComment(@PathVariable Long markId,
                                                  @PathVariable Long taskId) {
 

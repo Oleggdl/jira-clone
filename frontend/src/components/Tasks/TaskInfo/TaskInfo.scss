@@ -95,41 +95,6 @@
       }
     }
   }
-
-  .task-info-right {
-    width: 30%;
-    padding: 20px;
-    border: 1px #bebebe solid;
-    border-radius: 5px;
-
-    h3 {
-      font-size: 2.1rem;
-    }
-
-    .supervisor-logo {
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background-color: $main-color;
-      margin-right: 5px;
-    }
-
-    .supervisor-container {
-      display: flex;
-
-      span {
-        font-size: 1.4rem;
-        font-weight: bold;
-        text-transform: uppercase;
-        line-height: 1.5;
-      }
-    }
-
-    h4 {
-      margin-top: 20px;
-      font-size: 1.6rem;
-    }
-  }
 }
 
 .delete-task-button {
@@ -186,9 +151,4 @@
   span {
     color: #ff4d4f;
   }
-}
-
-.add-mark-button {
-  width: 100%;
-  @include button;
 }

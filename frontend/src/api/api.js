@@ -171,3 +171,19 @@ export const backlogAPI = {
         return instance.get(`scrum/backlog/search/${projectId}?taskName=${query}`, {headers: headers})
     }
 }
+
+export const marksAPI = {
+    createMark(data, headers) {
+        return instance.post(`scrum/marksScrum`, data, {headers: headers})
+    },
+    uniteMarkTask(markId, taskId, headers) {
+        return instance.put(`scrum/marksScrum/tasks/${markId}/${taskId}`, null, {headers: headers})
+    },
+    getMarkScrumForTask(taskId, headers) {
+        return instance.get(`scrum/marksScrum/task/${taskId}`, {headers: headers})
+    },
+    deleteMarkScrum(id, headers) {
+        return instance.delete(`scrum/marksScrum/${id}`, {headers: headers})
+    },
+
+}

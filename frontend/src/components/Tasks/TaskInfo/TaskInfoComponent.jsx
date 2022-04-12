@@ -5,11 +5,12 @@ import {Button, Form, Input} from "antd"
 import {CloseOutlined} from "@ant-design/icons"
 import CommentsContainer from "../Comments/CommentsContainer"
 import HistoryContainer from "../History/HistoryContainer"
+import TaskInformationContainer from "./TaskInformation/TaskInformationContainer";
 
 const TaskInfoComponent = ({
                                isCommentsHandler, isHistoryHandler, onReset, handleSubmit, form,
                                taskInfoCloseHandler, taskInfoWrapper, isTextAreaFocus, textAreaDescriptionFocus,
-                               isComments, isCommentsActive, isHistoryActive, currentTask, currentTaskScrum,
+                               isComments, isCommentsActive, isHistoryActive, currentTask,
                                currentTaskFromServer, getCurrentTaskFromServer, isTaskNameEditable,
                                setIsTaskNameEditable, changeTaskNameHandler, formTaskName, getBacklogForProjectHandler,
                                setIsDeleteTask, isDeleteTask, taskDelRef, confirmDeleteTask
@@ -103,29 +104,7 @@ const TaskInfoComponent = ({
                             {isComments ? <CommentsContainer currentTask={currentTask}/> : <HistoryContainer/>}
                         </div>
                     </div>
-                    <div className="task-info-right">
-                        <h3>Information</h3>
-                        <h4>Author</h4>
-                        <div className="supervisor-container">
-                            <div className="supervisor-logo"></div>
-                            <span>{currentTaskScrum?.creator_id?.username}</span>
-                        </div>
-                        <h4>Marks</h4>
-                        <div>
-                            Marks
-                        </div>
-                        <button className="add-mark-button">Add mark</button>
-                        <h4>Sprint</h4>
-                        <p>{currentTaskScrum?.sprint?.name ? currentTaskScrum?.sprint?.name : 'None'}</p>
-                        <h4>Executor</h4>
-                        <div className="supervisor-container">
-                            <div className="supervisor-logo"></div>
-                            <span>{currentTaskScrum?.executor_id?.username
-                                ? currentTaskScrum?.executor_id?.username : 'NO APPOINTMENT'}</span>
-                        </div>
-                        <h4>Create date</h4>
-                        <p>{currentTaskScrum?.create_date}</p>
-                    </div>
+                    <TaskInformationContainer/>
                 </div>
             </div>
         </>
