@@ -5,7 +5,7 @@ import {Droppable} from "react-beautiful-dnd"
 
 const BacklogElementComponent = ({
                                      backlogForProject, createSprintHandler, isInputVisible, taskInputRef,
-                                     onKeyDown, onSetIsCreateTask, isCreateTask
+                                     onKeyDown, onSetIsCreateTask, isCreateTask, testBtn
                                  }) => {
 
     return (

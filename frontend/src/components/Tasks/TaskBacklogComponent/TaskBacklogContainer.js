@@ -5,8 +5,7 @@ import {connect} from "react-redux"
 import {getSprints} from "../../../redux/scrum/sprints-reducer"
 import {TaskContext} from "../../../context/TaskContext"
 import {getCurrentTaskFromServer, setCurrentTask} from "../../../redux/scrum/tasks-reducer"
-import {AuthContext} from "../../../context/AuthContext";
-// import {TaskSprintContext} from "../../../context/TaskSprintContext"
+import {AuthContext} from "../../../context/AuthContext"
 
 const TaskBacklogContainer = props => {
 

@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react'
+import React, {useContext, useEffect, useRef, useState} from 'react'
 import BacklogComponent from "./BacklogComponent"
 import {compose} from "redux"
 import {connect} from "react-redux"
@@ -6,18 +6,14 @@ import {TaskContext} from "../../../context/TaskContext"
 import {createTaskSprint, searchTasksInSprints, unsetTaskSprints} from "../../../redux/scrum/taskSprint-reducer"
 import {createBacklogElementFromSprint, getBacklogForProject, searchTasks} from "../../../redux/scrum/backlog-reducer"
 import {AuthContext} from "../../../context/AuthContext"
-import {TaskSprintContext} from "../../../context/TaskSprintContext";
+import {getSprints} from "../../../redux/scrum/sprints-reducer"
+
 
 const BacklogContainer = props => {
 
     const [isTaskInfo, setIsTaskInfo] = useState(false)
     const [backlogForProject, setBacklogForProject] = useState(props.backlogForProject)
     const [backlogForProjectSprint, setBacklogForProjectSprint] = useState([])
-
-
-    const [currentSprintDnd, setCurrentSprintDnd] = useState(null)
-    const [currentBacklogDnd, setCurrentBacklogDnd] = useState(null)
-    const [currentTaskDnd, setCurrentTaskDnd] = useState(null)
 
 
     const {token} = useContext(AuthContext)
@@ -27,9 +23,8 @@ const BacklogContainer = props => {
     }
 
     const onDragEnd = (result) => {
-        const {destination, source} = result
-
-        console.log(result)
+        const {destination, source, draggableId} = result
+        const draggableIdArray = draggableId.split(',')
 
         if (!destination) {
             return;
@@ -47,20 +42,24 @@ const BacklogContainer = props => {
         let complete = backlogForProjectSprint
         // Source Logic
         if (source.droppableId === "Backlog") {
-            add = active[source.index]
-            active.splice(source.index, 1)
+            // add = active[source.index]
+            // active.splice(source.index, 1)
         } else {
-            add = complete[source.index]
-            complete.splice(source.index, 1)
+            // add = complete[source.index]
+            // complete.splice(source.index, 1)
         }
 
         // Destination Logic
         if (destination.droppableId === "Backlog") {
-            active.splice(destination.index, 0, add)
-            // props.createBacklogElementFromSprint(6, 8, 3, headers)//todo
+            // active.splice(destination.index, 0, add)
+            props.createBacklogElementFromSprint(draggableIdArray[0], draggableIdArray[1],
+                props.currentProject.scrum_project.id, headers)
+            props.getBacklogForProject(props.currentProject.scrum_project.id, headers)
         } else {
-            complete.splice(destination.index, 0, add)
-            // props.createTaskSprint(currentSprint?.id, currentTask, currentBacklog, headers)//todo
+            // complete.splice(destination.index, 0, add)
+            props.createTaskSprint(destination.droppableId, draggableIdArray[1],
+                draggableIdArray[0], headers)
+            props.getBacklogForProject(props.currentProject.scrum_project.id, headers)
         }
 
         setBacklogForProjectSprint(complete)
@@ -75,6 +74,25 @@ const BacklogContainer = props => {
         // props.sprints && props.sprints.map(sprint => props.searchTasksInSprints(q, sprint.id, headers))
     }
 
+    function usePrevious(value) {
+        const ref = useRef()
+        useEffect(() => {
+            ref.current = value
+        }, [value])
+        return ref.current
+    }
+
+    const previousValue = usePrevious(props.sprints)
+
+    useEffect(() => {
+
+
+        if (!previousValue || props.backlogForProject > previousValue) {
+            // props.getBacklogForProject(props.currentProject.scrum_project.id, headers)
+            // props.getSprints(props.currentProject.scrum_project.id, headers)
+        }
+    })
+
 
     useEffect(() => {
         if (!!props.taskSprints) {
@@ -85,13 +103,12 @@ const BacklogContainer = props => {
     return (
         <>
             <TaskContext.Provider value={{isTaskInfo, setIsTaskInfo}}>
-                <TaskSprintContext.Provider value={{setCurrentSprintDnd, setCurrentBacklogDnd, setCurrentTaskDnd}}>
-                    <BacklogComponent sprints={props.sprints} isTaskInfo={isTaskInfo}
-                                      backlogForProject={props.backlogForProject} setBacklogForProject={setBacklogForProject}
-                                      backlogForProjectSprint={backlogForProjectSprint} onSearch={onSearch}
-                                      setBacklogForProjectSprint={setBacklogForProjectSprint}
-                                      onDragEnd={onDragEnd}/>
-                </TaskSprintContext.Provider>
+                <BacklogComponent sprints={props.sprints} isTaskInfo={isTaskInfo}
+                                  backlogForProject={props.backlogForProject}
+                                  setBacklogForProject={setBacklogForProject}
+                                  backlogForProjectSprint={backlogForProjectSprint} onSearch={onSearch}
+                                  setBacklogForProjectSprint={setBacklogForProjectSprint}
+                                  onDragEnd={onDragEnd}/>
             </TaskContext.Provider>
         </>
     )
@@ -106,7 +123,7 @@ const mapStateToProps = (state) => ({
 
 export default compose(
     connect(mapStateToProps, {
-        unsetTaskSprints, getBacklogForProject, createTaskSprint,
+        unsetTaskSprints, getBacklogForProject, createTaskSprint, getSprints,
         createBacklogElementFromSprint, searchTasks, searchTasksInSprints
     })
 )(BacklogContainer)

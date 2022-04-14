@@ -4,9 +4,10 @@ import './TaskBoard.scss'
 
 const TaskBoardComponent = ({
                                 taskInfoHandler, taskSprint, currentProject, getCurrentTaskFromServer,
-                                setIsTaskInfo
+                                setIsTaskInfo, marksScrumAll
                             }) => {
 
+    // console.log(marksScrumAll[taskSprint.task_scrum.id])
     return (
         <>
             <button onMouseDown={() => {
@@ -17,7 +18,9 @@ const TaskBoardComponent = ({
             >
                 <div className="task-component-settings"><EllipsisOutlined/></div>
                 <div className="task-title">{taskSprint?.task_scrum?.task_name}</div>
-                <div className="task-component-labels">Ready</div>
+                {marksScrumAll[taskSprint.task_scrum.id] && marksScrumAll[taskSprint.task_scrum.id].map(mark =>
+                    <div key={mark.id} className="task-component-labels"
+                         style={{backgroundColor: `${mark.mark_color}`}}>{mark.mark_text}</div>)}
                 <div className="task-component-key">
                     <SolutionOutlined/>
                     <div style={{}}>{currentProject.project_key}-{taskSprint.id}</div>

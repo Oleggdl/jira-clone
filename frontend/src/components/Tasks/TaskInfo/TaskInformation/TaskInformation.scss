@@ -98,6 +98,7 @@
 
 .mark-element {
   position: relative;
+  min-height: 25px;
   padding: 5px 13px;
   border-radius: 3px;
   margin-bottom: 5px;
@@ -106,8 +107,8 @@
 
   span {
     position: absolute;
-    top: 5px;
-    right: 5px;
+    top: 2px;
+    right: 2px;
     cursor: pointer;
   }
 }

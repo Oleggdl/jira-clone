@@ -82,7 +82,7 @@ const BacklogElementContainer = (props) => {
 const mapStateToProps = (state) => ({
     sprints: state.sprintsReducer.sprints,
     currentProject: state.projectsReducer.currentProject,
-    backlogForProject: state.backlogReducer.backlogForProject,
+    // backlogForProject: state.backlogReducer.backlogForProject,
     currentUser: state.userReducer.currentUser,
 })
 

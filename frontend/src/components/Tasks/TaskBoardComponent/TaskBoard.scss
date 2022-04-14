@@ -43,12 +43,14 @@
 
 .task-component-labels {
   display: inline-block;
+  width: 100px;
   margin-top: 10px;
   font-size: 1.3rem;
   padding: 1px 3px;
   border-radius: 2px;
   background-color: $column-container-background;
-  color: $secondary-text;
+  color: #ffffff;
+  font-weight: bold;
 }
 
 .task-component-settings {

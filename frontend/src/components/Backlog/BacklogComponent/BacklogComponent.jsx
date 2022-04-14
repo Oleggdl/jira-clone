@@ -8,9 +8,8 @@ import {DragDropContext} from "react-beautiful-dnd"
 
 const BacklogComponent = ({
                               sprints, isTaskInfo, backlogForProject, setBacklogForProject, onDragEnd,
-                              setBacklogForProjectSprint, backlogForProjectSprint, onSearch,
+                              setBacklogForProjectSprint, backlogForProjectSprint, onSearch
                           }) => {
-
     return (
         <>
             <div className="backlog-container">

@@ -8,10 +8,11 @@ const TaskBacklogComponent = ({
                                   setIsTaskInfo
                               }) => {
 
+    const taskScrumId = task.task_scrum ? task.task_scrum.id.toString() : task.scrum_task_id.id.toString()
+
     return (
         <>
-            <Draggable draggableId={task.task_scrum
-                ? task.task_scrum.id.toString() : task.scrum_task_id.id.toString()} index={index}
+            <Draggable draggableId={`${task.id}, ${taskScrumId}`} index={index}
             >
                 {provided => (
                     <div

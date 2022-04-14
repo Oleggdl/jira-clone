@@ -1,10 +1,12 @@
 import {marksAPI} from "../../api/api";
 
 const GET_MARKS_SCRUM = 'GET_MARKS_SCRUM'
+const GET_MARKS_SCRUM_ALL = 'GET_MARKS_SCRUM_ALL'
 
 
 let initialState = {
-    marksScrum: []
+    marksScrum: [],
+    marksScrumAll: {}
 }
 
 const marksScrumReducer = (state = initialState, action) => {
@@ -17,6 +19,13 @@ const marksScrumReducer = (state = initialState, action) => {
             }
         }
 
+        case GET_MARKS_SCRUM_ALL: {
+            return {
+                ...state,
+                marksScrumAll: {...state.marksScrumAll, [action.id]: action.marksScrum}
+            }
+        }
+
         default:
             return state
     }
@@ -24,6 +33,7 @@ const marksScrumReducer = (state = initialState, action) => {
 
 
 export const getMarksScrumActionCreator = marksScrum => ({type: GET_MARKS_SCRUM, marksScrum})
+export const getMarksScrumAllActionCreator = (id, marksScrum) => ({type: GET_MARKS_SCRUM_ALL, id, marksScrum})
 
 export const createMarksScrum = (data, taskId, authorization) => {
 
@@ -41,6 +51,14 @@ export const getMarksScrum = (taskId, authorization) => {
     return async dispatch => {
         const response = await marksAPI.getMarkScrumForTask(taskId, authorization)
         dispatch(getMarksScrumActionCreator(response.data))
+    }
+}
+
+export const getMarksScrumAll = (taskId, authorization) => {
+
+    return async dispatch => {
+        const response = await marksAPI.getMarkScrumForTask(taskId, authorization)
+        dispatch(getMarksScrumAllActionCreator(taskId, response.data))
     }
 }
 

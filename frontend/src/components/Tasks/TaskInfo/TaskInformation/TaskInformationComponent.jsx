@@ -61,7 +61,7 @@ const TaskInformationComponent = ({
                                 activeColorHandler()
                             }}
                                 // className={active}
-                                 style={{backgroundColor: markColor.value}}></div>)}
+                                 style={{backgroundColor: markColor.value}}> </div>)}
                     </div>
                     <Button className="add-marks-confirm" type="primary" onClick={() => {
                         addMarksConfirm()

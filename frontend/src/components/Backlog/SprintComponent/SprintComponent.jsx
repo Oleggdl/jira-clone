@@ -1,11 +1,10 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import './Sprint.scss'
 import TaskBacklogContainer from "../../Tasks/TaskBacklogComponent/TaskBacklogContainer"
 import {Droppable} from "react-beautiful-dnd"
 import {Button} from "antd"
 import SprintStartWindowContainer from "./SprintStartWindow/SprintStartWindowContainer"
 import {EllipsisOutlined} from "@ant-design/icons"
-import {deleteSprint} from "../../../redux/scrum/sprints-reducer";
 
 const SprintComponent = ({
                              sprint, index, taskSprints, isCreateTask, onSetIsCreateTask,
@@ -61,16 +60,14 @@ const SprintComponent = ({
                         <div className="delete-task-wrapper" ref={sprintDelRef}></div>
                     </>}
                 </div>
-                <Droppable droppableId={`Sprint${sprint?.id}`}>
+                <Droppable droppableId={`${sprint?.id}`}>
                     {provided => (
                         <div className={`todos`} ref={provided.innerRef} {...provided.droppableProps}>
-                            {
-                                taskSprints.map(taskSprint => {
-                                    return taskSprint.id === sprint.id ? (taskSprint.taskSprint.map((task, index) => (
-                                        <TaskBacklogContainer index={index} task={task} key={task.id}/>
-                                    ))) : false
-                                })
-                            }
+                            {taskSprints?.map(taskSprint => {
+                                return taskSprint.id === sprint.id ? (taskSprint.taskSprint.map((task, index) => (
+                                    <TaskBacklogContainer index={index} task={task} key={task.id}/>
+                                ))) : false
+                            })}
                             {provided.placeholder}
                         </div>
                     )}
