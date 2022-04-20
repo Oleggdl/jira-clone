@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useRef, useState} from 'react'
 import TaskInformationComponent from "./TaskInformationComponent"
 import {compose} from "redux"
 import {connect} from "react-redux"
-import {createMarksScrum, deleteMarksScrum} from "../../../../redux/scrum/marksScrum-reducer"
+import {createMarksScrum, deleteMarksScrum} from "../../../../redux/marksScrum-reducer"
 import {AuthContext} from "../../../../context/AuthContext"
 
 const TaskInformationContainer = (props) => {
@@ -29,17 +29,15 @@ const TaskInformationContainer = (props) => {
 
     const marksAddRef = useRef()
 
+    const closeTaskInfoHandler = (event) => {
+        if (event.target === marksAddRef.current) {
+            onCancel()
+        }
+    }
+
     useEffect(() => {
-        window.addEventListener("click", function (event) {
-            if (event.target === marksAddRef.current) {
-                onCancel()
-            }
-        })
-        return window.removeEventListener("click", function (event) {
-            if (event.target === marksAddRef.current) {
-                onCancel()
-            }
-        })
+        window.addEventListener("click", (event) => closeTaskInfoHandler(event))
+        return window.removeEventListener("click", (event) => closeTaskInfoHandler(event))
     }, [])
 
     const addMarksConfirm = () => {

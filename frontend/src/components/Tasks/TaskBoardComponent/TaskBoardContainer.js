@@ -3,9 +3,9 @@ import TaskBoardComponent from "./TaskBoardComponent"
 import {TaskContext} from "../../../context/TaskContext"
 import {compose} from "redux"
 import {connect} from "react-redux"
-import {getCurrentTaskFromServer, setCurrentTask} from "../../../redux/scrum/tasks-reducer"
+import {getCurrentTaskFromServer, setCurrentTask} from "../../../redux/tasks-reducer"
 import {AuthContext} from "../../../context/AuthContext"
-import {getMarksScrum, getMarksScrumAll} from "../../../redux/scrum/marksScrum-reducer";
+import {getMarksScrumAll} from "../../../redux/marksScrum-reducer"
 
 const TaskBoardContainer = (props) => {
 

@@ -7,10 +7,10 @@ import {
     createTaskSprintFromSprint,
     getTaskSprints,
     unsetTaskSprints
-} from "../../../redux/scrum/taskSprint-reducer"
+} from "../../../redux/taskSprint-reducer"
 import {AuthContext} from "../../../context/AuthContext"
-import {deleteSprint, startSprint} from "../../../redux/scrum/sprints-reducer"
-import {createBacklogElementFromSprint} from "../../../redux/scrum/backlog-reducer"
+import {deleteSprint, startSprint} from "../../../redux/sprints-reducer"
+import {createBacklogElementFromSprint} from "../../../redux/backlog-reducer"
 
 const SprintContainer = props => {
 

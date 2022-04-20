@@ -3,8 +3,8 @@ import SideBarComponent from "./SideBarComponent"
 import {compose} from "redux"
 import {connect} from "react-redux"
 import {AuthContext} from "../../../context/AuthContext"
-import {getSprints, getStartedSprint} from "../../../redux/scrum/sprints-reducer"
-import {getBacklogForProject} from "../../../redux/scrum/backlog-reducer"
+import {getSprints, getStartedSprint} from "../../../redux/sprints-reducer"
+import {getBacklogForProject} from "../../../redux/backlog-reducer"
 
 const SideBarContainer = props => {
 
@@ -21,6 +21,7 @@ const SideBarContainer = props => {
     const getStartedSprint = () => {
         props.getStartedSprint(props.currentProject.scrum_project.id, headers)
     }
+
     const getSprints = () => {
         props.getSprints(props.currentProject.scrum_project.id, headers)
     }

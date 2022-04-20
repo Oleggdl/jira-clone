@@ -2,12 +2,10 @@ import React from 'react'
 import './Column.scss'
 import TaskBoardContainer from "../../Tasks/TaskBoardComponent/TaskBoardContainer"
 
-
 const ColumnComponent = ({
                              column, settingsColumnHandler, isSettings, isSettingsActive, settingsRef,
                              deleteColumnHandler, taskSprintsForColumn
                          }) => {
-
 
     return (
         <>
@@ -22,7 +20,6 @@ const ColumnComponent = ({
                         <button onClick={() => deleteColumnHandler(column.id)}>Delete</button>
                     </div>}
                 </div>
-
                 <div className="column-task-container">
                     {!!taskSprintsForColumn ? taskSprintsForColumn.map(taskSprintForColumn => {
                             return taskSprintForColumn.id === column.id

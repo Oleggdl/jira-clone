@@ -1,4 +1,4 @@
-import {marksAPI} from "../../api/api";
+import {marksAPI} from "../api/api";
 
 const GET_MARKS_SCRUM = 'GET_MARKS_SCRUM'
 const GET_MARKS_SCRUM_ALL = 'GET_MARKS_SCRUM_ALL'

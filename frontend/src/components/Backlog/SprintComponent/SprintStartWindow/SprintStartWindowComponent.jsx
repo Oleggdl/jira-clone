@@ -10,7 +10,20 @@ const SprintStartWindowComponent = ({
 
     const currentDate = new Date().toLocaleDateString()
     const currentDateArray = currentDate.split('.')
-    currentDateArray[0] = parseInt(currentDateArray[0]) + 14
+
+    const longMonth = [1, 3, 5, 7, 8, 10, 12]
+    const shortMonth = [4, 6, 9, 11]
+
+    if (longMonth.includes(parseInt(currentDateArray[1]))) {
+        currentDateArray[0] = parseInt(currentDateArray[0]) + 14 > 31
+            ? parseInt(currentDateArray[0]) + 14 - 31 && currentDateArray[1]++ : parseInt(currentDateArray[0]) + 14
+    } else if (shortMonth.includes(parseInt(currentDateArray[1]))) {
+        currentDateArray[0] = parseInt(currentDateArray[0]) + 14 > 30
+            ? parseInt(currentDateArray[0]) + 14 - 30 && currentDateArray[1]++ : parseInt(currentDateArray[0]) + 14
+    } else {
+        currentDateArray[0] = parseInt(currentDateArray[0]) + 14 > 28
+            ? parseInt(currentDateArray[0]) + 14 - 28 && currentDateArray[1]++ : parseInt(currentDateArray[0]) + 14
+    }
 
     return (
         <>
@@ -52,6 +65,7 @@ const SprintStartWindowComponent = ({
                         <Form.Item className="start-sprint-buttons">
                             <Button type="primary" htmlType="submit" style={{width: "100px"}}
                                     className="primary-button-submit"
+                                    onMouseUp={setTaskSprintColumn}
                             >
                                 Submit
                                 {/*<NavLink to="/scrum/board">Submit</NavLink>*/}

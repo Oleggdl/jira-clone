@@ -13,7 +13,7 @@ const CommentElementComponent = ({
         <>
             <div className="comment-container">
                 <div className="comments-user-logo"></div>
-                <div style={{ width: "100%"}}>
+                <div style={{width: "100%"}}>
                     <div className="author-name">
                         <h3>{comment.user_id.users.username}</h3>
                         <h5>{comment.create_date}</h5>
@@ -22,8 +22,7 @@ const CommentElementComponent = ({
                     {!isChangeComment
                         ? <p className="comment">{comment.content}</p>
                         : <Form form={form} onFinish={values => onChangeComment(comment.id, values)} initialValues={
-                            {content: comment.content}
-                        }>
+                            {content: comment.content}}>
                             <Form.Item>
                                 <Form.Item
                                     name="content"

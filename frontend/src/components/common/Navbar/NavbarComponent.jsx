@@ -5,8 +5,8 @@ import {NavLink} from "react-router-dom";
 export const NavbarComponent = ({
                                     isProjectsMenu, isStaffMenu, modalProjectsTitle, setIsStaffMenu,
                                     buttonProjects, buttonStaff, modalProjects, modalStaff, modalStaffTitle,
-                                    logoutHandler, projects, currentUser, currentProjectHandler, showProjectsMenu,
-                                    favoriteProjects, getFavoriteProjectHandler, startedSprintHandler
+                                    logoutHandler, currentUser, currentProjectHandler, showProjectsMenu,
+                                    favoriteProjects, getFavoriteProjectHandler
                                 }) => {
 
     function showStaffMenu() {

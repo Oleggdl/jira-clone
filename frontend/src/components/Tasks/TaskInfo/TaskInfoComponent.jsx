@@ -98,7 +98,7 @@ const TaskInfoComponent = ({
                         <h3>Activity</h3>
                         <div className="buttons-activity">
                             <button className={isCommentsActive} onClick={isCommentsHandler}>Comments</button>
-                            <button className={isHistoryActive} onClick={isHistoryHandler}>History</button>
+                            {/*<button className={isHistoryActive} onClick={isHistoryHandler}>History</button>*/}
                         </div>
                         <div>
                             {isComments ? <CommentsContainer currentTask={currentTask}/> : <HistoryContainer/>}

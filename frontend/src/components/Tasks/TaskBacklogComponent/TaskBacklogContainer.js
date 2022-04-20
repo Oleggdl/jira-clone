@@ -2,16 +2,14 @@ import React, {useContext} from 'react'
 import TaskBacklogComponent from "./TaskBacklogComponent"
 import {compose} from "redux"
 import {connect} from "react-redux"
-import {getSprints} from "../../../redux/scrum/sprints-reducer"
+import {getSprints} from "../../../redux/sprints-reducer"
 import {TaskContext} from "../../../context/TaskContext"
-import {getCurrentTaskFromServer, setCurrentTask} from "../../../redux/scrum/tasks-reducer"
+import {getCurrentTaskFromServer, setCurrentTask} from "../../../redux/tasks-reducer"
 import {AuthContext} from "../../../context/AuthContext"
 
 const TaskBacklogContainer = props => {
 
     const {setIsTaskInfo} = useContext(TaskContext)
-    // const {setCurrentBacklog, setCurrentTask} = useContext(TaskSprintContext)
-
     const {token} = useContext(AuthContext)
     const headers = {
         Authorization: `Bearer ${token}`

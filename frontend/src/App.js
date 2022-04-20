@@ -5,18 +5,14 @@ import {Provider} from "react-redux"
 import store from "./redux/redux-store"
 import {useRoutes} from "./routes"
 import NavbarContainer from "./components/common/Navbar/NavbarContainer"
-import {AuthContext} from "./context/AuthContext";
-import {useAuth} from "./hooks/auth.hook";
+import {AuthContext} from "./context/AuthContext"
+import {useAuth} from "./hooks/auth.hook"
 
 function App() {
 
-    const {token, login, logout, userId, ready} = useAuth()
+    const {token, login, logout, userId} = useAuth()
     const isAuthenticated = !!token
     const routes = useRoutes(isAuthenticated)
-
-    if (!ready) {
-        // return <Loader/>
-    }
 
     return (
         <>
@@ -27,7 +23,6 @@ function App() {
                         <div className="container">
                             {routes}
                         </div>
-                        {/*{isAuthenticated && <FooterComponent/>}*/}
                     </Provider>
                 </BrowserRouter>
             </AuthContext.Provider>

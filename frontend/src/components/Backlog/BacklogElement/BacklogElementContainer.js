@@ -3,8 +3,8 @@ import BacklogElementComponent from "./BacklogElementComponent"
 import {compose} from "redux"
 import {connect} from "react-redux"
 import {AuthContext} from "../../../context/AuthContext"
-import {createSprint} from "../../../redux/scrum/sprints-reducer"
-import {createBacklogElement} from "../../../redux/scrum/backlog-reducer"
+import {createSprint} from "../../../redux/sprints-reducer"
+import {createBacklogElement} from "../../../redux/backlog-reducer"
 
 
 const BacklogElementContainer = (props) => {
@@ -82,7 +82,6 @@ const BacklogElementContainer = (props) => {
 const mapStateToProps = (state) => ({
     sprints: state.sprintsReducer.sprints,
     currentProject: state.projectsReducer.currentProject,
-    // backlogForProject: state.backlogReducer.backlogForProject,
     currentUser: state.userReducer.currentUser,
 })
 

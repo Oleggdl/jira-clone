@@ -3,7 +3,7 @@ import DeleteProjectComponent from "./DeleteProjectComponent"
 import {AuthContext} from "../../../context/AuthContext"
 import {compose} from "redux"
 import {connect} from "react-redux"
-import {deleteProject} from "../../../redux/scrum/projects-reducer"
+import {deleteProject} from "../../../redux/projects-reducer"
 
 const DeleteProjectContainer = props => {
 

@@ -9,8 +9,6 @@ const TaskInformationComponent = ({
                                       active, setActive, activeColorHandler, deleteMarkHandler
                                   }) => {
 
-    console.log(marksScrum)
-
     const markColors = [
         {id: 'red', value: '#ff4e4e'},
         {id: 'green', value: '#53ff4f'},
@@ -34,7 +32,8 @@ const TaskInformationComponent = ({
                     {marksScrum.map(mark =>
                         <div className="mark-element" style={{backgroundColor: mark.mark_color}}
                              key={mark.id}>{mark.mark_text} <span onClick={() => deleteMarkHandler(mark)}>
-                            <CloseOutlined/></span></div>)}
+                            <CloseOutlined/></span>
+                        </div>)}
                 </div>
                 <button className="add-mark-button" onClick={() => setIsAddMarks(true)}>Add mark</button>
                 <h4>Sprint</h4>
@@ -61,14 +60,13 @@ const TaskInformationComponent = ({
                                 activeColorHandler()
                             }}
                                 // className={active}
-                                 style={{backgroundColor: markColor.value}}> </div>)}
+                                 style={{backgroundColor: markColor.value}}>
+                            </div>)}
                     </div>
                     <Button className="add-marks-confirm" type="primary" onClick={() => {
                         addMarksConfirm()
                         onCancel()
-                    }}>
-                        Add
-                    </Button>
+                    }}>Add</Button>
                     <Button onClick={onCancel}>
                         Cancel
                     </Button>

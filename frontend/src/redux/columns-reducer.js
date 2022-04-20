@@ -1,5 +1,4 @@
-import {columnsAPI} from "../../api/api"
-
+import {columnsAPI} from "../api/api"
 
 const GET_COLUMNS = 'GET_COLUMNS'
 const GET_COLUMNS_STARTED = 'GET_COLUMNS_TARTED'
@@ -42,21 +41,11 @@ export const getColumns = (sprintId, authorization) => {
     }
 }
 
-export const createColumn = (data, sprintId, authorization) => {
-
-    return async dispatch => {
-        const response = await columnsAPI.createColumn(data, authorization)
-        const responseGetColumns = await columnsAPI.getColumnsForSprint(sprintId, authorization)
-        dispatch(getColumnsActionCreator(responseGetColumns.data))
-    }
-}
-
 export const startSprintColumns = (data, sprintId, authorization) => {
 
     return async dispatch => {
         const response = await columnsAPI.createColumn(data, authorization)
         const responsePut = await columnsAPI.createColumnPut(response.data.id, sprintId, authorization)
-
         const responseGetColumns = await columnsAPI.getColumnsForSprint(sprintId, authorization)
         dispatch(getColumnsActionCreator(responseGetColumns.data))
     }
@@ -68,7 +57,6 @@ export const deleteColumnScrum = (id, sprintId, authorization) => {
         const response = await columnsAPI.deleteColumnScrum(id, authorization)
         const responseGetColumns = await columnsAPI.getColumnsForSprint(sprintId, authorization)
         dispatch(getColumnsActionCreator(responseGetColumns.data))
-
     }
 }
 

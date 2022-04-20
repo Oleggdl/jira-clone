@@ -2,9 +2,9 @@ import React, {useContext, useEffect, useRef, useState} from 'react'
 import ColumnComponent from "./ColumnComponent"
 import {compose} from "redux"
 import {connect} from "react-redux"
-import {deleteColumnScrum} from "../../../redux/scrum/columns-reducer"
+import {deleteColumnScrum} from "../../../redux/columns-reducer"
 import {AuthContext} from "../../../context/AuthContext"
-import {getTaskSprintForColumn, unsetTaskSprintsForColumn} from "../../../redux/scrum/taskSprint-reducer";
+import {getTaskSprintForColumn, unsetTaskSprintsForColumn} from "../../../redux/taskSprint-reducer";
 
 const ColumnContainer = props => {
 

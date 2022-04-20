@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useRef, useState} from 'react'
 import AllProjectsComponent from "./AllProjectsComponent"
 import {compose} from "redux"
 import {connect} from "react-redux"
-import {getCurrentProject, getProjectById, getProjects, searchProject} from "../../../redux/scrum/projects-reducer"
+import {getCurrentProject, getProjectById, getProjects, searchProject} from "../../../redux/projects-reducer"
 import {AuthContext} from "../../../context/AuthContext"
 
 const AllProjectsContainer = props => {
@@ -38,21 +38,17 @@ const AllProjectsContainer = props => {
         props.getCurrentProject(project)
     }
 
+    const closeProjectInfo = (event) => {
+        if (event.target === projectWrapper.current) {
+            setIsDeleteModal(false)
+            setIsActions(false)
+            props.getProjects(props.currentUser.id, headers)
+        }
+    }
+
     useEffect(() => {
-        window.addEventListener("click", function (event) {
-            if (event.target === projectWrapper.current) {
-                setIsDeleteModal(false)
-                setIsActions(false)
-                props.getProjects(props.currentUser.id, headers)
-            }
-        })
-        return window.addEventListener("click", function (event) {//todo
-            if (event.target === projectWrapper.current) {
-                setIsDeleteModal(false)
-                setIsActions(false)
-                props.getProjects(props.currentUser.id, headers)
-            }
-        })
+        window.addEventListener("click", (event) => closeProjectInfo(event))
+        return window.removeEventListener("click", (event) => closeProjectInfo(event))
     })
 
     return (

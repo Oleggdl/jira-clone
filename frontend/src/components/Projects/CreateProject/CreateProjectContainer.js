@@ -2,7 +2,7 @@ import React, {useContext} from 'react'
 import CreateProjectComponent from "./CreateProjectComponent"
 import {compose} from "redux"
 import {connect} from "react-redux"
-import {createProject, getProjects} from "../../../redux/scrum/projects-reducer"
+import {createProject, getProjects} from "../../../redux/projects-reducer"
 import {useForm} from "antd/es/form/Form"
 import {AuthContext} from "../../../context/AuthContext"
 

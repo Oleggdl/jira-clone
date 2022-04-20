@@ -4,16 +4,15 @@ import {useForm} from "antd/es/form/Form"
 import {AuthContext} from "../../../context/AuthContext"
 import {compose} from "redux"
 import {connect} from "react-redux"
-import {getCurrentProject, getProjects} from "../../../redux/scrum/projects-reducer"
-import {createBacklogElement} from "../../../redux/scrum/backlog-reducer"
-import {getUsersOnProject} from "../../../redux/scrum/tasks-reducer"
+import {getCurrentProject, getProjects} from "../../../redux/projects-reducer"
+import {createBacklogElement} from "../../../redux/backlog-reducer"
+import {getUsersOnProject} from "../../../redux/tasks-reducer"
 
 const CreateTaskContainer = props => {
 
     const [form] = useForm()
 
     const {token} = useContext(AuthContext)
-
     const headers = {
         Authorization: `Bearer ${token}`
     }
@@ -39,7 +38,6 @@ const CreateTaskContainer = props => {
         onReset()
     }
 
-
     useEffect(() => {
         props.getProjects(props.currentUser.id, headers)
     }, [])
@@ -47,13 +45,11 @@ const CreateTaskContainer = props => {
     return (
         <>
             <CreateTaskComponent handleSubmit={handleSubmit} onReset={onReset} form={form} projects={props.projects}
-                                 sprints={props.sprints} currentUser={props.currentUser}
-                                 usersOnProject={props.usersOnProject} getExecutorsHandler={getExecutorsHandler}
-                                 executorRef={executorRef} />
+                                 sprints={props.sprints} currentUser={props.currentUser} executorRef={executorRef}
+                                 usersOnProject={props.usersOnProject} getExecutorsHandler={getExecutorsHandler}/>
         </>
     )
 }
-
 
 const mapStateToProps = (state) => ({
     projects: state.projectsReducer.projects,

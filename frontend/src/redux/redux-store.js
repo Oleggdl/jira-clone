@@ -1,14 +1,14 @@
 import {applyMiddleware, combineReducers, createStore} from "redux"
 import thunkMiddleware from "redux-thunk"
-import projectsReducer from "./scrum/projects-reducer"
-import tasksReducer from "./scrum/tasks-reducer"
-import sprintsReducer from "./scrum/sprints-reducer"
-import columnsReducer from "./scrum/columns-reducer"
-import commentsScrumReducer from "./scrum/commentsScrum-reducer"
-import userReducer from "./scrum/users-reducer"
-import backlogReducer from "./scrum/backlog-reducer"
-import taskSprintReducer from "./scrum/taskSprint-reducer"
-import marksScrumReducer from "./scrum/marksScrum-reducer"
+import projectsReducer from "./projects-reducer"
+import tasksReducer from "./tasks-reducer"
+import sprintsReducer from "./sprints-reducer"
+import columnsReducer from "./columns-reducer"
+import commentsScrumReducer from "./commentsScrum-reducer"
+import userReducer from "./users-reducer"
+import backlogReducer from "./backlog-reducer"
+import taskSprintReducer from "./taskSprint-reducer"
+import marksScrumReducer from "./marksScrum-reducer"
 
 let reducers = combineReducers({
     projectsReducer: projectsReducer,

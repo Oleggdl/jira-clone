@@ -2,7 +2,7 @@ import React, {useContext, useState} from 'react'
 import CommentElementComponent from "./CommentElementComponent"
 import {compose} from "redux"
 import {connect} from "react-redux"
-import {deleteCommentScrum, updateCommentScrum} from "../../../../redux/scrum/commentsScrum-reducer"
+import {deleteCommentScrum, updateCommentScrum} from "../../../../redux/commentsScrum-reducer"
 import {AuthContext} from "../../../../context/AuthContext"
 import {useForm} from "antd/es/form/Form";
 

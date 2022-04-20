@@ -1,4 +1,4 @@
-import {tasksAPI, taskSprintAPI} from "../../api/api"
+import {tasksAPI} from "../api/api"
 
 const GET_TASKS = 'GET_TASKS'
 const SET_CREATED_TASK_ID = 'SET_CREATED_TASK_ID'
@@ -66,9 +66,6 @@ const tasksReducer = (state = initialState, action) => {
     }
 }
 
-
-// export const getTasksActionCreator = tasks => ({type: GET_TASKS, tasks})
-// export const setCreatedTaskIdActionCreator = createdTaskId => ({type: SET_CREATED_TASK_ID, createdTaskId})
 export const setCurrentTaskActionCreator = currentTask => ({type: SET_CURRENT_TASK, currentTask})
 export const getUsersOnProjectActionCreator = usersOnProject => ({type: GET_USERS_ON_PROJECT, usersOnProject})
 export const setCurrentTaskIdActionCreator = currentTaskId => ({type: SET_CURRENT_TASK_ID, currentTaskId})

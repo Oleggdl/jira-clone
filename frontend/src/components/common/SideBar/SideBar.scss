@@ -43,7 +43,6 @@ ul {
   padding: unset;
 
   .board-link-container {
-    //position: relative;
     display: flex;
     padding-left: 10px;
 
@@ -58,15 +57,14 @@ ul {
       line-height: 2.5;
       padding-left: 7px;
       transition: .3s;
-
-
     }
+
     &:hover {
       background-color: $links-hover-color;
-      .board-link{
+
+      .board-link {
         color: $main-color;
       }
-
     }
   }
 }

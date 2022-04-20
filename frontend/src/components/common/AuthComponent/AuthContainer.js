@@ -6,12 +6,11 @@ import {useHttp} from "../../../hooks/http.hook"
 import {useForm} from "antd/es/form/Form"
 import {compose} from "redux"
 import {connect} from "react-redux"
-import {getUser} from "../../../redux/scrum/users-reducer"
+import {getUser} from "../../../redux/users-reducer"
 
 const userName = 'userName'
 
 const AuthContainer = (props) => {
-
 
     const auth = useContext(AuthContext)
     const message = useMessage()
@@ -64,13 +63,10 @@ const AuthContainer = (props) => {
         onReset()
     }
 
-
-
     return (
         <>
-            <AuthComponent isLogIn={isLogIn} setIsLogin={setIsLogin} form={form}
-                           registerHandler={registerHandler} loginHandler={loginHandler}
-            />
+            <AuthComponent isLogIn={isLogIn} setIsLogin={setIsLogin} form={form} registerHandler={registerHandler}
+                           loginHandler={loginHandler}/>
         </>
     )
 }

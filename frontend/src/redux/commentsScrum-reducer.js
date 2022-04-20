@@ -1,8 +1,7 @@
-import {commentsScrumAPI} from "../../api/api"
+import {commentsScrumAPI} from "../api/api"
 
 
 const GET_COMMENTS_SCRUM = 'GET_COMMENTS_SCRUM'
-// const SET_COMMENT = 'SET_COMMENT'
 
 let initialState = {
     commentsScrum: []
@@ -64,7 +63,6 @@ export const updateCommentScrum = (id, data, taskId, authorization) => {
 
     }
 }
-
 
 
 export default commentsScrumReducer

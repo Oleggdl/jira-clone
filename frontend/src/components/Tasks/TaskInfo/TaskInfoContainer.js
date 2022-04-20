@@ -4,11 +4,11 @@ import {useForm} from "antd/es/form/Form"
 import {TaskContext} from "../../../context/TaskContext"
 import {compose} from "redux"
 import {connect} from "react-redux"
-import {getSprints} from "../../../redux/scrum/sprints-reducer"
+import {getSprints} from "../../../redux/sprints-reducer"
 import {AuthContext} from "../../../context/AuthContext"
-import {getCurrentTaskFromServer, updateTaskDescription, updateTaskName} from "../../../redux/scrum/tasks-reducer"
-import {deleteTask, getBacklogForProject} from "../../../redux/scrum/backlog-reducer"
-import {getMarksScrum} from "../../../redux/scrum/marksScrum-reducer";
+import {getCurrentTaskFromServer, updateTaskDescription, updateTaskName} from "../../../redux/tasks-reducer"
+import {deleteTask, getBacklogForProject} from "../../../redux/backlog-reducer"
+import {getMarksScrum} from "../../../redux/marksScrum-reducer"
 
 const TaskInfoContainer = (props) => {
 

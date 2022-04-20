@@ -12,14 +12,9 @@ const TaskBacklogComponent = ({
 
     return (
         <>
-            <Draggable draggableId={`${task.id}, ${taskScrumId}`} index={index}
-            >
+            <Draggable draggableId={`${task.id}, ${taskScrumId}`} index={index}>
                 {provided => (
-                    <div
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        ref={provided.innerRef}
-                    >
+                    <div {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
                         <div>
                             <div className="task-backlog-component-container">
                                 <div className="task-backlog-component-key">
@@ -27,22 +22,20 @@ const TaskBacklogComponent = ({
                                     <div>{currentProject.project_key}-{task.task_scrum
                                         ? task.task_scrum.id : task.scrum_task_id.id}</div>
                                 </div>
-
                                 <div className="task-title">{task.scrum_task_id
                                     ? task.scrum_task_id.task_name
                                     : task.task_scrum.task_name}</div>
                                 <div className="task-backlog-component-labels">Ready</div>
-                                <div className="task-backlog-component-settings"
+                                <div className="task-backlog-component-settings" onMouseUp={() => setIsTaskInfo(true)}
                                      onMouseDown={() => {
                                          taskInfoHandler(task)
                                          getCurrentTaskFromServer(task)
-                                     }} onMouseUp={() => setIsTaskInfo(true)}
-                                ><EllipsisOutlined/></div>
+                                     }}><EllipsisOutlined/>
+                                </div>
                             </div>
                         </div>
                     </div>
                 )}
-
             </Draggable>
         </>
     )

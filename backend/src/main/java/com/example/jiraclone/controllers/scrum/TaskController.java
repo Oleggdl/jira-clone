@@ -1,19 +1,13 @@
 package com.example.jiraclone.controllers.scrum;
 
-import com.example.jiraclone.entities.Users;
 import com.example.jiraclone.entities.scrum.TaskScrum;
-import com.example.jiraclone.entities.scrum.TaskSprint;
-import com.example.jiraclone.entities.scrum.UserScrumProject;
-import com.example.jiraclone.exceptions.ResourceNotFoundException;
 import com.example.jiraclone.repositories.UserRepository;
 import com.example.jiraclone.repositories.scrum.ColumnScrumRepository;
-import com.example.jiraclone.repositories.scrum.TaskScrumRepository;
-import com.example.jiraclone.repositories.scrum.UserScrumProjectRepository;
+import com.example.jiraclone.services.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,7 +17,7 @@ import java.util.Map;
 public class TaskController {
 
     @Autowired
-    TaskScrumRepository taskScrumRepository;
+    private TaskService taskService;
 
     @Autowired
     ColumnScrumRepository columnScrumRepository;
@@ -33,96 +27,45 @@ public class TaskController {
 
     @GetMapping("/tasks")
     public List<TaskScrum> getAllTasks() {
-        return taskScrumRepository.findAll();
+        return taskService.getAllTasks();
     }
 
     @GetMapping("/tasks/{id}")
     public ResponseEntity<TaskScrum> getTaskById(@PathVariable Long id) {
-
-        TaskScrum taskScrum = taskScrumRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Task not exist with id:" + id));
-
-        return ResponseEntity.ok(taskScrum);
+        return taskService.getTaskById(id);
     }
 
     @PostMapping("/tasks")
     public TaskScrum createTask(@RequestBody TaskScrum taskScrum) {
-        return taskScrumRepository.save(taskScrum);
+        return taskService.createTask(taskScrum);
     }
 
     @PutMapping("/tasks/{taskId}/{creatorId}/{executorId}")
     public ResponseEntity<TaskScrum> createTaskWithUsers(@PathVariable Long taskId,
                                                          @PathVariable Long creatorId,
                                                          @PathVariable Long executorId) {
-
-        TaskScrum taskScrum = taskScrumRepository.findById(taskId).get();
-
-        Users creator = userRepository.findById(creatorId).get();
-
-        Users executor = userRepository.findById(executorId).get();
-        taskScrum.setExecutor_id(executor);
-
-
-        taskScrum.setCreator_id(creator);
-
-        TaskScrum updatedTaskScrum = taskScrumRepository.save(taskScrum);
-        return ResponseEntity.ok(updatedTaskScrum);
-
+        return taskService.createTaskWithUsers(taskId, creatorId, executorId);
     }
 
     @PutMapping("/tasks/{id}")
     public ResponseEntity<TaskScrum> updateTask(@PathVariable Long id, @RequestBody TaskScrum taskScrumDetails) {
-
-        TaskScrum taskScrum = taskScrumRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Task not exist with id:" + id));
-
-        taskScrum.setTask_name(taskScrumDetails.getTask_name());
-        taskScrum.setCreate_date(taskScrumDetails.getCreate_date());
-        taskScrum.setCreator_id(taskScrumDetails.getCreator_id());
-        taskScrum.setTask_description(taskScrumDetails.getTask_description());
-        taskScrum.setExecutor_id(taskScrumDetails.getExecutor_id());
-
-        TaskScrum updateTaskScrum = taskScrumRepository.save(taskScrum);
-
-        return ResponseEntity.ok(updateTaskScrum);
+        return taskService.updateTask(id, taskScrumDetails);
     }
 
     @PutMapping("/tasks/description/{id}")
     public ResponseEntity<TaskScrum> updateTaskDescription(@PathVariable Long id,
                                                            @RequestBody TaskScrum taskScrumDetails) {
-
-        TaskScrum taskScrum = taskScrumRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Task not exist with id:" + id));
-
-        taskScrum.setTask_description(taskScrumDetails.getTask_description());
-
-        TaskScrum updateTaskScrum = taskScrumRepository.save(taskScrum);
-
-        return ResponseEntity.ok(updateTaskScrum);
+        return taskService.updateTaskDescription(id, taskScrumDetails);
     }
 
     @PutMapping("/tasks/name/{id}")
     public ResponseEntity<TaskScrum> updateTaskName(@PathVariable Long id,
                                                     @RequestBody TaskScrum taskScrumDetails) {
-
-        TaskScrum taskScrum = taskScrumRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Task not exist with id:" + id));
-
-        taskScrum.setTask_name(taskScrumDetails.getTask_name());
-
-        TaskScrum updateTaskScrum = taskScrumRepository.save(taskScrum);
-
-        return ResponseEntity.ok(updateTaskScrum);
+        return taskService.updateTaskName(id, taskScrumDetails);
     }
 
     @DeleteMapping("/tasks/{id}")
     public ResponseEntity<Map<String, Boolean>> deleteTask(@PathVariable Long id) {
-        TaskScrum taskScrum = taskScrumRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Task not exist with id:" + id));
-
-        taskScrumRepository.delete((taskScrum));
-        Map<String, Boolean> response = new HashMap<>();
-        response.put("deleted", Boolean.TRUE);
-        return ResponseEntity.ok(response);
+        return taskService.deleteTask(id);
     }
 }

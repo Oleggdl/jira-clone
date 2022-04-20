@@ -3,10 +3,10 @@ import SprintStartWindowComponent from "./SprintStartWindowComponent"
 import {useForm} from "antd/es/form/Form"
 import {compose} from "redux"
 import {connect} from "react-redux"
-import {setCurrentSprint, startSprint} from "../../../../redux/scrum/sprints-reducer"
+import {setCurrentSprint, startSprint} from "../../../../redux/sprints-reducer"
 import {AuthContext} from "../../../../context/AuthContext"
-import {startSprintColumns} from "../../../../redux/scrum/columns-reducer";
-import {setTaskSprintColumn} from "../../../../redux/scrum/taskSprint-reducer";
+import {startSprintColumns} from "../../../../redux/columns-reducer"
+import {setTaskSprintColumn} from "../../../../redux/taskSprint-reducer"
 
 const SprintStartWindowContainer = (props) => {
 

@@ -4,13 +4,12 @@ import {Button, Table} from "antd"
 import './AllProjects.scss'
 import {NavLink} from "react-router-dom"
 import {EllipsisOutlined} from "@ant-design/icons"
-import ProjectInfoContainer from "./ProjectInfo/ProjectInfoContainer";
+import ProjectInfoContainer from "./ProjectInfo/ProjectInfoContainer"
 
 
 const AllProjectsComponent = ({
-                                  projects, onSearch, showActionsHandler, isActions, setIsActions,
-                                  projectWrapper, isDeleteModal, setIsDeleteModal, getProjectById,
-                                  currentProjectHandler
+                                  projects, onSearch, showActionsHandler, isActions, setIsActions, projectWrapper,
+                                  isDeleteModal, setIsDeleteModal, getProjectById, currentProjectHandler
                               }) => {
 
 
@@ -18,8 +17,7 @@ const AllProjectsComponent = ({
         key: project.id,
         projectName: (<NavLink onMouseDown={() => currentProjectHandler(project)}
                                to={`/scrum/${project.scrum_project.project_key}`}>
-            {project.scrum_project.project_name}
-        </NavLink>),
+            {project.scrum_project.project_name}</NavLink>),
         projectKey: project.scrum_project.project_key,
         projectType: project.scrum_project.project_type,
         supervisor: project.users.username

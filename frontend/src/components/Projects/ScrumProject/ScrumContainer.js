@@ -3,7 +3,7 @@ import ScrumComponent from "./ScrumComponent"
 import {compose} from "redux"
 import {connect} from "react-redux"
 import {AuthContext} from "../../../context/AuthContext"
-import {getBacklogForProject} from "../../../redux/scrum/backlog-reducer"
+import {getBacklogForProject} from "../../../redux/backlog-reducer"
 
 const ScrumContainer = props => {
 

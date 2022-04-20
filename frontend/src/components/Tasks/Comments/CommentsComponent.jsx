@@ -25,8 +25,7 @@ const CommentsComponent = ({
                           autoComplete="off">
                         <Form.Item
                             name="content"
-                            rules={[{required: false}]}
-                        >
+                            rules={[{required: false}]}>
                             <TextArea ref={textAreaAddComment} row={4} placeholder="Add a comment"/>
                         </Form.Item>
                         <Form.Item name="create_date" style={{height: 0, margin: 0}}> </Form.Item>

@@ -1,4 +1,4 @@
-import {projectsAPI, userScrumProjectAPI} from "../../api/api"
+import {projectsAPI, userScrumProjectAPI} from "../api/api"
 
 const GET_PROJECTS = 'GET_PROJECTS'
 const GET_CURRENT_PROJECT = 'GET_CURRENT_PROJECT'

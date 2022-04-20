@@ -7,7 +7,6 @@ const DeleteProjectComponent = ({
                                     deleteProjectHandler
                                 }) => {
 
-
     return (
         <>
             <div className="delete-project-container">

@@ -3,26 +3,27 @@
 
 .task-backlog-component-container {
   display: flex;
-  @include task-container;
   cursor: grab;
-
   border: unset;
   width: 100%;
 
+  @include task-container;
+
   &:hover {
+    background-color: $button-background-color;
+
     .task-backlog-component-settings {
       opacity: 1;
       cursor: pointer;
     }
-    .task-title{
+
+    .task-title {
       color: $main-color;
     }
-    background-color: $button-background-color;
   }
 }
 
 .task-backlog-component-key {
-
   padding-top: 3px;
   display: flex;
   padding-right: 15px;

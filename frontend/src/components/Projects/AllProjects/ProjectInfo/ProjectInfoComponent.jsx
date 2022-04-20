@@ -45,7 +45,7 @@ const ProjectInfoComponent = ({
                         label="Project description"
                         name="project_description"
                         rules={[{required: false},
-                            {max: 12, message: `Project description cannot be longer than 600 characters`}]}>
+                            {max: 600, message: `Project description cannot be longer than 600 characters`}]}>
                         <TextArea row={4} placeholder="Enter project description"/>
                     </Form.Item>
                     <Typography.Paragraph style={{marginLeft: "84px"}} level={5}>Supervisor:

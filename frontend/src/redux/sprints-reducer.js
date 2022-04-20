@@ -1,5 +1,4 @@
-import {sprintsAPI} from "../../api/api"
-
+import {sprintsAPI} from "../api/api"
 
 const GET_SPRINTS = 'GET_SPRINTS'
 const SET_CURRENT_SPRINT = 'SET_CURRENT_SPRINT'
@@ -8,7 +7,6 @@ let initialState = {
     sprints: [],
     currentSprint: null
 }
-
 
 const sprintsReducer = (state = initialState, action) => {
 
@@ -31,7 +29,6 @@ const sprintsReducer = (state = initialState, action) => {
             return state
     }
 }
-
 
 export const getSprintsActionCreator = sprints => ({type: GET_SPRINTS, sprints})
 export const setCurrentSprintActionCreator = currentSprint => ({type: SET_CURRENT_SPRINT, currentSprint})

@@ -4,7 +4,7 @@ import {useForm} from "antd/es/form/Form"
 import {AuthContext} from "../../../context/AuthContext"
 import {compose} from "redux"
 import {connect} from "react-redux"
-import {createCommentScrum, getCommentsScrum} from "../../../redux/scrum/commentsScrum-reducer"
+import {createCommentScrum, getCommentsScrum} from "../../../redux/commentsScrum-reducer"
 
 const CommentsContainer = (props) => {
 
@@ -56,7 +56,6 @@ const CommentsContainer = (props) => {
 const mapStateToProps = (state) => ({
     commentsScrum: state.commentsScrumReducer.commentsScrum,
     currentTask: state.tasksReducer.currentTask,
-    currentUser: state.userReducer.currentUser,
     currentProject: state.projectsReducer.currentProject
 })
 

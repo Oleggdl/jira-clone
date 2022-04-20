@@ -1,5 +1,4 @@
-import {backlogAPI, tasksAPI, taskSprintAPI} from "../../api/api"
-import {getBacklogElementsActionCreator} from "./backlog-reducer";
+import {backlogAPI, tasksAPI, taskSprintAPI} from "../api/api"
 
 
 const GET_TASK_SPRINTS = 'GET_TASK_SPRINTS'
@@ -11,7 +10,6 @@ let initialState = {
     taskSprints: [],
     taskSprintsForColumn: []
 }
-
 
 const taskSprintReducer = (state = initialState, action) => {
 
@@ -51,7 +49,6 @@ const taskSprintReducer = (state = initialState, action) => {
             return state
     }
 }
-
 
 export const getTaskSprintsActionCreator = (taskSprints, sprintId) => ({
     type: GET_TASK_SPRINTS,
@@ -121,22 +118,6 @@ export const setTaskSprintColumn = (taskSprintId, columnId, authorization) => {
     }
 }
 
-export const setTasksInSprints = (query, sprintId, authorization) => {
-
-    return async dispatch => {
-        const response = await taskSprintAPI.searchTask(query, sprintId, authorization)
-        dispatch(getTaskSprintsActionCreator(response.data))
-    }
-}
-
-export const searchTasksInSprints = (query, sprintId, authorization) => {
-
-    // return async dispatch => {
-    //     const response = await taskSprintAPI.searchTask(query, sprintId, authorization)
-    //     dispatch(getTaskSprintsActionCreator(response.data))
-    // }
-}
-
 export const getTaskSprintForColumn = (sprintId, columnId, authorization) => {
 
     return async dispatch => {
@@ -156,6 +137,5 @@ export const createTaskSprintFromSprint = (taskSprintId, taskId, sprintId, autho
         dispatch(getTaskSprintsActionCreator(responseGet.data, sprintId))
     }
 }
-
 
 export default taskSprintReducer

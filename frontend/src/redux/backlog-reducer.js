@@ -1,4 +1,4 @@
-import {backlogAPI, tasksAPI, taskSprintAPI} from "../../api/api"
+import {backlogAPI, tasksAPI, taskSprintAPI} from "../api/api"
 
 const GET_BACKLOG_ELEMENTS = 'GET_BACKLOG_ELEMENTS'
 const GET_BACKLOG_FOR_PROJECT = 'GET_BACKLOG_FOR_PROJECT'

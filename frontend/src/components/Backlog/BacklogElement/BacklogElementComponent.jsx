@@ -5,7 +5,7 @@ import {Droppable} from "react-beautiful-dnd"
 
 const BacklogElementComponent = ({
                                      backlogForProject, createSprintHandler, isInputVisible, taskInputRef,
-                                     onKeyDown, onSetIsCreateTask, isCreateTask, testBtn
+                                     onKeyDown, onSetIsCreateTask, isCreateTask
                                  }) => {
 
     return (
@@ -34,7 +34,6 @@ const BacklogElementComponent = ({
                         onSetIsCreateTask()
                     }}>Create task</button>}
             </div>
-
         </>
     )
 }

@@ -4,7 +4,7 @@ import {connect} from "react-redux"
 import {useForm} from "antd/es/form/Form"
 import ProjectInfoComponent from "./ProjectInfoComponent"
 import {AuthContext} from "../../../../context/AuthContext"
-import {deleteProject, getProjectById, getProjects, updateProject} from "../../../../redux/scrum/projects-reducer";
+import {deleteProject, getProjectById, getProjects, updateProject} from "../../../../redux/projects-reducer"
 
 const ProjectInfoContainer = props => {
 
@@ -36,7 +36,6 @@ const ProjectInfoContainer = props => {
     const onDeleteHandler = () => {
         !!props.isDeleteModal ? props.setIsDeleteModal(false) : props.setIsDeleteModal(true)
     }
-
 
     return (
         <>

@@ -7,15 +7,12 @@ const TaskBoardComponent = ({
                                 setIsTaskInfo, marksScrumAll
                             }) => {
 
-    // console.log(marksScrumAll[taskSprint.task_scrum.id])
     return (
         <>
-            <button onMouseDown={() => {
+            <button onMouseUp={() => setIsTaskInfo(true)} className="task-component-container" onMouseDown={() => {
                 taskInfoHandler(taskSprint)
                 getCurrentTaskFromServer(taskSprint)
-            }} className="task-component-container"
-                    onMouseUp={() => setIsTaskInfo(true)}
-            >
+            }}>
                 <div className="task-component-settings"><EllipsisOutlined/></div>
                 <div className="task-title">{taskSprint?.task_scrum?.task_name}</div>
                 {marksScrumAll[taskSprint.task_scrum.id] && marksScrumAll[taskSprint.task_scrum.id].map(mark =>
