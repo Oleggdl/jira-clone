@@ -3,7 +3,7 @@
 
 .task-backlog-component-container {
   display: flex;
-  cursor: grab;
+  cursor: unset!important;
   border: unset;
   width: 100%;
 
@@ -41,15 +41,19 @@
 }
 
 .task-backlog-component-labels {
-  display: inline-block;
+  display: flex;
   margin-top: 2px;
   margin-left: auto;
   margin-right: 0;
   font-size: 1.3rem;
   padding: 1px 3px;
   border-radius: 2px;
-  background-color: $column-container-background;
   color: $secondary-text;
+}
+
+.mark-element-backlog {
+  min-width: 40px;
+  margin: 0 4px;
 }
 
 .task-backlog-component-settings {
@@ -59,6 +63,8 @@
   border-radius: 3px;
   background-color: $column-container-background;
   padding: 2px 5px;
+  font-size: 3rem;
+  line-height: 1;
 }
 
 .task-title {

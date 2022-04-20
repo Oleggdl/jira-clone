@@ -1,12 +1,12 @@
 import React from 'react'
 import './TaskInformation.scss'
-import {Button, Input} from "antd"
-import {CloseOutlined} from "@ant-design/icons";
+import {Button, Form, Input} from "antd"
+import {CloseSquareOutlined} from "@ant-design/icons"
 
 const TaskInformationComponent = ({
                                       currentTaskScrum, setIsAddMarks, isAddMarks, marksAddRef, currentTaskFromServer,
-                                      setValue, value, onCancel, setActiveColor, addMarksConfirm, marksScrum,
-                                      active, setActive, activeColorHandler, deleteMarkHandler
+                                      onCancel, setActiveColor, addMarksConfirm, marksScrum,
+                                      active, setActive, activeColorHandler, deleteMarkHandler, form
                                   }) => {
 
     const markColors = [
@@ -32,7 +32,7 @@ const TaskInformationComponent = ({
                     {marksScrum.map(mark =>
                         <div className="mark-element" style={{backgroundColor: mark.mark_color}}
                              key={mark.id}>{mark.mark_text} <span onClick={() => deleteMarkHandler(mark)}>
-                            <CloseOutlined/></span>
+                            <CloseSquareOutlined /></span>
                         </div>)}
                 </div>
                 <button className="add-mark-button" onClick={() => setIsAddMarks(true)}>Add mark</button>
@@ -51,25 +51,36 @@ const TaskInformationComponent = ({
                 <div className="add-marks-container">
                     <h3>Add marks to <span>{currentTaskFromServer?.task_name}</span>?</h3>
                     <h4>Mark name</h4>
-                    <Input value={value} onChange={(e) => setValue(e.target.value)} placeholder="Enter mark name"/>
-                    <h4>Mark color</h4>
-                    <div className="color-picker">
-                        {markColors.map((markColor, index) =>
-                            <div key={index} onClick={() => {
-                                setActiveColor(markColor.value)
-                                activeColorHandler()
-                            }}
-                                // className={active}
-                                 style={{backgroundColor: markColor.value}}>
-                            </div>)}
-                    </div>
-                    <Button className="add-marks-confirm" type="primary" onClick={() => {
-                        addMarksConfirm()
+                    <Form form={form} onFinish={(values) => {
+                        addMarksConfirm(values)
                         onCancel()
-                    }}>Add</Button>
-                    <Button onClick={onCancel}>
-                        Cancel
-                    </Button>
+                    }}
+                          autoComplete="off">
+                        <Form.Item
+                            name="mark_text"
+                            style={{marginRight: "15px"}}
+                            rules={[{required: false},
+                                {max: 10, message: `Mark name cannot be longer than 10 characters`}]}>
+                            <Input placeholder="Enter mark name"/>
+                        </Form.Item>
+                        <h4>Mark color</h4>
+                        <div className="color-picker">
+                            {markColors.map((markColor, index) =>
+                                <div key={index} onClick={() => {
+                                    setActiveColor(markColor.value)
+                                    activeColorHandler()
+                                }}
+                                    // className={active}
+                                     style={{backgroundColor: markColor.value}}>
+                                </div>)}
+                        </div>
+                        <Button className="add-marks-confirm" type="primary" htmlType="submit">
+                            Add
+                        </Button>
+                        <Button onClick={onCancel}>
+                            Cancel
+                        </Button>
+                    </Form>
                 </div>
                 <div className="delete-task-wrapper" ref={marksAddRef}></div>
             </>}

@@ -1,11 +1,11 @@
 import React from 'react'
-import {EllipsisOutlined, SolutionOutlined} from "@ant-design/icons"
+import {CloseSquareOutlined, EllipsisOutlined, SolutionOutlined} from "@ant-design/icons"
 import './TaskBacklog.scss'
 import {Draggable} from "react-beautiful-dnd"
 
 const TaskBacklogComponent = ({
                                   currentProject, taskInfoHandler, task, index, getCurrentTaskFromServer,
-                                  setIsTaskInfo
+                                  setIsTaskInfo, marksScrumAll
                               }) => {
 
     const taskScrumId = task.task_scrum ? task.task_scrum.id.toString() : task.scrum_task_id.id.toString()
@@ -25,7 +25,13 @@ const TaskBacklogComponent = ({
                                 <div className="task-title">{task.scrum_task_id
                                     ? task.scrum_task_id.task_name
                                     : task.task_scrum.task_name}</div>
-                                <div className="task-backlog-component-labels">Ready</div>
+                                <div className="task-backlog-component-labels">
+                                    {marksScrumAll[taskScrumId] && marksScrumAll[taskScrumId].map(mark =>
+                                        <div className="mark-element mark-element-backlog"
+                                             style={{backgroundColor: mark.mark_color}}
+                                             key={mark.id}>{mark.mark_text}
+                                        </div>)}
+                                </div>
                                 <div className="task-backlog-component-settings" onMouseUp={() => setIsTaskInfo(true)}
                                      onMouseDown={() => {
                                          taskInfoHandler(task)

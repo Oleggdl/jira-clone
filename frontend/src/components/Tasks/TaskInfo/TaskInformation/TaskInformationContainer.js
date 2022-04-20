@@ -4,6 +4,7 @@ import {compose} from "redux"
 import {connect} from "react-redux"
 import {createMarksScrum, deleteMarksScrum} from "../../../../redux/marksScrum-reducer"
 import {AuthContext} from "../../../../context/AuthContext"
+import {useForm} from "antd/es/form/Form";
 
 const TaskInformationContainer = (props) => {
 
@@ -12,19 +13,20 @@ const TaskInformationContainer = (props) => {
         Authorization: `Bearer ${token}`
     }
 
+    const [form] = useForm()
+
     const currentTaskScrum = !!props.currentTask.scrum_task_id
         ? props.currentTask.scrum_task_id
         : props.currentTask.task_scrum
 
     const [isAddMarks, setIsAddMarks] = useState(false)
-    const [value, setValue] = useState('')
     const [activeColor, setActiveColor] = useState('')
     const [active, setActive] = useState('')
 
     const onCancel = () => {
-        setValue('')
         setActiveColor('')
         setIsAddMarks(false)
+        form.resetFields()
     }
 
     const marksAddRef = useRef()
@@ -40,8 +42,12 @@ const TaskInformationContainer = (props) => {
         return window.removeEventListener("click", (event) => closeTaskInfoHandler(event))
     }, [])
 
-    const addMarksConfirm = () => {
-        props.createMarksScrum({mark_text: value, mark_color: activeColor}, props.currentTaskFromServer.id, headers)
+    const addMarksConfirm = (values) => {
+        props.createMarksScrum({
+            mark_text: values.mark_text,
+            mark_color: activeColor
+        }, props.currentTaskFromServer.id, headers)
+        form.resetFields()
     }
 
     const activeColorHandler = () => {
@@ -54,10 +60,10 @@ const TaskInformationContainer = (props) => {
 
     return (
         <>
-            <TaskInformationComponent currentTaskScrum={currentTaskScrum} isAddMarks={isAddMarks}
+            <TaskInformationComponent currentTaskScrum={currentTaskScrum} isAddMarks={isAddMarks} form={form}
                                       setIsAddMarks={setIsAddMarks} marksAddRef={marksAddRef}
-                                      currentTaskFromServer={props.currentTaskFromServer} value={value}
-                                      setValue={setValue} activeColor={activeColor} setActiveColor={setActiveColor}
+                                      currentTaskFromServer={props.currentTaskFromServer}
+                                      activeColor={activeColor} setActiveColor={setActiveColor}
                                       addMarksConfirm={addMarksConfirm} onCancel={onCancel}
                                       marksScrum={props.marksScrum} active={active} setActive={setActive}
                                       activeColorHandler={activeColorHandler} deleteMarkHandler={deleteMarkHandler}

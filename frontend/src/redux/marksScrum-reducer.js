@@ -40,9 +40,9 @@ export const createMarksScrum = (data, taskId, authorization) => {
     return async dispatch => {
         const responsePost = await marksAPI.createMark(data, authorization)
         const responsePut = await marksAPI.uniteMarkTask(responsePost.data.id, taskId, authorization)
-
         const response = await marksAPI.getMarkScrumForTask(taskId, authorization)
         dispatch(getMarksScrumActionCreator(response.data))
+        dispatch(getMarksScrumAllActionCreator(taskId, response.data))
     }
 }
 
@@ -68,7 +68,8 @@ export const deleteMarksScrum = (id, taskId, authorization) => {
         const responseDel = await marksAPI.deleteMarkScrum(id, authorization)
         const response = await marksAPI.getMarkScrumForTask(taskId, authorization)
         dispatch(getMarksScrumActionCreator(response.data))
-        dispatch(getMarksScrumActionCreator(response.data))
+        dispatch(getMarksScrumAllActionCreator(taskId, response.data))
+
     }
 }
 

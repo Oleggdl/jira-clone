@@ -8,6 +8,7 @@
   width: 100%;
   border: unset;
   text-align: left;
+  cursor: grab;
 
   &:hover {
     background-color: $button-background-color;
@@ -23,7 +24,6 @@
 }
 
 .task-component-key {
-
   padding-top: 20px;
   display: flex;
 
@@ -39,12 +39,19 @@
   }
 }
 
-.task-component-labels {
-  display: inline-block;
-  width: 100px;
+.task-board-marks {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  column-gap: 5px;
+  row-gap: 5px;
   margin-top: 10px;
+}
+
+.task-component-labels {
+  min-width: 20px;
+  min-height: 24px;
   font-size: 1.3rem;
-  padding: 1px 3px;
+  padding: 2px 4px;
   border-radius: 2px;
   background-color: $column-container-background;
   color: #ffffff;
@@ -57,6 +64,7 @@
   margin-left: 10px;
   opacity: 0;
   transition: .3s;
+  cursor: pointer;
   border-radius: 3px;
   background-color: $column-container-background;
   padding: 2px 5px;

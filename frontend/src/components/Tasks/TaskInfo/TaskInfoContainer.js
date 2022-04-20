@@ -38,30 +38,26 @@ const TaskInfoContainer = (props) => {
         setIsTaskInfo(false)
     }
 
-    useEffect(() => {
-        window.addEventListener("click", function (event) {
-            if (event.target === taskInfoWrapper.current) {
-                setIsTaskInfo(false)
-            }
-        })
-        return window.removeEventListener("click", function (event) {
-            if (event.target === taskInfoWrapper.current) {
-                setIsTaskInfo(false)
-            }
-        })
-    }, [])
+    const closeTaskInfoHandler = (event) => {
+        if (event.target === taskInfoWrapper.current) {
+            setIsTaskInfo(false)
+        }
+    }
 
     useEffect(() => {
-        window.addEventListener("click", function (event) {
-            if (event.target === taskDelRef.current) {
-                setIsDeleteTask(false)
-            }
-        })
-        return window.removeEventListener("click", function (event) {
-            if (event.target === taskDelRef.current) {
-                setIsDeleteTask(false)
-            }
-        })
+        window.addEventListener("click", event => closeTaskInfoHandler(event))
+        return window.removeEventListener("click", event => closeTaskInfoHandler(event))
+    }, [])
+
+    const deleteTaskWindowHandler = event => {
+        if (event.target === taskDelRef.current) {
+            setIsDeleteTask(false)
+        }
+    }
+
+    useEffect(() => {
+        window.addEventListener("click", event => deleteTaskWindowHandler(event))
+        return window.removeEventListener("click", event => deleteTaskWindowHandler(event))
     }, [])
 
     const [form] = useForm()

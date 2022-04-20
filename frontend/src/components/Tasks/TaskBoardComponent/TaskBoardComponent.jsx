@@ -9,20 +9,22 @@ const TaskBoardComponent = ({
 
     return (
         <>
-            <button onMouseUp={() => setIsTaskInfo(true)} className="task-component-container" onMouseDown={() => {
-                taskInfoHandler(taskSprint)
-                getCurrentTaskFromServer(taskSprint)
-            }}>
-                <div className="task-component-settings"><EllipsisOutlined/></div>
+            <div className="task-component-container">
+                <div className="task-component-settings" onMouseUp={() => setIsTaskInfo(true)} onMouseDown={() => {
+                    taskInfoHandler(taskSprint)
+                    getCurrentTaskFromServer(taskSprint)
+                }}><EllipsisOutlined/></div>
                 <div className="task-title">{taskSprint?.task_scrum?.task_name}</div>
-                {marksScrumAll[taskSprint.task_scrum.id] && marksScrumAll[taskSprint.task_scrum.id].map(mark =>
-                    <div key={mark.id} className="task-component-labels"
-                         style={{backgroundColor: `${mark.mark_color}`}}>{mark.mark_text}</div>)}
+                <div className="task-board-marks">
+                    {marksScrumAll[taskSprint.task_scrum.id] && marksScrumAll[taskSprint.task_scrum.id].map(mark =>
+                        <div key={mark.id} className="task-component-labels"
+                             style={{backgroundColor: `${mark.mark_color}`}}>{mark.mark_text}</div>)}
+                </div>
                 <div className="task-component-key">
                     <SolutionOutlined/>
                     <div style={{}}>{currentProject.project_key}-{taskSprint.id}</div>
                 </div>
-            </button>
+            </div>
         </>
     )
 }
