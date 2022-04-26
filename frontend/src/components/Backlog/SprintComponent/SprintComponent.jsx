@@ -39,7 +39,7 @@ const SprintComponent = ({
                     <div className="sprint-settings" onClick={isSettingsSprintHandler}><EllipsisOutlined
                         ref={settingsSprintBtnRef}/></div>
                     {isSettingsSprint && <div className="sprint-settings-window">
-                        <div><h3>Change sprint</h3></div>
+                        {/*<div><h3>Change sprint</h3></div>*/}
                         <div onClick={() => {
                             setIsDeleteSprint(true)
                             setIsSettingsSprint(false)
@@ -49,7 +49,10 @@ const SprintComponent = ({
                         <div className="delete-sprint-container">
                             <h3>Remove Sprint?</h3>
                             <p>Are you sure you want to delete <span>{sprint.sprint_name}</span>?</p>
-                            <Button danger={true} onClick={() => deleteSprintHandler()}
+                            <Button danger={true} onClick={() => {
+                                deleteSprintHandler()
+                                setIsDeleteSprint(false)
+                            }}
                                     className="confirm-delete-sprint">Delete</Button>
                             <Button onClick={() => setIsDeleteSprint(false)}>Cancel</Button>
                         </div>
@@ -78,3 +81,5 @@ const SprintComponent = ({
 }
 
 export default SprintComponent
+
+

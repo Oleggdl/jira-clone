@@ -1,6 +1,7 @@
 package com.example.jiraclone.entities.scrum;
 
 
+import com.example.jiraclone.entities.Users;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
@@ -21,9 +22,12 @@ public class ProjectScrum {
 
     private String project_name;
     private String project_key;
-    private String project_type;
     private String project_description;
     private Boolean is_favorite;
+
+    @ManyToOne()
+    @JoinColumn(name = "supervisor", referencedColumnName = "id")
+    private Users supervisor;
 
     @JsonIgnore
     @OneToMany(mappedBy = "scrum_project_id", cascade = CascadeType.ALL, orphanRemoval = true)

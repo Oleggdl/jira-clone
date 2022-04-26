@@ -2,10 +2,12 @@ import {backlogAPI, tasksAPI, taskSprintAPI} from "../api/api"
 
 const GET_BACKLOG_ELEMENTS = 'GET_BACKLOG_ELEMENTS'
 const GET_BACKLOG_FOR_PROJECT = 'GET_BACKLOG_FOR_PROJECT'
+const GET_DELETED_MESSAGE = 'GET_DELETED_MESSAGE'
 
 let initialState = {
     backlogElements: [],
-    backlogForProject: []
+    backlogForProject: [],
+    isTaskDeleted: null
 }
 
 const backlogReducer = (state = initialState, action) => {
@@ -25,6 +27,13 @@ const backlogReducer = (state = initialState, action) => {
             }
         }
 
+        case GET_DELETED_MESSAGE: {
+            return {
+                ...state,
+                isTaskDeleted: action.isTaskDeleted
+            }
+        }
+
         default:
             return state
     }
@@ -32,6 +41,7 @@ const backlogReducer = (state = initialState, action) => {
 
 
 export const getBacklogElementsActionCreator = backlogElements => ({type: GET_BACKLOG_ELEMENTS, backlogElements})
+export const isTaskDeletedActionCreator = isTaskDeleted => ({type: GET_DELETED_MESSAGE, isTaskDeleted})
 export const getBacklogForProjectActionCreator = backlogForProject => ({
     type: GET_BACKLOG_FOR_PROJECT,
     backlogForProject
@@ -83,10 +93,11 @@ export const getBacklogForProject = (projectId, authorization) => {
     }
 }
 
-export const deleteTask = (taskId, authorization) => {
+export const deleteTask = (taskId, userId, projectId, authorization) => {
 
     return async dispatch => {
-        const responseDel = await tasksAPI.deleteTask(taskId, authorization)
+        const responseDel = await tasksAPI.deleteTask(taskId, userId, projectId, authorization)
+        dispatch(isTaskDeletedActionCreator(responseDel.data['deleted']))
         const response = await backlogAPI.getBacklogElements(authorization)
         dispatch(getBacklogElementsActionCreator(response.data))
     }

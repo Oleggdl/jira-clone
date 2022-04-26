@@ -37,10 +37,6 @@ const ProjectInfoComponent = ({
                                rules={[{required: true, message: 'Please input project key!'}]}>
                         <Input placeholder="Enter project key"/>
                     </Form.Item>
-                    <Typography.Paragraph style={{marginLeft: "75px"}} level={5}>Project type:
-                        <span style={{marginLeft: "10px", fontWeight: "bold"}}>
-                            {projectData?.project_type?.toUpperCase()}</span>
-                    </Typography.Paragraph>
                     <Form.Item
                         label="Project description"
                         name="project_description"
@@ -50,7 +46,7 @@ const ProjectInfoComponent = ({
                     </Form.Item>
                     <Typography.Paragraph style={{marginLeft: "84px"}} level={5}>Supervisor:
                         <span style={{marginLeft: "10px", fontWeight: "bold"}}>
-                            {projectDataAll.users.username}</span>
+                            {projectDataAll.scrum_project.supervisor.username}</span>
                     </Typography.Paragraph>
                     <Form.Item
                         label="Add to favorite projects"

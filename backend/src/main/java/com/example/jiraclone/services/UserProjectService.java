@@ -44,6 +44,18 @@ public class UserProjectService {
         return ResponseEntity.ok(userScrumProject);
     }
 
+    public ResponseEntity<Boolean> isUserProjectExist(Long userId, Long projectId) {
+        List<UserScrumProject> projectScrums = userScrumProjectRepository.findAll();
+        Users users = userRepository.findById(userId).get();
+        ProjectScrum projectScrum = projectScrumRepository.findById(projectId).get();
+        for (int i = 0; i <= projectScrums.size() - 1; i++) {
+            if (projectScrums.get(i).getUsers() == users && projectScrums.get(i).getScrum_project() == projectScrum) {
+                return ResponseEntity.ok(true);
+            }
+        }
+        return ResponseEntity.ok(false);
+    }
+
     public List<UserScrumProject> getUserScrumProjects(Long userId) {
         Users users = userRepository.findById(userId).get();
         List<UserScrumProject> projectScrums = userScrumProjectRepository.findAll();

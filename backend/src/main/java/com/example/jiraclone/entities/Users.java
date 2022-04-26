@@ -1,5 +1,6 @@
 package com.example.jiraclone.entities;
 
+import com.example.jiraclone.entities.scrum.ProjectScrum;
 import com.example.jiraclone.entities.scrum.UserScrumProject;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
@@ -26,6 +27,10 @@ public class Users {
     @JsonIgnore
     @OneToMany(mappedBy = "users")
     private Set<UserScrumProject> userScrumProjects;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "supervisor")
+    private Set<ProjectScrum> supervisor;
 
     public Users() {
     }

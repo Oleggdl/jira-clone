@@ -36,13 +36,6 @@ const CreateProjectComponent = ({form, handleSubmit, onReset}) => {
                                    {pattern: new RegExp(/[a-z]/gi), message: 'Project key must contain letters'}]}>
                         <Input placeholder="Enter project key"/>
                     </Form.Item>
-                    <Form.Item label="Project type" name="project_type"
-                               rules={[{required: true, message: 'Please select project type!'}]}>
-                        <Select placeholder="Select project type" className="project-select">
-                            <Option value="kanban">Kanban</Option>
-                            <Option value="scrum">Scrum</Option>
-                        </Select>
-                    </Form.Item>
                     <Form.Item
                         label="Project description"
                         name="project_description"

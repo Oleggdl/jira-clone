@@ -30,9 +30,14 @@ const CommentElementContainer = (props) => {
     }
 
     const confirmHandler = (id) => {
-        props.deleteCommentScrum(id, props.currentTask?.task_scrum ? props.currentTask?.task_scrum?.id
-            : props.currentTask?.scrum_task_id?.id, headers)
-        setIsConfirmWindow(false)
+        if (props.comment.user_id.users.id === props.currentUser.id || props.currentProject.user_role.id === 1) {
+            props.deleteCommentScrum(id, props.currentTask?.task_scrum ? props.currentTask?.task_scrum?.id
+                : props.currentTask?.scrum_task_id?.id, headers)
+            setIsConfirmWindow(false)
+        } else {
+            console.log("You can't delete comment")
+        }
+
     }
 
     const cancelHandler = () => {
@@ -44,11 +49,15 @@ const CommentElementContainer = (props) => {
     }
 
     const onChangeComment = (id, values) => {
-        props.updateCommentScrum(id, {
-            content: values.content,
-            is_changed: true
-        }, props.currentTask?.task_scrum ? props.currentTask?.task_scrum?.id
-            : props.currentTask?.scrum_task_id?.id, headers)
+        if (props.comment.user_id.users.id === props.currentUser.id || props.currentProject.user_role.id === 1) {
+            props.updateCommentScrum(id, {
+                content: values.content,
+                is_changed: true
+            }, props.currentTask?.task_scrum ? props.currentTask?.task_scrum?.id
+                : props.currentTask?.scrum_task_id?.id, headers)
+        } else {
+            console.log("You can't change comment")
+        }
         onReset()
     }
 
@@ -67,6 +76,8 @@ const CommentElementContainer = (props) => {
 const mapStateToProps = (state) => ({
     commentsScrum: state.commentsScrumReducer.commentsScrum,
     currentTask: state.tasksReducer.currentTask,
+    currentUser: state.userReducer.currentUser,
+    currentProject: state.projectsReducer.currentProject
 })
 
 export default compose(

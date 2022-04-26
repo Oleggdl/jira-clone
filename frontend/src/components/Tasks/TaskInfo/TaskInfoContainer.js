@@ -113,9 +113,19 @@ const TaskInfoContainer = (props) => {
     }
 
     const confirmDeleteTask = () => {
-        props.deleteTask(currentTaskScrum.id, headers)
+        props.deleteTask(currentTaskScrum.id, props.currentUser.id, props.currentProject.scrum_project.id, headers)
         setIsTaskInfo(false)
+
     }
+
+    // useEffect(() => {
+    //     if (!!props.isTaskDeleted) {
+    //         console.log('Task was deleted')
+    //     } else {
+    //         console.log('Task not deleted')
+    //     }
+    //
+    // }, [props.isTaskDeleted])
 
     return (
         <>
@@ -141,6 +151,8 @@ const mapStateToProps = state => ({
     currentProject: state.projectsReducer.currentProject,
     currentTaskFromServer: state.tasksReducer.currentTaskFromServer,
     backlogForProject: state.backlogReducer.backlogForProject,
+    currentUser: state.userReducer.currentUser,
+    isTaskDeleted: state.backlogReducer.isTaskDeleted
 })
 
 export default compose(

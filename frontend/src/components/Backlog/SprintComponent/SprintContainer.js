@@ -10,7 +10,7 @@ import {
 } from "../../../redux/taskSprint-reducer"
 import {AuthContext} from "../../../context/AuthContext"
 import {deleteSprint, startSprint} from "../../../redux/sprints-reducer"
-import {createBacklogElementFromSprint} from "../../../redux/backlog-reducer"
+import {createBacklogElementFromSprint, getBacklogForProject} from "../../../redux/backlog-reducer"
 
 const SprintContainer = props => {
 
@@ -18,9 +18,19 @@ const SprintContainer = props => {
     const headers = {
         Authorization: `Bearer ${token}`
     }
+
+    // useEffect(() => {
+    //     // props.unsetTaskSprints()
+    //     props.getTaskSprints(props.sprint.id, headers)
+    // }, [props.backlogElements])
+
     useEffect(() => {
         props.getTaskSprints(props.sprint.id, headers)
     }, [])
+
+    useEffect(() => {
+        props.getBacklogForProject(props.currentProject.scrum_project.id, headers)
+    }, [props.taskSprints])
 
     const [isCreateTask, setIsCreateTask] = useState(false)
     const [isInputVisible, setIsInputVisible] = useState('input-visible')
@@ -38,38 +48,30 @@ const SprintContainer = props => {
         taskInputRef.current.focus()
     }
 
-    useEffect(() => {
-        window.addEventListener("mousedown", function (event) {
-            if (event.target !== taskInputRef.current) {
-                if (!taskInputRef) {
-                    taskInputRef.current.value = null
-                }
-                setIsInputVisible('input-visible')
-                setIsCreateTask(false)
+    const addTaskToSprintHandler = event => {
+        if (event.target !== taskInputRef.current) {
+            if (!taskInputRef) {
+                taskInputRef.current.value = null
             }
-        })
-        return window.removeEventListener("mousedown", function (event) {
-            if (event.target !== taskInputRef.current) {
-                if (!taskInputRef) {
-                    taskInputRef.current.value = null
-                }
-                setIsInputVisible('input-visible')
-                setIsCreateTask(false)
-            }
-        })
-    })
+            setIsInputVisible('input-visible')
+            setIsCreateTask(false)
+        }
+    }
 
     useEffect(() => {
-        window.addEventListener("click", function (event) {
-            if (event.target === sprintDelRef.current) {
-                setIsDeleteSprint(false)
-            }
-        })
-        return window.removeEventListener("click", function (event) {
-            if (event.target === sprintDelRef.current) {
-                setIsDeleteSprint(false)
-            }
-        })
+        window.addEventListener("mousedown", event => addTaskToSprintHandler(event))
+        return window.removeEventListener("mousedown", event => addTaskToSprintHandler(event))
+    })
+
+    const closeDeleteSprintHandler = event => {
+        if (event.target === sprintDelRef.current) {
+            setIsDeleteSprint(false)
+        }
+    }
+
+    useEffect(() => {
+        window.addEventListener("click", event => closeDeleteSprintHandler(event))
+        return window.removeEventListener("click", event => closeDeleteSprintHandler(event))
     }, [])
 
     const onKeyDown = (e) => {
@@ -114,9 +116,6 @@ const SprintContainer = props => {
 
     const onKeyUp = (e) => {
         // if (e.keyCode === 13) {
-        //     setTimeout(() => {
-        //         props.getTaskSprints(props.sprint.id, headers)
-        //     }, 100)
         // }
     }
 
@@ -125,7 +124,21 @@ const SprintContainer = props => {
     }
 
     const deleteSprintHandler = () => {
-        props.deleteSprint(props.sprint.id, headers)
+
+        if (props.currentProject.user_role.id === 1) {
+            props.taskSprints.map(sprint => {
+                if (sprint.id === props.sprint.id) {
+                    sprint.taskSprint.map(taskSprint =>
+                        props.createBacklogElementFromSprint(taskSprint.id, taskSprint.task_scrum.id,
+                            props.currentProject.scrum_project.id, headers))
+                }
+                return null
+            })
+            props.deleteSprint(props.sprint.id, headers)
+        } else {
+            console.log("You can't delete sprint")
+        }
+
     }
 
     return (
@@ -149,12 +162,13 @@ const mapStateToProps = (state) => ({
     taskSprints: state.taskSprintReducer.taskSprints,
     currentUser: state.userReducer.currentUser,
     currentProject: state.projectsReducer.currentProject,
-    sprints: state.sprintsReducer.sprints
+    sprints: state.sprintsReducer.sprints,
+    backlogElements: state.backlogReducer.backlogElements
 })
 
 export default compose(
     connect(mapStateToProps, {
         getTaskSprints, createNewTaskSprint, unsetTaskSprints, startSprint, deleteSprint,
-        createBacklogElementFromSprint, createTaskSprintFromSprint
+        createBacklogElementFromSprint, createTaskSprintFromSprint, getBacklogForProject
     })
 )(SprintContainer)

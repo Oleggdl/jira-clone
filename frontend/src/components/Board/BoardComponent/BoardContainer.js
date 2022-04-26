@@ -24,7 +24,8 @@ const BoardContainer = (props) => {
     return (
         <>
             <TaskContext.Provider value={{isTaskInfo, setIsTaskInfo}}>
-                <BoardComponent isTaskInfo={isTaskInfo} columns={props.columns} currentSprint={props.currentSprint}/>
+                <BoardComponent isTaskInfo={isTaskInfo} columns={props.columns} currentSprint={props.currentSprint}
+                                currentProject={props.currentProject}/>
             </TaskContext.Provider>
         </>
     )
@@ -32,7 +33,8 @@ const BoardContainer = (props) => {
 
 const mapStateToProps = (state) => ({
     columns: state.columnsReducer.columns,
-    currentSprint: state.sprintsReducer.currentSprint
+    currentSprint: state.sprintsReducer.currentSprint,
+    currentProject: state.projectsReducer.currentProject
 })
 
 export default compose(

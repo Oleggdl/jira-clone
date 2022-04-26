@@ -4,7 +4,7 @@ import {connect} from "react-redux"
 import {useForm} from "antd/es/form/Form"
 import ProjectInfoComponent from "./ProjectInfoComponent"
 import {AuthContext} from "../../../../context/AuthContext"
-import {deleteProject, getProjectById, getProjects, updateProject} from "../../../../redux/projects-reducer"
+import {getProjectById, getProjects, updateProject} from "../../../../redux/projects-reducer"
 
 const ProjectInfoContainer = props => {
 
@@ -56,6 +56,6 @@ const mapStateToProps = (state) => ({
 })
 
 export default compose(
-    connect(mapStateToProps, {updateProject, getProjectById, getProjects, deleteProject})
+    connect(mapStateToProps, {updateProject, getProjectById, getProjects})
 )(ProjectInfoContainer)
 

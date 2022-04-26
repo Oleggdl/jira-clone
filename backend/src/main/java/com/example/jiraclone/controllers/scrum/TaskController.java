@@ -64,8 +64,9 @@ public class TaskController {
         return taskService.updateTaskName(id, taskScrumDetails);
     }
 
-    @DeleteMapping("/tasks/{id}")
-    public ResponseEntity<Map<String, Boolean>> deleteTask(@PathVariable Long id) {
-        return taskService.deleteTask(id);
+    @DeleteMapping("/tasks/{id}/{userId}/{projectId}")
+    public ResponseEntity<Map<String, Boolean>> deleteTask(@PathVariable Long id, @PathVariable Long userId,
+                                                           @PathVariable Long projectId) {
+        return taskService.deleteTask(id, userId, projectId);
     }
 }

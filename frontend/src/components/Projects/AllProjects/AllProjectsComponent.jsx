@@ -20,7 +20,7 @@ const AllProjectsComponent = ({
             {project.scrum_project.project_name}</NavLink>),
         projectKey: project.scrum_project.project_key,
         projectType: project.scrum_project.project_type,
-        supervisor: project.users.username
+        supervisor: project.scrum_project.supervisor.username
     }))
 
     const columns = [
@@ -33,11 +33,6 @@ const AllProjectsComponent = ({
             title: 'Project key',
             dataIndex: 'projectKey',
             key: 'projectKey',
-        },
-        {
-            title: 'Project type',
-            dataIndex: 'projectType',
-            key: 'projectType',
         },
         {
             title: 'Supervisor',

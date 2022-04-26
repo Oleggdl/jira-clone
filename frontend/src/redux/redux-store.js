@@ -9,6 +9,7 @@ import userReducer from "./users-reducer"
 import backlogReducer from "./backlog-reducer"
 import taskSprintReducer from "./taskSprint-reducer"
 import marksScrumReducer from "./marksScrum-reducer"
+import emailReducer from "./email-reducer"
 
 let reducers = combineReducers({
     projectsReducer: projectsReducer,
@@ -19,7 +20,8 @@ let reducers = combineReducers({
     userReducer: userReducer,
     backlogReducer: backlogReducer,
     taskSprintReducer: taskSprintReducer,
-    marksScrumReducer: marksScrumReducer
+    marksScrumReducer: marksScrumReducer,
+    emailReducer: emailReducer
 })
 
 const store = createStore(reducers, applyMiddleware(thunkMiddleware))

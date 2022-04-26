@@ -32,14 +32,20 @@ public class ProjectController {
         return projectService.getProjectById(id);
     }
 
+    @PutMapping("/projects/supervisor/{id}/{userId}")
+    public ResponseEntity<ProjectScrum> addSupervisorToProject(@PathVariable Long id, @PathVariable Long userId) {
+        return projectService.addSupervisorToProject(id, userId);
+    }
+
     @PutMapping("/projects/{id}")
     public ResponseEntity<ProjectScrum> updateProject(@PathVariable Long id,
                                                       @RequestBody ProjectScrum projectScrumDetails) {
         return projectService.updateProject(id, projectScrumDetails);
     }
 
-    @DeleteMapping("/projects/{id}")
-    public ResponseEntity<Map<String, Boolean>> deleteProject(@PathVariable Long id) {
-        return projectService.deleteProject(id);
+
+    @DeleteMapping("/projects/{id}/{userId}")
+    public ResponseEntity<Map<String, Boolean>> deleteProject(@PathVariable Long id, @PathVariable Long userId) {
+        return projectService.deleteProject(id, userId);
     }
 }

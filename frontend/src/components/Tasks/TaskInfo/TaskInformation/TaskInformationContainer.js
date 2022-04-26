@@ -64,7 +64,7 @@ const TaskInformationContainer = (props) => {
                                       setIsAddMarks={setIsAddMarks} marksAddRef={marksAddRef}
                                       currentTaskFromServer={props.currentTaskFromServer}
                                       activeColor={activeColor} setActiveColor={setActiveColor}
-                                      addMarksConfirm={addMarksConfirm} onCancel={onCancel}
+                                      addMarksConfirm={addMarksConfirm} onCancel={onCancel} currentTask={props.currentTask}
                                       marksScrum={props.marksScrum} active={active} setActive={setActive}
                                       activeColorHandler={activeColorHandler} deleteMarkHandler={deleteMarkHandler}
             />

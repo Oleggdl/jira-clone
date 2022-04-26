@@ -66,24 +66,24 @@ const BacklogContainer = props => {
         setBacklogForProject(active)
     }
 
-    function usePrevious(value) {
-        const ref = useRef()
-        useEffect(() => {
-            ref.current = value
-        }, [value])
-        return ref.current
-    }
+    // function usePrevious(value) {
+    //     const ref = useRef()
+    //     useEffect(() => {
+    //         ref.current = value
+    //     }, [value])
+    //     return ref.current
+    // }
+    //
+    // const previousValue = usePrevious(props.sprints)
 
-    const previousValue = usePrevious(props.sprints)
-
-    useEffect(() => {
-
-
-        if (!previousValue || props.backlogForProject > previousValue) {
-            // props.getBacklogForProject(props.currentProject.scrum_project.id, headers)
-            // props.getSprints(props.currentProject.scrum_project.id, headers)
-        }
-    })
+    // useEffect(() => {
+    //
+    //
+    //     if (!previousValue || props.backlogForProject > previousValue) {
+    //         // props.getBacklogForProject(props.currentProject.scrum_project.id, headers)
+    //         // props.getSprints(props.currentProject.scrum_project.id, headers)
+    //     }
+    // })
 
 
     useEffect(() => {
@@ -96,7 +96,7 @@ const BacklogContainer = props => {
         <>
             <TaskContext.Provider value={{isTaskInfo, setIsTaskInfo}}>
                 <BacklogComponent sprints={props.sprints} isTaskInfo={isTaskInfo} onDragEnd={onDragEnd}
-                                  backlogForProject={props.backlogForProject}
+                                  backlogForProject={props.backlogForProject} currentProject={props.currentProject}
                                   setBacklogForProject={setBacklogForProject}
                                   backlogForProjectSprint={backlogForProjectSprint}
                                   setBacklogForProjectSprint={setBacklogForProjectSprint}/>

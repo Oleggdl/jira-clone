@@ -12,6 +12,9 @@ export const projectsAPI = {
     updateProject(id, data, headers) {
         return instance.put(`scrum/projects/${id}`, data, {headers: headers})
     },
+    addSupervisor(id, userId, headers) {
+        return instance.put(`scrum/projects/supervisor/${id}/${userId}`, null, {headers: headers})
+    },
     getProjects(headers) {
         return instance.get(`scrum/projects`, {headers: headers})
     },
@@ -21,8 +24,8 @@ export const projectsAPI = {
     searchProjects(query, userId, headers) {
         return instance.get(`scrum/userScrumProject/search/${userId}?projectName=${query}`, {headers: headers})
     },
-    deleteProject(id, headers) {
-        return instance.delete(`scrum/projects/${id}`, {headers: headers})
+    deleteProject(id, userId, headers) {
+        return instance.delete(`scrum/projects/${id}/${userId}`, {headers: headers})
     },
 }
 
@@ -32,6 +35,9 @@ export const userScrumProjectAPI = {
     },
     getUserScrumProject(userId, headers) {
         return instance.get(`/scrum/userScrumProject/forUsers/${userId}`, {headers: headers})
+    },
+    isUserProjectExist(userId, projectId, headers) {
+        return instance.get(`/scrum/userScrumProject/isExist/${userId}/${projectId}`, {headers: headers})
     },
     getUserScrumProjectFavorite(userId, headers) {
         return instance.get(`/scrum/userScrumProject/forUsers/favorite/${userId}`, {headers: headers})
@@ -64,8 +70,8 @@ export const tasksAPI = {
     getUsersOnProject(projectId, headers) {
         return instance.get(`/scrum/userScrumProject/usersOnProject/${projectId}`, {headers: headers})
     },
-    deleteTask(id, headers) {
-        return instance.delete(`/scrum/tasks/${id}`, {headers: headers})
+    deleteTask(id, userId, projectId, headers) {
+        return instance.delete(`/scrum/tasks/${id}/${userId}/${projectId}`, {headers: headers})
     },
 }
 
@@ -102,9 +108,6 @@ export const taskSprintAPI = {
     },
     deleteTaskSprints(taskSprintId, headers) {
         return instance.delete(`scrum/taskSprint/${taskSprintId}`, {headers: headers})
-    },
-    searchTask(query, sprintId, headers) {
-        return instance.get(`scrum/taskSprint/search/${sprintId}?taskName=${query}`, {headers: headers})
     },
     startSprintColumn(taskSprintId, columnId, headers) {
         return instance.put(`scrum/taskSprint/${taskSprintId}/${columnId}`, null, {headers: headers})
@@ -184,6 +187,11 @@ export const marksAPI = {
     },
     deleteMarkScrum(id, headers) {
         return instance.delete(`scrum/marksScrum/${id}`, {headers: headers})
-    },
+    }
+}
 
+export const emailAPI = {
+    addColleague(data, headers) {
+        return instance.post(`email/add_user`, data, {headers: headers})
+    }
 }

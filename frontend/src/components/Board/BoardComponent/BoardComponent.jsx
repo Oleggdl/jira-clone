@@ -2,16 +2,17 @@ import React from 'react'
 import ColumnContainer from "../BoardColumn/ColumnContainer"
 import './Board.scss'
 import TaskInfoContainer from "../../Tasks/TaskInfo/TaskInfoContainer"
+import {NavLink} from "react-router-dom";
 
-const BoardComponent = ({isTaskInfo, columns, currentSprint}) => {
+const BoardComponent = ({isTaskInfo, columns, currentSprint, currentProject}) => {
 
     return (
         <>
             <div className="board-container">
                 <div className="project-path">
-                    <span className="project-text">Projects</span>
+                    <span className="project-text"><NavLink to="/all_projects">Projects</NavLink></span>
                     <span> / </span>
-                    <span className="project-text">Project name</span>
+                    <span>{currentProject?.scrum_project.project_name}</span>
                 </div>
                 <h2>Board Name</h2>
                 <div className="search-tasks-container" style={{width: "320px"}}>

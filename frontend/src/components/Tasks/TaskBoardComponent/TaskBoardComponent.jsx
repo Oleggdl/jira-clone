@@ -22,7 +22,8 @@ const TaskBoardComponent = ({
                 </div>
                 <div className="task-component-key">
                     <SolutionOutlined/>
-                    <div style={{}}>{currentProject.project_key}-{taskSprint.id}</div>
+                    <div>{currentProject.project_key}-{taskSprint.task_scrum
+                        ? taskSprint.task_scrum.id : taskSprint.scrum_task_id.id}</div>
                 </div>
             </div>
         </>

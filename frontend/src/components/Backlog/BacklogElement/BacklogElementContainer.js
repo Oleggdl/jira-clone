@@ -25,7 +25,7 @@ const BacklogElementContainer = (props) => {
     }
 
     const createSprintHandler = (data) => {
-        props.createSprint({is_started: false}, props.currentProject.scrum_project.id, headers)
+        props.createSprint({is_started: false, sprint_name: `BoardSprint ${props.sprints.length + 1}`}, props.currentProject.scrum_project.id, headers)
     }
 
     useEffect(() => {

@@ -69,7 +69,6 @@ export const AuthComponent = ({
                             label="Email"
                             name="email"
                             rules={[{required: true, message: 'Please input email!'},
-                                {required: true, message: 'Please input username!'},
                                 {max: 30, message: `Email cannot be longer than 30 characters`},
                                 {min: 3, message: 'Email must be at least 3 characters'},
                                 {pattern: new RegExp(/@/gi), message: 'Email must contain @'}]}>

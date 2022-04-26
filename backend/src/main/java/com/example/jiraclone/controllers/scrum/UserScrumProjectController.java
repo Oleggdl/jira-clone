@@ -34,6 +34,11 @@ public class UserScrumProjectController {
         return projectService.getUserScrumProjects(userId);
     }
 
+    @GetMapping("/userScrumProject/isExist/{userId}/{projectId}")
+    public ResponseEntity<Boolean> isUserProjectExist(@PathVariable Long userId, @PathVariable Long projectId) {
+        return projectService.isUserProjectExist(userId, projectId);
+    }
+
     @GetMapping("/userScrumProject/forUsers/favorite/{userId}")
     public List<UserScrumProject> getUserScrumProjectsFavorite(@PathVariable Long userId) {
         return projectService.getUserScrumProjectsFavorite(userId);

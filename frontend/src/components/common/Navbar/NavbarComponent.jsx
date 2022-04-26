@@ -1,12 +1,14 @@
 import React from 'react'
 import './Navbar.scss'
 import {NavLink} from "react-router-dom";
+import InviteColleagueContainer from "../InviteColleagueComponent/InviteColleagueContainer";
 
 export const NavbarComponent = ({
                                     isProjectsMenu, isStaffMenu, modalProjectsTitle, setIsStaffMenu,
                                     buttonProjects, buttonStaff, modalProjects, modalStaff, modalStaffTitle,
                                     logoutHandler, currentUser, currentProjectHandler, showProjectsMenu,
-                                    favoriteProjects, getFavoriteProjectHandler
+                                    favoriteProjects, getFavoriteProjectHandler, isInviteColleague,
+                                    setIsInviteColleague, inviteWrapper, getProjects
                                 }) => {
 
     function showStaffMenu() {
@@ -51,22 +53,24 @@ export const NavbarComponent = ({
                             </ul>
                         </div>}
                     </li>
-                    <li className="staff-container">
-                        <button onClick={showStaffMenu} className="nav-button" ref={buttonStaff}>Staff</button>
+                    <div className="staff-container">
+                        <button onClick={showStaffMenu} onMouseDown={getProjects} className="nav-button"
+                                ref={buttonStaff}>Staff
+                        </button>
                         {isStaffMenu && <div className="dropdown-content" ref={modalStaff}>
-                            <h3 ref={modalStaffTitle}>Your colleague</h3>
-                            <ul>
-                                <li>
-                                    <ul className="your-colleague">
-                                        <li className="user-links"><NavLink to="/">User_1</NavLink></li>
-                                        <li className="user-links"><NavLink to="/">User_2</NavLink></li>
-                                        <li className="user-links"><NavLink to="/">User_3</NavLink></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                            <li className="dropdown-content-links"><NavLink to="/">Invite a colleague</NavLink></li>
+                            <h3 ref={modalStaffTitle} style={{marginLeft: '10px'}}>Colleague</h3>
+                            {/*<ul className="your-colleague">*/}
+                            {/*    <li className="user-links"><NavLink to="/">User_1</NavLink></li>*/}
+                            {/*    <li className="user-links"><NavLink to="/">User_2</NavLink></li>*/}
+                            {/*    <li className="user-links"><NavLink to="/">User_3</NavLink></li>*/}
+                            {/*</ul>*/}
+                            <button className="invite-button" onClick={() => setIsInviteColleague(true)}>Invite a
+                                colleague
+                            </button>
                         </div>}
-                    </li>
+                        {isInviteColleague && <InviteColleagueContainer setIsInviteColleague={setIsInviteColleague}/>}
+                        {isInviteColleague && <div className="invite-colleague-wrapper" ref={inviteWrapper}></div>}
+                    </div>
                     <li className="user-link"><h2>{currentUser.username}</h2></li>
                     <li className="logoutLink">
                         <button onClick={logoutHandler} className="nav-button">Log out</button>

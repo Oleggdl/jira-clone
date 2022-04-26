@@ -4,18 +4,21 @@ import SprintContainer from "../SprintComponent/SprintContainer"
 import BacklogElementContainer from "../BacklogElement/BacklogElementContainer"
 import TaskInfoContainer from "../../Tasks/TaskInfo/TaskInfoContainer"
 import {DragDropContext} from "react-beautiful-dnd"
+import {NavLink} from "react-router-dom";
 
 const BacklogComponent = ({
                               sprints, isTaskInfo, backlogForProject, setBacklogForProject, onDragEnd,
-                              setBacklogForProjectSprint, backlogForProjectSprint
+                              setBacklogForProjectSprint, backlogForProjectSprint, currentProject,
+                              getSprints
                           }) => {
+
     return (
         <>
             <div className="backlog-container">
                 <div className="project-path">
-                    <span className="project-text">Projects</span>
+                    <span className="project-text"><NavLink to="/all_projects">Projects</NavLink></span>
                     <span> / </span>
-                    <span className="project-text">Project name</span>
+                    <span>{currentProject?.scrum_project.project_name}</span>
                 </div>
                 <h2>Backlog</h2>
                 <div className="search-tasks-container" style={{width: "320px"}}>

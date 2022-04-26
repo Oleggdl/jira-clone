@@ -5,7 +5,7 @@ import {CloseSquareOutlined} from "@ant-design/icons"
 
 const TaskInformationComponent = ({
                                       currentTaskScrum, setIsAddMarks, isAddMarks, marksAddRef, currentTaskFromServer,
-                                      onCancel, setActiveColor, addMarksConfirm, marksScrum,
+                                      onCancel, setActiveColor, addMarksConfirm, marksScrum, currentTask,
                                       active, setActive, activeColorHandler, deleteMarkHandler, form
                                   }) => {
 
@@ -32,12 +32,12 @@ const TaskInformationComponent = ({
                     {marksScrum.map(mark =>
                         <div className="mark-element" style={{backgroundColor: mark.mark_color}}
                              key={mark.id}>{mark.mark_text} <span onClick={() => deleteMarkHandler(mark)}>
-                            <CloseSquareOutlined /></span>
+                            <CloseSquareOutlined/></span>
                         </div>)}
                 </div>
                 <button className="add-mark-button" onClick={() => setIsAddMarks(true)}>Add mark</button>
                 <h4>Sprint</h4>
-                <p>{currentTaskScrum?.sprint?.name ? currentTaskScrum?.sprint?.name : 'None'}</p>
+                <p>{currentTask.sprint_task_sprint?.sprint_name ? currentTask.sprint_task_sprint?.sprint_name : 'None'}</p>
                 <h4>Executor</h4>
                 <div className="supervisor-container">
                     <div className="supervisor-logo"></div>

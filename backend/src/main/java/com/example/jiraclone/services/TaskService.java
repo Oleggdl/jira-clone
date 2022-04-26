@@ -1,11 +1,15 @@
 package com.example.jiraclone.services;
 
 import com.example.jiraclone.entities.Users;
+import com.example.jiraclone.entities.scrum.ProjectScrum;
 import com.example.jiraclone.entities.scrum.TaskScrum;
+import com.example.jiraclone.entities.scrum.UserScrumProject;
 import com.example.jiraclone.exceptions.ResourceNotFoundException;
 import com.example.jiraclone.repositories.UserRepository;
 import com.example.jiraclone.repositories.scrum.ColumnScrumRepository;
+import com.example.jiraclone.repositories.scrum.ProjectScrumRepository;
 import com.example.jiraclone.repositories.scrum.TaskScrumRepository;
+import com.example.jiraclone.repositories.scrum.UserScrumProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -25,6 +29,12 @@ public class TaskService {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    ProjectScrumRepository projectScrumRepository;
+
+    @Autowired
+    UserScrumProjectRepository userScrumProjectRepository;
 
     public List<TaskScrum> getAllTasks() {
         return taskScrumRepository.findAll();
@@ -79,12 +89,29 @@ public class TaskService {
         return ResponseEntity.ok(updateTaskScrum);
     }
 
-    public ResponseEntity<Map<String, Boolean>> deleteTask(Long id) {
+    public ResponseEntity<Map<String, Boolean>> deleteTask(Long id, Long userId, Long projectId) {
+        List<UserScrumProject> projectScrums = userScrumProjectRepository.findAll();
+        Users user = userRepository.findById(userId).get();
+        ProjectScrum projectScrum = projectScrumRepository.findById(projectId).get();
         TaskScrum taskScrum = taskScrumRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Task not exist with id:" + id));
-        taskScrumRepository.delete((taskScrum));
+
         Map<String, Boolean> response = new HashMap<>();
-        response.put("deleted", Boolean.TRUE);
+
+        for (int i = 0; i <= projectScrums.size() - 1; i++) {
+            if ((projectScrums.get(i).getUsers() == taskScrum.getCreator_id()
+                    && projectScrums.get(i).getUsers() == user)
+                    || (projectScrums.get(i).getUsers() == user
+                    && projectScrums.get(i).getUser_role().getId() == 1)
+                    && projectScrums.get(i).getScrum_project() == projectScrum) {
+
+                taskScrumRepository.delete((taskScrum));
+                response.put("deleted", Boolean.TRUE);
+                return ResponseEntity.ok(response);
+            }
+        }
+        response.put("deleted", Boolean.FALSE);
+
         return ResponseEntity.ok(response);
     }
 }

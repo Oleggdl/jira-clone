@@ -176,3 +176,29 @@ li {
     padding: 0 25px;
   }
 }
+
+.invite-button {
+  width: 100%;
+  height: 45px;
+  padding-left: 20px;
+  border: unset;
+  transition: .3s;
+  cursor: pointer;
+  text-align: left;
+  background: unset;
+  font-size: 1.6rem;
+
+  &:hover {
+    background-color: $links-hover-color;
+  }
+}
+
+.invite-colleague-wrapper{
+  position: fixed;
+  top: -64px;
+  left: 0;
+  width: 100vw;
+  height: calc(100vh + 64px);
+  background-color: rgb(0, 0, 0, 0.6);
+  z-index: 2;
+}

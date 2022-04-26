@@ -76,7 +76,7 @@ const TaskInfoComponent = ({
                         <p className="task-info-left-description">Description</p>
                         <Form initialValues={
                             {
-                                description: `${currentTaskFromServer?.task_description === null
+                                description: `${currentTaskFromServer && currentTaskFromServer?.task_description === null
                                     ? '' : currentTaskFromServer?.task_description}`
                             }}
                               form={form}
