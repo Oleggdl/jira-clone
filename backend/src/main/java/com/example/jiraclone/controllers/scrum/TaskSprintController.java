@@ -28,6 +28,11 @@ public class TaskSprintController {
         return sprintService.getTaskSprints(sprintId);
     }
 
+    @GetMapping("/taskSprint/forProject/{projectId}")
+    public List<TaskSprint> getTaskSprintsForProject(@PathVariable Long projectId) {
+        return sprintService.getTaskSprintsForProject(projectId);
+    }
+
     @GetMapping("/taskSprint/search/{sprintId}")
     public List<TaskSprint> searchTasksInBacklog(HttpServletRequest request, @PathVariable Long sprintId) {
         return sprintService.searchTasksInBacklog(request, sprintId);

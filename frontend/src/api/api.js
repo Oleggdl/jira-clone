@@ -115,6 +115,9 @@ export const taskSprintAPI = {
     getTaskSprintForColumn(sprintId, columnId, headers) {
         return instance.get(`scrum/taskSprint/${sprintId}/${columnId}`, {headers: headers})
     },
+    getTaskSprintForProject(projectId, headers) {
+        return instance.get(`scrum/taskSprint/forProject/${projectId}`, {headers: headers})
+    }
 
 }
 

@@ -1,14 +1,8 @@
 package com.example.jiraclone.services;
 
-import com.example.jiraclone.entities.scrum.ColumnScrum;
-import com.example.jiraclone.entities.scrum.Sprint;
-import com.example.jiraclone.entities.scrum.TaskScrum;
-import com.example.jiraclone.entities.scrum.TaskSprint;
+import com.example.jiraclone.entities.scrum.*;
 import com.example.jiraclone.exceptions.ResourceNotFoundException;
-import com.example.jiraclone.repositories.scrum.ColumnScrumRepository;
-import com.example.jiraclone.repositories.scrum.SprintRepository;
-import com.example.jiraclone.repositories.scrum.TaskScrumRepository;
-import com.example.jiraclone.repositories.scrum.TaskSprintRepository;
+import com.example.jiraclone.repositories.scrum.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -24,6 +18,9 @@ public class TaskSprintService {
 
     @Autowired
     TaskSprintRepository taskSprintRepository;
+
+    @Autowired
+    ProjectScrumRepository projectScrumRepository;
 
     @Autowired
     TaskScrumRepository taskScrumRepository;
@@ -47,6 +44,32 @@ public class TaskSprintService {
                 taskSprintsArray.add(taskSprints.get(i));
             }
         }
+        return taskSprintsArray;
+    }
+
+    public List<TaskSprint> getTaskSprintsForProject(Long projectId) {
+
+        List<Sprint> sprint = sprintRepository.findAll();
+        ArrayList<Sprint> sprints = new ArrayList<>();
+        ProjectScrum projectScrum = projectScrumRepository.findById(projectId).get();
+
+        for (int i = 0; i <= sprint.size() - 1; i++) {
+            if (sprint.get(i).getScrum_project_sprint() == projectScrum) {
+                sprints.add(sprint.get(i));
+            }
+        }
+
+        List<TaskSprint> taskSprints = taskSprintRepository.findAll();
+        ArrayList<TaskSprint> taskSprintsArray = new ArrayList<>();
+
+        for (int i = 0; i <= sprints.size() - 1; i++) {
+            for (int j = 0; j <= taskSprints.size() - 1; j++) {
+                if (taskSprints.get(j).getSprint_task_sprint() == sprints.get(i)) {
+                    taskSprintsArray.add(taskSprints.get(j));
+                }
+            }
+        }
+
         return taskSprintsArray;
     }
 

@@ -187,3 +187,38 @@
     margin-top: 10px;
   }
 }
+
+.column-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+  background-color: #E3FCEF;
+  transition: background-color 0.2s ease;
+}
+
+.column-title {
+  padding: 8px;
+  transition: background-color ease 0.2s;
+  flex-grow: 1;
+  user-select: none;
+  position: relative;
+}
+
+.drop-zone {
+  min-height: 10px;
+}
+
+.title {
+  padding: 8px;
+  transition: background-color ease 0.2s;
+  flex-grow: 1;
+  user-select: none;
+  position: relative;
+}
+
+.scroll-container {
+  overflow-x: hidden;
+  overflow-y: auto;
+}

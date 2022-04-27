@@ -21,12 +21,12 @@ const SprintStartWindowContainer = (props) => {
     useEffect(() => {
         window.addEventListener("mouseup", function (event) {
             if (event.target === startSprintWrapper.current) {
-                props.setIsSprintStartingMod(false)
+                props.setIsSprintStartingMod()
             }
         })
         return window.removeEventListener("mouseup", function (event) {
             if (event.target === startSprintWrapper.current) {
-                props.setIsSprintStartingMod(false)
+                props.setIsSprintStartingMod()
             }
         })
     }, [])
@@ -55,7 +55,7 @@ const SprintStartWindowContainer = (props) => {
     }
 
     const onCancel = () => {
-        props.setIsSprintStartingMod(false)
+        props.setIsSprintStartingMod()
     }
 
     return (

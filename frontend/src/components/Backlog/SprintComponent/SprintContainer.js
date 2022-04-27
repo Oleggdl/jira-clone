@@ -1,161 +1,169 @@
-import React, {useContext, useEffect, useRef, useState} from 'react'
-import SprintComponent from "./SprintComponent"
+import React from 'react'
 import {compose} from "redux"
 import {connect} from "react-redux"
-import {
-    createNewTaskSprint,
-    createTaskSprintFromSprint,
-    getTaskSprints,
-    unsetTaskSprints
-} from "../../../redux/taskSprint-reducer"
+import {createNewTaskSprint, createTaskSprintFromSprint, unsetTaskSprints} from "../../../redux/taskSprint-reducer"
 import {AuthContext} from "../../../context/AuthContext"
 import {deleteSprint, startSprint} from "../../../redux/sprints-reducer"
 import {createBacklogElementFromSprint, getBacklogForProject} from "../../../redux/backlog-reducer"
+import './Sprint.scss'
+import SprintComponent from "./SprintComponent"
 
-const SprintContainer = props => {
 
-    const {token} = useContext(AuthContext)
-    const headers = {
-        Authorization: `Bearer ${token}`
+class SprintContainer extends React.Component {
+
+    static contextType = AuthContext
+
+
+    constructor(props) {
+        super(props)
+        this.state = {
+            isCreateTask: false,
+            isInputVisible: 'input-visible',
+            isSprintStartingMod: false,
+            isSettingsSprint: false,
+            isDeleteSprint: false,
+            headers: {}
+        }
+        this.taskInputRef = React.createRef()
+        this.sprintDelRef = React.createRef()
+        this.onSetIsCreateTask = this.onSetIsCreateTask.bind(this)
     }
 
-    // useEffect(() => {
-    //     // props.unsetTaskSprints()
-    //     props.getTaskSprints(props.sprint.id, headers)
-    // }, [props.backlogElements])
-
-    useEffect(() => {
-        props.getTaskSprints(props.sprint.id, headers)
-    }, [])
-
-    useEffect(() => {
-        props.getBacklogForProject(props.currentProject.scrum_project.id, headers)
-    }, [props.taskSprints])
-
-    const [isCreateTask, setIsCreateTask] = useState(false)
-    const [isInputVisible, setIsInputVisible] = useState('input-visible')
-    const [isSprintStartingMod, setIsSprintStartingMod] = useState(false)
-    const [isSettingsSprint, setIsSettingsSprint] = useState(false)
-    const [isDeleteSprint, setIsDeleteSprint] = useState(false)
-
-
-    const taskInputRef = useRef(null)
-    const sprintDelRef = useRef(null)
-
-    const onSetIsCreateTask = () => {
-        !!isCreateTask ? setIsCreateTask(false) : setIsCreateTask(true)
-        setIsInputVisible('')
-        taskInputRef.current.focus()
-    }
-
-    const addTaskToSprintHandler = event => {
-        if (event.target !== taskInputRef.current) {
-            if (!taskInputRef) {
-                taskInputRef.current.value = null
+    addTaskToSprintHandler = event => {
+        if (event.target !== this.taskInputRef.current) {
+            if (!this.taskInputRef) {
+                this.taskInputRef.current.value = null
             }
-            setIsInputVisible('input-visible')
-            setIsCreateTask(false)
+            this.setState({isInputVisible: 'input-visible'})
+            this.setState({isCreateTask: false})
         }
     }
 
-    useEffect(() => {
-        window.addEventListener("mousedown", event => addTaskToSprintHandler(event))
-        return window.removeEventListener("mousedown", event => addTaskToSprintHandler(event))
-    })
-
-    const closeDeleteSprintHandler = event => {
-        if (event.target === sprintDelRef.current) {
-            setIsDeleteSprint(false)
+    closeDeleteSprintHandler = event => {
+        if (event.target === this.sprintDelRef.current) {
+            this.setState({isDeleteSprint: false})
         }
     }
 
-    useEffect(() => {
-        window.addEventListener("click", event => closeDeleteSprintHandler(event))
-        return window.removeEventListener("click", event => closeDeleteSprintHandler(event))
-    }, [])
+    componentDidMount() {
+        this.setState({headers: {Authorization: `Bearer ${this.context.token}`}})
+        window.addEventListener("mousedown", this.addTaskToSprintHandler)
+        window.addEventListener("click", this.closeDeleteSprintHandler)
 
-    const onKeyDown = (e) => {
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener("mousedown", this.addTaskToSprintHandler)
+        window.removeEventListener("click", this.closeDeleteSprintHandler)
+    }
+
+    onKeyDown = (e) => {
         if (e.keyCode === 13) {
             const create_date = `${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`
-            props.createNewTaskSprint({
+            this.props.createNewTaskSprint({
                 create_date: create_date,
                 creator_id: null,
                 executor_id: null,
                 task_description: null,
-                task_name: taskInputRef.current.value
-            }, props.sprint.id, props.currentUser.id, headers)
-            setIsCreateTask(false)
-            setIsInputVisible('input-visible')
-            taskInputRef.current.value = null
-            props.unsetTaskSprints()
+                task_name: this.taskInputRef.current.value
+            }, this.props.sprint.id, this.props.currentUser.id, this.state.headers)
+            this.setState({setIsCreateTask: false})
+            this.setState({setIsInputVisible: 'input-visible'})
+            this.taskInputRef.current.value = null
+            this.props.unsetTaskSprints()
         }
     }
 
-    const completeSprint = () => {
-        if (props.sprints.length === 1) {
-            props.taskSprints.map(sprint => {
-                if (sprint.id === props.sprint.id) {
+    completeSprint = () => {
+        if (this.props.sprints.length === 1) {
+            this.props.taskSprints.map(sprint => {
+                if (sprint.id === this.props.sprint.id) {
                     sprint.taskSprint.map(taskSprint =>
-                        props.createBacklogElementFromSprint(taskSprint.id, taskSprint.task_scrum.id,
-                            props.currentProject.scrum_project.id, headers))
+                        this.props.createBacklogElementFromSprint(taskSprint.id, taskSprint.task_scrum.id,
+                            this.props.currentProject.scrum_project.id, this.state.headers))
                 }
                 return null
             })
         } else {
-            props.taskSprints.map(sprint => {
-                if (sprint.id === props.sprint.id) {
+            this.props.taskSprints.map(sprint => {
+                if (sprint.id === this.props.sprint.id) {
                     sprint.taskSprint.map(taskSprint =>
-                        props.createTaskSprintFromSprint(taskSprint.id, taskSprint.task_scrum.id,
-                            props.sprints[1].id, headers))
+                        this.props.createTaskSprintFromSprint(taskSprint.id, taskSprint.task_scrum.id,
+                            this.props.sprints[1].id, this.state.headers))
                 }
                 return null
             })
         }
-        props.deleteSprint(props.sprint.id, headers)
+        this.props.deleteSprint(this.props.sprint.id, this.state.headers)
     }
 
-    const onKeyUp = (e) => {
-        // if (e.keyCode === 13) {
-        // }
-    }
+    deleteSprintHandler = () => {
 
-    const isSettingsSprintHandler = () => {
-        !!isSettingsSprint ? setIsSettingsSprint(false) : setIsSettingsSprint(true)
-    }
-
-    const deleteSprintHandler = () => {
-
-        if (props.currentProject.user_role.id === 1) {
-            props.taskSprints.map(sprint => {
-                if (sprint.id === props.sprint.id) {
+        if (this.props.currentProject.user_role.id === 1) {
+            this.props.taskSprints.map(sprint => {
+                if (sprint.id === this.props.sprint.id) {
                     sprint.taskSprint.map(taskSprint =>
-                        props.createBacklogElementFromSprint(taskSprint.id, taskSprint.task_scrum.id,
-                            props.currentProject.scrum_project.id, headers))
+                        this.props.createBacklogElementFromSprint(taskSprint.id, taskSprint.task_scrum.id,
+                            this.props.currentProject.scrum_project.id, this.state.headers))
                 }
                 return null
             })
-            props.deleteSprint(props.sprint.id, headers)
+            this.props.deleteSprint(this.props.sprint.id, this.state.headers)
         } else {
             console.log("You can't delete sprint")
         }
 
     }
 
-    return (
-        <>
-            <SprintComponent sprint={props.sprint} taskSprints={props.taskSprints} index={props.index}
-                             backlogForProjectSprint={props.backlogForProjectSprint}
-                             onSetIsCreateTask={onSetIsCreateTask} taskInputRef={taskInputRef}
-                             isCreateTask={isCreateTask} onKeyDown={onKeyDown} isInputVisible={isInputVisible}
-                             onKeyUp={onKeyUp} setIsSprintStartingMod={setIsSprintStartingMod}
-                             isSprintStartingMod={isSprintStartingMod} completeSprint={completeSprint}
-                             isSettingsSprint={isSettingsSprint} setIsSettingsSprint={setIsSettingsSprint}
-                             isSettingsSprintHandler={isSettingsSprintHandler} isDeleteSprint={isDeleteSprint}
-                             setIsDeleteSprint={setIsDeleteSprint} sprintDelRef={sprintDelRef}
-                             deleteSprintHandler={deleteSprintHandler}
-            />
-        </>
-    )
+    isSettingsSprintHandler = () => {
+        !!this.isSettingsSprint
+            ? this.setState({isSettingsSprint: false})
+            : this.setState({isSettingsSprint: true})
+    }
+
+    onSetIsCreateTask() {
+        !!this.state.isCreateTask ? this.setState({isCreateTask: false}) : this.setState({isCreateTask: true})
+        this.setState({isInputVisible: ''})
+        this.taskInputRef.current.focus()
+    }
+
+    setIsSprintStartingMod = () => {
+        this.setState({isSprintStartingMod: false})
+    }
+
+    setIsSettingsSprint = () => {
+        this.setState({isSettingsSprint: false})
+    }
+
+    setIsDeleteSprint = (value) => {
+        this.setState({isDeleteSprint: value})
+    }
+
+    render() {
+
+        return (
+            <>
+                <SprintComponent sprint={this.props.sprint} taskSprints={this.props.taskSprints}
+                                 index={this.props.index}
+                                 backlogForProjectSprint={this.props.backlogForProjectSprint}
+                                 onSetIsCreateTask={this.onSetIsCreateTask} taskInputRef={this.taskInputRef}
+                                 isCreateTask={this.state.isCreateTask} onKeyDown={this.onKeyDown}
+                                 isInputVisible={this.state.isInputVisible}
+                                 setIsSprintStartingMod={this.setIsSprintStartingMod}
+                                 isSprintStartingMod={this.state.isSprintStartingMod}
+                                 completeSprint={this.completeSprint}
+                                 isSettingsSprint={this.state.isSettingsSprint}
+                                 setIsSettingsSprint={this.setIsSettingsSprint}
+                                 isSettingsSprintHandler={this.isSettingsSprintHandler}
+                                 isDeleteSprint={this.state.isDeleteSprint}
+                                 setIsDeleteSprint={this.setIsDeleteSprint} sprintDelRef={this.sprintDelRef}
+                                 deleteSprintHandler={this.deleteSprintHandler}
+                                 title={this.props.title}
+                                 tasks={this.props.tasks}
+                />
+            </>
+        )
+    }
 }
 
 const mapStateToProps = (state) => ({
@@ -168,7 +176,7 @@ const mapStateToProps = (state) => ({
 
 export default compose(
     connect(mapStateToProps, {
-        getTaskSprints, createNewTaskSprint, unsetTaskSprints, startSprint, deleteSprint,
+        createNewTaskSprint, unsetTaskSprints, startSprint, deleteSprint,
         createBacklogElementFromSprint, createTaskSprintFromSprint, getBacklogForProject
     })
 )(SprintContainer)

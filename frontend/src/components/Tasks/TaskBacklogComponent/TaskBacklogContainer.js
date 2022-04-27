@@ -35,11 +35,13 @@ const TaskBacklogContainer = props => {
 
     return (
         <>
-            <TaskBacklogComponent currentProject={props.currentProject.scrum_project}
-                                  taskInfoHandler={taskInfoHandler} index={props.index} task={props.task}
-                                  getCurrentTaskFromServer={getCurrentTaskFromServer}
-                                  setIsTaskInfo={setIsTaskInfo}
-                                  marksScrumAll={props.marksScrumAll}/>
+            <TaskBacklogComponent
+                provided={props.provided}
+                currentProject={props.currentProject.scrum_project}
+                taskInfoHandler={taskInfoHandler} index={props.index} task={props.task}
+                getCurrentTaskFromServer={getCurrentTaskFromServer}
+                setIsTaskInfo={setIsTaskInfo}
+                marksScrumAll={props.marksScrumAll}/>
         </>
     )
 }
