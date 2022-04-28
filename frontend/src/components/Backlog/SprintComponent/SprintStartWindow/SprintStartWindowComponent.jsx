@@ -5,7 +5,7 @@ import moment from "moment";
 
 const SprintStartWindowComponent = ({
                                         form, handleSubmit, onCancel, startSprintWrapper, index, sprint,
-                                        taskCount, setTaskSprintColumn
+                                        taskCount, setColumnHandler
                                     }) => {
 
     const currentDate = new Date().toLocaleDateString()
@@ -15,25 +15,40 @@ const SprintStartWindowComponent = ({
     const shortMonth = [4, 6, 9, 11]
 
     if (longMonth.includes(parseInt(currentDateArray[1]))) {
-        currentDateArray[0] = parseInt(currentDateArray[0]) + 14 > 31
-            ? parseInt(currentDateArray[0]) + 14 - 31 && currentDateArray[1]++ : parseInt(currentDateArray[0]) + 14
+        if (parseInt(currentDateArray[0]) + 14 > 31) {
+            currentDateArray[0] = parseInt(currentDateArray[0]) + 14 - 31
+            currentDateArray[1]++
+        } else {
+            currentDateArray[0] = parseInt(currentDateArray[0]) + 14
+        }
     } else if (shortMonth.includes(parseInt(currentDateArray[1]))) {
-        currentDateArray[0] = parseInt(currentDateArray[0]) + 14 > 30
-            ? parseInt(currentDateArray[0]) + 14 - 30 && currentDateArray[1]++ : parseInt(currentDateArray[0]) + 14
+        if (parseInt(currentDateArray[0]) + 14 > 30) {
+            currentDateArray[0] = parseInt(currentDateArray[0]) + 14 - 30
+            currentDateArray[1]++
+        } else {
+            currentDateArray[0] = parseInt(currentDateArray[0]) + 14
+        }
     } else {
-        currentDateArray[0] = parseInt(currentDateArray[0]) + 14 > 28
-            ? parseInt(currentDateArray[0]) + 14 - 28 && currentDateArray[1]++ : parseInt(currentDateArray[0]) + 14
+        if (parseInt(currentDateArray[0]) + 14 > 28) {
+            currentDateArray[0] = parseInt(currentDateArray[0]) + 14 - 28
+            currentDateArray[1]++
+        } else {
+            currentDateArray[0] = parseInt(currentDateArray[0]) + 14
+        }
     }
 
     return (
         <>
             <div className="sprint-wrapper" ref={startSprintWrapper}>
                 <div className="sprint-launch-container">
-                    <button onMouseUp={setTaskSprintColumn}>Test</button>
+                    <button onMouseUp={setColumnHandler}>Test</button>
                     <h2>Sprint launch</h2>
                     <p><span style={{fontWeight: "bold"}}>{taskCount}</span> tasks were included in this sprint</p>
                     <Form form={form}
-                          onFinish={values => handleSubmit(values)}
+                          onFinish={values => {
+                              handleSubmit(values)
+                              // setColumnHandler()
+                          }}
                           autoComplete="off"
                           initialValues={
                               {
@@ -65,7 +80,7 @@ const SprintStartWindowComponent = ({
                         <Form.Item className="start-sprint-buttons">
                             <Button type="primary" htmlType="submit" style={{width: "100px"}}
                                     className="primary-button-submit"
-                                    onMouseUp={setTaskSprintColumn}
+                                    // onMouseUp={setColumnHandler}
                             >
                                 Submit
                                 {/*<NavLink to="/scrum/board">Submit</NavLink>*/}

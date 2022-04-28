@@ -115,7 +115,7 @@ const TaskInfoContainer = (props) => {
     const confirmDeleteTask = () => {
         props.deleteTask(currentTaskScrum.id, props.currentUser.id, props.currentProject.scrum_project.id, headers)
         setIsTaskInfo(false)
-        this.props.updateTaskSprints()
+        props.updateTaskSprints()
     }
 
     // useEffect(() => {

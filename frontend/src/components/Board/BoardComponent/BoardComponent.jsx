@@ -2,7 +2,7 @@ import React from 'react'
 import ColumnContainer from "../BoardColumn/ColumnContainer"
 import './Board.scss'
 import TaskInfoContainer from "../../Tasks/TaskInfo/TaskInfoContainer"
-import {NavLink} from "react-router-dom";
+import {NavLink} from "react-router-dom"
 
 const BoardComponent = ({isTaskInfo, columns, currentSprint, currentProject}) => {
 
@@ -14,7 +14,7 @@ const BoardComponent = ({isTaskInfo, columns, currentSprint, currentProject}) =>
                     <span> / </span>
                     <span>{currentProject?.scrum_project.project_name}</span>
                 </div>
-                <h2>Board Name</h2>
+                <h2>{currentSprint ? currentSprint.sprint_name : 'Board Name'}</h2>
                 <div className="search-tasks-container" style={{width: "320px"}}>
                 </div>
                 {currentSprint

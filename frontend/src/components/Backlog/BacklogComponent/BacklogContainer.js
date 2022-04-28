@@ -33,12 +33,13 @@ class BacklogContainer extends React.Component {
     }
 
     componentDidMount() {
+        this.props.updateSprintsHandler()
         this.setState({headers: {Authorization: `Bearer ${this.context.token}`}})
+        // this.props.getSprints(this.props.currentProject.scrum_project.id, this.state.headers)
+        // this.props.getTaskSprints(this.props.currentProject.scrum_project.id, this.state.headers)
         if (!!this.props.taskSprints) {
-            return this.props.unsetTaskSprints()
+            this.props.unsetTaskSprints()
         }
-        this.props.getSprints(this.props.currentProject.scrum_project.id, this.state.headers)
-        this.props.getTaskSprints(this.props.currentProject.scrum_project.id, this.state.headers)
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {

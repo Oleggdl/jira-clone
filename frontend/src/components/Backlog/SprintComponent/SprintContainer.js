@@ -31,6 +31,7 @@ class SprintContainer extends React.Component {
         this.settingsBtnRef = React.createRef()
         this.onSetIsCreateTask = this.onSetIsCreateTask.bind(this)
         this.isSettingsSprintHandler = this.isSettingsSprintHandler.bind(this)
+        this.setIsSprintStartingMod = this.setIsSprintStartingMod.bind(this)
     }
 
     addTaskToSprintHandler = event => {
@@ -91,33 +92,27 @@ class SprintContainer extends React.Component {
 
     completeSprint = () => {
         if (this.props.sprints.length === 1) {
-            this.props.taskSprints.map(sprint => {
-                if (sprint.id === this.props.sprint.id) {
-                    sprint.taskSprint.map(taskSprint =>
-                        this.props.createBacklogElementFromSprint(taskSprint.id, taskSprint.task_scrum.id,
-                            this.props.currentProject.scrum_project.id, this.state.headers))
+            this.props.taskSprints.map(taskSprint => {
+                if (taskSprint.sprint_task_sprint.sprint_name === this.props.title) {
+                    this.props.createBacklogElementFromSprint(taskSprint.id, taskSprint.task_scrum.id,
+                        this.props.currentProject.scrum_project.id, this.state.headers)
                 }
-                return null
             })
         } else {
-            this.props.taskSprints.map(sprint => {
-                if (sprint.id === this.props.sprint.id) {
-                    sprint.taskSprint.map(taskSprint =>
-                        this.props.createTaskSprintFromSprint(taskSprint.id, taskSprint.task_scrum.id,
-                            this.props.sprints[1].id, this.props.currentProject.scrum_project.id, this.state.headers))
+            this.props.taskSprints.map(taskSprint => {
+                if (taskSprint.sprint_task_sprint.sprint_name === this.props.title) {
+                    this.props.createTaskSprintFromSprint(taskSprint.id, taskSprint.task_scrum.id,
+                        this.props.sprints[1].id, this.props.currentProject.scrum_project.id, this.state.headers)
                 }
-                return null
             })
         }
-        this.props.deleteSprint(this.props.sprint.id, this.state.headers)
+        this.props.deleteSprint(this.props.sprint.id, this.props.currentProject.scrum_project.id, this.state.headers)
     }
 
     deleteSprintHandler = () => {
-
         if (this.props.currentProject.user_role.id === 1) {
             this.props.taskSprints.map(taskSprint => {
                 if (taskSprint.sprint_task_sprint.sprint_name === this.props.title) {
-                    console.log('test34')
                     this.props.createBacklogElementFromSprint(taskSprint.id, taskSprint.task_scrum.id,
                         this.props.currentProject.scrum_project.id, this.state.headers)
                 }
@@ -126,7 +121,6 @@ class SprintContainer extends React.Component {
         } else {
             console.log("You can't delete sprint")
         }
-
     }
 
     isSettingsSprintHandler() {
@@ -141,8 +135,8 @@ class SprintContainer extends React.Component {
         this.taskInputRef.current.focus()
     }
 
-    setIsSprintStartingMod = () => {
-        this.setState({isSprintStartingMod: false})
+    setIsSprintStartingMod(value) {
+        this.setState({isSprintStartingMod: value})
     }
 
     setIsSettingsSprint = () => {

@@ -24,10 +24,10 @@ const BacklogElementContainer = (props) => {
         taskInputRef.current.focus()
     }
 
-    const createSprintHandler = (data) => {
+    const createSprintHandler = () => {
         props.createSprint({
             is_started: false,
-            sprint_name: `BoardSprint ${props.sprints.length + 1}`
+            sprint_name: `BoardSprint ${props.sprints.length !== 0 ? props.sprints[props.sprints.length - 1].id + 1 : 1}`
         }, props.currentProject.scrum_project.id, headers)
     }
 

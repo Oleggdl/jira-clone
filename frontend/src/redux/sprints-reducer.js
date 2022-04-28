@@ -1,6 +1,5 @@
-import {backlogAPI, sprintsAPI, taskSprintAPI} from "../api/api"
+import {sprintsAPI, taskSprintAPI} from "../api/api"
 import {getTaskSprintsActionCreator} from "./taskSprint-reducer";
-import {getBacklogForProjectActionCreator} from "./backlog-reducer";
 
 const GET_SPRINTS = 'GET_SPRINTS'
 const SET_CURRENT_SPRINT = 'SET_CURRENT_SPRINT'

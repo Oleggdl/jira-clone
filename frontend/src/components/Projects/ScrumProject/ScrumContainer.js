@@ -20,6 +20,7 @@ class ScrumContainer extends React.Component {
         }
         this.updateTaskSprints = this.updateTaskSprints.bind(this)
         this.unsetTaskSprintsHandler = this.unsetTaskSprintsHandler.bind(this)
+        this.updateSprintsHandler = this.updateSprintsHandler.bind(this)
     }
 
     getBySprint = (sprintName, items) => {
@@ -31,77 +32,64 @@ class ScrumContainer extends React.Component {
 
     componentDidMount() {
         this.setState({headers: {Authorization: `Bearer ${this.context.token}`}})
-        if (this.props.sprints.length !== 0) {
+
+        this.setState({
+            tasks: this.props.taskSprints.concat(this.props.backlogForProject)
+        })
+
+        this.setState({
+            sprintsMap: this.props.sprints.reduce(
+                (previous, sprint) => ({
+                    ...previous,
+                    [sprint.sprint_name]: this.getBySprint(sprint.sprint_name, this.state.tasks)
+                }),
+                {['Backlog']: this.getByBacklog(this.state.tasks)})
+        })
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (this.props.taskSprints !== prevProps.taskSprints) {
+
             this.setState({
                 tasks: this.props.taskSprints.concat(this.props.backlogForProject)
             })
         }
-        if (this.props.sprints.length !== 0) {
+
+        if (this.props.backlogForProject !== prevProps.backlogForProject) {
+
+            this.setState({
+                tasks: this.props.taskSprints.concat(this.props.backlogForProject)
+            })
+        }
+
+        if (this.props.sprints !== prevProps.sprints || this.props.currentProject !== prevProps.currentProject) {
+
+            this.setState({
+                tasks: this.props.taskSprints.concat(this.props.backlogForProject)
+            })
+        }
+
+        if (this.state.tasks !== prevState.tasks || this.props.currentProject !== prevProps.currentProject) {
             this.setState({
                 sprintsMap: this.props.sprints.reduce(
                     (previous, sprint) => ({
                         ...previous,
                         [sprint.sprint_name]: this.getBySprint(sprint.sprint_name, this.state.tasks)
                     }),
-                    {['Backlog']: this.getByBacklog(this.state.tasks)}
-                )
+                    {['Backlog']: this.getByBacklog(this.state.tasks)})
             })
-            // this.setState({
-            //     ...this.state.sprintMap, sprintMap: {['Backlog']: this.getByBacklog(this.state.tasks)}
-            // })
-        }
-    }
-
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if (this.props.taskSprints !== prevProps.taskSprints) {
-            // console.log(this.props.backlogForProject)
-            // console.log(this.props.taskSprints)
-            if (this.props.sprints.length !== 0) {
-                this.setState({
-                    tasks: this.props.taskSprints.concat(this.props.backlogForProject)
-                })
-            }
-        }
-
-        if (this.props.backlogForProject !== prevProps.backlogForProject) {
-            // console.log(this.props.backlogForProject)
-            // console.log(this.props.taskSprints)
-            if (this.props.sprints.length !== 0) {
-                this.setState({
-                    tasks: this.props.taskSprints.concat(this.props.backlogForProject)
-                })
-            }
-        }
-
-        if (this.props.sprints !== prevProps.sprints || this.props.currentProject !== prevProps.currentProject) {
-            if (this.props.sprints.length !== 0) {
-                this.setState({
-                    tasks: this.props.taskSprints.concat(this.props.backlogForProject)
-                })
-
-            }
-        }
-
-        if (this.state.tasks !== prevState.tasks || this.props.currentProject !== prevProps.currentProject) {
-            if (this.props.sprints.length !== 0) {
-                this.setState({
-                    sprintsMap: this.props.sprints.reduce(
-                        (previous, sprint) => ({
-                            ...previous,
-                            [sprint.sprint_name]: this.getBySprint(sprint.sprint_name, this.state.tasks)
-                        }),
-                        {['Backlog']: this.getByBacklog(this.state.tasks)}
-                    )
-                })
-                // this.setState({
-                //     ...this.state.sprintMap, sprintMap: {['Backlog']: this.getByBacklog(this.state.tasks)}
-                // })
-            }
         }
         if (this.state.headers !== prevState.headers || this.props.currentProject !== prevProps.currentProject) {
             this.props.getBacklogForProject(this.props.currentProject.scrum_project.id, this.state.headers)
             this.props.getTaskSprints(this.props.currentProject.scrum_project.id, this.state.headers)
         }
+    }
+
+    updateSprintsHandler() {
+
+        this.setState({
+            tasks: this.props.taskSprints.concat(this.props.backlogForProject)
+        })
     }
 
     updateTaskSprints() {
@@ -124,7 +112,9 @@ class ScrumContainer extends React.Component {
             <>
                 <ScrumComponent sprints={this.props.sprints} sprintsMap={this.state.sprintsMap}
                                 updateTaskSprints={this.updateTaskSprints}
-                                unsetTaskSprintsHandler={this.unsetTaskSprintsHandler}/>
+                                unsetTaskSprintsHandler={this.unsetTaskSprintsHandler}
+                                updateSprintsHandler={this.updateSprintsHandler}
+                />
             </>
         )
 

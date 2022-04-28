@@ -45,7 +45,7 @@ export const startSprintColumns = (data, sprintId, authorization) => {
 
     return async dispatch => {
         const response = await columnsAPI.createColumn(data, authorization)
-        const responsePut = await columnsAPI.createColumnPut(response.data.id, sprintId, authorization)
+        const responsePut = columnsAPI.createColumnPut(response.data.id, sprintId, authorization)
         const responseGetColumns = await columnsAPI.getColumnsForSprint(sprintId, authorization)
         dispatch(getColumnsActionCreator(responseGetColumns.data))
     }

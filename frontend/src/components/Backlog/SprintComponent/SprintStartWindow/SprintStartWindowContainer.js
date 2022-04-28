@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useRef} from 'react'
+import React from 'react'
 import SprintStartWindowComponent from "./SprintStartWindowComponent"
 import {useForm} from "antd/es/form/Form"
 import {compose} from "redux"
@@ -8,64 +8,80 @@ import {AuthContext} from "../../../../context/AuthContext"
 import {startSprintColumns} from "../../../../redux/columns-reducer"
 import {setTaskSprintColumn} from "../../../../redux/taskSprint-reducer"
 
-const SprintStartWindowContainer = (props) => {
 
-    const [form] = useForm()
-    const startSprintWrapper = useRef()
+const SprintStartWithFrom = props => {
+    const form = useForm()
+    return <SprintStartWindowContainer {...props} {...form}/>
+}
 
-    const {token} = useContext(AuthContext)
-    const headers = {
-        Authorization: `Bearer ${token}`
+class SprintStartWindowContainer extends React.Component {
+
+    static contextType = AuthContext
+
+    constructor(props) {
+        super(props)
+        this.state = {
+            headers: {},
+        }
+        this.startSprintWrapper = React.createRef()
     }
 
-    useEffect(() => {
-        window.addEventListener("mouseup", function (event) {
-            if (event.target === startSprintWrapper.current) {
-                props.setIsSprintStartingMod()
-            }
-        })
-        return window.removeEventListener("mouseup", function (event) {
-            if (event.target === startSprintWrapper.current) {
-                props.setIsSprintStartingMod()
-            }
-        })
-    }, [])
+    startSprintWindowHandler = event => {
+        if (event.target === this.startSprintWrapper.current) {
+            this.props.setIsSprintStartingMod()
+        }
+    }
 
-    const handleSubmit = (data) => {
-        props.startSprint({
+    componentDidMount() {
+        this.setState({headers: {Authorization: `Bearer ${this.context.token}`}})
+        window.addEventListener("mouseup", event => this.startSprintWindowHandler(event))
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener("mouseup", event => this.startSprintWindowHandler(event))
+    }
+
+    handleSubmit = (data) => {
+        console.log('test1')
+        this.props.startSprint({
             sprint_name: data.sprint_name,
             start_date: data.start_date._i,
             end_date: data.end_date._i,
             is_started: true
-        }, props.sprint.id, props.currentProject.scrum_project.id, headers)
-        props.startSprintColumns({column_name: 'TO DO'}, props.sprint.id, headers)
-        props.startSprintColumns({column_name: 'IN WORK'}, props.sprint.id, headers)
-        props.startSprintColumns({column_name: 'DONE'}, props.sprint.id, headers)
+        }, this.props.sprint.id, this.props.currentProject.scrum_project.id, this.state.headers)
+        this.props.startSprintColumns({column_name: 'TO DO'}, this.props.sprint.id, this.state.headers)
+        this.props.startSprintColumns({column_name: 'IN WORK'}, this.props.sprint.id, this.state.headers)
+        this.props.startSprintColumns({column_name: 'DONE'}, this.props.sprint.id, this.state.headers)
     }
 
-    const setTaskSprintColumn = () => {
+    setColumnHandler = () => {
+        console.log('test2')
         let columnId = null
-        console.log(props.columns)
-        props.columns.map(col => col.column_name === 'TO DO' ? columnId = col.id : null)
-        props.taskSprints.map(taskSprint => {
-            if (taskSprint.id === props.sprint.id) {
-                taskSprint.taskSprint.map(ts => props.setTaskSprintColumn(ts.id, columnId, headers))
+        this.props.columns.map(col => col.column_name === 'TO DO' ? columnId = col.id : null)
+        columnId && this.props.taskSprints.map(taskSprint => {
+            if (taskSprint.sprint_task_sprint.sprint_name === this.props.title) {
+                this.props.setTaskSprintColumn(taskSprint.id, columnId, this.state.headers)
             }
         })
     }
 
-    const onCancel = () => {
-        props.setIsSprintStartingMod()
+    onCancel = () => {
+        this.props.setIsSprintStartingMod(false)
     }
 
-    return (
-        <>
-            <SprintStartWindowComponent form={form} handleSubmit={handleSubmit} onCancel={onCancel}
-                                        startSprintWrapper={startSprintWrapper} index={props.index}
-                                        sprint={props.sprint} taskCount={props.taskCount}
-                                        setTaskSprintColumn={setTaskSprintColumn}/>
-        </>
-    )
+    render() {
+
+
+        return (
+            <>
+                <SprintStartWindowComponent form={this.props.form} handleSubmit={this.handleSubmit}
+                                            onCancel={this.onCancel}
+                                            startSprintWrapper={this.startSprintWrapper} index={this.props.index}
+                                            sprint={this.props.sprint} taskCount={this.props.taskCount}
+                                            setColumnHandler={this.setColumnHandler}/>
+            </>
+        )
+    }
 }
 
 const mapStateToProps = (state) => ({
@@ -76,5 +92,5 @@ const mapStateToProps = (state) => ({
 
 export default compose(
     connect(mapStateToProps, {startSprint, startSprintColumns, setTaskSprintColumn, setCurrentSprint})
-)(SprintStartWindowContainer)
+)(SprintStartWithFrom)
 
