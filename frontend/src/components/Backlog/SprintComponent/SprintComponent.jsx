@@ -8,9 +8,9 @@ import SprintList from "./SprintListComponents"
 const SprintComponent = ({
                              sprint, index, taskSprints, isCreateTask, onSetIsCreateTask,
                              onKeyDown, taskInputRef, isInputVisible, setIsSprintStartingMod,
-                             isSprintStartingMod, completeSprint, isSettingsSprint, settingsSprintBtnRef,
+                             isSprintStartingMod, completeSprint, isSettingsSprint,
                              isSettingsSprintHandler, isDeleteSprint, setIsDeleteSprint, sprintDelRef,
-                             setIsSettingsSprint, deleteSprintHandler, tasks, title
+                             setIsSettingsSprint, deleteSprintHandler, tasks, title, sprintSettingsRef, settingsBtnRef
                          }) => {
 
     const taskCount = taskSprints.map(taskSprint => taskSprint.id === sprint?.id ? taskSprint.taskSprint.length : null)
@@ -35,9 +35,9 @@ const SprintComponent = ({
                             ? <Button className="start-sprint-button" type="primary"
                                       onClick={setIsSprintStartingMod}>Start a sprint</Button>
                             : <Button disabled={true}>Start a sprint</Button>)}
-                    <div className="sprint-settings" onClick={isSettingsSprintHandler}><EllipsisOutlined
-                        ref={settingsSprintBtnRef}/></div>
-                    {isSettingsSprint && <div className="sprint-settings-window">
+                    <div className="sprint-settings" onClick={isSettingsSprintHandler} ref={settingsBtnRef}>
+                        <EllipsisOutlined/></div>
+                    {isSettingsSprint && <div className="sprint-settings-window" ref={sprintSettingsRef}>
                         {/*<div><h3>Change sprint</h3></div>*/}
                         <div onClick={() => {
                             setIsDeleteSprint(true)

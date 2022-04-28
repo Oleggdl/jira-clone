@@ -3,7 +3,7 @@ import BacklogComponent from "./BacklogComponent"
 import {compose} from "redux"
 import {connect} from "react-redux"
 import {TaskContext} from "../../../context/TaskContext"
-import {createTaskSprint, unsetTaskSprints} from "../../../redux/taskSprint-reducer"
+import {getTaskSprints, unsetTaskSprints} from "../../../redux/taskSprint-reducer"
 import {createBacklogElementFromSprint, getBacklogForProject, searchTasks} from "../../../redux/backlog-reducer"
 import {AuthContext} from "../../../context/AuthContext"
 import {getSprints} from "../../../redux/sprints-reducer"
@@ -25,8 +25,6 @@ class BacklogContainer extends React.Component {
             backlogForProjectSprint: [],
             headers: {},
             columns: this.props.initial,
-            ordered: Object.keys(this.props.initial)
-            // ordered: this.props.initial
         }
         this.setIsTaskInfo = this.setIsTaskInfo.bind(this)
         this.setBacklogForProject = this.setBacklogForProject.bind(this)
@@ -39,11 +37,21 @@ class BacklogContainer extends React.Component {
         if (!!this.props.taskSprints) {
             return this.props.unsetTaskSprints()
         }
-
+        this.props.getSprints(this.props.currentProject.scrum_project.id, this.state.headers)
+        this.props.getTaskSprints(this.props.currentProject.scrum_project.id, this.state.headers)
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
+        if (this.props.initial !== prevProps.initial) {
+            this.setState({columns: this.props.initial})
+        }
+        // if (this.props.sprints !== prevProps.sprints) {
+        //     this.props.getTaskSprints(this.props.currentProject.scrum_project.id, this.state.headers)
+        // }
+    }
 
+    componentWillUnmount() {
+        // this.props.unsetTaskSprintsHandler()
     }
 
     setIsTaskInfo(value) {
@@ -125,9 +133,9 @@ class BacklogContainer extends React.Component {
         return (
             <>
                 <TaskContext.Provider value={{isTaskInfo: this.state.isTaskInfo, setIsTaskInfo: this.setIsTaskInfo}}>
-                    <BacklogComponent sprints={this.props.sprints} isTaskInfo={this.state.isTaskInfo}
-                                      onDragEnd={this.onDragEnd} ordered={this.state.ordered}
-                                      columns={this.state.columns}
+                    <BacklogComponent isTaskInfo={this.state.isTaskInfo}
+                                      onDragEnd={this.onDragEnd} updateTaskSprints={this.props.updateTaskSprints}
+                                      columns={this.state.columns} sprints={this.props.sprints}
                                       backlogForProject={this.props.backlogForProject}
                                       currentProject={this.props.currentProject}
                                       setBacklogForProject={this.setBacklogForProject}
@@ -148,7 +156,7 @@ const mapStateToProps = (state) => ({
 
 export default compose(
     connect(mapStateToProps, {
-        unsetTaskSprints, getBacklogForProject, createTaskSprint, getSprints, createBacklogElementFromSprint,
-        searchTasks
+        unsetTaskSprints, getBacklogForProject, getSprints, createBacklogElementFromSprint,
+        searchTasks, getTaskSprints
     })
 )(BacklogContainer)

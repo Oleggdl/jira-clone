@@ -4,7 +4,7 @@ import {compose} from "redux"
 import {connect} from "react-redux"
 import {AuthContext} from "../../../context/AuthContext"
 import {getBacklogForProject} from "../../../redux/backlog-reducer"
-import {getTaskSprints} from "../../../redux/taskSprint-reducer"
+import {getTaskSprints, unsetTaskSprints} from "../../../redux/taskSprint-reducer"
 
 class ScrumContainer extends React.Component {
 
@@ -17,6 +17,8 @@ class ScrumContainer extends React.Component {
             tasks: [],
             sprintsMap: []
         }
+        this.updateTaskSprints = this.updateTaskSprints.bind(this)
+        this.unsetTaskSprintsHandler = this.unsetTaskSprintsHandler.bind(this)
     }
 
     getBySprint = (sprintName, items) => {
@@ -25,20 +27,44 @@ class ScrumContainer extends React.Component {
 
     componentDidMount() {
         this.setState({headers: {Authorization: `Bearer ${this.context.token}`}})
+        if (this.props.sprints.length !== 0) {
+            this.setState({
+                tasks: this.props.taskSprints
+            })
+        }
+        if (this.props.sprints.length !== 0) {
+            this.setState({
+                sprintsMap: this.props.sprints.reduce(
+                    (previous, sprint) => ({
+                        ...previous,
+                        [sprint.sprint_name]: this.getBySprint(sprint.sprint_name, this.state.tasks)
+                    }),
+                    {}
+                )
+            })
+        }
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
 
-        if (this.props.sprints !== prevProps.sprints) {
+        console.log(this.props.taskSprints)
+        if (this.props.taskSprints !== prevProps.taskSprints) {
             if (this.props.sprints.length !== 0) {
                 this.setState({
                     tasks: this.props.taskSprints
                 })
             }
         }
-        if (this.state.tasks !== prevState.tasks) {
 
+        if (this.props.sprints !== prevProps.sprints || this.props.currentProject !== prevProps.currentProject) {
+            if (this.props.sprints.length !== 0) {
+                this.setState({
+                    tasks: this.props.taskSprints
+                })
+            }
+        }
 
+        if (this.state.tasks !== prevState.tasks || this.props.currentProject !== prevProps.currentProject) {
             if (this.props.sprints.length !== 0) {
                 this.setState({
                     sprintsMap: this.props.sprints.reduce(
@@ -51,19 +77,47 @@ class ScrumContainer extends React.Component {
                 })
             }
         }
-        if (this.state.headers !== prevState.headers) {
+        if (this.state.headers !== prevState.headers || this.props.currentProject !== prevProps.currentProject) {
             this.props.getBacklogForProject(this.props.currentProject.scrum_project.id, this.state.headers)
             this.props.getTaskSprints(this.props.currentProject.scrum_project.id, this.state.headers)
         }
     }
 
+    updateTaskSprints() {
+        this.props.getTaskSprints(this.props.currentProject.scrum_project.id, this.state.headers)
+        // if (this.props.sprints.length !== 0) {
+        //     this.setState({
+        //         tasks: this.props.taskSprints
+        //     })
+        //     this.setState({
+        //         sprintsMap: this.props.sprints.reduce(
+        //             (previous, sprint) => ({
+        //                 ...previous,
+        //                 [sprint.sprint_name]: this.getBySprint(sprint.sprint_name, this.state.tasks)
+        //             }),
+        //             {}
+        //         )
+        //     })
+        // }
+    }
+
+    unsetTaskSprintsHandler() {
+        // console.log('test')
+        // this.props.unsetTaskSprints()
+        // if (this.props.sprints.length !== 0) {
+        //     this.setState({
+        //         tasks: []
+        //     })
+        // }
+    }
+
 
     render() {
-
-
         return (
             <>
-                <ScrumComponent sprintsMap={this.state.sprintsMap}/>
+                <ScrumComponent sprints={this.props.sprints} sprintsMap={this.state.sprintsMap}
+                                updateTaskSprints={this.updateTaskSprints}
+                                unsetTaskSprintsHandler={this.unsetTaskSprintsHandler}/>
             </>
         )
 
@@ -78,5 +132,5 @@ const mapStateToProps = (state) => ({
 
 
 export default compose(
-    connect(mapStateToProps, {getBacklogForProject, getTaskSprints})
+    connect(mapStateToProps, {getBacklogForProject, getTaskSprints, unsetTaskSprints})
 )(ScrumContainer)

@@ -1,4 +1,4 @@
-import {backlogAPI, tasksAPI, taskSprintAPI} from "../api/api"
+import {tasksAPI, taskSprintAPI} from "../api/api"
 
 
 const GET_TASK_SPRINTS = 'GET_TASK_SPRINTS'
@@ -82,18 +82,18 @@ export const unsetTaskSprintsForColumn = () => {
     }
 }
 
-export const createTaskSprint = (sprintId, taskId, backlogIdEl, authorization) => {
+// export const createTaskSprint = (sprintId, taskId, backlogIdEl, projectId, authorization) => {
+//
+//     return async dispatch => {
+//         const responseDel = await backlogAPI.deleteBacklogElement(backlogIdEl, authorization)
+//         const response = await taskSprintAPI.createTaskSprint({}, authorization)
+//         const responsePut = await taskSprintAPI.createTaskSprintPut(response.data.id, sprintId, taskId, authorization)
+//         const responseGet = await taskSprintAPI.getTaskSprintForProject(projectId, authorization)
+//         dispatch(getTaskSprintsActionCreator(responseGet.data))
+//     }
+// }
 
-    return async dispatch => {
-        const responseDel = await backlogAPI.deleteBacklogElement(backlogIdEl, authorization)
-        const response = await taskSprintAPI.createTaskSprint({}, authorization)
-        const responsePut = await taskSprintAPI.createTaskSprintPut(response.data.id, sprintId, taskId, authorization)
-        const responseGet = await taskSprintAPI.getTaskSprints(sprintId, authorization)
-        dispatch(getTaskSprintsActionCreator(responseGet.data))
-    }
-}
-
-export const createNewTaskSprint = (data, sprintId, creatorId, authorization) => {
+export const createNewTaskSprint = (data, sprintId, creatorId, projectId, authorization) => {
 
     return async dispatch => {
         const responseCreateTask = await tasksAPI.createTask(data, authorization)
@@ -102,8 +102,8 @@ export const createNewTaskSprint = (data, sprintId, creatorId, authorization) =>
         const response = await taskSprintAPI.createTaskSprint({}, authorization)
         const responsePut = await taskSprintAPI.createTaskSprintPut(response.data.id,
             sprintId, responseCreateTask.data.id, authorization)
-        const responseGet = await taskSprintAPI.getTaskSprints(sprintId, authorization)
-        dispatch(getTaskSprintsActionCreator(responseGet.data, sprintId))
+        const responseGet = await taskSprintAPI.getTaskSprintForProject(projectId, authorization)
+        dispatch(getTaskSprintsActionCreator(responseGet.data))
     }
 }
 
@@ -122,15 +122,15 @@ export const getTaskSprintForColumn = (sprintId, columnId, authorization) => {
     }
 }
 
-export const createTaskSprintFromSprint = (taskSprintId, taskId, sprintId, authorization) => {
+export const createTaskSprintFromSprint = (taskSprintId, taskId, sprintId, projectId, authorization) => {
 
     return async dispatch => {
         const responseDel = await taskSprintAPI.deleteTaskSprints(taskSprintId, authorization)
         const responsePost = await taskSprintAPI.createTaskSprint({}, authorization)
         const responsePut = await taskSprintAPI.createTaskSprintPut(responsePost.data.id,
             sprintId, taskId, authorization)
-        const responseGet = await taskSprintAPI.getTaskSprints(sprintId, authorization)
-        dispatch(getTaskSprintsActionCreator(responseGet.data, sprintId))
+        const responseGet = await taskSprintAPI.getTaskSprintForProject(projectId, authorization)
+        dispatch(getTaskSprintsActionCreator(responseGet.data))
     }
 }
 

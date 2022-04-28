@@ -4,15 +4,17 @@ import {Route, Routes} from "react-router-dom"
 import BoardContainer from "../../Board/BoardComponent/BoardContainer"
 import BacklogContainer from "../../Backlog/BacklogComponent/BacklogContainer"
 
-const ScrumComponent = ({sprintsMap}) => {
+const ScrumComponent = ({sprintsMap, updateTaskSprints, unsetTaskSprintsHandler, sprints}) => {
 
-
+    console.log(sprintsMap)
     return (
         <>
-            <SideBarContainer/>
+            <SideBarContainer updateTaskSprints={updateTaskSprints}/>
             <Routes>
                 <Route path='board' element={<BoardContainer/>}/>
-                <Route path='backlog' element={<BacklogContainer initial={sprintsMap}/>}/>
+                <Route path='backlog' element={<BacklogContainer initial={sprintsMap} sprints={sprints}
+                                                                 updateTaskSprints={updateTaskSprints}
+                                                                 unsetTaskSprintsHandler={unsetTaskSprintsHandler}/>}/>
             </Routes>
         </>
     )

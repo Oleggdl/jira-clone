@@ -3,7 +3,7 @@ import './SideBar.scss'
 import {NavLink} from "react-router-dom"
 import {DatabaseOutlined, ProjectOutlined} from "@ant-design/icons"
 
-const SideBarComponent = ({currentProject, getSprints, getBacklogElements, getStartedSprint}) => {
+const SideBarComponent = ({currentProject, getSprints, getBacklogElements, getStartedSprint, updateTaskSprints}) => {
 
     return (
         <>
@@ -34,7 +34,7 @@ const SideBarComponent = ({currentProject, getSprints, getBacklogElements, getSt
                 </div>
                 <h4>Planning</h4>
                 <ul>
-                    <li className="board-link-container" onMouseDown={() => {
+                    <li className="board-link-container" onClick={updateTaskSprints} onMouseDown={() => {
                         getBacklogElements()
                         getSprints()
                     }}>

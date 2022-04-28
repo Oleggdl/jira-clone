@@ -29,7 +29,8 @@ const SideBarContainer = props => {
     return (
         <>
             <SideBarComponent currentProject={props.currentProject.scrum_project} getSprints={getSprints}
-                              getBacklogElements={getBacklogElements} getStartedSprint={getStartedSprint}/>
+                              getBacklogElements={getBacklogElements} getStartedSprint={getStartedSprint}
+                              updateTaskSprints={props.updateTaskSprints}/>
         </>
     )
 }

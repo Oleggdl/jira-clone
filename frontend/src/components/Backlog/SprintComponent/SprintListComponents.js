@@ -8,7 +8,7 @@ class InnerSprintList extends React.Component {
     }
 
     render() {
-        return this.props.tasks.map((task, index) => (
+        return this.props.tasks && this.props.tasks.map((task, index) => (
             <Draggable
                 key={task.id}
                 draggableId={task.id.toString()}

@@ -6,21 +6,21 @@ import {NavLink} from "react-router-dom"
 import SprintContainer from "../SprintComponent/SprintContainer"
 
 const BacklogComponent = ({
-                              sprints, isTaskInfo, backlogForProject, setBacklogForProject, onDragEnd,
+                              isTaskInfo, setBacklogForProject, onDragEnd,
                               setBacklogForProjectSprint, backlogForProjectSprint, currentProject,
-                              getSprints, columns, ordered
+                              columns, sprints, updateTaskSprints
                           }) => {
-
 
     const board = (
         <div>
-            {ordered && ordered.map((key, index) => (
+            {sprints && sprints.map((sprint, index) => (
                 <SprintContainer
-                    key={key}
+                    key={sprint.sprint_name}
                     index={index}
-                    title={key}
-                    tasks={columns[key]}
-                    // sprint={sprint}
+                    title={sprint.sprint_name}
+                    tasks={columns[sprint.sprint_name]}
+                    sprint={sprint}
+                    updateTaskSprints={updateTaskSprints}
                     backlogForProjectSprint={backlogForProjectSprint}
                     setBacklogForProjectSprint={setBacklogForProjectSprint}
                 />
@@ -58,7 +58,8 @@ const BacklogComponent = ({
 
 
             </div>
-            {isTaskInfo && <TaskInfoContainer setBacklogForProject={setBacklogForProject}/>}
+            {isTaskInfo && <TaskInfoContainer setBacklogForProject={setBacklogForProject}
+                                              updateTaskSprints={updateTaskSprints}/>}
         </>
     )
 }

@@ -101,7 +101,7 @@ const TaskInfoContainer = (props) => {
     }
 
     const changeTaskNameHandler = values => {
-        props.updateTaskName(currentTaskScrum.id, {task_name: values.task_name}, headers)
+        props.updateTaskName(currentTaskScrum.id, {task_name: values.task_name}, props.currentProject.scrum_project.id, headers)
     }
 
     // useEffect(() => {
@@ -115,7 +115,7 @@ const TaskInfoContainer = (props) => {
     const confirmDeleteTask = () => {
         props.deleteTask(currentTaskScrum.id, props.currentUser.id, props.currentProject.scrum_project.id, headers)
         setIsTaskInfo(false)
-
+        this.props.updateTaskSprints()
     }
 
     // useEffect(() => {

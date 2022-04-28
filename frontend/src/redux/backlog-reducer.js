@@ -1,4 +1,5 @@
 import {backlogAPI, tasksAPI, taskSprintAPI} from "../api/api"
+import {getTaskSprintsActionCreator} from "./taskSprint-reducer"
 
 const GET_BACKLOG_ELEMENTS = 'GET_BACKLOG_ELEMENTS'
 const GET_BACKLOG_FOR_PROJECT = 'GET_BACKLOG_FOR_PROJECT'
@@ -100,6 +101,8 @@ export const deleteTask = (taskId, userId, projectId, authorization) => {
         dispatch(isTaskDeletedActionCreator(responseDel.data['deleted']))
         const response = await backlogAPI.getBacklogElements(authorization)
         dispatch(getBacklogElementsActionCreator(response.data))
+        const responseSprint = await taskSprintAPI.getTaskSprintForProject(projectId, authorization)
+        dispatch(getTaskSprintsActionCreator(responseSprint.data))
     }
 }
 

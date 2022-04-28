@@ -52,6 +52,7 @@
     overflow-y: auto;
 
     h2 {
+      width: 100%;
       font-size: 2.6rem;
       @include disabled-selection;
     }
@@ -96,7 +97,7 @@
 }
 
 .delete-task-button {
-  width: 100px;
+  width: 120px;
   height: 32px;
   margin: 7px 0 0 auto;
   border: 1px #e51414 solid;

@@ -22,11 +22,15 @@ class SprintContainer extends React.Component {
             isSprintStartingMod: false,
             isSettingsSprint: false,
             isDeleteSprint: false,
-            headers: {}
+            headers: {},
+            sprint: {}
         }
         this.taskInputRef = React.createRef()
         this.sprintDelRef = React.createRef()
+        this.sprintSettingsRef = React.createRef()
+        this.settingsBtnRef = React.createRef()
         this.onSetIsCreateTask = this.onSetIsCreateTask.bind(this)
+        this.isSettingsSprintHandler = this.isSettingsSprintHandler.bind(this)
     }
 
     addTaskToSprintHandler = event => {
@@ -45,16 +49,26 @@ class SprintContainer extends React.Component {
         }
     }
 
+    closeSettingsSprintHandler = event => {
+        if (this.sprintSettingsRef && this.sprintSettingsRef.current) {
+            if (!this.sprintSettingsRef.current.contains(event.target)
+                && !this.settingsBtnRef.current.contains(event.target)) {
+                this.setState({isSettingsSprint: false})
+            }
+        }
+    }
+
     componentDidMount() {
         this.setState({headers: {Authorization: `Bearer ${this.context.token}`}})
         window.addEventListener("mousedown", this.addTaskToSprintHandler)
-        window.addEventListener("click", this.closeDeleteSprintHandler)
-
+        window.addEventListener("mousedown", this.closeDeleteSprintHandler)
+        window.addEventListener("mousedown", this.closeSettingsSprintHandler)
     }
 
     componentWillUnmount() {
         window.removeEventListener("mousedown", this.addTaskToSprintHandler)
-        window.removeEventListener("click", this.closeDeleteSprintHandler)
+        window.removeEventListener("mousedown", this.closeDeleteSprintHandler)
+        window.removeEventListener("mousedown", this.closeSettingsSprintHandler)
     }
 
     onKeyDown = (e) => {
@@ -66,11 +80,12 @@ class SprintContainer extends React.Component {
                 executor_id: null,
                 task_description: null,
                 task_name: this.taskInputRef.current.value
-            }, this.props.sprint.id, this.props.currentUser.id, this.state.headers)
+            }, this.props.sprint.id, this.props.currentUser.id, this.props.currentProject.scrum_project.id, this.state.headers)
             this.setState({setIsCreateTask: false})
             this.setState({setIsInputVisible: 'input-visible'})
             this.taskInputRef.current.value = null
-            this.props.unsetTaskSprints()
+            // this.props.unsetTaskSprints()
+            // this.props.updateTaskSprints()
         }
     }
 
@@ -89,7 +104,7 @@ class SprintContainer extends React.Component {
                 if (sprint.id === this.props.sprint.id) {
                     sprint.taskSprint.map(taskSprint =>
                         this.props.createTaskSprintFromSprint(taskSprint.id, taskSprint.task_scrum.id,
-                            this.props.sprints[1].id, this.state.headers))
+                            this.props.sprints[1].id, this.props.currentProject.scrum_project.id, this.state.headers))
                 }
                 return null
             })
@@ -115,8 +130,8 @@ class SprintContainer extends React.Component {
 
     }
 
-    isSettingsSprintHandler = () => {
-        !!this.isSettingsSprint
+    isSettingsSprintHandler() {
+        !!this.state.isSettingsSprint
             ? this.setState({isSettingsSprint: false})
             : this.setState({isSettingsSprint: true})
     }
@@ -144,14 +159,14 @@ class SprintContainer extends React.Component {
         return (
             <>
                 <SprintComponent sprint={this.props.sprint} taskSprints={this.props.taskSprints}
-                                 index={this.props.index}
+                                 index={this.props.index} sprintSettingsRef={this.sprintSettingsRef}
                                  backlogForProjectSprint={this.props.backlogForProjectSprint}
                                  onSetIsCreateTask={this.onSetIsCreateTask} taskInputRef={this.taskInputRef}
                                  isCreateTask={this.state.isCreateTask} onKeyDown={this.onKeyDown}
                                  isInputVisible={this.state.isInputVisible}
                                  setIsSprintStartingMod={this.setIsSprintStartingMod}
                                  isSprintStartingMod={this.state.isSprintStartingMod}
-                                 completeSprint={this.completeSprint}
+                                 completeSprint={this.completeSprint} settingsBtnRef={this.settingsBtnRef}
                                  isSettingsSprint={this.state.isSettingsSprint}
                                  setIsSettingsSprint={this.setIsSettingsSprint}
                                  isSettingsSprintHandler={this.isSettingsSprintHandler}
