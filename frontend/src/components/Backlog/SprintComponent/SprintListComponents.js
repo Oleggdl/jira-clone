@@ -8,7 +8,7 @@ class InnerSprintList extends React.Component {
     }
 
     render() {
-        return this.props.tasks && this.props.tasks.map((task, index) => (
+        return this.props.tasks ? this.props.tasks.map((task, index) => (
             <Draggable
                 key={task.id}
                 draggableId={task.id.toString()}
@@ -23,7 +23,7 @@ class InnerSprintList extends React.Component {
                     />
                 )}
             </Draggable>
-        ))
+        )) : <></>
     }
 }
 
@@ -47,14 +47,8 @@ export default class SprintList extends React.Component {
 
     render() {
         const {
-            ignoreContainerClipping,
-            internalScroll,
-            scrollContainerStyle,
-            isDropDisabled,
-            isCombineEnabled,
             listId,
             listType,
-            style,
             tasks
         } = this.props
 
@@ -63,25 +57,13 @@ export default class SprintList extends React.Component {
             <Droppable
                 droppableId={listId}
                 type={listType}
-                ignoreContainerClipping={ignoreContainerClipping}
-                isDropDisabled={isDropDisabled}
-                isCombineEnabled={isCombineEnabled}
             >
                 {dropProvided => (
-                    <div style={style}{...dropProvided.droppableProps}>
-                        {internalScroll ? (
-                            <div className="scroll-container" style={scrollContainerStyle}>
-                                <InnerList
-                                    tasks={tasks}
-                                    dropProvided={dropProvided}
-                                />
-                            </div>
-                        ) : (
-                            <InnerList
-                                tasks={tasks}
-                                dropProvided={dropProvided}
-                            />
-                        )}
+                    <div{...dropProvided.droppableProps}>
+                        <InnerList
+                            tasks={tasks}
+                            dropProvided={dropProvided}
+                        />
                     </div>
                 )}
             </Droppable>

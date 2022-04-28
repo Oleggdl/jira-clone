@@ -25,7 +25,10 @@ const BacklogElementContainer = (props) => {
     }
 
     const createSprintHandler = (data) => {
-        props.createSprint({is_started: false, sprint_name: `BoardSprint ${props.sprints.length + 1}`}, props.currentProject.scrum_project.id, headers)
+        props.createSprint({
+            is_started: false,
+            sprint_name: `BoardSprint ${props.sprints.length + 1}`
+        }, props.currentProject.scrum_project.id, headers)
     }
 
     useEffect(() => {
@@ -73,7 +76,7 @@ const BacklogElementContainer = (props) => {
                                      createSprintHandler={createSprintHandler} isInputVisible={isInputVisible}
                                      setBacklogForProject={props.setBacklogForProject} taskInputRef={taskInputRef}
                                      onKeyDown={onKeyDown} onSetIsCreateTask={onSetIsCreateTask}
-                                     isCreateTask={isCreateTask}
+                                     isCreateTask={isCreateTask} title={props.title}
             />
         </>
     )

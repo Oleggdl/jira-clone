@@ -4,16 +4,17 @@ import TaskInfoContainer from "../../Tasks/TaskInfo/TaskInfoContainer"
 import {DragDropContext} from "react-beautiful-dnd"
 import {NavLink} from "react-router-dom"
 import SprintContainer from "../SprintComponent/SprintContainer"
+import BacklogElementContainer from "../BacklogElement/BacklogElementContainer"
 
 const BacklogComponent = ({
                               isTaskInfo, setBacklogForProject, onDragEnd,
                               setBacklogForProjectSprint, backlogForProjectSprint, currentProject,
-                              columns, sprints, updateTaskSprints
+                              columns, sprints, updateTaskSprints, backlogForProject
                           }) => {
 
     const board = (
         <div>
-            {sprints && sprints.map((sprint, index) => (
+            {sprints && sprints.sort((a, b) => a.id - b.id).map((sprint, index) => (
                 <SprintContainer
                     key={sprint.sprint_name}
                     index={index}
@@ -25,6 +26,15 @@ const BacklogComponent = ({
                     setBacklogForProjectSprint={setBacklogForProjectSprint}
                 />
             ))}
+            <BacklogElementContainer
+                backlogForProject={backlogForProject}
+                setBacklogForProject={setBacklogForProject}
+                title={'Backlog'}
+                tasks={columns['Backlog']}
+                updateTaskSprints={updateTaskSprints}
+                backlogForProjectSprint={backlogForProjectSprint}
+                setBacklogForProjectSprint={setBacklogForProjectSprint}
+            />
         </div>
     )
 

@@ -4,7 +4,7 @@ import {compose} from "redux"
 import {connect} from "react-redux"
 import {TaskContext} from "../../../context/TaskContext"
 import {getTaskSprints, unsetTaskSprints} from "../../../redux/taskSprint-reducer"
-import {createBacklogElementFromSprint, getBacklogForProject, searchTasks} from "../../../redux/backlog-reducer"
+import {searchTasks} from "../../../redux/backlog-reducer"
 import {AuthContext} from "../../../context/AuthContext"
 import {getSprints} from "../../../redux/sprints-reducer"
 import reorder, {reorderSprintMap} from "../../../utils/reorder"
@@ -67,24 +67,25 @@ class BacklogContainer extends React.Component {
     }
 
     onDragEnd = result => {
-        if (result.combine) {
-            if (result.type === "COLUMN") {
-                const shallow = [...this.state.ordered]
-                shallow.splice(result.source.index, 1)
-                this.setState({ordered: shallow})
-                return
-            }
-
-            const column = this.state.columns[result.source.droppableId]
-            const withSprintRemoved = [...column]
-            withSprintRemoved.splice(result.source.index, 1)
-            const columns = {
-                ...this.state.columns,
-                [result.source.droppableId]: withSprintRemoved
-            }
-            this.setState({columns})
-            return
-        }
+        // if (result.combine) {
+        //     console.log(result)
+        //     if (result.type === "COLUMN") {
+        //         const shallow = [...this.state.ordered]
+        //         shallow.splice(result.source.index, 1)
+        //         this.setState({ordered: shallow})
+        //         return
+        //     }
+        //
+        //     const column = this.state.columns[result.source.droppableId]
+        //     const withSprintRemoved = [...column]
+        //     withSprintRemoved.splice(result.source.index, 1)
+        //     const columns = {
+        //         ...this.state.columns,
+        //         [result.source.droppableId]: withSprintRemoved
+        //     }
+        //     this.setState({columns})
+        //     return
+        // }
 
         // dropped nowhere
         if (!result.destination) {
@@ -156,7 +157,7 @@ const mapStateToProps = (state) => ({
 
 export default compose(
     connect(mapStateToProps, {
-        unsetTaskSprints, getBacklogForProject, getSprints, createBacklogElementFromSprint,
+        unsetTaskSprints, getSprints,
         searchTasks, getTaskSprints
     })
 )(BacklogContainer)

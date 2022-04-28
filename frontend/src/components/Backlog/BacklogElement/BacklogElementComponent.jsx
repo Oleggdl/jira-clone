@@ -2,12 +2,12 @@ import React from 'react'
 import './BacklogElement.scss'
 import TaskBacklogContainer from "../../Tasks/TaskBacklogComponent/TaskBacklogContainer"
 import {Droppable} from "react-beautiful-dnd"
+import SprintList from "../SprintComponent/SprintListComponents";
 
 const BacklogElementComponent = ({
                                      backlogForProject, createSprintHandler, isInputVisible, taskInputRef,
-                                     onKeyDown, onSetIsCreateTask, isCreateTask
+                                     onKeyDown, onSetIsCreateTask, isCreateTask, tasks, title
                                  }) => {
-
     return (
         <>
             <div className="sprint-container">
@@ -16,16 +16,21 @@ const BacklogElementComponent = ({
                     <div>(Tasks count: <span>{backlogForProject?.length}</span>)</div>
                     <button className="create-sprint-button" onClick={createSprintHandler}>Create a sprint</button>
                 </div>
-                <Droppable droppableId="Backlog">
-                    {provided => (
-                        <div className={`todos`} ref={provided.innerRef} {...provided.droppableProps}>
-                            {backlogForProject?.map((task, index) => (
-                                <TaskBacklogContainer index={index} task={task} key={task.id}/>
-                            ))}
-                            {provided.placeholder}
-                        </div>
-                    )}
-                </Droppable>
+                {/*<Droppable droppableId="Backlog">*/}
+                {/*    {provided => (*/}
+                {/*        <div className={`todos`} ref={provided.innerRef} {...provided.droppableProps}>*/}
+                {/*            {backlogForProject?.map((task, index) => (*/}
+                {/*                <TaskBacklogContainer index={index} task={task} key={task.id}/>*/}
+                {/*            ))}*/}
+                {/*            {provided.placeholder}*/}
+                {/*        </div>*/}
+                {/*    )}*/}
+                {/*</Droppable>*/}
+                <SprintList
+                    listId={title}
+                    listType="SPRINT"
+                    tasks={tasks}
+                />
                 <input className={`task-creations-input ${isInputVisible}`} ref={taskInputRef} onKeyDown={e => {
                     onKeyDown(e)
                 }}/>

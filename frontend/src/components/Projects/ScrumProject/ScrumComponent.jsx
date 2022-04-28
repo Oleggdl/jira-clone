@@ -6,7 +6,6 @@ import BacklogContainer from "../../Backlog/BacklogComponent/BacklogContainer"
 
 const ScrumComponent = ({sprintsMap, updateTaskSprints, unsetTaskSprintsHandler, sprints}) => {
 
-    console.log(sprintsMap)
     return (
         <>
             <SideBarContainer updateTaskSprints={updateTaskSprints}/>

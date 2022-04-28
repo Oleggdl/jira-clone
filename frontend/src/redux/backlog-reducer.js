@@ -48,13 +48,13 @@ export const getBacklogForProjectActionCreator = backlogForProject => ({
     backlogForProject
 })
 
-export const getBacklogElement = (authorization) => {
-
-    return async dispatch => {
-        const response = await backlogAPI.getBacklogElements(authorization)
-        dispatch(getBacklogElementsActionCreator(response.data))
-    }
-}
+// export const getBacklogElement = (authorization) => {
+//
+//     return async dispatch => {
+//         const response = await backlogAPI.getBacklogElements(authorization)
+//         dispatch(getBacklogElementsActionCreator(response.data))
+//     }
+// }
 
 export const createBacklogElement = (data, projectId, creatorId, executorId, authorization) => {
 
@@ -83,6 +83,10 @@ export const createBacklogElementFromSprint = (taskSprintId, taskId, projectId, 
             await backlogAPI.uniteBacklogProjectTask(responsePost.data.id, taskId, projectId, authorization)
         const response = await backlogAPI.getBacklogElements(authorization)
         dispatch(getBacklogElementsActionCreator(response.data))
+        const responseGetTask = await taskSprintAPI.getTaskSprintForProject(projectId, authorization)
+        dispatch(getTaskSprintsActionCreator(responseGetTask.data))
+        const responseGetBacklog = await backlogAPI.getBacklogForProject(projectId, authorization)
+        dispatch(getBacklogForProjectActionCreator(responseGetBacklog.data))
     }
 }
 
@@ -103,6 +107,8 @@ export const deleteTask = (taskId, userId, projectId, authorization) => {
         dispatch(getBacklogElementsActionCreator(response.data))
         const responseSprint = await taskSprintAPI.getTaskSprintForProject(projectId, authorization)
         dispatch(getTaskSprintsActionCreator(responseSprint.data))
+        const responseGetBacklog = await backlogAPI.getBacklogForProject(projectId, authorization)
+        dispatch(getBacklogForProjectActionCreator(responseGetBacklog.data))
     }
 }
 

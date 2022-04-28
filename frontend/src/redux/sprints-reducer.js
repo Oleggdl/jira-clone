@@ -1,4 +1,6 @@
-import {sprintsAPI} from "../api/api"
+import {backlogAPI, sprintsAPI, taskSprintAPI} from "../api/api"
+import {getTaskSprintsActionCreator} from "./taskSprint-reducer";
+import {getBacklogForProjectActionCreator} from "./backlog-reducer";
 
 const GET_SPRINTS = 'GET_SPRINTS'
 const SET_CURRENT_SPRINT = 'SET_CURRENT_SPRINT'
@@ -75,11 +77,14 @@ export const getStartedSprint = (projectId, authorization) => {
     }
 }
 
-export const deleteSprint = (id, authorization) => {
+export const deleteSprint = (id, projectId, authorization) => {
 
     return async dispatch => {
         const response = await sprintsAPI.deleteSprint(id, authorization)
-
+        const responseGet = await sprintsAPI.getSprints(projectId, authorization)
+        dispatch(getSprintsActionCreator(responseGet.data))
+        const responseGetTask = await taskSprintAPI.getTaskSprintForProject(projectId, authorization)
+        dispatch(getTaskSprintsActionCreator(responseGetTask.data))
     }
 }
 

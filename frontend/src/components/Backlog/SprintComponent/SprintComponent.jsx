@@ -13,12 +13,11 @@ const SprintComponent = ({
                              setIsSettingsSprint, deleteSprintHandler, tasks, title, sprintSettingsRef, settingsBtnRef
                          }) => {
 
-    const taskCount = taskSprints.map(taskSprint => taskSprint.id === sprint?.id ? taskSprint.taskSprint.length : null)
-
     return (
         <>
             {isSprintStartingMod && <SprintStartWindowContainer setIsSprintStartingMod={setIsSprintStartingMod}
-                                                                sprint={sprint} index={index} taskCount={taskCount}/>}
+                                                                sprint={sprint} index={index}
+                                                                taskCount={tasks ? tasks.length : null}/>}
             <div className="sprint-container">
                 <div className="sprint-container-header">
                     <h4>{sprint?.sprint_name || `BoardSprint ${index + 1}`}</h4>
@@ -27,7 +26,7 @@ const SprintComponent = ({
                         <div> –</div>
                         <div>{sprint?.end_date}</div>
                     </>}
-                    <div>(Tasks count: <span>{taskCount}</span>)</div>
+                    <div>(Tasks count: <span>{tasks ? tasks.length : null}</span>)</div>
                     {sprint?.is_started
                         ? <Button className="start-sprint-button" type="primary"
                                   onClick={completeSprint}>Complete a sprint</Button>
