@@ -16,8 +16,8 @@ const SprintComponent = ({
     return (
         <>
             {isSprintStartingMod && <SprintStartWindowContainer setIsSprintStartingMod={setIsSprintStartingMod}
-                                                                 sprint={sprint} index={index} title={title}
-                                                                 taskCount={tasks ? tasks.length : null}/>}
+                                                                sprint={sprint} index={index} title={title}
+                                                                taskCount={tasks ? tasks.length : null}/>}
             <div className="sprint-container">
                 <div className="sprint-container-header">
                     <h4>{sprint?.sprint_name || `BoardSprint ${index + 1}`}</h4>
@@ -30,10 +30,10 @@ const SprintComponent = ({
                     {sprint?.is_started
                         ? <Button className="start-sprint-button" type="primary"
                                   onClick={completeSprint}>Complete a sprint</Button>
-                        : (index === 0
-                            ? <Button className="start-sprint-button" type="primary"
-                                      onClick={() => setIsSprintStartingMod(true)}>Start a sprint</Button>
-                            : <Button disabled={true}>Start a sprint</Button>)}
+                        : (index !== 0 || tasks.length === 0
+                            ? <Button disabled={true}>Start a sprint</Button>
+                            : <Button className="start-sprint-button" type="primary"
+                                      onClick={() => setIsSprintStartingMod(true)}>Start a sprint</Button>)}
                     <div className="sprint-settings" onClick={isSettingsSprintHandler} ref={settingsBtnRef}>
                         <EllipsisOutlined/></div>
                     {isSettingsSprint && <div className="sprint-settings-window" ref={sprintSettingsRef}>

@@ -49,13 +49,14 @@ export default class ColumnList extends React.Component {
         const {
             listId,
             listType,
-            tasks
+            tasks,
+            column
         } = this.props
 
         return (
 
             <Droppable
-                droppableId={listId}
+                droppableId={`${listId},${column.id}`}
                 type={listType}
             >
                 {dropProvided => (

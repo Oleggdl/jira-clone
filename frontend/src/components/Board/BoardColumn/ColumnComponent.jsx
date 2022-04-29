@@ -1,13 +1,11 @@
 import React from 'react'
 import './Column.scss'
-import TaskBoardContainer from "../../Tasks/TaskBoardComponent/TaskBoardContainer"
 import ColumnList from "./ColumnListComponents";
 
 const ColumnComponent = ({
                              column, settingsColumnHandler, isSettings, isSettingsActive, settingsRef,
                              deleteColumnHandler, taskSprintsForColumn, title, tasks
                          }) => {
-
     return (
         <>
             <div className="column-container">
@@ -17,7 +15,9 @@ const ColumnComponent = ({
                 <div className="column-task-container">
                     <ColumnList listId={title}
                                 listType="SPRINT"
-                                tasks={tasks}/>
+                                tasks={tasks}
+                                column={column}
+                    />
                     {/*{!!taskSprintsForColumn ? taskSprintsForColumn.map(taskSprintForColumn => {*/}
                     {/*        return taskSprintForColumn.id === column.id*/}
                     {/*            ? (taskSprintForColumn.taskSprintForColumn.map(ts =>*/}

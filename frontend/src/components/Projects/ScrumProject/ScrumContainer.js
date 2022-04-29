@@ -109,7 +109,7 @@ class ScrumContainer extends React.Component {
                 columnMap: this.props.columns.reduce(
                     (previous, column) => ({
                         ...previous,
-                        [column.column_name]: this.getByColumn(column.column_name, this.state.columnTasks)
+                        [`${column.column_name},${column.id}`]: this.getByColumn(column.column_name, this.state.columnTasks)
                     }),
                     {})
             })

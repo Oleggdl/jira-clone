@@ -7,7 +7,7 @@ import {getTaskSprints, unsetTaskSprints} from "../../../redux/taskSprint-reduce
 import {searchTasks} from "../../../redux/backlog-reducer"
 import {AuthContext} from "../../../context/AuthContext"
 import {getSprints} from "../../../redux/sprints-reducer"
-import reorder, {reorderSprintMap} from "../../../utils/reorder"
+import reorderBacklog, {reorderSprintMap} from "../../../utils/reorderBacklog"
 
 
 class BacklogContainer extends React.Component {
@@ -78,7 +78,7 @@ class BacklogContainer extends React.Component {
 
         // reordering column
         if (result.type === "COLUMN") {
-            const ordered = reorder(
+            const ordered = reorderBacklog(
                 this.state.ordered,
                 source.index,
                 destination.index

@@ -79,6 +79,7 @@ export const getStartedSprint = (projectId, authorization) => {
 export const deleteSprint = (id, projectId, authorization) => {
 
     return async dispatch => {
+        console.log(id)
         const response = await sprintsAPI.deleteSprint(id, authorization)
         const responseGet = await sprintsAPI.getSprints(projectId, authorization)
         dispatch(getSprintsActionCreator(responseGet.data))

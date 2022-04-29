@@ -5,8 +5,9 @@ import {compose} from "redux"
 import {connect} from "react-redux"
 import {getColumns} from "../../../redux/columns-reducer"
 import {AuthContext} from "../../../context/AuthContext"
-import reorder, {reorderSprintMap} from "../../../utils/reorder"
 import {getStartedSprint} from "../../../redux/sprints-reducer"
+import {reorderColumnMap} from "../../../utils/reorderBoard";
+import {setTaskSprintColumn} from "../../../redux/taskSprint-reducer";
 
 class BoardContainer extends React.Component {
 
@@ -62,28 +63,19 @@ class BoardContainer extends React.Component {
             return
         }
 
-        if (result.type === "COLUMN") {
-            const ordered = reorder(
-                this.state.ordered,
-                source.index,
-                destination.index
-            )
-
-            this.setState({
-                ordered
-            })
-
-            return
-        }
-
-        const data = reorderSprintMap({
-            sprintMap: this.state.columnsMap,
+        const data = reorderColumnMap({
+            boardMap: this.state.columnsMap,
             source,
-            destination
+            destination,
         })
 
+        if (source.droppableId !== destination.droppableId) {
+            this.props.setTaskSprintColumn(result.draggableId, destination.droppableId.split(',')[1],
+                this.state.headers)
+        }
+
         this.setState({
-            columnsMap: data.sprintMap
+            columnsMap: data.boardMap
         })
     }
 
@@ -109,5 +101,5 @@ const mapStateToProps = (state) => ({
 })
 
 export default compose(
-    connect(mapStateToProps, {getColumns, getStartedSprint})
+    connect(mapStateToProps, {getColumns, getStartedSprint, setTaskSprintColumn})
 )(BoardContainer)

@@ -27,4 +27,6 @@ public class TaskSprint {
     @ManyToOne
     @JoinColumn(name = "sprint_column", referencedColumnName = "id")
     private ColumnScrum sprint_column;
+
+    private Long indexInBoard;
 }
