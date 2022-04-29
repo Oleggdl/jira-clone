@@ -1,44 +1,64 @@
-import React, {useContext, useEffect} from 'react'
+import React, {useContext} from 'react'
 import TaskBoardComponent from "./TaskBoardComponent"
-import {TaskContext} from "../../../context/TaskContext"
 import {compose} from "redux"
 import {connect} from "react-redux"
 import {getCurrentTaskFromServer, setCurrentTask} from "../../../redux/tasks-reducer"
 import {AuthContext} from "../../../context/AuthContext"
 import {getMarksScrumAll} from "../../../redux/marksScrum-reducer"
+import {TaskContext} from "../../../context/TaskContext"
 
-const TaskBoardContainer = (props) => {
-
-    const {token} = useContext(AuthContext)
-    const headers = {
-        Authorization: `Bearer ${token}`
-    }
-
+const TaskBoardWithTaskContext = props => {
     const {setIsTaskInfo} = useContext(TaskContext)
+    return <TaskBoardContainer setIsTaskInfo={setIsTaskInfo} {...props}/>
+}
 
-    const taskInfoHandler = (value) => {
-        props.setCurrentTask(value)
+
+class TaskBoardContainer extends React.Component {
+
+    static contextType = AuthContext
+
+    constructor(props) {
+        super(props)
+        this.state = {
+            headers: {}
+        }
+
     }
 
-    const getCurrentTaskFromServer = (value) => {
+    componentDidMount() {
+        this.setState({headers: {Authorization: `Bearer ${this.context.token}`}})
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (this.state.headers !== prevState.headers) {
+            this.props.getMarksScrumAll(this.props.taskSprint.task_scrum.id, this.state.headers)
+        }
+    }
+
+    taskInfoHandler = (value) => {
+        this.props.setCurrentTask(value)
+    }
+
+    getCurrentTaskFromServer = (value) => {
         const id = !!value.scrum_task_id
             ? value.scrum_task_id.id
             : value.task_scrum.id
-        props.getCurrentTaskFromServer(id, headers)
+        this.props.getCurrentTaskFromServer(id, this.state.headers)
     }
 
-    useEffect(() => {
-        props.getMarksScrumAll(props.taskSprint.task_scrum.id, headers)
-    }, [])
+    render() {
 
-    return (
-        <>
-            <TaskBoardComponent taskInfoHandler={taskInfoHandler} taskSprint={props.taskSprint}
-                                currentProject={props.currentProject.scrum_project}
-                                getCurrentTaskFromServer={getCurrentTaskFromServer}
-                                setIsTaskInfo={setIsTaskInfo} marksScrumAll={props.marksScrumAll}/>
-        </>
-    )
+        return (
+            <>
+                <TaskBoardComponent taskInfoHandler={this.taskInfoHandler} taskSprint={this.props.taskSprint}
+                                    currentProject={this.props.currentProject.scrum_project}
+                                    getCurrentTaskFromServer={this.getCurrentTaskFromServer}
+                                    setIsTaskInfo={this.props.setIsTaskInfo} marksScrumAll={this.props.marksScrumAll}
+                                    provided={this.props.provided}
+                />
+            </>
+        )
+    }
 }
 
 const mapStateToProps = (state) => ({
@@ -49,4 +69,4 @@ const mapStateToProps = (state) => ({
 
 export default compose(
     connect(mapStateToProps, {getCurrentTaskFromServer, setCurrentTask, getMarksScrumAll})
-)(TaskBoardContainer)
+)(TaskBoardWithTaskContext)

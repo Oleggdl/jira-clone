@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useRef, useState} from 'react'
+import React, {createRef} from 'react'
 import ColumnComponent from "./ColumnComponent"
 import {compose} from "redux"
 import {connect} from "react-redux"
@@ -6,60 +6,78 @@ import {deleteColumnScrum} from "../../../redux/columns-reducer"
 import {AuthContext} from "../../../context/AuthContext"
 import {getTaskSprintForColumn, unsetTaskSprintsForColumn} from "../../../redux/taskSprint-reducer";
 
-const ColumnContainer = props => {
+class ColumnContainer extends React.Component {
 
-    const [isSettings, setIsSettings] = useState(false)
-    const [isSettingsActive, setIsSettingsActive] = useState('')
+    static contextType = AuthContext
 
-    const settingsRef = useRef(null)
-
-    useEffect(() => {
-        window.addEventListener("click", function (e) {
-            if (e.target !== settingsRef.current) {
-                setIsSettings(false)
-                setIsSettingsActive('')
-            }
-        })
-
-        return window.removeEventListener("click", function (e) {
-            if (e.target !== settingsRef.current) {
-                setIsSettings(false)
-                setIsSettingsActive('')
-            }
-        })
-    })
-
-    const settingsColumnHandler = () => {
-        !!isSettings ? setIsSettings(false) : setIsSettings(true)
-        !!isSettingsActive ? setIsSettingsActive('') : setIsSettingsActive('settings-active')
-    }
-
-    const {token} = useContext(AuthContext)
-
-    const headers = {
-        Authorization: `Bearer ${token}`
-    }
-
-    const deleteColumnHandler = (id) => {
-        props.deleteColumnScrum(id, props.currentSprint.id, headers)
-    }
-
-    useEffect(() => {
-        props.getTaskSprintForColumn(props.currentSprint.id, props.column.id, headers)
-
-        return () => {
-            props.unsetTaskSprintsForColumn()
+    constructor(props) {
+        super(props)
+        this.state = {
+            headers: {},
+            isSettings: false,
+            isSettingsActive: ''
         }
-    }, [])
+        this.settingsRef = createRef()
+        this.settingWindowHandler = this.settingWindowHandler.bind(this)
+    }
 
-    return (
-        <>
-            <ColumnComponent column={props.column} settingsColumnHandler={settingsColumnHandler}
-                             isSettings={isSettings} isSettingsActive={isSettingsActive} settingsRef={settingsRef}
-                             deleteColumnHandler={deleteColumnHandler}
-                             taskSprintsForColumn={props.taskSprintsForColumn}/>
-        </>
-    )
+    settingWindowHandler(e) {
+        if (e.target !== this.settingsRef.current) {
+            this.setIsSettings(false)
+            this.setIsSettingsActive('')
+        }
+    }
+
+    setIsSettings(value) {
+        this.setState({
+            isSettings: value
+        })
+    }
+
+    setIsSettingsActive(value) {
+        this.setState({
+            isSettingsActive: value
+        })
+    }
+
+    settingsColumnHandler = () => {
+        !!this.state.isSettings ? this.setIsSettings(false) : this.setIsSettings(true)
+        !!this.state.isSettingsActive ? this.setIsSettingsActive('') : this.setIsSettingsActive('settings-active')
+    }
+
+
+    deleteColumnHandler = (id) => {
+        this.props.deleteColumnScrum(id, this.props.currentSprint.id, this.state.headers)
+    }
+
+    componentDidMount() {
+        this.setState({headers: {Authorization: `Bearer ${this.context.token}`}})
+        window.addEventListener("click", this.settingWindowHandler)
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (this.state.headers !== prevState.headers) {
+            this.props.getTaskSprintForColumn(this.props.currentSprint.id, this.props.column.id, this.state.headers)
+        }
+    }
+
+    componentWillUnmount() {
+        this.props.unsetTaskSprintsForColumn()
+        window.removeEventListener("click", this.settingWindowHandler)
+    }
+
+    render() {
+
+        return (
+            <>
+                <ColumnComponent column={this.props.column} settingsColumnHandler={this.settingsColumnHandler}
+                                 isSettings={this.state.isSettings} isSettingsActive={this.state.isSettingsActive}
+                                 settingsRef={this.settingsRef} title={this.props.title} tasks={this.props.tasks}
+                                 deleteColumnHandler={this.deleteColumnHandler}
+                                 taskSprintsForColumn={this.props.taskSprintsForColumn}/>
+            </>
+        )
+    }
 }
 
 const mapStateToProps = (state) => ({

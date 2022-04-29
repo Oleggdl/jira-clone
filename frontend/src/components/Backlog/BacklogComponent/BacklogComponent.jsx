@@ -49,24 +49,11 @@ const BacklogComponent = ({
                 <h2>Backlog</h2>
                 <div className="search-tasks-container" style={{width: "320px"}}>
                 </div>
-
-
                 <React.Fragment>
                     <DragDropContext onDragEnd={onDragEnd}>
                         <div>{board}</div>
                     </DragDropContext>
                 </React.Fragment>
-
-
-                {/*{sprints && sprints.sort((a, b) => a.id - b.id).map((sprint, index) =>*/}
-                {/*    <SprintContainer sprint={sprint} index={index} key={sprint.id}*/}
-                {/*                     backlogForProjectSprint={backlogForProjectSprint}*/}
-                {/*                     setBacklogForProjectSprint={setBacklogForProjectSprint}/>)}*/}
-
-                {/*<BacklogElementContainer backlogForProject={backlogForProject}*/}
-                {/*                         setBacklogForProject={setBacklogForProject}/>*/}
-
-
             </div>
             {isTaskInfo && <TaskInfoContainer setBacklogForProject={setBacklogForProject}
                                               updateTaskSprints={updateTaskSprints}/>}

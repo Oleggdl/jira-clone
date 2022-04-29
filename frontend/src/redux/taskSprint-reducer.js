@@ -5,10 +5,13 @@ const GET_TASK_SPRINTS = 'GET_TASK_SPRINTS'
 const UNSET_TASK_SPRINT = 'UNSET_TASK_SPRINT'
 const GET_TASK_SPRINT_FOR_COLUMN = 'GET_TASK_SPRINT_FOR_COLUMN'
 const UNSET_TASK_SPRINT_FOR_COLUMN = 'UNSET_TASK_SPRINT_FOR_COLUMN'
+const GET_TASK_SPRINTS_FOR_SPRINT = 'GET_TASK_SPRINTS_FOR_SPRINT'
 
 let initialState = {
     taskSprints: [],
-    taskSprintsForColumn: []
+    taskSprintsForColumn: [],
+    taskSprintsForSprint: []
+
 }
 
 const taskSprintReducer = (state = initialState, action) => {
@@ -45,13 +48,21 @@ const taskSprintReducer = (state = initialState, action) => {
             }
         }
 
+        case GET_TASK_SPRINTS_FOR_SPRINT: {
+            return {
+                ...state,
+                taskSprintsForSprint: action.taskSprintsForSprint
+            }
+        }
+
         default:
             return state
     }
 }
 
 export const getTaskSprintsActionCreator = taskSprints => ({type: GET_TASK_SPRINTS, taskSprints})
-
+export const getTaskSprintsForSprintActionCreator = taskSprintsForSprint =>
+    ({type: GET_TASK_SPRINTS_FOR_SPRINT, taskSprintsForSprint})
 export const unsetTaskSprintsActionCreator = () => ({type: UNSET_TASK_SPRINT})
 export const unsetTaskSprintsForColumnActionCreator = () => ({type: UNSET_TASK_SPRINT_FOR_COLUMN})
 export const getTaskSprintForColumnActionCreator = (taskSprintsForColumn, columnId) => ({
@@ -65,6 +76,14 @@ export const getTaskSprints = (projectId, authorization) => {
     return async dispatch => {
         const response = await taskSprintAPI.getTaskSprintForProject(projectId, authorization)
         dispatch(getTaskSprintsActionCreator(response.data))
+    }
+}
+
+export const getTaskSprintsForSprint = (sprintId, authorization) => {
+
+    return async dispatch => {
+        const response = await taskSprintAPI.getTaskSprints(sprintId, authorization)
+        dispatch(getTaskSprintsForSprintActionCreator(response.data))
     }
 }
 

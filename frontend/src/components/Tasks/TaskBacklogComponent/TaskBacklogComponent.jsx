@@ -3,7 +3,7 @@ import {EllipsisOutlined, SolutionOutlined} from "@ant-design/icons"
 import './TaskBacklog.scss'
 
 const TaskBacklogComponent = ({
-                                  currentProject, taskInfoHandler, task, index, getCurrentTaskFromServer,
+                                  currentProject, taskInfoHandler, task, getCurrentTaskFromServer,
                                   setIsTaskInfo, marksScrumAll, provided
                               }) => {
 

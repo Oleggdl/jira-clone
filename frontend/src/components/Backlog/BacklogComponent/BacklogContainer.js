@@ -35,8 +35,6 @@ class BacklogContainer extends React.Component {
     componentDidMount() {
         this.props.updateSprintsHandler()
         this.setState({headers: {Authorization: `Bearer ${this.context.token}`}})
-        // this.props.getSprints(this.props.currentProject.scrum_project.id, this.state.headers)
-        // this.props.getTaskSprints(this.props.currentProject.scrum_project.id, this.state.headers)
         if (!!this.props.taskSprints) {
             this.props.unsetTaskSprints()
         }
@@ -46,13 +44,6 @@ class BacklogContainer extends React.Component {
         if (this.props.initial !== prevProps.initial) {
             this.setState({columns: this.props.initial})
         }
-        // if (this.props.sprints !== prevProps.sprints) {
-        //     this.props.getTaskSprints(this.props.currentProject.scrum_project.id, this.state.headers)
-        // }
-    }
-
-    componentWillUnmount() {
-        // this.props.unsetTaskSprintsHandler()
     }
 
     setIsTaskInfo(value) {
@@ -68,25 +59,6 @@ class BacklogContainer extends React.Component {
     }
 
     onDragEnd = result => {
-        // if (result.combine) {
-        //     console.log(result)
-        //     if (result.type === "COLUMN") {
-        //         const shallow = [...this.state.ordered]
-        //         shallow.splice(result.source.index, 1)
-        //         this.setState({ordered: shallow})
-        //         return
-        //     }
-        //
-        //     const column = this.state.columns[result.source.droppableId]
-        //     const withSprintRemoved = [...column]
-        //     withSprintRemoved.splice(result.source.index, 1)
-        //     const columns = {
-        //         ...this.state.columns,
-        //         [result.source.droppableId]: withSprintRemoved
-        //     }
-        //     this.setState({columns})
-        //     return
-        // }
 
         // dropped nowhere
         if (!result.destination) {

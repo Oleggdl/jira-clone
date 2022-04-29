@@ -6,7 +6,6 @@ import {compose} from "redux"
 import {connect} from "react-redux"
 import {getCurrentProject, getFavoriteProjects, getProjects, joinTheProject} from "../../../redux/projects-reducer"
 import {getUser} from "../../../redux/users-reducer"
-import {getStartedSprint} from "../../../redux/sprints-reducer"
 
 const userName = 'userName'
 
@@ -111,9 +110,6 @@ const NavbarContainer = props => {
         props.getCurrentProject(project)
     }
 
-    const startedSprintHandler = () => {
-        props.getStartedSprint(props.currentProject.scrum_project.id, headers)
-    }
 
     const getProjects = () => {
         if (!!props.currentUser.id) {
@@ -136,7 +132,7 @@ const NavbarContainer = props => {
                              currentUser={props.currentUser} currentProjectHandler={currentProjectHandler}
                              showProjectsMenu={showProjectsMenu} favoriteProjects={props.favoriteProjects}
                              getFavoriteProjectHandler={getFavoriteProjectHandler} isInviteColleague={isInviteColleague}
-                             startedSprintHandler={startedSprintHandler} setIsInviteColleague={setIsInviteColleague}
+                             setIsInviteColleague={setIsInviteColleague}
                              inviteWrapper={inviteWrapper} getProjects={getProjects}
             />
         </>
@@ -152,7 +148,7 @@ const mapStateToProps = (state) => ({
 
 export default compose(
     connect(mapStateToProps, {
-        getProjects, getUser, getCurrentProject, getFavoriteProjects, getStartedSprint,
+        getProjects, getUser, getCurrentProject, getFavoriteProjects,
         joinTheProject
     })
 )(NavbarContainer)
