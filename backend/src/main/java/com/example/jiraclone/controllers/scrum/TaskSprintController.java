@@ -62,6 +62,18 @@ public class TaskSprintController {
         return sprintService.updateTaskSprintColumn(taskSprintId, columnId);
     }
 
+    @PutMapping("/taskSprint/indexInBoard/{taskSprintId}/{index}")
+    public ResponseEntity<TaskSprint> changeIndexBoardTaskSprint(@PathVariable Long taskSprintId,
+                                                             @PathVariable Long index) {
+        return sprintService.changeIndexBoardTaskSprint(taskSprintId, index);
+    }
+
+    @PutMapping("/taskSprint/updateSprint/{taskSprintId}/{sprintId}")
+    public ResponseEntity<TaskSprint> updateTaskSprintSprint(@PathVariable Long taskSprintId,
+                                                             @PathVariable Long sprintId) {
+        return sprintService.updateTaskSprintSprint(taskSprintId, sprintId);
+    }
+
     @DeleteMapping("/taskSprint/{id}")
     public ResponseEntity<Map<String, Boolean>> deleteTaskSprint(@PathVariable Long id) {
         return sprintService.deleteTaskSprint(id);

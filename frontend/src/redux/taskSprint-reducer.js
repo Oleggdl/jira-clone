@@ -1,4 +1,5 @@
-import {tasksAPI, taskSprintAPI} from "../api/api"
+import {backlogAPI, tasksAPI, taskSprintAPI} from "../api/api"
+import {getBacklogForProjectActionCreator} from "./backlog-reducer";
 
 
 const GET_TASK_SPRINTS = 'GET_TASK_SPRINTS'
@@ -150,6 +151,38 @@ export const createTaskSprintFromSprint = (taskSprintId, taskId, sprintId, proje
             sprintId, taskId, authorization)
         const responseGet = await taskSprintAPI.getTaskSprintForProject(projectId, authorization)
         dispatch(getTaskSprintsActionCreator(responseGet.data))
+    }
+}
+
+export const createSprintFromBacklog = (taskSprintId, taskId, sprintId, projectId, authorization) => {
+
+    return async dispatch => {
+        const responseDel = await backlogAPI.deleteBacklogElement(taskSprintId, authorization)
+        const responsePost = await taskSprintAPI.createTaskSprint({}, authorization)
+        const responsePut = await taskSprintAPI.createTaskSprintPut(responsePost.data.id,
+            sprintId, taskId, authorization)
+        const responseGetTask = await taskSprintAPI.getTaskSprintForProject(projectId, authorization)
+        dispatch(getTaskSprintsActionCreator(responseGetTask.data))
+        const responseGetBacklog = await backlogAPI.getBacklogForProject(projectId, authorization)
+        dispatch(getBacklogForProjectActionCreator(responseGetBacklog.data))
+    }
+}
+
+export const moveTaskSprintFromSprint = (taskSprintId, sprintId, projectId, authorization) => {
+
+    return async dispatch => {
+        const response = await taskSprintAPI.moveTaskSprintToSprint(taskSprintId, sprintId, authorization)
+        const responseGet = await taskSprintAPI.getTaskSprintForProject(projectId, authorization)
+        dispatch(getTaskSprintsActionCreator(responseGet.data))
+    }
+}
+
+export const changeIndexBoardTaskSprint = (taskSprintId, index, sprintId, authorization) => {
+
+    return async dispatch => {
+        const response = await taskSprintAPI.changeIndexBoardTaskSprint(taskSprintId, index, authorization)
+        const responseGet = await taskSprintAPI.getTaskSprints(sprintId, authorization)
+        dispatch(getTaskSprintsForSprintActionCreator(responseGet.data))
     }
 }
 

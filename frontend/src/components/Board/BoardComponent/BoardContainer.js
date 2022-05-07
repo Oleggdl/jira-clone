@@ -7,7 +7,7 @@ import {getColumns} from "../../../redux/columns-reducer"
 import {AuthContext} from "../../../context/AuthContext"
 import {getStartedSprint} from "../../../redux/sprints-reducer"
 import {reorderColumnMap} from "../../../utils/reorderBoard";
-import {setTaskSprintColumn} from "../../../redux/taskSprint-reducer";
+import {changeIndexBoardTaskSprint, setTaskSprintColumn} from "../../../redux/taskSprint-reducer";
 
 class BoardContainer extends React.Component {
 
@@ -18,7 +18,7 @@ class BoardContainer extends React.Component {
         this.state = {
             isTaskInfo: false,
             headers: {},
-            columnsMap: this.props.columnMap
+            columnsMap: []
         }
         this.setIsTaskInfo = this.setIsTaskInfo.bind(this)
     }
@@ -31,6 +31,7 @@ class BoardContainer extends React.Component {
 
     componentDidMount() {
         this.setState({headers: {Authorization: `Bearer ${this.context.token}`}})
+        this.setState({columnsMap: this.props.columnMap})
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -43,18 +44,21 @@ class BoardContainer extends React.Component {
         if (this.props.columnMap !== prevProps.columnMap) {
             this.setState({columnsMap: this.props.columnMap})
         }
+        if (this.state.columnsMap !== prevState.columnsMap) {
+            console.log(this.state.columnsMap)
+        }
     }
 
     onDragEnd = result => {
 
+        console.log(result)
 
         if (!result.destination) {
             return
         }
 
-        const source = result.source
-        const destination = result.destination
 
+        const {source, destination, draggableId} = result
 
         if (
             source.droppableId === destination.droppableId &&
@@ -69,9 +73,63 @@ class BoardContainer extends React.Component {
             destination,
         })
 
+        if (destination.droppableId === source.droppableId) {
+            let prevIndex
+            this.state.columnsMap[destination.droppableId].map(item => {
+                if (item.id === parseInt(draggableId)) {
+                    prevIndex = item.index
+                }
+            })
+            this.props.changeIndexBoardTaskSprint(draggableId, destination.index,
+                this.props.currentSprint?.id, this.state.headers)
+
+            this.state.columnsMap[destination.droppableId].map((item, index) => {
+                if (item.id !== parseInt(draggableId)) {
+                    if (destination.index < prevIndex && item.index >= destination.index && item.index < prevIndex) {
+                        this.props.changeIndexBoardTaskSprint(item.id, item.index + 1,
+                            this.props.currentSprint?.id, this.state.headers)
+                    } else if (destination.index > prevIndex && item.index > prevIndex
+                        && item.index <= destination.index) {
+                        this.props.changeIndexBoardTaskSprint(item.id, item.index - 1,
+                            this.props.currentSprint?.id, this.state.headers)
+                    }
+                }
+            })
+            prevIndex = 0
+        }
+
+
         if (source.droppableId !== destination.droppableId) {
+            let prevIndex
+            this.state.columnsMap[source.droppableId].map(item => {
+                if (item.id === parseInt(draggableId)) {
+                    prevIndex = item.index
+                }
+            })
             this.props.setTaskSprintColumn(result.draggableId, destination.droppableId.split(',')[1],
                 this.state.headers)
+            this.props.changeIndexBoardTaskSprint(draggableId, destination.index,
+                this.props.currentSprint?.id, this.state.headers)
+
+            this.state.columnsMap[source.droppableId].map(item => {
+                if (item.id !== parseInt(draggableId)) {
+                    console.log(item.index, prevIndex, item.index, this.state.columnsMap[source.droppableId].length)
+                    if (item.index > prevIndex && item.index <= this.state.columnsMap[source.droppableId].length) {
+                        this.props.changeIndexBoardTaskSprint(item.id, item.index - 1,
+                            this.props.currentSprint?.id, this.state.headers)
+                    }
+                }
+            })
+            this.state.columnsMap[destination.droppableId].map(item => {
+                if (item.id !== parseInt(draggableId)) {
+                    if (item.index >= destination.index
+                        && item.index < this.state.columnsMap[destination.droppableId].length) {
+                        this.props.changeIndexBoardTaskSprint(item.id, item.index + 1,
+                            this.props.currentSprint?.id, this.state.headers)
+                    }
+                }
+            })
+            prevIndex = 0
         }
 
         this.setState({
@@ -101,5 +159,5 @@ const mapStateToProps = (state) => ({
 })
 
 export default compose(
-    connect(mapStateToProps, {getColumns, getStartedSprint, setTaskSprintColumn})
+    connect(mapStateToProps, {getColumns, getStartedSprint, setTaskSprintColumn, changeIndexBoardTaskSprint})
 )(BoardContainer)

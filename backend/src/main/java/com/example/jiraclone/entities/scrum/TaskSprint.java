@@ -16,6 +16,8 @@ public class TaskSprint {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    private Long index;
+
     @ManyToOne
     @JoinColumn(name = "task_scrum", referencedColumnName = "id")
     private TaskScrum task_scrum;
@@ -27,6 +29,4 @@ public class TaskSprint {
     @ManyToOne
     @JoinColumn(name = "sprint_column", referencedColumnName = "id")
     private ColumnScrum sprint_column;
-
-    private Long indexInBoard;
 }

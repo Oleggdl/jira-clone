@@ -7,7 +7,12 @@ import {deleteSprint, startSprint} from "../../../redux/sprints-reducer"
 import {createBacklogElementFromSprint} from "../../../redux/backlog-reducer"
 import './Sprint.scss'
 import SprintComponent from "./SprintComponent"
+import {useForm} from "antd/es/form/Form"
 
+const SprintWithFrom = props => {
+    const form = useForm()
+    return <SprintContainer {...props} {...form}/>
+}
 
 class SprintContainer extends React.Component {
 
@@ -22,6 +27,7 @@ class SprintContainer extends React.Component {
             isSprintStartingMod: false,
             isSettingsSprint: false,
             isDeleteSprint: false,
+            isChangeSprint: false,
             headers: {},
             sprint: {}
         }
@@ -32,6 +38,7 @@ class SprintContainer extends React.Component {
         this.onSetIsCreateTask = this.onSetIsCreateTask.bind(this)
         this.isSettingsSprintHandler = this.isSettingsSprintHandler.bind(this)
         this.setIsSprintStartingMod = this.setIsSprintStartingMod.bind(this)
+        this.setIsChangeSprint = this.setIsChangeSprint.bind(this)
     }
 
     addTaskToSprintHandler = event => {
@@ -47,6 +54,7 @@ class SprintContainer extends React.Component {
     closeDeleteSprintHandler = event => {
         if (event.target === this.sprintDelRef.current) {
             this.setState({isDeleteSprint: false})
+            this.setState({isChangeSprint: false})
         }
     }
 
@@ -147,6 +155,27 @@ class SprintContainer extends React.Component {
         this.setState({isDeleteSprint: value})
     }
 
+    onCancel = () => {
+        this.setIsChangeSprint(false)
+    }
+
+    handleSubmit = (data) => {
+        console.log(data)
+        this.props.startSprint({
+            sprint_name: data.sprint_name,
+            start_date: data.start_date && data.start_date._d,
+            end_date: data.end_date && data.end_date._d,
+            is_started: false
+        }, this.props.sprint.id, this.props.currentProject.scrum_project.id, this.state.headers)
+        this.onCancel()
+    }
+
+    setIsChangeSprint(value) {
+        this.setState({
+            isChangeSprint: value
+        })
+    }
+
     render() {
 
         return (
@@ -156,18 +185,19 @@ class SprintContainer extends React.Component {
                                  backlogForProjectSprint={this.props.backlogForProjectSprint}
                                  onSetIsCreateTask={this.onSetIsCreateTask} taskInputRef={this.taskInputRef}
                                  isCreateTask={this.state.isCreateTask} onKeyDown={this.onKeyDown}
-                                 isInputVisible={this.state.isInputVisible}
+                                 isInputVisible={this.state.isInputVisible} isChangeSprint={this.state.isChangeSprint}
                                  setIsSprintStartingMod={this.setIsSprintStartingMod}
                                  isSprintStartingMod={this.state.isSprintStartingMod}
                                  completeSprint={this.completeSprint} settingsBtnRef={this.settingsBtnRef}
                                  isSettingsSprint={this.state.isSettingsSprint}
                                  setIsSettingsSprint={this.setIsSettingsSprint}
                                  isSettingsSprintHandler={this.isSettingsSprintHandler}
-                                 isDeleteSprint={this.state.isDeleteSprint}
+                                 isDeleteSprint={this.state.isDeleteSprint} handleSubmit={this.handleSubmit}
                                  setIsDeleteSprint={this.setIsDeleteSprint} sprintDelRef={this.sprintDelRef}
                                  deleteSprintHandler={this.deleteSprintHandler}
-                                 title={this.props.title}
-                                 tasks={this.props.tasks}
+                                 setIsChangeSprint={this.setIsChangeSprint}
+                                 title={this.props.title} form={this.props.form}
+                                 tasks={this.props.tasks} onCancel={this.onCancel}
                 />
             </>
         )
@@ -187,4 +217,4 @@ export default compose(
         createNewTaskSprint, unsetTaskSprints, startSprint, deleteSprint,
         createBacklogElementFromSprint, createTaskSprintFromSprint
     })
-)(SprintContainer)
+)(SprintWithFrom)

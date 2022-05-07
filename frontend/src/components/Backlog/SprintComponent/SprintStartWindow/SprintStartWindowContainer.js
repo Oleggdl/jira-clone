@@ -6,7 +6,7 @@ import {connect} from "react-redux"
 import {setCurrentSprint, startSprint} from "../../../../redux/sprints-reducer"
 import {AuthContext} from "../../../../context/AuthContext"
 import {startSprintColumns} from "../../../../redux/columns-reducer"
-import {setTaskSprintColumn} from "../../../../redux/taskSprint-reducer"
+import {changeIndexBoardTaskSprint, setTaskSprintColumn} from "../../../../redux/taskSprint-reducer"
 
 
 const SprintStartWithFrom = props => {
@@ -58,9 +58,12 @@ class SprintStartWindowContainer extends React.Component {
         console.log('test2')
         let columnId = null
         this.props.columns.map(col => col.column_name === 'TO DO' ? columnId = col.id : null)
-        columnId && this.props.taskSprints.map(taskSprint => {
+        columnId && this.props.taskSprints.map((taskSprint, index) => {
+            console.log(taskSprint.id, index)
             if (taskSprint.sprint_task_sprint.sprint_name === this.props.title) {
                 this.props.setTaskSprintColumn(taskSprint.id, columnId, this.state.headers)
+                this.props.changeIndexBoardTaskSprint(taskSprint.id, index,
+                    this.props.sprint.id, this.state.headers)
             }
         })
     }
@@ -91,6 +94,9 @@ const mapStateToProps = (state) => ({
 })
 
 export default compose(
-    connect(mapStateToProps, {startSprint, startSprintColumns, setTaskSprintColumn, setCurrentSprint})
+    connect(mapStateToProps, {
+        startSprint, startSprintColumns, setTaskSprintColumn, setCurrentSprint,
+        changeIndexBoardTaskSprint
+    })
 )(SprintStartWithFrom)
 

@@ -112,6 +112,12 @@ export const taskSprintAPI = {
     startSprintColumn(taskSprintId, columnId, headers) {
         return instance.put(`scrum/taskSprint/${taskSprintId}/${columnId}`, null, {headers: headers})
     },
+    moveTaskSprintToSprint(taskSprintId, sprintId, headers) {
+        return instance.put(`scrum/taskSprint/updateSprint/${taskSprintId}/${sprintId}`, null, {headers: headers})
+    },
+    changeIndexBoardTaskSprint(taskSprintId, index, headers) {
+        return instance.put(`scrum/taskSprint/indexInBoard/${taskSprintId}/${index}`, null, {headers: headers})
+    },
     getTaskSprintForColumn(sprintId, columnId, headers) {
         return instance.get(`scrum/taskSprint/${sprintId}/${columnId}`, {headers: headers})
     },

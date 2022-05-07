@@ -8,11 +8,11 @@ class InnerColumnList extends React.Component {
     }
 
     render() {
-        return this.props.tasks ? this.props.tasks.map((task, index) => (
+        return this.props.tasks ? this.props.tasks.sort((a, b) => a.index - b.index).map((task, index) => (
             <Draggable
                 key={task.id}
                 draggableId={task.id.toString()}
-                index={index}
+                index={task.index}
                 shouldRespectForceTouch={false}
             >
                 {dragProvided => (

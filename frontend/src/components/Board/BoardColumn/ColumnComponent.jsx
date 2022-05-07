@@ -1,6 +1,6 @@
 import React from 'react'
 import './Column.scss'
-import ColumnList from "./ColumnListComponents";
+import ColumnList from "./ColumnListComponents"
 
 const ColumnComponent = ({
                              column, settingsColumnHandler, isSettings, isSettingsActive, settingsRef,

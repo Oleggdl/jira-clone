@@ -123,6 +123,22 @@ public class TaskSprintService {
         return ResponseEntity.ok(updatedTaskSprint);
     }
 
+    public ResponseEntity<TaskSprint> changeIndexBoardTaskSprint(Long taskSprintId, Long index) {
+        TaskSprint taskSprint = taskSprintRepository.findById(taskSprintId).get();
+        taskSprint.setIndex(index);
+        TaskSprint updatedTaskSprint = taskSprintRepository.save(taskSprint);
+        return ResponseEntity.ok(updatedTaskSprint);
+    }
+
+    public ResponseEntity<TaskSprint> updateTaskSprintSprint(Long taskSprintId, Long sprintId) {
+        TaskSprint taskSprint = taskSprintRepository.findById(taskSprintId).get();
+        Sprint sprint = sprintRepository.findById(sprintId).get();
+        taskSprint.setSprint_task_sprint(sprint);
+        TaskSprint updatedTaskSprint = taskSprintRepository.save(taskSprint);
+        return ResponseEntity.ok(updatedTaskSprint);
+    }
+
+
     public ResponseEntity<Map<String, Boolean>> deleteTaskSprint(Long id) {
         TaskSprint taskSprint = taskSprintRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("TaskSprint not exist with id:" + id));

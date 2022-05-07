@@ -72,7 +72,7 @@
     margin-bottom: 7px;
   }
 
-  div {
+  .sprint-header-text {
     font-size: 1.3rem;
     color: $secondary-text;
     padding: 12px 0 0 10px;
@@ -125,7 +125,7 @@
   top: 55px;
   z-index: 3;
   width: 160px;
-  height: 40px;
+  height: 80px;
   padding: 0 !important;
   border-radius: 5px;
   background-color: #ffffff;
@@ -134,13 +134,14 @@
 
   div {
     width: 100%;
-    height: 100%;
+    height: 50%;
     padding-top: 10px;
     color: #172b4d;
+    border-radius: 5px;
 
-    h3 {
+    h4 {
       margin: 0;
-      padding-top: 0;
+      padding: 0 0 0 15px;
     }
 
     &:hover {
@@ -150,12 +151,12 @@
 }
 
 .delete-sprint-container {
-  position: absolute;
+  position: fixed;
   height: 180px;
   width: 345px;
   padding: 25px !important;
   top: calc(50% - 180px);
-  left: calc(50% - 200px);
+  left: calc(50% - 177px);
   background-color: $main-background-color;
   z-index: 5;
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
@@ -222,4 +223,27 @@
 .scroll-container {
   overflow-x: hidden;
   overflow-y: auto;
+}
+
+.change-sprint-container{
+  position: fixed;
+  width: 500px;
+  height: 460px;
+  left: calc(50% - 250px);
+  top: calc(50% - 250px);
+  background-color: $main-background-color;
+  z-index: 5;
+  padding: 40px;
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+
+  h2{
+    margin-bottom: 30px;
+  }
+
+  .primary-button-submit {
+    span{
+      color: #ffffff;
+    }
+  }
 }

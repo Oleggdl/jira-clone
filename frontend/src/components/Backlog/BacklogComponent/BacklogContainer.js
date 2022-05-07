@@ -3,11 +3,16 @@ import BacklogComponent from "./BacklogComponent"
 import {compose} from "redux"
 import {connect} from "react-redux"
 import {TaskContext} from "../../../context/TaskContext"
-import {getTaskSprints, unsetTaskSprints} from "../../../redux/taskSprint-reducer"
-import {searchTasks} from "../../../redux/backlog-reducer"
+import {
+    createSprintFromBacklog,
+    getTaskSprints,
+    moveTaskSprintFromSprint,
+    unsetTaskSprints
+} from "../../../redux/taskSprint-reducer"
+import {createBacklogElementFromSprint, searchTasks} from "../../../redux/backlog-reducer"
 import {AuthContext} from "../../../context/AuthContext"
 import {getSprints} from "../../../redux/sprints-reducer"
-import reorderBacklog, {reorderSprintMap} from "../../../utils/reorderBacklog"
+import {reorderSprintMap} from "../../../utils/reorderBacklog"
 
 
 class BacklogContainer extends React.Component {
@@ -60,7 +65,6 @@ class BacklogContainer extends React.Component {
 
     onDragEnd = result => {
 
-        // dropped nowhere
         if (!result.destination) {
             return
         }
@@ -68,26 +72,10 @@ class BacklogContainer extends React.Component {
         const source = result.source
         const destination = result.destination
 
-        // did not move anywhere - can bail early
         if (
             source.droppableId === destination.droppableId &&
             source.index === destination.index
         ) {
-            return
-        }
-
-        // reordering column
-        if (result.type === "COLUMN") {
-            const ordered = reorderBacklog(
-                this.state.ordered,
-                source.index,
-                destination.index
-            )
-
-            this.setState({
-                ordered
-            })
-
             return
         }
 
@@ -96,6 +84,23 @@ class BacklogContainer extends React.Component {
             source,
             destination
         })
+
+        if (destination.droppableId === 'Backlog' && source.droppableId !== 'Backlog') {
+            this.props.createBacklogElementFromSprint(result.draggableId.split(',')[0],
+                result.draggableId.split(',')[1], this.props.currentProject.scrum_project.id, this.state.headers)
+        }
+
+        if (source.droppableId === 'Backlog' && destination.droppableId !== 'Backlog') {
+            this.props.createSprintFromBacklog(result.draggableId.split(',')[0], result.draggableId.split(',')[1],
+                destination.droppableId.split(',')[1], this.props.currentProject.scrum_project.id, this.state.headers)
+        }
+
+        if (destination.droppableId !== 'Backlog' && source.droppableId !== 'Backlog'
+            && destination.droppableId !== source.droppableId) {
+            this.props.moveTaskSprintFromSprint(result.draggableId.split(',')[0],
+                destination.droppableId.split(',')[1], this.props.currentProject.scrum_project.id, this.state.headers)
+        }
+
 
         this.setState({
             columns: data.sprintMap
@@ -130,7 +135,7 @@ const mapStateToProps = (state) => ({
 
 export default compose(
     connect(mapStateToProps, {
-        unsetTaskSprints, getSprints,
-        searchTasks, getTaskSprints
+        unsetTaskSprints, getSprints, searchTasks, getTaskSprints, createBacklogElementFromSprint,
+        createSprintFromBacklog, moveTaskSprintFromSprint
     })
 )(BacklogContainer)

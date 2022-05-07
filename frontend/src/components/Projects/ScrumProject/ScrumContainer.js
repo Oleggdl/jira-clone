@@ -54,14 +54,13 @@ class ScrumContainer extends React.Component {
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (this.props.taskSprints !== prevProps.taskSprints) {
-
+            console.log('test14')
             this.setState({
                 tasks: this.props.taskSprints.concat(this.props.backlogForProject)
             })
         }
 
         if (this.props.backlogForProject !== prevProps.backlogForProject) {
-
             this.setState({
                 tasks: this.props.taskSprints.concat(this.props.backlogForProject)
             })
@@ -84,7 +83,7 @@ class ScrumContainer extends React.Component {
                 sprintsMap: this.props.sprints.reduce(
                     (previous, sprint) => ({
                         ...previous,
-                        [sprint.sprint_name]: this.getBySprint(sprint.sprint_name, this.state.tasks)
+                        [`${sprint.sprint_name},${sprint.id}`]: this.getBySprint(sprint.sprint_name, this.state.tasks)
                     }),
                     {['Backlog']: this.getByBacklog(this.state.tasks)})
             })
@@ -97,6 +96,11 @@ class ScrumContainer extends React.Component {
             if (!!this.props.currentSprint) {
                 this.props.getTaskSprintsForSprint(this.props.currentSprint.id, this.state.headers)
             }
+        }
+        if (this.props.taskSprintsForSprint !== prevProps.taskSprintsForSprint) {
+            this.setState({
+                columnTasks: this.props.taskSprintsForSprint
+            })
         }
         if (this.props.taskSprintsForSprint !== prevProps.taskSprintsForSprint) {
             this.setState({
@@ -117,7 +121,7 @@ class ScrumContainer extends React.Component {
     }
 
     updateSprintsHandler() {
-
+        // console.log('test13')
         this.setState({
             tasks: this.props.taskSprints.concat(this.props.backlogForProject)
         })

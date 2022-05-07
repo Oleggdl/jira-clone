@@ -1,4 +1,3 @@
-// a little function to help us with reordering the result
 const reorderBacklog = (list, startIndex, endIndex) => {
     const result = Array.from(list)
     const [removed] = result.splice(startIndex, 1)
@@ -14,7 +13,6 @@ export const reorderSprintMap = ({sprintMap, source, destination}) => {
     const next = [...sprintMap[destination.droppableId]]
     const target = current[source.index]
 
-    // moving to same list
     if (source.droppableId === destination.droppableId) {
         const reordered = reorderBacklog(current, source.index, destination.index)
         const result = {
@@ -26,11 +24,7 @@ export const reorderSprintMap = ({sprintMap, source, destination}) => {
         }
     }
 
-    // moving to different list
-
-    // remove from original
     current.splice(source.index, 1)
-    // insert into next
     next.splice(destination.index, 0, target)
 
     const result = {

@@ -11,7 +11,8 @@ class InnerSprintList extends React.Component {
         return this.props.tasks ? this.props.tasks.map((task, index) => (
             <Draggable
                 key={task.id}
-                draggableId={task.id.toString()}
+                draggableId={task.task_scrum
+                    ? `${task.id.toString()},${task.task_scrum.id}` : `${task.id.toString()},${task.scrum_task_id.id}`}
                 index={index}
                 shouldRespectForceTouch={false}
             >
@@ -49,13 +50,14 @@ export default class SprintList extends React.Component {
         const {
             listId,
             listType,
-            tasks
+            tasks,
+            sprint
         } = this.props
 
         return (
 
             <Droppable
-                droppableId={listId}
+                droppableId={sprint ? `${listId},${sprint?.id}` : listId}
                 type={listType}
             >
                 {dropProvided => (
