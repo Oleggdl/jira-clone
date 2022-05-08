@@ -29,6 +29,10 @@ const AuthContainer = (props) => {
         form.resetFields()
     }
 
+    useEffect(() => {
+        window.M.updateTextFields()
+    })
+
     const registerHandler = async (values) => {
         try {
             const data = await request('api/auth/signup', 'POST', {
@@ -54,6 +58,7 @@ const AuthContainer = (props) => {
                 name: '', email: '', username: values.username, password: values.password
             })
             auth.login(data.token, data.id)
+            message(data.message)
             props.getUser(data)
             localStorage.setItem(userName, JSON.stringify({
                 userName: data

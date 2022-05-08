@@ -46,10 +46,10 @@ public class AuthService {
 
     public ResponseEntity<?> registerUser(SignupRequest signupRequest) {
         if (userRepository.existsByUsername(signupRequest.getUsername())) {
-            return ResponseEntity.badRequest().body(new MessageResponse("Error: Username is exist"));
+            return ResponseEntity.badRequest().body(new MessageResponse("Username is exist"));
         }
         if (userRepository.existsByEmail(signupRequest.getEmail())) {
-            return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is exist"));
+            return ResponseEntity.badRequest().body(new MessageResponse("Email is exist"));
         }
         Users users = new Users(signupRequest.getUsername(),
                 signupRequest.getEmail(),

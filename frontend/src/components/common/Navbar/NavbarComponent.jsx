@@ -59,11 +59,6 @@ export const NavbarComponent = ({
                         </button>
                         {isStaffMenu && <div className="dropdown-content" ref={modalStaff}>
                             <h3 ref={modalStaffTitle} style={{marginLeft: '10px'}}>Colleague</h3>
-                            {/*<ul className="your-colleague">*/}
-                            {/*    <li className="user-links"><NavLink to="/">User_1</NavLink></li>*/}
-                            {/*    <li className="user-links"><NavLink to="/">User_2</NavLink></li>*/}
-                            {/*    <li className="user-links"><NavLink to="/">User_3</NavLink></li>*/}
-                            {/*</ul>*/}
                             <button className="invite-button" onClick={() => setIsInviteColleague(true)}>Invite a
                                 colleague
                             </button>

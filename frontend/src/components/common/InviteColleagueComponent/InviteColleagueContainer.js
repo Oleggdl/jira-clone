@@ -22,7 +22,7 @@ const InviteColleagueContainer = props => {
             projectId: JSON.parse(values.project).id,
             projectName: JSON.parse(values.project).project_name,
             userName: props.currentUser.username
-        }, headers)
+        }, props.currentUser.email, headers)
         form.resetFields()
         props.setIsInviteColleague(false)
     }

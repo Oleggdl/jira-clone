@@ -44,6 +44,7 @@ const ProjectInfoContainer = props => {
                                   onDeleteHandler={onDeleteHandler} isDeleteModal={props.isDeleteModal}
                                   setIsDeleteModal={props.setIsDeleteModal} projectDataAll={props.projectData}
                                   projectData={props.projectData.scrum_project} setIsActions={props.setIsActions}
+                                  userScrumProject={props.projectData}
             />
         </>
     )

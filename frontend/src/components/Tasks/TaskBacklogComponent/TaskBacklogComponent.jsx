@@ -9,6 +9,8 @@ const TaskBacklogComponent = ({
 
     const taskScrumId = task.task_scrum ? task.task_scrum.id.toString() : task.scrum_task_id.id.toString()
 
+    const currentTask = task.scrum_task_id ? task.scrum_task_id : task.task_scrum
+
     return (
         <>
             <div ref={provided.innerRef}
@@ -17,12 +19,9 @@ const TaskBacklogComponent = ({
                 <div className="task-backlog-component-container">
                     <div className="task-backlog-component-key">
                         <SolutionOutlined/>
-                        <div>{currentProject.project_key}-{task.task_scrum
-                            ? task.task_scrum.id : task.scrum_task_id.id}</div>
+                        <div>{currentProject.project_key}-{currentTask.id}</div>
                     </div>
-                    <div className="task-title">{task.scrum_task_id
-                        ? task.scrum_task_id.task_name
-                        : task.task_scrum.task_name}</div>
+                    <div className="task-title">{currentTask.task_name}</div>
                     <div className="task-backlog-component-labels">
                         {marksScrumAll[taskScrumId] && marksScrumAll[taskScrumId].map(mark =>
                             <div className="mark-element mark-element-backlog"
@@ -30,6 +29,8 @@ const TaskBacklogComponent = ({
                                  key={mark.id}>{mark.mark_text}
                             </div>)}
                     </div>
+                    {currentTask?.executor_id?.username
+                        && <div className="supervisor-task-logo">{currentTask?.executor_id?.username[0]}</div>}
                     <div className="task-backlog-component-settings" onMouseUp={() => setIsTaskInfo(true)}
                          onMouseDown={() => {
                              taskInfoHandler(task)

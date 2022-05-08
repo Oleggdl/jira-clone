@@ -7,6 +7,7 @@ import {useRoutes} from "./routes"
 import NavbarContainer from "./components/common/Navbar/NavbarContainer"
 import {AuthContext} from "./context/AuthContext"
 import {useAuth} from "./hooks/auth.hook"
+import 'materialize-css'
 
 function App() {
 

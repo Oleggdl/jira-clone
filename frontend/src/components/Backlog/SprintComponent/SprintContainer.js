@@ -29,7 +29,8 @@ class SprintContainer extends React.Component {
             isDeleteSprint: false,
             isChangeSprint: false,
             headers: {},
-            sprint: {}
+            sprint: {},
+            errorMessage: ''
         }
         this.taskInputRef = React.createRef()
         this.sprintDelRef = React.createRef()
@@ -72,6 +73,12 @@ class SprintContainer extends React.Component {
         window.addEventListener("mousedown", this.addTaskToSprintHandler)
         window.addEventListener("mousedown", this.closeDeleteSprintHandler)
         window.addEventListener("mousedown", this.closeSettingsSprintHandler)
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (this.state.errorMessage !== prevState.errorMessage) {
+            window.M.toast({html: this.state.errorMessage})
+        }
     }
 
     componentWillUnmount() {
@@ -127,7 +134,7 @@ class SprintContainer extends React.Component {
             })
             this.props.deleteSprint(this.props.sprint.id, this.props.currentProject.scrum_project.id, this.state.headers)
         } else {
-            console.log("You can't delete sprint")
+            this.setState({errorMessage: 'You cannot delete sprints'})
         }
     }
 

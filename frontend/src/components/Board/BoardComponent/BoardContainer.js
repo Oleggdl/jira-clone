@@ -43,6 +43,7 @@ class BoardContainer extends React.Component {
         }
         if (this.props.columnMap !== prevProps.columnMap) {
             this.setState({columnsMap: this.props.columnMap})
+            // console.log(this.props.columnMap)
         }
         if (this.state.columnsMap !== prevState.columnsMap) {
             console.log(this.state.columnsMap)
@@ -50,13 +51,10 @@ class BoardContainer extends React.Component {
     }
 
     onDragEnd = result => {
-
         console.log(result)
-
         if (!result.destination) {
             return
         }
-
 
         const {source, destination, draggableId} = result
 
@@ -98,22 +96,21 @@ class BoardContainer extends React.Component {
             prevIndex = 0
         }
 
-
         if (source.droppableId !== destination.droppableId) {
+            this.props.setTaskSprintColumn(draggableId, destination.droppableId.split(',')[1], this.state.headers)
+
             let prevIndex
             this.state.columnsMap[source.droppableId].map(item => {
                 if (item.id === parseInt(draggableId)) {
                     prevIndex = item.index
                 }
             })
-            this.props.setTaskSprintColumn(result.draggableId, destination.droppableId.split(',')[1],
-                this.state.headers)
+
             this.props.changeIndexBoardTaskSprint(draggableId, destination.index,
                 this.props.currentSprint?.id, this.state.headers)
 
             this.state.columnsMap[source.droppableId].map(item => {
                 if (item.id !== parseInt(draggableId)) {
-                    console.log(item.index, prevIndex, item.index, this.state.columnsMap[source.droppableId].length)
                     if (item.index > prevIndex && item.index <= this.state.columnsMap[source.droppableId].length) {
                         this.props.changeIndexBoardTaskSprint(item.id, item.index - 1,
                             this.props.currentSprint?.id, this.state.headers)

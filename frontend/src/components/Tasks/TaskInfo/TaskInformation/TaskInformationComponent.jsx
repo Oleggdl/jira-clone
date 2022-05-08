@@ -24,7 +24,7 @@ const TaskInformationComponent = ({
                 <h3>Information</h3>
                 <h4>Author</h4>
                 <div className="supervisor-container">
-                    <div className="supervisor-logo"></div>
+                    <div className="supervisor-logo">{currentTaskScrum?.creator_id?.username[0]}</div>
                     <span>{currentTaskScrum?.creator_id?.username}</span>
                 </div>
                 <h4>Marks</h4>
@@ -40,7 +40,8 @@ const TaskInformationComponent = ({
                 <p>{currentTask.sprint_task_sprint?.sprint_name ? currentTask.sprint_task_sprint?.sprint_name : 'None'}</p>
                 <h4>Executor</h4>
                 <div className="supervisor-container">
-                    <div className="supervisor-logo"></div>
+                    {currentTaskScrum?.executor_id?.username
+                        && <div className="supervisor-logo">{currentTaskScrum?.executor_id?.username[0]}</div>}
                     <span>{currentTaskScrum?.executor_id?.username
                         ? currentTaskScrum?.executor_id?.username : 'NO APPOINTMENT'}</span>
                 </div>
@@ -60,7 +61,7 @@ const TaskInformationComponent = ({
                             name="mark_text"
                             style={{marginRight: "15px"}}
                             rules={[{required: false},
-                                {max: 10, message: `Mark name cannot be longer than 10 characters`}]}>
+                                {max: 15, message: `Mark name cannot be longer than 15 characters`}]}>
                             <Input placeholder="Enter mark name"/>
                         </Form.Item>
                         <h4>Mark color</h4>
@@ -69,8 +70,9 @@ const TaskInformationComponent = ({
                                 <div key={index} onClick={() => {
                                     setActiveColor(markColor.value)
                                     activeColorHandler()
+                                    setActive(index)
                                 }}
-                                    // className={active}
+                                     className={active === index ? `active-color` : ''}
                                      style={{backgroundColor: markColor.value}}>
                                 </div>)}
                         </div>

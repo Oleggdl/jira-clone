@@ -1,11 +1,12 @@
 import {Button, Checkbox, Form, Input, Typography} from "antd"
 import TextArea from "antd/es/input/TextArea"
 import React from "react"
-import DeleteProjectContainer from "../../../common/DeleteProject/DeleteProjectContainer";
+import DeleteProjectContainer from "../../../common/DeleteProject/DeleteProjectContainer"
 
 const ProjectInfoComponent = ({
                                   projectData, handleSubmit, form, onCancel, onDeleteHandler, isDeleteModal,
-                                  onConfirmDelete, setIsDeleteModal, projectWrapper, projectDataAll, setIsActions
+                                  onConfirmDelete, setIsDeleteModal, projectWrapper, projectDataAll, setIsActions,
+                                  userScrumProject
                               }) => {
 
     return (
@@ -63,7 +64,8 @@ const ProjectInfoComponent = ({
                     </Form.Item>
                     <div className="delete-project" onClick={onDeleteHandler}>Delete project</div>
                     {isDeleteModal && <DeleteProjectContainer setIsDeleteModal={setIsDeleteModal}
-                                                              projectData={projectData} setIsActions={setIsActions}/>}
+                                                              projectData={projectData} setIsActions={setIsActions}
+                                                              userScrumProject={userScrumProject}/>}
                 </Form>
                 <div className="project-settings-wrapper" ref={projectWrapper}></div>
             </div>

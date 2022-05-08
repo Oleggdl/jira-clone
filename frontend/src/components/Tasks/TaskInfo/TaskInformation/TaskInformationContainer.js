@@ -4,7 +4,8 @@ import {compose} from "redux"
 import {connect} from "react-redux"
 import {createMarksScrum, deleteMarksScrum} from "../../../../redux/marksScrum-reducer"
 import {AuthContext} from "../../../../context/AuthContext"
-import {useForm} from "antd/es/form/Form";
+import {useForm} from "antd/es/form/Form"
+import {useMessage} from "../../../../hooks/message.hook"
 
 const TaskInformationContainer = (props) => {
 
@@ -12,6 +13,18 @@ const TaskInformationContainer = (props) => {
     const headers = {
         Authorization: `Bearer ${token}`
     }
+
+    const [errorMessage, setErrorMessage] = useState('')
+
+    const message = useMessage()
+
+    useEffect(() => {
+        window.M.updateTextFields()
+    })
+
+    useEffect(() => {
+        message(errorMessage)
+    }, [errorMessage])
 
     const [form] = useForm()
 
@@ -27,6 +40,7 @@ const TaskInformationContainer = (props) => {
         setActiveColor('')
         setIsAddMarks(false)
         form.resetFields()
+        setActive('')
     }
 
     const marksAddRef = useRef()
@@ -50,8 +64,8 @@ const TaskInformationContainer = (props) => {
         form.resetFields()
     }
 
-    const activeColorHandler = () => {
-        !!active ? setActive('') : setActive('active-color')
+    const activeColorHandler = index => {
+        !!active ? setActive('') : setActive(index)
     }
 
     const deleteMarkHandler = (marksScrum) => {
@@ -64,7 +78,8 @@ const TaskInformationContainer = (props) => {
                                       setIsAddMarks={setIsAddMarks} marksAddRef={marksAddRef}
                                       currentTaskFromServer={props.currentTaskFromServer}
                                       activeColor={activeColor} setActiveColor={setActiveColor}
-                                      addMarksConfirm={addMarksConfirm} onCancel={onCancel} currentTask={props.currentTask}
+                                      addMarksConfirm={addMarksConfirm} onCancel={onCancel}
+                                      currentTask={props.currentTask}
                                       marksScrum={props.marksScrum} active={active} setActive={setActive}
                                       activeColorHandler={activeColorHandler} deleteMarkHandler={deleteMarkHandler}
             />

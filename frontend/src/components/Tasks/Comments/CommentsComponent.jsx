@@ -7,14 +7,14 @@ import CommentElementContainer from "./CommentElement/CommentElementContainer"
 
 const CommentsComponent = ({
                                form, handleSubmit, onReset, textAreaAddComment, isTextAreaAddCommentFocus,
-                               commentsScrum
+                               commentsScrum, currentUser
                            }) => {
 
     return (
         <>
             <div className="comments-container">
                 <div className="form-add-comments">
-                    <div className="comments-user-logo"></div>
+                    <div className="comments-user-logo">{currentUser.username[0]}</div>
                     <Form name="create_comment"
                           form={form}
                           initialValues={

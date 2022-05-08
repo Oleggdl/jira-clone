@@ -6,13 +6,14 @@ import TextArea from "antd/es/input/TextArea"
 
 const CommentElementComponent = ({
                                      comment, isConfirmWindow, deleteHandler, cancelHandler, confirmHandler,
-                                     changeCommentHandler, isChangeComment, form, onReset, onChangeComment
+                                     changeCommentHandler, isChangeComment, form, onReset, onChangeComment,
+                                     currentUser
                                  }) => {
 
     return (
         <>
             <div className="comment-container">
-                <div className="comments-user-logo"></div>
+                <div className="comments-user-logo">{currentUser.username[0]}</div>
                 <div style={{width: "100%"}}>
                     <div className="author-name">
                         <h3>{comment.user_id.users.username}</h3>

@@ -46,7 +46,7 @@ const CommentsContainer = (props) => {
     return (
         <>
             <CommentsComponent form={form} handleSubmit={handleSubmit} onReset={onReset}
-                               textAreaAddComment={textAreaAddComment}
+                               textAreaAddComment={textAreaAddComment} currentUser={props.currentUser}
                                isTextAreaAddCommentFocus={isTextAreaAddCommentFocus}
                                commentsScrum={props.commentsScrum}/>
         </>
@@ -56,7 +56,8 @@ const CommentsContainer = (props) => {
 const mapStateToProps = (state) => ({
     commentsScrum: state.commentsScrumReducer.commentsScrum,
     currentTask: state.tasksReducer.currentTask,
-    currentProject: state.projectsReducer.currentProject
+    currentProject: state.projectsReducer.currentProject,
+    currentUser: state.userReducer.currentUser
 })
 
 export default compose(

@@ -54,7 +54,7 @@ class ScrumContainer extends React.Component {
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (this.props.taskSprints !== prevProps.taskSprints) {
-            console.log('test14')
+            // console.log('test14')
             this.setState({
                 tasks: this.props.taskSprints.concat(this.props.backlogForProject)
             })

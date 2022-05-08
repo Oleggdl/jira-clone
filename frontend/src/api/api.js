@@ -46,6 +46,9 @@ export const userScrumProjectAPI = {
         return instance.put(`scrum/userScrumProject/${userScrumProjectId}/${userId}/${projectId}/${userRoleId}/`,
             null, {headers: headers})
     },
+    deleteUserScrumProject(id, headers) {
+        return instance.delete(`scrum/userScrumProject/${id}`, {headers: headers})
+    }
 }
 
 export const tasksAPI = {
@@ -200,7 +203,7 @@ export const marksAPI = {
 }
 
 export const emailAPI = {
-    addColleague(data, headers) {
-        return instance.post(`email/add_user`, data, {headers: headers})
+    addColleague(data, emailFrom, headers) {
+        return instance.post(`email/add_user/${emailFrom}`, data, {headers: headers})
     }
 }

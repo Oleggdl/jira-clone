@@ -3,7 +3,7 @@ import DeleteProjectComponent from "./DeleteProjectComponent"
 import {AuthContext} from "../../../context/AuthContext"
 import {compose} from "redux"
 import {connect} from "react-redux"
-import {deleteProject} from "../../../redux/projects-reducer"
+import {deleteFromMyProjects, deleteProject} from "../../../redux/projects-reducer"
 
 const DeleteProjectContainer = props => {
 
@@ -35,11 +35,20 @@ const DeleteProjectContainer = props => {
         } else setIsDisabled(true)
     }, [value])
 
-    const deleteProjectHandler = (event) => {
-        event.preventDefault()
-        props.deleteProject(props.projectData.id, props.currentUser.id, headers)
-        props.setIsDeleteModal(false)
-        props.setIsActions(false)
+    const deleteProjectHandler = event => {
+        if (props.projectData.supervisor.username === props.currentUser.username) {
+            event.preventDefault()
+            props.deleteProject(props.projectData.id, props.currentUser.id, headers)
+            props.setIsDeleteModal(false)
+            props.setIsActions(false)
+        } else {
+            event.preventDefault()
+            props.deleteFromMyProjects(props.userScrumProject.id, props.currentUser.id, headers)
+            props.setIsDeleteModal(false)
+            props.setIsActions(false)
+        }
+
+
     }
 
     return (
@@ -56,5 +65,5 @@ const mapStateToProps = (state) => ({
 })
 
 export default compose(
-    connect(mapStateToProps, {deleteProject})
+    connect(mapStateToProps, {deleteProject, deleteFromMyProjects})
 )(DeleteProjectContainer)

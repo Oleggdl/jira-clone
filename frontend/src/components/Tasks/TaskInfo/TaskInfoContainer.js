@@ -9,6 +9,7 @@ import {AuthContext} from "../../../context/AuthContext"
 import {getCurrentTaskFromServer, updateTaskDescription, updateTaskName} from "../../../redux/tasks-reducer"
 import {deleteTask, getBacklogForProject} from "../../../redux/backlog-reducer"
 import {getMarksScrum} from "../../../redux/marksScrum-reducer"
+import {useMessage} from "../../../hooks/message.hook"
 
 const TaskInfoContainer = (props) => {
 
@@ -17,7 +18,17 @@ const TaskInfoContainer = (props) => {
     const [isHistoryActive, setIsHistoryActive] = useState('')
     const [isTaskNameEditable, setIsTaskNameEditable] = useState(false)
     const [isDeleteTask, setIsDeleteTask] = useState(false)
+    const [errorMessage, setErrorMessage] = useState('')
 
+    const message = useMessage()
+
+    useEffect(() => {
+        window.M.updateTextFields()
+    })
+
+    useEffect(() => {
+        message(errorMessage)
+    }, [message, errorMessage])
 
     const isCommentsHandler = () => {
         setIsComments(true)
@@ -104,28 +115,28 @@ const TaskInfoContainer = (props) => {
         props.updateTaskName(currentTaskScrum.id, {task_name: values.task_name}, props.currentProject.scrum_project.id, headers)
     }
 
-    // useEffect(() => {
-    //     return props.setBacklogForProject(props.backlogForProject)
-    // }, [])
-
     const getBacklogForProjectHandler = () => {
         props.getBacklogForProject(props.currentProject.scrum_project.id, headers)
     }
 
     const confirmDeleteTask = () => {
-        props.deleteTask(currentTaskScrum.id, props.currentUser.id, props.currentProject.scrum_project.id, headers)
-        setIsTaskInfo(false)
-        props.updateTaskSprints()
-    }
 
-    // useEffect(() => {
-    //     if (!!props.isTaskDeleted) {
-    //         console.log('Task was deleted')
-    //     } else {
-    //         console.log('Task not deleted')
-    //     }
-    //
-    // }, [props.isTaskDeleted])
+        const currentTask = props.currentTask.task_scrum
+            ? props.currentTask.task_scrum : props.currentTask.scrum_task_id
+
+        if (props.currentUser.username === currentTask.creator_id.username
+            || props.currentProject.user_role.id === 1) {
+            props.deleteTask(currentTaskScrum.id, props.currentUser.id, props.currentProject.scrum_project.id, headers)
+            setIsTaskInfo(false)
+            props.updateTaskSprints()
+        } else {
+            setIsTaskInfo(false)
+            props.updateTaskSprints()
+            setErrorMessage('You cannot delete this task')
+            message('You cannot delete this task')
+        }
+
+    }
 
     return (
         <>

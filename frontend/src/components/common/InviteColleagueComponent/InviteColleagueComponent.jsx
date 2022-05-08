@@ -4,7 +4,7 @@ import {Button, Form, Input, Select} from "antd"
 
 const {Option} = Select
 
-const InviteColleagueComponent = ({form, handleSubmit, onReset, setProjectHandler, projects}) => {
+const InviteColleagueComponent = ({form, handleSubmit, onReset, projects}) => {
 
     return (
         <>

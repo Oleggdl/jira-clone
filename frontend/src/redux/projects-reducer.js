@@ -134,5 +134,14 @@ export const deleteProject = (id, userId, authorization) => {
     }
 }
 
+export const deleteFromMyProjects = (id, userId, authorization) => {
+
+    return async dispatch => {
+        const responsePut = await userScrumProjectAPI.deleteUserScrumProject(id, authorization)
+        const response = await userScrumProjectAPI.getUserScrumProject(userId, authorization)
+        dispatch(getProjectsActionCreator(response.data))
+    }
+}
+
 
 export default projectsReducer

@@ -152,11 +152,10 @@
 
 .delete-sprint-container {
   position: fixed;
-  height: 180px;
-  width: 345px;
+  width: 370px;
   padding: 25px !important;
   top: calc(50% - 180px);
-  left: calc(50% - 177px);
+  left: calc(50% - 185px);
   background-color: $main-background-color;
   z-index: 5;
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);

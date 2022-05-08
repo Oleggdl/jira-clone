@@ -23,7 +23,7 @@ public class EmailService {
         this.templateEngine = templateEngine;
     }
 
-    public void addUserToProject(EmailRequest request) {
+    public void addUserToProject(EmailRequest request, String emailFrom) {
 
 
         try {
@@ -47,12 +47,9 @@ public class EmailService {
             String userName = request.getUserName();
 
             String mailSubject = userName + " is waiting for you to join them";
-//            String mailContent = "<h2>Your team is waiting for you to join them</h2>" + "\n";
-//            mailContent += userName + " has invited you to collaborate on " + projectName + "\n";
-//            mailContent += "<a href=\"http://localhost:3000/\">Join the team</a>" + "\n";
-//
-//
-            helper.setFrom("olegblotski@gmail.com", "Jira-clone");
+            //olegblotski@gmail.com
+
+            helper.setFrom(emailFrom, "Jira-clone");
             helper.setTo(emailTo);
             helper.setSubject(mailSubject);
             helper.setText(body, true);
