@@ -27,7 +27,7 @@ const ProjectInfoComponent = ({
                     <Typography.Title level={2}
                                       style={{marginBottom: "20px"}}>{text("projectInfo.title")}</Typography.Title>
                     <Form.Item
-                        label={`${text("projectInfo.key")}`}
+                        label={`${text("projectInfo.name")}`}
                         name="project_name"
                         rules={[{required: true, message: `${text("projectInfo.errors.name.required")}`},
                             {max: 50, message: `${text("projectInfo.errors.name.max")}`},
@@ -35,7 +35,7 @@ const ProjectInfoComponent = ({
                             {pattern: new RegExp(/[a-z]/gim), message: `${text("projectInfo.errors.name.pattern")}`}]}>
                         <Input placeholder={`${text("projectInfo.placeholders.name")}`}/>
                     </Form.Item>
-                    <Form.Item label={`${text("projectInfo.name")}`} name="project_key" className="project-key"
+                    <Form.Item label={`${text("projectInfo.key")}`} name="project_key" className="project-key"
                                rules={[{required: true, message: `${text("projectInfo.errors.key.required")}`}]}>
                         <Input placeholder={`${text("projectInfo.placeholders.key")}`}/>
                     </Form.Item>

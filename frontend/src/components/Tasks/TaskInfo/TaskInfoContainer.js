@@ -134,8 +134,8 @@ const TaskInfoContainer = (props) => {
         } else {
             setIsTaskInfo(false)
             props.updateTaskSprints()
-            setErrorMessage(`${text("taskInfo.errorDelTask")}}`)
-            message(`${text("taskInfo.errorDelTask")}}`)
+            setErrorMessage(`${text("taskInfo.errorDelTask")}`)
+            message(`${text("taskInfo.errorDelTask")}`)
         }
 
     }
