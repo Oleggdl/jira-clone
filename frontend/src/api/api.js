@@ -203,7 +203,7 @@ export const marksAPI = {
 }
 
 export const emailAPI = {
-    addColleague(data, emailFrom, headers) {
-        return instance.post(`email/add_user/${emailFrom}`, data, {headers: headers})
+    addColleague(data, emailFrom, userType, headers) {
+        return instance.post(`email/add_user/${emailFrom}/${userType}`, data, {headers: headers})
     }
 }

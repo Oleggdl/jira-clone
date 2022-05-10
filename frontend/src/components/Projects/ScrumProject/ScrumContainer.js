@@ -37,7 +37,7 @@ class ScrumContainer extends React.Component {
 
     componentDidMount() {
         this.setState({headers: {Authorization: `Bearer ${this.context.token}`}})
-
+        console.log(this.props.currentProject)
         // this.setState({
         //     tasks: this.props.taskSprints.concat(this.props.backlogForProject)
         // })
@@ -158,7 +158,6 @@ const mapStateToProps = (state) => ({
 
 export default compose(
     connect(mapStateToProps, {
-        getBacklogForProject, getTaskSprints, unsetTaskSprints, getTaskSprintsForSprint,
-        getStartedSprint
+        getBacklogForProject, getTaskSprints, unsetTaskSprints, getTaskSprintsForSprint, getStartedSprint
     })
 )(ScrumContainer)

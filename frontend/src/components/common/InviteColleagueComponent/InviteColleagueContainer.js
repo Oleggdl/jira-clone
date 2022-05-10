@@ -23,7 +23,7 @@ const InviteColleagueContainer = props => {
             projectId: JSON.parse(values.project).id,
             projectName: JSON.parse(values.project).project_name,
             userName: props.currentUser.username
-        }, props.currentUser.email, headers)
+        }, props.currentUser.email, values.userType, headers)
         form.resetFields()
         props.setIsInviteColleague(false)
     }
@@ -31,7 +31,7 @@ const InviteColleagueContainer = props => {
     const setProjectHandler = (id) => {
         props.getUsersOnProject(id, headers)
     }
-
+    console.log(props.currentUser)
     const onReset = () => {
         form.resetFields()
         props.setIsInviteColleague(false)

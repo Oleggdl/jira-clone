@@ -13,9 +13,10 @@ public class EmailController {
     @Autowired
     private EmailService emailService;
 
-    @PostMapping("/add_user/{emailFrom}")
-    public void addUserToProject(@RequestBody EmailRequest request, @PathVariable String emailFrom) {
+    @PostMapping("/add_user/{emailFrom}/{userType}")
+    public void addUserToProject(@RequestBody EmailRequest request, @PathVariable String emailFrom,
+                                 @PathVariable String userType) {
 
-        emailService.addUserToProject(request, emailFrom);
+        emailService.addUserToProject(request, emailFrom, userType);
     }
 }

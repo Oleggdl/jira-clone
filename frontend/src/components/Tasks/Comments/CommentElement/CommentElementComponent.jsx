@@ -18,7 +18,7 @@ const CommentElementComponent = ({
                     <div className="author-name">
                         <h3>{comment.user_id.users.username}</h3>
                         <h5>{comment.create_date}</h5>
-                        <p>{!!comment.is_changed ? 'Changed' : null}</p>
+                        <p>{!!comment.is_changed ? `${text("commentElement.changed")}` : null}</p>
                     </div>
                     {!isChangeComment
                         ? <p className="comment">{comment.content}</p>

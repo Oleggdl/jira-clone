@@ -23,7 +23,7 @@ public class EmailService {
         this.templateEngine = templateEngine;
     }
 
-    public void addUserToProject(EmailRequest request, String emailFrom) {
+    public void addUserToProject(EmailRequest request, String emailFrom, String userType) {
 
 
         try {
@@ -36,7 +36,7 @@ public class EmailService {
             context.setVariable("projectId", request.getProjectId());
             context.setVariable("projectName", request.getProjectName());
             context.setVariable("userName", request.getUserName());
-            context.setVariable("link", "http://localhost:3000?joinTheTeam=true&&projectId=" + request.getProjectId());
+            context.setVariable("link", "http://localhost:3000?joinTheTeam=true&&userType=" + userType + "&&projectId=" + request.getProjectId());
 
 
             String body = templateEngine.process("joinTheTeamEmail", context);

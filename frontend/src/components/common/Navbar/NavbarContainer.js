@@ -130,7 +130,14 @@ const NavbarContainer = props => {
 
     useEffect(() => {
         if (!!props.currentUser.id && !!searchParams.get("joinTheTeam")) {
-            props.joinTheProject(searchParams.get("projectId"), props.currentUser.id, 2, headers)
+            let currentRole = null
+            if (searchParams.get("userType") === 'product_owner') {
+                currentRole = 2
+            } else if (searchParams.get("userType") === 'developer') {
+                currentRole = 3
+            }
+
+            props.joinTheProject(searchParams.get("projectId"), props.currentUser.id, currentRole, headers)
         }
     }, [props.currentUser])
 
@@ -176,9 +183,6 @@ const mapStateToProps = (state) => ({
 })
 
 export default compose(
-    connect(mapStateToProps, {
-        getProjects, getUser, getCurrentProject, getFavoriteProjects,
-        joinTheProject
-    })
+    connect(mapStateToProps, {getProjects, getUser, getCurrentProject, getFavoriteProjects, joinTheProject})
 )(NavbarContainer)
 

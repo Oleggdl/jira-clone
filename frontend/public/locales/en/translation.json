@@ -105,16 +105,21 @@
   "inviteCUsers": {
     "title": "Invite users to Jira-clone",
     "project": "Project",
+    "userType": "User type",
     "email": "Email",
     "addBtn": "Add colleague",
     "cancelBtn": "Cancel",
     "placeholders": {
       "project": "Select project",
-      "email": "Enter email"
+      "email": "Enter email",
+      "userType": "Select type of user"
     },
     "errors": {
       "project": {
         "required": "Please select project!"
+      },
+      "userType": {
+        "required": "Please select type of user!"
       },
       "email": {
         "required": "Please input email!",
@@ -323,6 +328,7 @@
     "delError": "You can't delete comment",
     "changeBtn": "Change",
     "delBtn": "Delete",
+    "changed": "Changed",
     "change": {
       "placeholder": "Add a comment",
       "submitBtn": "Submit",

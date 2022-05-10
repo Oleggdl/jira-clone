@@ -12,10 +12,10 @@ const emailReducer = (state = initialState, action) => {
 }
 
 
-export const addColleague = (data, emailFrom, authorization) => {
+export const addColleague = (data, emailFrom, userType, authorization) => {
 
     return async dispatch => {
-        const response = await emailAPI.addColleague(data, emailFrom, authorization)
+        const response = await emailAPI.addColleague(data, emailFrom, userType, authorization)
     }
 }
 

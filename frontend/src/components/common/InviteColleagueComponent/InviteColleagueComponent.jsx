@@ -6,6 +6,8 @@ const {Option} = Select
 
 const InviteColleagueComponent = ({form, handleSubmit, onReset, projects, text}) => {
 
+    const colleagueTypes = [{id: 'product_owner', name: 'Product owner'}, {id: 'developer', name: 'Developer'}]//todo
+
     return (
         <>
             <div className="invite-colleague-container">
@@ -18,8 +20,16 @@ const InviteColleagueComponent = ({form, handleSubmit, onReset, projects, text})
                                rules={[{required: true, message: `${text("inviteCUsers.errors.project.required")}`}]}>
                         <Select placeholder={`${text("inviteCUsers.placeholders.project")}`} className="project-select">
                             {projects.map(project =>
-                                <Option key={project.scrum_project.id}
-                                        value={JSON.stringify(project.scrum_project)}>{project.scrum_project.project_name}</Option>)}
+                                <Option key={project.scrum_project.id} value={JSON.stringify(project.scrum_project)}>
+                                    {project.scrum_project.project_name}</Option>)}
+                        </Select>
+                    </Form.Item>
+                    <Form.Item label={`${text("inviteCUsers.userType")}`} name="userType"
+                               rules={[{required: true, message: `${text("inviteCUsers.errors.userType.required")}`}]}>
+                        <Select placeholder={`${text("inviteCUsers.placeholders.userType")}`}
+                                className="project-select">
+                            {colleagueTypes.map((type, index) => <Option key={index}
+                                                                         value={type.id}>{type.name}</Option>)}
                         </Select>
                     </Form.Item>
                     <Form.Item
