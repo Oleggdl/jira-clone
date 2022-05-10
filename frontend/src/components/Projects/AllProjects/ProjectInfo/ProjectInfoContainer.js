@@ -5,10 +5,13 @@ import {useForm} from "antd/es/form/Form"
 import ProjectInfoComponent from "./ProjectInfoComponent"
 import {AuthContext} from "../../../../context/AuthContext"
 import {getProjectById, getProjects, updateProject} from "../../../../redux/projects-reducer"
+import {LanguageContext} from "../../../../context/LanguageContext"
 
 const ProjectInfoContainer = props => {
 
     const {token} = useContext(AuthContext)
+    const {text} = useContext(LanguageContext)
+
     const headers = {
         Authorization: `Bearer ${token}`
     }
@@ -39,7 +42,7 @@ const ProjectInfoContainer = props => {
 
     return (
         <>
-            <ProjectInfoComponent projects={props.projects} form={form} onCancel={onCancel}
+            <ProjectInfoComponent projects={props.projects} form={form} onCancel={onCancel} text={text}
                                   handleSubmit={handleSubmit} projectWrapper={props.projectWrapper}
                                   onDeleteHandler={onDeleteHandler} isDeleteModal={props.isDeleteModal}
                                   setIsDeleteModal={props.setIsDeleteModal} projectDataAll={props.projectData}

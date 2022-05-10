@@ -6,9 +6,11 @@ import {createMarksScrum, deleteMarksScrum} from "../../../../redux/marksScrum-r
 import {AuthContext} from "../../../../context/AuthContext"
 import {useForm} from "antd/es/form/Form"
 import {useMessage} from "../../../../hooks/message.hook"
+import {LanguageContext} from "../../../../context/LanguageContext"
 
 const TaskInformationContainer = (props) => {
 
+    const {text} = useContext(LanguageContext)
     const {token} = useContext(AuthContext)
     const headers = {
         Authorization: `Bearer ${token}`
@@ -75,7 +77,7 @@ const TaskInformationContainer = (props) => {
     return (
         <>
             <TaskInformationComponent currentTaskScrum={currentTaskScrum} isAddMarks={isAddMarks} form={form}
-                                      setIsAddMarks={setIsAddMarks} marksAddRef={marksAddRef}
+                                      setIsAddMarks={setIsAddMarks} marksAddRef={marksAddRef} text={text}
                                       currentTaskFromServer={props.currentTaskFromServer}
                                       activeColor={activeColor} setActiveColor={setActiveColor}
                                       addMarksConfirm={addMarksConfirm} onCancel={onCancel}

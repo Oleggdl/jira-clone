@@ -7,6 +7,7 @@ import {connect} from "react-redux"
 import {getCurrentProject, getProjects} from "../../../redux/projects-reducer"
 import {createBacklogElement} from "../../../redux/backlog-reducer"
 import {getUsersOnProject} from "../../../redux/tasks-reducer"
+import {LanguageContext} from "../../../context/LanguageContext"
 
 const CreateTaskContainer = props => {
 
@@ -16,6 +17,8 @@ const CreateTaskContainer = props => {
     const headers = {
         Authorization: `Bearer ${token}`
     }
+
+    const {text} = useContext(LanguageContext)
 
     const executorRef = useRef(null)
 
@@ -46,7 +49,8 @@ const CreateTaskContainer = props => {
         <>
             <CreateTaskComponent handleSubmit={handleSubmit} onReset={onReset} form={form} projects={props.projects}
                                  sprints={props.sprints} currentUser={props.currentUser} executorRef={executorRef}
-                                 usersOnProject={props.usersOnProject} getExecutorsHandler={getExecutorsHandler}/>
+                                 usersOnProject={props.usersOnProject} getExecutorsHandler={getExecutorsHandler}
+                                 text={text}/>
         </>
     )
 }

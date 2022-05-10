@@ -134,7 +134,7 @@ class SprintContainer extends React.Component {
             })
             this.props.deleteSprint(this.props.sprint.id, this.props.currentProject.scrum_project.id, this.state.headers)
         } else {
-            this.setState({errorMessage: 'You cannot delete sprints'})
+            this.setState({errorMessage: `${this.props.text("sprintComponent.errorDeleteM")}`})
         }
     }
 
@@ -193,7 +193,7 @@ class SprintContainer extends React.Component {
                                  onSetIsCreateTask={this.onSetIsCreateTask} taskInputRef={this.taskInputRef}
                                  isCreateTask={this.state.isCreateTask} onKeyDown={this.onKeyDown}
                                  isInputVisible={this.state.isInputVisible} isChangeSprint={this.state.isChangeSprint}
-                                 setIsSprintStartingMod={this.setIsSprintStartingMod}
+                                 setIsSprintStartingMod={this.setIsSprintStartingMod} text={this.props.text}
                                  isSprintStartingMod={this.state.isSprintStartingMod}
                                  completeSprint={this.completeSprint} settingsBtnRef={this.settingsBtnRef}
                                  isSettingsSprint={this.state.isSettingsSprint}

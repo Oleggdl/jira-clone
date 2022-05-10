@@ -7,7 +7,7 @@ import CommentElementContainer from "./CommentElement/CommentElementContainer"
 
 const CommentsComponent = ({
                                form, handleSubmit, onReset, textAreaAddComment, isTextAreaAddCommentFocus,
-                               commentsScrum, currentUser
+                               commentsScrum, currentUser, text
                            }) => {
 
     return (
@@ -26,14 +26,16 @@ const CommentsComponent = ({
                         <Form.Item
                             name="content"
                             rules={[{required: false}]}>
-                            <TextArea ref={textAreaAddComment} row={4} placeholder="Add a comment"/>
+                            <TextArea ref={textAreaAddComment} row={4}
+                                      placeholder={`${text("commentComponent.submitBtn")}`}/>
                         </Form.Item>
                         <Form.Item name="create_date" style={{height: 0, margin: 0}}> </Form.Item>
                         {isTextAreaAddCommentFocus && <Form.Item>
                             <Button type="primary" htmlType="submit" style={{width: "100px"}}>
-                                Submit
+                                {text("commentComponent.submitBtn")}
                             </Button>
-                            <Button style={{marginLeft: "15px", width: "100px"}} onClick={onReset}>Cancel</Button>
+                            <Button style={{marginLeft: "15px", width: "100px"}} onClick={onReset}>
+                                {text("commentComponent.cancelBtn")}</Button>
                         </Form.Item>}
                     </Form>
                 </div>

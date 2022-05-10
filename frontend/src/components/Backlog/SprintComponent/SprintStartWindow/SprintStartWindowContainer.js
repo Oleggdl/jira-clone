@@ -78,7 +78,7 @@ class SprintStartWindowContainer extends React.Component {
         return (
             <>
                 <SprintStartWindowComponent form={this.props.form} handleSubmit={this.handleSubmit}
-                                            onCancel={this.onCancel}
+                                            onCancel={this.onCancel} text={this.props.text}
                                             startSprintWrapper={this.startSprintWrapper} index={this.props.index}
                                             sprint={this.props.sprint} taskCount={this.props.taskCount}
                                             setColumnHandler={this.setColumnHandler}/>

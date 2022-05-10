@@ -9,7 +9,7 @@ import ProjectInfoContainer from "./ProjectInfo/ProjectInfoContainer"
 
 const AllProjectsComponent = ({
                                   projects, onSearch, showActionsHandler, isActions, setIsActions, projectWrapper,
-                                  isDeleteModal, setIsDeleteModal, getProjectById, currentProjectHandler
+                                  isDeleteModal, setIsDeleteModal, getProjectById, currentProjectHandler, text
                               }) => {
 
 
@@ -25,17 +25,17 @@ const AllProjectsComponent = ({
 
     const columns = [
         {
-            title: 'Project name',
+            title: `${text("allProjects.table.name")}`,
             dataIndex: 'projectName',
             key: 'projectName'
         },
         {
-            title: 'Project key',
+            title: `${text("allProjects.table.key")}`,
             dataIndex: 'projectKey',
             key: 'projectKey',
         },
         {
-            title: 'Supervisor',
+            title: `${text("allProjects.table.supervisor")}`,
             dataIndex: 'supervisor',
             key: 'supervisor',
         },
@@ -59,9 +59,9 @@ const AllProjectsComponent = ({
         <>
             <div className="all-projects-container">
                 <Button type="primary" className="create-project-button">
-                    <NavLink to="/create_project">Create project</NavLink>
+                    <NavLink to="/create_project">{text("allProjects.button")}</NavLink>
                 </Button>
-                <h2>Projects</h2>
+                <h2>{text("allProjects.title")}</h2>
                 <Search style={{width: "300px", margin: "10px 0"}} onSearch={(value) => onSearch(value)} enterButton/>
                 <Table dataSource={dataSource} columns={columns}/>
                 {isActions && <ProjectInfoContainer setIsActions={setIsActions} setIsDeleteModal={setIsDeleteModal}

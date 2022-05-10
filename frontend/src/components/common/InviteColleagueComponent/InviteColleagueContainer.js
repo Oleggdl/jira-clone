@@ -6,11 +6,12 @@ import {connect} from "react-redux"
 import {addColleague} from "../../../redux/email-reducer"
 import {AuthContext} from "../../../context/AuthContext"
 import {getUsersOnProject} from "../../../redux/tasks-reducer"
+import {LanguageContext} from "../../../context/LanguageContext";
 
 const InviteColleagueContainer = props => {
 
     const [form] = useForm()
-
+    const {text} = useContext(LanguageContext)
     const {token} = useContext(AuthContext)
     const headers = {
         Authorization: `Bearer ${token}`
@@ -38,7 +39,7 @@ const InviteColleagueContainer = props => {
 
     return (
         <>
-            <InviteColleagueComponent form={form} handleSubmit={handleSubmit} onReset={onReset}
+            <InviteColleagueComponent form={form} handleSubmit={handleSubmit} onReset={onReset} text={text}
                                       setProjectHandler={setProjectHandler} projects={props.projects}/>
         </>
     )

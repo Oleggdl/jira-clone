@@ -5,12 +5,14 @@ import {connect} from "react-redux"
 import {createProject, getProjects} from "../../../redux/projects-reducer"
 import {useForm} from "antd/es/form/Form"
 import {AuthContext} from "../../../context/AuthContext"
+import {LanguageContext} from "../../../context/LanguageContext"
 
 const CreateProjectContainer = props => {
 
     const [form] = useForm()
 
     const {token} = useContext(AuthContext)
+    const {text} = useContext(LanguageContext)
 
     const headers = {
         Authorization: `Bearer ${token}`
@@ -28,7 +30,7 @@ const CreateProjectContainer = props => {
 
     return (
         <>
-            <CreateProjectComponent handleSubmit={handleSubmit} onReset={onReset} form={form}/>
+            <CreateProjectComponent handleSubmit={handleSubmit} onReset={onReset} form={form} text={text}/>
         </>
     )
 }

@@ -5,6 +5,7 @@ import {connect} from "react-redux"
 import {AuthContext} from "../../../context/AuthContext"
 import {createSprint} from "../../../redux/sprints-reducer"
 import {createBacklogElement} from "../../../redux/backlog-reducer"
+import {LanguageContext} from "../../../context/LanguageContext"
 
 
 const BacklogElementContainer = (props) => {
@@ -14,6 +15,7 @@ const BacklogElementContainer = (props) => {
     const taskInputRef = useRef(null)
 
     const {token} = useContext(AuthContext)
+    const {text} = useContext(LanguageContext)
     const headers = {
         Authorization: `Bearer ${token}`
     }
@@ -76,7 +78,7 @@ const BacklogElementContainer = (props) => {
                                      createSprintHandler={createSprintHandler} isInputVisible={isInputVisible}
                                      setBacklogForProject={props.setBacklogForProject} taskInputRef={taskInputRef}
                                      onKeyDown={onKeyDown} onSetIsCreateTask={onSetIsCreateTask}
-                                     isCreateTask={isCreateTask} title={props.title}
+                                     isCreateTask={isCreateTask} title={props.title} text={text}
             />
         </>
     )

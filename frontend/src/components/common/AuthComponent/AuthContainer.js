@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react'
+import React, {useContext, useEffect, useRef, useState} from 'react'
 import {AuthComponent} from "./AuthComponent"
 import {AuthContext} from "../../../context/AuthContext"
 import {useMessage} from "../../../hooks/message.hook"
@@ -7,16 +7,24 @@ import {useForm} from "antd/es/form/Form"
 import {compose} from "redux"
 import {connect} from "react-redux"
 import {getUser} from "../../../redux/users-reducer"
+import {LanguageContext} from "../../../context/LanguageContext"
+import {CurrentLanguageContext} from "../../../context/CurrentLanguageContext"
 
 const userName = 'userName'
 
 const AuthContainer = (props) => {
 
     const auth = useContext(AuthContext)
+    const {text} = useContext(LanguageContext)
     const message = useMessage()
     const {loading, error, request, clearError} = useHttp()
+    const [isSettings, setIsSettings] = useState(false)
 
     const [isLogIn, setIsLogin] = useState(true)
+    const modalSettings = useRef()
+    const buttonSettings = useRef()
+    const {changeLanguage} = useContext(LanguageContext)
+    const {currentLanguage, setCurrentLanguage} = useContext(CurrentLanguageContext)
 
     useEffect(() => {
         message(error)
@@ -27,6 +35,30 @@ const AuthContainer = (props) => {
 
     const onReset = () => {
         form.resetFields()
+    }
+
+
+    const closeSettingsWindow = event => {
+        if (modalSettings.current) {
+            if (!buttonSettings.current.contains(event.target) && !modalSettings.current.contains(event.target)) {
+                setIsSettings(false)
+            }
+        }
+    }
+
+    const setSetting = () => {
+        !!isSettings ? setIsSettings(false) : setIsSettings(true)
+    }
+
+    useEffect(() => {
+        window.addEventListener("mousedown", event => closeSettingsWindow(event))
+        return window.removeEventListener("mousedown", event => closeSettingsWindow(event))
+    }, [])
+
+    const onChangeLanguage = e => {
+        setCurrentLanguage(e.target.value)
+        localStorage.setItem('currentLanguage', JSON.stringify(e.target.value))
+        setIsSettings(false)
     }
 
     useEffect(() => {
@@ -68,10 +100,16 @@ const AuthContainer = (props) => {
         onReset()
     }
 
+    useEffect(() => {
+        changeLanguage(currentLanguage)
+    }, [currentLanguage])
+
     return (
         <>
             <AuthComponent isLogIn={isLogIn} setIsLogin={setIsLogin} form={form} registerHandler={registerHandler}
-                           loginHandler={loginHandler}/>
+                           loginHandler={loginHandler} text={text} isSettings={isSettings}
+                           setSetting={setSetting} modalSettings={modalSettings} buttonSettings={buttonSettings}
+                           onChangeLanguage={onChangeLanguage} currentLanguage={currentLanguage}/>
         </>
     )
 }

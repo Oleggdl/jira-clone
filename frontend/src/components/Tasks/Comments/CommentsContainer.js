@@ -5,12 +5,14 @@ import {AuthContext} from "../../../context/AuthContext"
 import {compose} from "redux"
 import {connect} from "react-redux"
 import {createCommentScrum, getCommentsScrum} from "../../../redux/commentsScrum-reducer"
+import {LanguageContext} from "../../../context/LanguageContext"
 
 const CommentsContainer = (props) => {
 
     const [form] = useForm()
 
     const {token} = useContext(AuthContext)
+    const {text} = useContext(LanguageContext)
 
     const headers = {
         Authorization: `Bearer ${token}`
@@ -45,7 +47,7 @@ const CommentsContainer = (props) => {
 
     return (
         <>
-            <CommentsComponent form={form} handleSubmit={handleSubmit} onReset={onReset}
+            <CommentsComponent form={form} handleSubmit={handleSubmit} onReset={onReset} text={text}
                                textAreaAddComment={textAreaAddComment} currentUser={props.currentUser}
                                isTextAreaAddCommentFocus={isTextAreaAddCommentFocus}
                                commentsScrum={props.commentsScrum}/>

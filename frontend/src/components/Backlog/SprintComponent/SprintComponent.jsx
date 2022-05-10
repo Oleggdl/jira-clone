@@ -7,7 +7,7 @@ import SprintList from "./SprintListComponents"
 import moment from "moment";
 
 const SprintComponent = ({
-                             sprint, index, taskSprints, isCreateTask, onSetIsCreateTask, onCancel, form,
+                             sprint, index, taskSprints, isCreateTask, onSetIsCreateTask, onCancel, form, text,
                              onKeyDown, taskInputRef, isInputVisible, setIsSprintStartingMod, handleSubmit,
                              isSprintStartingMod, completeSprint, isSettingsSprint, isChangeSprint, setIsChangeSprint,
                              isSettingsSprintHandler, isDeleteSprint, setIsDeleteSprint, sprintDelRef,
@@ -18,7 +18,7 @@ const SprintComponent = ({
         <>
             {isSprintStartingMod && <SprintStartWindowContainer setIsSprintStartingMod={setIsSprintStartingMod}
                                                                 sprint={sprint} index={index} title={title}
-                                                                taskCount={tasks ? tasks.length : null}/>}
+                                                                text={text} taskCount={tasks ? tasks.length : null}/>}
             <div className="sprint-container">
                 <div className="sprint-container-header">
                     <h4>{sprint?.sprint_name || `BoardSprint ${index + 1}`}</h4>
@@ -27,48 +27,48 @@ const SprintComponent = ({
                         <div className="sprint-header-text"> –</div>
                         <div className="sprint-header-text">{sprint?.end_date}</div>
                     </>}
-                    <div className="sprint-header-text">(Tasks count: <span>{tasks ? tasks.length : null}</span>)</div>
+                    <div className="sprint-header-text">({text("sprintComponent.taskCount")}: <span>{tasks ? tasks.length : null}</span>)</div>
                     {sprint?.is_started
                         ? <Button className="start-sprint-button" type="primary"
-                                  onClick={completeSprint}>Complete a sprint</Button>
+                                  onClick={completeSprint}>{text("sprintComponent.complete")}</Button>
                         : (index !== 0 || tasks?.length === 0
-                            ? <Button disabled={true}>Start a sprint</Button>
+                            ? <Button disabled={true}>{text("sprintComponent.start")}</Button>
                             : <Button className="start-sprint-button" type="primary"
-                                      onClick={() => setIsSprintStartingMod(true)}>Start a sprint</Button>)}
+                                      onClick={() => setIsSprintStartingMod(true)}>
+                                {text("sprintComponent.start")}</Button>)}
                     <div className="sprint-settings" onClick={isSettingsSprintHandler} ref={settingsBtnRef}>
                         <EllipsisOutlined/></div>
                     {isSettingsSprint && <div className="sprint-settings-window" ref={sprintSettingsRef}>
                         <div onClick={() => {
                             setIsChangeSprint(true)
                             setIsSettingsSprint()
-                        }}><h4>Change sprint</h4></div>
+                        }}><h4>{text("sprintComponent.changeSprintBtn")}</h4></div>
                         <div onClick={() => {
                             setIsDeleteSprint(true)
                             setIsSettingsSprint()
-                        }}><h4>Delete sprint</h4></div>
+                        }}><h4>{text("sprintComponent.deleteSprintBtn")}</h4></div>
                     </div>}
                     {isDeleteSprint && <>
                         <div className="delete-sprint-container">
-                            <h3>Remove Sprint?</h3>
-                            <p>Are you sure you want to delete <span>{sprint?.sprint_name}</span>?</p>
+                            <h3>{text("sprintComponent.del.title")}</h3>
+                            <p>{text("sprintComponent.del.text")}<span>{sprint?.sprint_name}</span>?</p>
                             <Button danger={true} onClick={() => {
                                 deleteSprintHandler()
                                 setIsDeleteSprint(false)
                             }}
-                                    className="confirm-delete-sprint">Delete</Button>
-                            <Button onClick={() => setIsDeleteSprint(false)}>Cancel</Button>
+                                    className="confirm-delete-sprint">{text("sprintComponent.del.deleteBtn")}</Button>
+                            <Button onClick={() => setIsDeleteSprint(false)}>
+                                {text("sprintComponent.del.cancel")}
+                            </Button>
                         </div>
                         <div className="delete-task-wrapper" ref={sprintDelRef}></div>
                     </>}
                     {isChangeSprint && <>
                         <div className="change-sprint-container">
-                            <h2>Change sprint: <span>{sprint?.sprint_name}</span></h2>
+                            <h2>{text("sprintComponent.change.title")}: <span>{sprint?.sprint_name}</span></h2>
 
                             <Form form={form}
-                                  onFinish={values => {
-                                      handleSubmit(values)
-                                      // setColumnHandler()
-                                  }}
+                                  onFinish={values => handleSubmit(values)}
                                   autoComplete="off"
                                   initialValues={
                                       {
@@ -76,36 +76,36 @@ const SprintComponent = ({
                                           start_date: sprint.start_date && moment(sprint.start_date, 'DD/MM/YYYY'),
                                           end_date: sprint.end_date && moment(sprint.end_date, 'DD/MM/YYYY')
                                       }}>
-                                <h4>Sprint name</h4>
+                                <h4>{text("sprintComponent.change.name")}</h4>
                                 <Form.Item
                                     name="sprint_name"
-                                    rules={[{required: true, message: 'Please input sprint name!'},
-                                        {max: 50, message: `Sprint name cannot be longer than 50 characters`},
-                                        {min: 3, message: 'Sprint name must be at least 3 characters'},
+                                    rules={[{
+                                        required: true,
+                                        message: `${text("sprintComponent.change.errors.required")}`
+                                    },
+                                        {max: 50, message: `${text("sprintComponent.change.errors.max")}`},
+                                        {min: 3, message: `${text("sprintComponent.change.errors.min")}`},
                                         {
                                             pattern: new RegExp(/[a-z]/gi),
-                                            message: 'Sprint name must contain letters'
+                                            message: `${text("sprintComponent.change.errors.pattern")}`
                                         }]}>
-                                    <Input placeholder="Enter sprint name"/>
+                                    <Input placeholder={`${text("sprintComponent.change.placeholders.name")}`}/>
                                 </Form.Item>
-                                <h4>The date of the beginning</h4>
-                                <Form.Item name="start_date"
-                                           rules={[{required: false}]}>
+                                <h4>{text("sprintComponent.change.startDate")}</h4>
+                                <Form.Item name="start_date" rules={[{required: false}]}>
                                     <DatePicker/>
                                 </Form.Item>
-                                <h4>The date of the ending</h4>
-                                <Form.Item name="end_date"
-                                           rules={[{required: false}]}>
+                                <h4>{text("sprintComponent.change.endDate")}</h4>
+                                <Form.Item name="end_date" rules={[{required: false}]}>
                                     <DatePicker/>
                                 </Form.Item>
                                 <Form.Item className="start-sprint-buttons">
                                     <Button type="primary" htmlType="submit" style={{width: "100px"}}
-                                            className="primary-button-submit"
-                                    >
-                                        Update
+                                            className="primary-button-submit">
+                                        {text("sprintComponent.change.updateBtn")}
                                     </Button>
                                     <Button style={{marginLeft: "15px", width: "100px"}}
-                                            onClick={onCancel}>Cancel</Button>
+                                            onClick={onCancel}>{text("sprintComponent.change.cancelBtn")}</Button>
                                 </Form.Item>
                             </Form>
                         </div>
@@ -120,9 +120,9 @@ const SprintComponent = ({
                 />
 
                 <input className={`task-creations-input ${isInputVisible}`} ref={taskInputRef}
-                       onKeyDown={e => onKeyDown(e)} placeholder="What should be done?"/>
+                       onKeyDown={e => onKeyDown(e)} placeholder={`${text("sprintComponent.createTaskInput")}`}/>
                 {!isCreateTask && <button style={{display: "block"}} className="create-task-button"
-                                          onMouseUp={onSetIsCreateTask}>Create task</button>}
+                                          onMouseUp={onSetIsCreateTask}>{text("sprintComponent.createTaskBtn")}</button>}
             </div>
         </>
     )

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import BoardComponent from "./BoardComponent"
 import {TaskContext} from "../../../context/TaskContext"
 import {compose} from "redux"
@@ -7,7 +7,13 @@ import {getColumns} from "../../../redux/columns-reducer"
 import {AuthContext} from "../../../context/AuthContext"
 import {getStartedSprint} from "../../../redux/sprints-reducer"
 import {reorderColumnMap} from "../../../utils/reorderBoard";
-import {changeIndexBoardTaskSprint, setTaskSprintColumn} from "../../../redux/taskSprint-reducer";
+import {changeIndexBoardTaskSprint, setTaskSprintColumn} from "../../../redux/taskSprint-reducer"
+import {LanguageContext} from "../../../context/LanguageContext"
+
+const BoardContainerWithText = props => {
+    const {text} = useContext(LanguageContext)
+    return <BoardContainer {...props} text={text}/>
+}
 
 class BoardContainer extends React.Component {
 
@@ -142,6 +148,7 @@ class BoardContainer extends React.Component {
                     <BoardComponent isTaskInfo={this.state.isTaskInfo} columns={this.props.columns}
                                     currentSprint={this.props.currentSprint} onDragEnd={this.onDragEnd}
                                     currentProject={this.props.currentProject} columnsMap={this.state.columnsMap}
+                                    text={this.props.text}
                     />
                 </TaskContext.Provider>
             </>
@@ -157,4 +164,4 @@ const mapStateToProps = (state) => ({
 
 export default compose(
     connect(mapStateToProps, {getColumns, getStartedSprint, setTaskSprintColumn, changeIndexBoardTaskSprint})
-)(BoardContainer)
+)(BoardContainerWithText)

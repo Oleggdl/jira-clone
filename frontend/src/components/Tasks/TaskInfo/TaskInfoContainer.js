@@ -10,6 +10,7 @@ import {getCurrentTaskFromServer, updateTaskDescription, updateTaskName} from ".
 import {deleteTask, getBacklogForProject} from "../../../redux/backlog-reducer"
 import {getMarksScrum} from "../../../redux/marksScrum-reducer"
 import {useMessage} from "../../../hooks/message.hook"
+import {LanguageContext} from "../../../context/LanguageContext"
 
 const TaskInfoContainer = (props) => {
 
@@ -21,6 +22,7 @@ const TaskInfoContainer = (props) => {
     const [errorMessage, setErrorMessage] = useState('')
 
     const message = useMessage()
+    const {text} = useContext(LanguageContext)
 
     useEffect(() => {
         window.M.updateTextFields()
@@ -132,8 +134,8 @@ const TaskInfoContainer = (props) => {
         } else {
             setIsTaskInfo(false)
             props.updateTaskSprints()
-            setErrorMessage('You cannot delete this task')
-            message('You cannot delete this task')
+            setErrorMessage(`${text("taskInfo.errorDelTask")}}`)
+            message(`${text("taskInfo.errorDelTask")}}`)
         }
 
     }
@@ -144,7 +146,7 @@ const TaskInfoContainer = (props) => {
                                isHistoryHandler={isHistoryHandler} handleSubmit={handleSubmit} onReset={onReset}
                                form={form} taskInfoWrapper={taskInfoWrapper} isTextAreaFocus={isTextAreaFocus}
                                textAreaDescriptionFocus={textAreaDescriptionFocus} isComments={isComments}
-                               isCommentsActive={isCommentsActive} isHistoryActive={isHistoryActive}
+                               isCommentsActive={isCommentsActive} isHistoryActive={isHistoryActive} text={text}
                                currentTaskFromServer={props.currentTaskFromServer}
                                getCurrentTaskFromServer={getCurrentTaskFromServer} currentTask={props.currentTask}
                                isTaskNameEditable={isTaskNameEditable} setIsTaskNameEditable={setIsTaskNameEditable}

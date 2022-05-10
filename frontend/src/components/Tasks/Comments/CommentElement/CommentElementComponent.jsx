@@ -7,7 +7,7 @@ import TextArea from "antd/es/input/TextArea"
 const CommentElementComponent = ({
                                      comment, isConfirmWindow, deleteHandler, cancelHandler, confirmHandler,
                                      changeCommentHandler, isChangeComment, form, onReset, onChangeComment,
-                                     currentUser
+                                     currentUser, text
                                  }) => {
 
     return (
@@ -28,23 +28,25 @@ const CommentElementComponent = ({
                                 <Form.Item
                                     name="content"
                                     rules={[{required: false}]}>
-                                    <TextArea row={4} placeholder="Add a comment"/>
+                                    <TextArea row={4} placeholder={`${text("commentElement.change.placeholder")}`}/>
                                 </Form.Item>
                                 <Button type="primary" htmlType="submit" style={{width: "100px"}}>
-                                    Submit
+                                    {text("commentElement.change.submitBtn")}
                                 </Button>
-                                <Button style={{marginLeft: "15px", width: "100px"}} onClick={onReset}>Cancel</Button>
+                                <Button style={{marginLeft: "15px", width: "100px"}} onClick={onReset}>
+                                    {text("commentElement.change.cancelBtn")}
+                                </Button>
                             </Form.Item>
                         </Form>}
                     <div className="comments-buttons">
-                        <button onClick={changeCommentHandler}>Change</button>
-                        <button onClick={deleteHandler}>Delete</button>
+                        <button onClick={changeCommentHandler}>{text("commentElement.changeBtn")}</button>
+                        <button onClick={deleteHandler}>{text("commentElement.delBtn")}</button>
                     </div>
                     {isConfirmWindow && <div className="confirm-window">
-                        <h5>Delete this comment?</h5>
+                        <h5>{text("commentElement.del.title")}</h5>
                         <Button className="primary-button" type="primary"
-                                onClick={() => confirmHandler(comment.id)}>Confirm</Button>
-                        <Button onClick={cancelHandler}>Cancel</Button>
+                                onClick={() => confirmHandler(comment.id)}>{text("commentElement.del.confirm")}</Button>
+                        <Button onClick={cancelHandler}>{text("commentElement.del.cancel")}</Button>
                     </div>}
                 </div>
             </div>

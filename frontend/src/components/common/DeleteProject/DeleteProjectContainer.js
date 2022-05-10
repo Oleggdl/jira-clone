@@ -4,6 +4,7 @@ import {AuthContext} from "../../../context/AuthContext"
 import {compose} from "redux"
 import {connect} from "react-redux"
 import {deleteFromMyProjects, deleteProject} from "../../../redux/projects-reducer"
+import {LanguageContext} from "../../../context/LanguageContext";
 
 const DeleteProjectContainer = props => {
 
@@ -12,6 +13,7 @@ const DeleteProjectContainer = props => {
     const [value, setValue] = useState('')
 
     const {token} = useContext(AuthContext)
+    const {text} = useContext(LanguageContext)
     const headers = {
         Authorization: `Bearer ${token}`
     }
@@ -55,7 +57,7 @@ const DeleteProjectContainer = props => {
         <>
             <DeleteProjectComponent deleteProjectWrapper={deleteProjectWrapper} isDisabled={isDisabled}
                                     projectData={props.projectData} value={value} setValue={setValue}
-                                    deleteProjectHandler={deleteProjectHandler}/>
+                                    deleteProjectHandler={deleteProjectHandler} text={text}/>
         </>
     )
 }

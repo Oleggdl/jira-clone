@@ -7,7 +7,7 @@ import SprintContainer from "../SprintComponent/SprintContainer"
 import BacklogElementContainer from "../BacklogElement/BacklogElementContainer"
 
 const BacklogComponent = ({
-                              isTaskInfo, setBacklogForProject, onDragEnd,
+                              isTaskInfo, setBacklogForProject, onDragEnd, text,
                               setBacklogForProjectSprint, backlogForProjectSprint, currentProject,
                               columns, sprints, updateTaskSprints, backlogForProject
                           }) => {
@@ -18,6 +18,7 @@ const BacklogComponent = ({
                 <SprintContainer
                     key={sprint.sprint_name}
                     index={index}
+                    text={text}
                     title={sprint.sprint_name}
                     tasks={columns[`${sprint.sprint_name},${sprint.id}`]}
                     sprint={sprint}
@@ -30,6 +31,7 @@ const BacklogComponent = ({
                 backlogForProject={backlogForProject}
                 setBacklogForProject={setBacklogForProject}
                 title={'Backlog'}
+                text={text}
                 tasks={columns['Backlog']}
                 updateTaskSprints={updateTaskSprints}
                 backlogForProjectSprint={backlogForProjectSprint}
@@ -42,11 +44,11 @@ const BacklogComponent = ({
         <>
             <div className="backlog-container">
                 <div className="project-path">
-                    <span className="project-text"><NavLink to="/all_projects">Projects</NavLink></span>
+                    <span className="project-text"><NavLink to="/all_projects">{text("backlogComponent.projects")}</NavLink></span>
                     <span> / </span>
                     <span>{currentProject?.scrum_project.project_name}</span>
                 </div>
-                <h2>Backlog</h2>
+                <h2>{text("backlogComponent.title")}</h2>
                 <div className="search-tasks-container" style={{width: "320px"}}>
                 </div>
                 <React.Fragment>

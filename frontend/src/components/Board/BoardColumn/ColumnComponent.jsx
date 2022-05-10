@@ -2,10 +2,7 @@ import React from 'react'
 import './Column.scss'
 import ColumnList from "./ColumnListComponents"
 
-const ColumnComponent = ({
-                             column, settingsColumnHandler, isSettings, isSettingsActive, settingsRef,
-                             deleteColumnHandler, taskSprintsForColumn, title, tasks
-                         }) => {
+const ColumnComponent = ({column, title, tasks}) => {
     return (
         <>
             <div className="column-container">
@@ -18,13 +15,6 @@ const ColumnComponent = ({
                                 tasks={tasks}
                                 column={column}
                     />
-                    {/*{!!taskSprintsForColumn ? taskSprintsForColumn.map(taskSprintForColumn => {*/}
-                    {/*        return taskSprintForColumn.id === column.id*/}
-                    {/*            ? (taskSprintForColumn.taskSprintForColumn.map(ts =>*/}
-                    {/*                <TaskBoardContainer key={ts.id} taskSprint={ts}/>))*/}
-                    {/*            : false*/}
-                    {/*    })*/}
-                    {/*    : null}*/}
                 </div>
             </div>
         </>

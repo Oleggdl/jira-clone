@@ -6,7 +6,7 @@ import DeleteProjectContainer from "../../../common/DeleteProject/DeleteProjectC
 const ProjectInfoComponent = ({
                                   projectData, handleSubmit, form, onCancel, onDeleteHandler, isDeleteModal,
                                   onConfirmDelete, setIsDeleteModal, projectWrapper, projectDataAll, setIsActions,
-                                  userScrumProject
+                                  userScrumProject, text
                               }) => {
 
     return (
@@ -24,33 +24,40 @@ const ProjectInfoComponent = ({
                       form={form}
                       onFinish={values => handleSubmit(values)}
                       autoComplete="off">
-                    <Typography.Title level={2} style={{marginBottom: "20px"}}>Project settings</Typography.Title>
+                    <Typography.Title level={2}
+                                      style={{marginBottom: "20px"}}>{text("projectInfo.title")}</Typography.Title>
                     <Form.Item
-                        label="Project name"
+                        label={`${text("projectInfo.key")}`}
                         name="project_name"
-                        rules={[{required: true, message: 'Please input project name!'},
-                            {max: 50, message: `Project description cannot be longer than 50 characters`},
-                            {min: 3, message: 'Project name must be at least 3 characters'},
-                            {pattern: new RegExp(/[a-z]/gim), message: 'Project name must contain letters'}]}>
-                        <Input placeholder="Enter project name"/>
+                        rules={[{required: true, message: `${text("projectInfo.errors.name.required")}`},
+                            {max: 50, message: `${text("projectInfo.errors.name.max")}`},
+                            {min: 3, message: `${text("projectInfo.errors.name.min")}`},
+                            {pattern: new RegExp(/[a-z]/gim), message: `${text("projectInfo.errors.name.pattern")}`}]}>
+                        <Input placeholder={`${text("projectInfo.placeholders.name")}`}/>
                     </Form.Item>
-                    <Form.Item label="Project key" name="project_key" className="project-key"
-                               rules={[{required: true, message: 'Please input project key!'}]}>
-                        <Input placeholder="Enter project key"/>
+                    <Form.Item label={`${text("projectInfo.name")}`} name="project_key" className="project-key"
+                               rules={[{required: true, message: `${text("projectInfo.errors.key.required")}`}]}>
+                        <Input placeholder={`${text("projectInfo.placeholders.key")}`}/>
                     </Form.Item>
                     <Form.Item
-                        label="Project description"
+                        label={`${text("projectInfo.description")}`}
                         name="project_description"
                         rules={[{required: false},
-                            {max: 600, message: `Project description cannot be longer than 600 characters`}]}>
-                        <TextArea row={4} placeholder="Enter project description"/>
+                            {max: 600, message: `${text("projectInfo.errors.description.max")}`}]}>
+                        <TextArea row={4} placeholder={`${text("projectInfo.placeholders.description")}`}/>
                     </Form.Item>
-                    <Typography.Paragraph style={{marginLeft: "84px"}} level={5}>Supervisor:
-                        <span style={{marginLeft: "10px", fontWeight: "bold"}}>
-                            {projectDataAll.scrum_project.supervisor.username}</span>
-                    </Typography.Paragraph>
                     <Form.Item
-                        label="Add to favorite projects"
+                        label={`${text("projectInfo.supervisor")}:`}
+                        name="supervisor"
+                        rules={[{required: false}]}>
+                        <Typography.Paragraph level={5} style={{margin: 0}}>
+                            <span className="supervisor-name">
+                            {projectDataAll.scrum_project.supervisor.username}</span>
+                        </Typography.Paragraph>
+                    </Form.Item>
+
+                    <Form.Item
+                        label={`${text("projectInfo.iaFavorite")}`}
                         name="is_favorite"
                         valuePropName="checked"
                         rules={[{required: false}]}>
@@ -58,11 +65,12 @@ const ProjectInfoComponent = ({
                     </Form.Item>
                     <Form.Item wrapperCol={{offset: 7}} style={{marginBottom: "40px"}}>
                         <Button type="primary" htmlType="submit" style={{width: "100px"}}>
-                            Submit
+                            {text("projectInfo.createBtn")}
                         </Button>
-                        <Button style={{marginLeft: "15px", width: "100px"}} onClick={onCancel}>Cancel</Button>
+                        <Button style={{marginLeft: "15px", width: "100px"}}
+                                onClick={onCancel}> {text("projectInfo.cancelBtn")}</Button>
                     </Form.Item>
-                    <div className="delete-project" onClick={onDeleteHandler}>Delete project</div>
+                    <div className="delete-project" onClick={onDeleteHandler}>{text("projectInfo.deleteBtn")}</div>
                     {isDeleteModal && <DeleteProjectContainer setIsDeleteModal={setIsDeleteModal}
                                                               projectData={projectData} setIsActions={setIsActions}
                                                               userScrumProject={userScrumProject}/>}

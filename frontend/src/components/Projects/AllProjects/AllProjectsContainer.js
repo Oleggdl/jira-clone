@@ -4,6 +4,7 @@ import {compose} from "redux"
 import {connect} from "react-redux"
 import {getCurrentProject, getProjectById, getProjects, searchProject} from "../../../redux/projects-reducer"
 import {AuthContext} from "../../../context/AuthContext"
+import {LanguageContext} from "../../../context/LanguageContext"
 
 const AllProjectsContainer = props => {
 
@@ -11,6 +12,8 @@ const AllProjectsContainer = props => {
     const headers = {
         Authorization: `Bearer ${token}`
     }
+
+    const {text} = useContext(LanguageContext)
 
     const projectWrapper = useRef(null)
 
@@ -57,7 +60,7 @@ const AllProjectsContainer = props => {
                                   showActionsHandler={showActionsHandler} projectWrapper={projectWrapper}
                                   isDeleteModal={isDeleteModal} setIsDeleteModal={setIsDeleteModal}
                                   setIsActions={setIsActions} getProjectById={getProjectById}
-                                  currentProjectHandler={currentProjectHandler}/>
+                                  currentProjectHandler={currentProjectHandler} text={text}/>
         </>
     )
 }

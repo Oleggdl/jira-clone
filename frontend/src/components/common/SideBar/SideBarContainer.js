@@ -5,10 +5,12 @@ import {connect} from "react-redux"
 import {AuthContext} from "../../../context/AuthContext"
 import {getSprints, getStartedSprint} from "../../../redux/sprints-reducer"
 import {getBacklogForProject} from "../../../redux/backlog-reducer"
+import {LanguageContext} from "../../../context/LanguageContext"
 
 const SideBarContainer = props => {
 
     const {token} = useContext(AuthContext)
+    const {text} = useContext(LanguageContext)
 
     const headers = {
         Authorization: `Bearer ${token}`
@@ -30,7 +32,7 @@ const SideBarContainer = props => {
         <>
             <SideBarComponent currentProject={props.currentProject.scrum_project} getSprints={getSprints}
                               getBacklogElements={getBacklogElements} getStartedSprint={getStartedSprint}
-                              updateTaskSprints={props.updateTaskSprints}/>
+                              updateTaskSprints={props.updateTaskSprints} text={text}/>
         </>
     )
 }

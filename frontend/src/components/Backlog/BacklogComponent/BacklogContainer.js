@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import BacklogComponent from "./BacklogComponent"
 import {compose} from "redux"
 import {connect} from "react-redux"
@@ -13,7 +13,12 @@ import {createBacklogElementFromSprint, searchTasks} from "../../../redux/backlo
 import {AuthContext} from "../../../context/AuthContext"
 import {getSprints} from "../../../redux/sprints-reducer"
 import {reorderSprintMap} from "../../../utils/reorderBacklog"
+import {LanguageContext} from "../../../context/LanguageContext"
 
+const BacklogContainerWithText = props => {
+    const {text} = useContext(LanguageContext)
+    return <BacklogContainer {...props} text={text}/>
+}
 
 class BacklogContainer extends React.Component {
 
@@ -112,7 +117,7 @@ class BacklogContainer extends React.Component {
         return (
             <>
                 <TaskContext.Provider value={{isTaskInfo: this.state.isTaskInfo, setIsTaskInfo: this.setIsTaskInfo}}>
-                    <BacklogComponent isTaskInfo={this.state.isTaskInfo}
+                    <BacklogComponent isTaskInfo={this.state.isTaskInfo} text={this.props.text}
                                       onDragEnd={this.onDragEnd} updateTaskSprints={this.props.updateTaskSprints}
                                       columns={this.state.columns} sprints={this.props.sprints}
                                       backlogForProject={this.props.backlogForProject}
@@ -138,4 +143,4 @@ export default compose(
         unsetTaskSprints, getSprints, searchTasks, getTaskSprints, createBacklogElementFromSprint,
         createSprintFromBacklog, moveTaskSprintFromSprint
     })
-)(BacklogContainer)
+)(BacklogContainerWithText)

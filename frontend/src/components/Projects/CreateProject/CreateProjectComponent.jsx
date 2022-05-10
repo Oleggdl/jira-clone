@@ -1,50 +1,48 @@
 import React from 'react'
 import './CreateProject.scss'
-import {Button, Checkbox, Form, Input, Select} from "antd"
+import {Button, Checkbox, Form, Input} from "antd"
 import TextArea from "antd/es/input/TextArea"
-import {NavLink} from "react-router-dom";
+import {NavLink} from "react-router-dom"
 
-const {Option} = Select
-
-
-const CreateProjectComponent = ({form, handleSubmit, onReset}) => {
+const CreateProjectComponent = ({form, handleSubmit, onReset, text}) => {
 
     return (
         <>
             <div className="create-project-container">
-                <h2>Create project</h2>
-
+                <h2>{text("createProject.title")}</h2>
                 <Form name="create_project"
                       initialValues={{remember: true}}
                       form={form}
                       onFinish={values => handleSubmit(values)}
                       autoComplete="off">
-
                     <Form.Item
-                        label="Project name"
+                        label={`${text("createProject.name")}`}
                         name="project_name"
-                        rules={[{required: true, message: 'Please input project name!'},
-                            {max: 50, message: `Project name cannot be longer than 50 characters`},
-                            {min: 3, message: 'Project name must be at least 3 characters'},
-                            {pattern: new RegExp(/[a-z]/gi), message: 'Project name must contain letters'}
+                        rules={[{required: true, message: `${text("createProject.errors.name.required")}`},
+                            {max: 50, message: `${text("createProject.errors.name.max")}`},
+                            {min: 3, message: `${text("createProject.errors.name.min")}`},
+                            {pattern: new RegExp(/[a-z]/gi), message: `${text("createProject.errors.name.pattern")}`}
                         ]}>
-                        <Input placeholder="Enter project name"/>
+                        <Input placeholder={`${text("createProject.placeholders.name")}`}/>
                     </Form.Item>
-                    <Form.Item label="Project key" name="project_key" className="project-key"
-                               rules={[{required: true, message: 'Please input project key!'},
-                                   {max: 7, message: `Project key cannot be longer than 7 characters`},
-                                   {pattern: new RegExp(/[a-z]/gi), message: 'Project key must contain letters'}]}>
-                        <Input placeholder="Enter project key"/>
+                    <Form.Item label={`${text("createProject.key")}`} name="project_key" className="project-key"
+                               rules={[{required: true, message: `${text("createProject.errors.key.required")}`},
+                                   {max: 7, message: `${text("createProject.errors.key.max")}`},
+                                   {
+                                       pattern: new RegExp(/[a-z]/gi),
+                                       message: `${text("createProject.errors.key.pattern")}`
+                                   }]}>
+                        <Input placeholder={`${text("createProject.placeholders.key")}`}/>
                     </Form.Item>
                     <Form.Item
-                        label="Project description"
+                        label={`${text("createProject.description")}`}
                         name="project_description"
                         rules={[{required: false},
-                            {max: 600, message: `Project description cannot be longer than 600 characters`}]}>
-                        <TextArea row={4} placeholder="Enter project description"/>
+                            {max: 600, message: `${text("createProject.errors.description.max")}`}]}>
+                        <TextArea row={4} placeholder={`${text("createProject.placeholders.description")}`}/>
                     </Form.Item>
                     <Form.Item
-                        label="Add to favorite projects"
+                        label={`${text("createProject.iaFavorite")}`}
                         name="is_favorite"
                         valuePropName="checked"
                         rules={[{required: false}]}>
@@ -52,10 +50,10 @@ const CreateProjectComponent = ({form, handleSubmit, onReset}) => {
                     </Form.Item>
                     <Form.Item wrapperCol={{offset: 7}}>
                         <Button type="primary" htmlType="submit" style={{width: "100px"}}>
-                            Submit
+                            {text("createProject.createBtn")}
                         </Button>
                         <Button style={{marginLeft: "15px", width: "100px"}} onClick={onReset}>
-                            <NavLink to="/">Cancel</NavLink>
+                            <NavLink to="/">{text("createProject.cancelBtn")}</NavLink>
                         </Button>
                     </Form.Item>
                 </Form>

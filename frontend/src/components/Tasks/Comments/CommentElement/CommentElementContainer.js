@@ -4,12 +4,14 @@ import {compose} from "redux"
 import {connect} from "react-redux"
 import {deleteCommentScrum, updateCommentScrum} from "../../../../redux/commentsScrum-reducer"
 import {AuthContext} from "../../../../context/AuthContext"
-import {useForm} from "antd/es/form/Form";
+import {useForm} from "antd/es/form/Form"
+import {LanguageContext} from "../../../../context/LanguageContext"
 
 
 const CommentElementContainer = (props) => {
 
     const [form] = useForm()
+    const {text} = useContext(LanguageContext)
 
     const [isConfirmWindow, setIsConfirmWindow] = useState(false)
     const [isChangeComment, setIsChangeComment] = useState(false)
@@ -63,7 +65,7 @@ const CommentElementContainer = (props) => {
 
     return (
         <>
-            <CommentElementComponent comment={props.comment} isConfirmWindow={isConfirmWindow}
+            <CommentElementComponent comment={props.comment} isConfirmWindow={isConfirmWindow} text={text}
                                      deleteHandler={deleteHandler} cancelHandler={cancelHandler}
                                      confirmHandler={confirmHandler} changeCommentHandler={changeCommentHandler}
                                      isChangeComment={isChangeComment} setIsChangeComment={setIsChangeComment}

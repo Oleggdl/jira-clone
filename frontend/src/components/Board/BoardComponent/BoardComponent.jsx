@@ -5,7 +5,7 @@ import TaskInfoContainer from "../../Tasks/TaskInfo/TaskInfoContainer"
 import {NavLink} from "react-router-dom"
 import {DragDropContext} from "react-beautiful-dnd"
 
-const BoardComponent = ({isTaskInfo, columns, currentSprint, currentProject, onDragEnd, columnsMap}) => {
+const BoardComponent = ({isTaskInfo, columns, currentSprint, currentProject, onDragEnd, columnsMap, text}) => {
 
     const board = (
         <div>
@@ -17,13 +17,10 @@ const BoardComponent = ({isTaskInfo, columns, currentSprint, currentProject, onD
                                          index={index}
                                          title={column.column_name}
                                          tasks={columnsMap[`${column.column_name},${column.id}`]}
-                            // updateTaskSprints={updateTaskSprints}
-                            // backlogForProjectSprint={backlogForProjectSprint}
-                            // setBacklogForProjectSprint={setBacklogForProjectSprint}
                         />)}
                 </div>
                 : <div>
-                    <h2 className="empty-board">No sprint started</h2>
+                    <h2 className="empty-board">{text("boardComponent.noSprint")}</h2>
                 </div>}
         </div>
     )
@@ -32,11 +29,12 @@ const BoardComponent = ({isTaskInfo, columns, currentSprint, currentProject, onD
         <>
             <div className="board-container">
                 <div className="project-path">
-                    <span className="project-text"><NavLink to="/all_projects">Projects</NavLink></span>
+                    <span className="project-text"><NavLink
+                        to="/all_projects">{text("boardComponent.projects")}</NavLink></span>
                     <span> / </span>
                     <span>{currentProject?.scrum_project.project_name}</span>
                 </div>
-                <h2>{currentSprint ? currentSprint.sprint_name : 'Board Name'}</h2>
+                <h2>{currentSprint ? currentSprint.sprint_name : `${text("boardComponent.boardName")}`}</h2>
                 <div className="search-tasks-container" style={{width: "320px"}}>
                 </div>
                 <React.Fragment>
