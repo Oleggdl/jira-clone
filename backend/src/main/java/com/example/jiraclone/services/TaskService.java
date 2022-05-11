@@ -81,6 +81,14 @@ public class TaskService {
         return ResponseEntity.ok(updateTaskScrum);
     }
 
+    public ResponseEntity<TaskScrum> updateTaskPriority(Long id, TaskScrum taskScrumDetails) {
+        TaskScrum taskScrum = taskScrumRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Task not exist with id:" + id));
+        taskScrum.setPriority(taskScrumDetails.getPriority());
+        TaskScrum updateTaskScrum = taskScrumRepository.save(taskScrum);
+        return ResponseEntity.ok(updateTaskScrum);
+    }
+
     public ResponseEntity<TaskScrum> updateTaskName(Long id, TaskScrum taskScrumDetails) {
         TaskScrum taskScrum = taskScrumRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Task not exist with id:" + id));

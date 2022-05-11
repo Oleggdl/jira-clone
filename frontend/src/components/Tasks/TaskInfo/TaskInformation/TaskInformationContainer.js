@@ -7,6 +7,7 @@ import {AuthContext} from "../../../../context/AuthContext"
 import {useForm} from "antd/es/form/Form"
 import {useMessage} from "../../../../hooks/message.hook"
 import {LanguageContext} from "../../../../context/LanguageContext"
+import {updateTaskPriority} from "../../../../redux/tasks-reducer";
 
 const TaskInformationContainer = (props) => {
 
@@ -37,6 +38,12 @@ const TaskInformationContainer = (props) => {
     const [isAddMarks, setIsAddMarks] = useState(false)
     const [activeColor, setActiveColor] = useState('')
     const [active, setActive] = useState('')
+    const [currentPriority, setCurrentPriority] = useState(currentTaskScrum.priority)
+
+    useEffect(() => {
+        props.updateTaskPriority(currentTaskScrum.id, {priority: currentPriority},
+            props.currentProject.scrum_project.id, headers)
+    }, [currentPriority])
 
     const onCancel = () => {
         setActiveColor('')
@@ -79,11 +86,12 @@ const TaskInformationContainer = (props) => {
             <TaskInformationComponent currentTaskScrum={currentTaskScrum} isAddMarks={isAddMarks} form={form}
                                       setIsAddMarks={setIsAddMarks} marksAddRef={marksAddRef} text={text}
                                       currentTaskFromServer={props.currentTaskFromServer}
-                                      activeColor={activeColor} setActiveColor={setActiveColor}
+                                      setActiveColor={setActiveColor}
                                       addMarksConfirm={addMarksConfirm} onCancel={onCancel}
                                       currentTask={props.currentTask} currentProject={props.currentProject}
                                       marksScrum={props.marksScrum} active={active} setActive={setActive}
                                       activeColorHandler={activeColorHandler} deleteMarkHandler={deleteMarkHandler}
+                                      currentPriority={currentPriority} setCurrentPriority={setCurrentPriority}
             />
         </>
     )
@@ -97,5 +105,5 @@ const mapStateToProps = state => ({
 })
 
 export default compose(
-    connect(mapStateToProps, {createMarksScrum, deleteMarksScrum})
+    connect(mapStateToProps, {createMarksScrum, deleteMarksScrum, updateTaskPriority})
 )(TaskInformationContainer)

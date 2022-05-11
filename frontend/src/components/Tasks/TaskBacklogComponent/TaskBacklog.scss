@@ -3,7 +3,7 @@
 
 .task-backlog-component-container {
   display: flex;
-  cursor: unset!important;
+  cursor: unset !important;
   border: unset;
   width: 100%;
   box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.2);
@@ -57,6 +57,10 @@
   margin: 0 4px;
 }
 
+.task-priority-backlog {
+  padding: 6px 8px 0 0;
+}
+
 .task-backlog-component-settings {
   margin-left: 10px;
   opacity: 0;
@@ -73,7 +77,7 @@
   transition: .3s;
 }
 
-.supervisor-task-logo{
+.supervisor-task-logo {
   width: 26px;
   height: 26px;
   margin-top: 3px;

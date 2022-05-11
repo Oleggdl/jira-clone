@@ -1,11 +1,13 @@
 import React from 'react'
 import {EllipsisOutlined, SolutionOutlined} from "@ant-design/icons"
 import './TaskBoard.scss'
+import SvgSelector from "../../common/Svg/SvgSelector"
 
 const TaskBoardComponent = ({
                                 taskInfoHandler, taskSprint, currentProject, getCurrentTaskFromServer,
                                 setIsTaskInfo, marksScrumAll, provided
                             }) => {
+    const currentTask = taskSprint.task_scrum ? taskSprint.task_scrum : taskSprint.scrum_task_id
 
     return (
         <>
@@ -17,8 +19,8 @@ const TaskBoardComponent = ({
                         taskInfoHandler(taskSprint)
                         getCurrentTaskFromServer(taskSprint)
                     }}><EllipsisOutlined/></div>
-                    {/*<div className="task-title">{taskSprint?.task_scrum?.task_name}</div>*/}
-                    <div className="task-title">{taskSprint?.id} / {taskSprint?.index}</div>
+                    <div className="task-title">{taskSprint?.task_scrum?.task_name}</div>
+                    {/*<div className="task-title">{taskSprint?.id} / {taskSprint?.index}</div>*/}
                     <div className="task-board-marks">
                         {marksScrumAll[taskSprint.task_scrum.id] && marksScrumAll[taskSprint.task_scrum.id].map(mark =>
                             <div key={mark.id} className="task-component-labels"
@@ -26,8 +28,12 @@ const TaskBoardComponent = ({
                     </div>
                     <div className="task-component-key">
                         <SolutionOutlined/>
-                        <div>{currentProject.project_key}-{taskSprint.task_scrum
-                            ? taskSprint.task_scrum.id : taskSprint.scrum_task_id.id}</div>
+                        <div className="task-component-key-item">{currentProject.project_key}-{currentTask.id}</div>
+                        <div className="task-priority" style={{marginLeft: '10px'}}>
+                            <div className="priority-icon">
+                                <SvgSelector svgName={`${currentTask.priority}`}/>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

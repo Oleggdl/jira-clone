@@ -1,6 +1,7 @@
 import React from 'react'
 import {EllipsisOutlined, SolutionOutlined} from "@ant-design/icons"
 import './TaskBacklog.scss'
+import SvgSelector from "../../common/Svg/SvgSelector"
 
 const TaskBacklogComponent = ({
                                   currentProject, taskInfoHandler, task, getCurrentTaskFromServer,
@@ -28,6 +29,13 @@ const TaskBacklogComponent = ({
                                  style={{backgroundColor: mark.mark_color}}
                                  key={mark.id}>{mark.mark_text}
                             </div>)}
+                    </div>
+                    <div className="task-priority-backlog">
+                        <div className="task-priority">
+                            <div className="priority-icon">
+                                <SvgSelector svgName={`${currentTask.priority}`}/>
+                            </div>
+                        </div>
                     </div>
                     {currentTask?.executor_id?.username
                         && <div className="supervisor-task-logo">{currentTask?.executor_id?.username[0]}</div>}

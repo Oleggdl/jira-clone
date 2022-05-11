@@ -58,6 +58,12 @@ public class TaskController {
         return taskService.updateTaskDescription(id, taskScrumDetails);
     }
 
+    @PutMapping("/tasks/priority/{id}")
+    public ResponseEntity<TaskScrum> updateTaskPriority(@PathVariable Long id,
+                                                        @RequestBody TaskScrum taskScrumDetails) {
+        return taskService.updateTaskPriority(id, taskScrumDetails);
+    }
+
     @PutMapping("/tasks/name/{id}")
     public ResponseEntity<TaskScrum> updateTaskName(@PathVariable Long id,
                                                     @RequestBody TaskScrum taskScrumDetails) {

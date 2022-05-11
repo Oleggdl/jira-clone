@@ -76,6 +76,9 @@ export const tasksAPI = {
     deleteTask(id, userId, projectId, headers) {
         return instance.delete(`/scrum/tasks/${id}/${userId}/${projectId}`, {headers: headers})
     },
+    changeTaskPriority(id, data, headers) {
+        return instance.put(`/scrum/tasks/priority/${id}`, data, {headers: headers})
+    }
 }
 
 export const sprintsAPI = {

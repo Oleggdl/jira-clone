@@ -349,6 +349,7 @@
     "marks": "Marks",
     "addMark": "Add mark",
     "sprint": "Sprint",
+    "priority": "Priority",
     "executor": "Executor",
     "noAppointment": "NO APPOINTMENT",
     "createDate": "Create date",

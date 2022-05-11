@@ -1,5 +1,5 @@
 import {tasksAPI, taskSprintAPI} from "../api/api"
-import {getTaskSprintsActionCreator} from "./taskSprint-reducer";
+import {getTaskSprintsActionCreator} from "./taskSprint-reducer"
 
 const GET_TASKS = 'GET_TASKS'
 const SET_CREATED_TASK_ID = 'SET_CREATED_TASK_ID'
@@ -95,6 +95,18 @@ export const updateTaskName = (taskId, data, projectId, authorization) => {
 
     return async dispatch => {
         const response = await tasksAPI.updateTaskName(taskId, data, authorization)
+        dispatch(getUsersOnProjectActionCreator(response.data))
+        const responseGet = await tasksAPI.getTaskById(taskId, authorization)
+        dispatch(getCurrentTaskFromServerActionCreator(responseGet.data))
+        const responseTaskSprint = await taskSprintAPI.getTaskSprintForProject(projectId, authorization)
+        dispatch(getTaskSprintsActionCreator(responseTaskSprint.data))
+    }
+}
+
+export const updateTaskPriority = (taskId, data, projectId, authorization) => {
+
+    return async dispatch => {
+        const response = await tasksAPI.changeTaskPriority(taskId, data, authorization)
         dispatch(getUsersOnProjectActionCreator(response.data))
         const responseGet = await tasksAPI.getTaskById(taskId, authorization)
         dispatch(getCurrentTaskFromServerActionCreator(responseGet.data))

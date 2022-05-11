@@ -115,7 +115,7 @@
     right: 2px;
     cursor: pointer;
 
-    svg{
+    svg {
       width: 20px;
       height: 20px;
       fill: #ffffff;
@@ -125,4 +125,35 @@
 
 .active-color {
   border: 1px #000000 solid;
+}
+
+.task-priority {
+  display: flex;
+  justify-content: left;
+}
+
+.priority-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.priority-name {
+  margin-left: 5px;
+  text-transform: capitalize;
+}
+
+.task-priority-select {
+  display: flex;
+  justify-content: left;
+}
+
+.priority-icon-select {
+  margin-top: 5px;
+  width: 20px;
+  height: 20px;
+}
+
+.priority-name-select {
+  margin-left: 5px;
+  text-transform: capitalize;
 }

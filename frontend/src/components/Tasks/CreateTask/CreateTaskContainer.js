@@ -34,6 +34,7 @@ const CreateTaskContainer = props => {
         props.createBacklogElement({
             create_date: values.create_date,
             creator_id: null,
+            priority : 'normal',
             executor_id: null,
             task_description: values.task_description,
             task_name: values.task_name

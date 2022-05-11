@@ -94,6 +94,7 @@ class SprintContainer extends React.Component {
                 create_date: create_date,
                 creator_id: null,
                 executor_id: null,
+                priority : 'normal',
                 task_description: null,
                 task_name: this.taskInputRef.current.value
             }, this.props.sprint.id, this.props.currentUser.id, this.props.currentProject.scrum_project.id, this.state.headers)
@@ -231,7 +232,7 @@ const mapStateToProps = (state) => ({
 
 export default compose(
     connect(mapStateToProps, {
-        createNewTaskSprint, unsetTaskSprints, startSprint, deleteSprint,
-        createBacklogElementFromSprint, createTaskSprintFromSprint
+        createNewTaskSprint, unsetTaskSprints, startSprint, deleteSprint, createBacklogElementFromSprint,
+        createTaskSprintFromSprint
     })
 )(SprintWithFrom)

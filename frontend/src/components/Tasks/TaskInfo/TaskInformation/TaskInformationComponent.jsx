@@ -1,12 +1,16 @@
 import React from 'react'
 import './TaskInformation.scss'
-import {Button, Form, Input} from "antd"
+import {Button, Form, Input, Select} from "antd"
 import {CloseSquareOutlined} from "@ant-design/icons"
+import SvgSelector from "../../../common/Svg/SvgSelector"
+
+const {Option} = Select
 
 const TaskInformationComponent = ({
                                       currentTaskScrum, setIsAddMarks, isAddMarks, marksAddRef, currentTaskFromServer,
                                       onCancel, setActiveColor, addMarksConfirm, marksScrum, currentTask, text,
-                                      active, setActive, activeColorHandler, deleteMarkHandler, form, currentProject
+                                      active, setActive, activeColorHandler, deleteMarkHandler, form, currentProject,
+                                      currentPriority, setCurrentPriority
                                   }) => {
 
     const markColors = [
@@ -18,6 +22,7 @@ const TaskInformationComponent = ({
         {id: 'orange', value: '#ffa44b'},
     ]
 
+    const priorities = ['critical', 'high', 'normal', 'low', 'unimportant']
     return (
         <>
             <div className="task-info-right">
@@ -43,6 +48,28 @@ const TaskInformationComponent = ({
                 <h4>{text("taskInformation.sprint")}</h4>
                 <p>{currentTask.sprint_task_sprint?.sprint_name
                     ? currentTask.sprint_task_sprint?.sprint_name : 'None'}</p>
+                <h4>{text("taskInformation.priority")}</h4>
+                {currentProject.user_role.id === 2
+                    ? <div className="task-priority">
+                        <div className="priority-icon">
+                            <SvgSelector svgName={`${currentTaskScrum.priority}`}/>
+                        </div>
+                        <div className="priority-name">{currentTaskScrum.priority}</div>
+                    </div>
+                    : <div className="select-priority-container">
+                        <Select placeholder={`${text("inviteCUsers.placeholders.userType")}`}
+                                onChange={e => setCurrentPriority(e)}
+                                className="project-select" style={{width: '100%'}} value={currentPriority}>
+                            {priorities.map((item, index) =>
+                                <Option key={index} value={item}>
+                                    <div className="task-priority-select">
+                                        <div className="priority-icon-select"><SvgSelector svgName={`${item}`}/>
+                                        </div>
+                                        <div className="priority-name-select">{item}</div>
+                                    </div>
+                                </Option>)}
+                        </Select>
+                    </div>}
                 <h4>{text("taskInformation.executor")}</h4>
                 <div className="supervisor-container">
                     {currentTaskScrum?.executor_id?.username
