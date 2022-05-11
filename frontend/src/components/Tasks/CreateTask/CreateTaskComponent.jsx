@@ -69,8 +69,12 @@ const CreateTaskComponent = ({
                                rules={[{required: false}]}>
                         <Select placeholder={`${text("createTaskComponent.placeholders.executor")}`}
                                 className="project-select">
-                            {usersOnProject.map((executor, index) =>
-                                <Option key={index} value={executor.users.id}>{executor.users.username}</Option>)}
+                            {usersOnProject.map((executor, index) => {
+                                if (executor.user_role.id === 3) {
+                                    return <Option key={index}
+                                                   value={executor.users.id}>{executor.users.username}</Option>
+                                }
+                            })}
                         </Select>
                     </Form.Item>
                     <Form.Item label={`${text("createTaskComponent.author")}`} name="creator_id"

@@ -1,11 +1,11 @@
 import React from 'react'
 import './SprintStartWindow.scss'
 import {Button, DatePicker, Form, Input} from "antd"
-import moment from "moment";
+import moment from "moment"
 
 const SprintStartWindowComponent = ({
-                                        form, handleSubmit, onCancel, startSprintWrapper, index, sprint,
-                                        taskCount, setColumnHandler, text
+                                        form, handleSubmit, onCancel, startSprintWrapper, index, sprint, taskCount,
+                                        text
                                     }) => {
 
     const currentDate = new Date().toLocaleDateString()
@@ -41,14 +41,10 @@ const SprintStartWindowComponent = ({
         <>
             <div className="sprint-wrapper" ref={startSprintWrapper}>
                 <div className="sprint-launch-container">
-                    <button onMouseUp={setColumnHandler}>Test</button>
                     <h2>{text("startSprintWindow.title")}</h2>
                     <p><span style={{fontWeight: "bold"}}>{taskCount}</span>{text("startSprintWindow.text")}</p>
                     <Form form={form}
-                          onFinish={values => {
-                              handleSubmit(values)
-                              // setColumnHandler()
-                          }}
+                          onFinish={values => handleSubmit(values)}
                           autoComplete="off"
                           initialValues={
                               {
@@ -81,11 +77,8 @@ const SprintStartWindowComponent = ({
                         </Form.Item>
                         <Form.Item className="start-sprint-buttons">
                             <Button type="primary" htmlType="submit" style={{width: "100px"}}
-                                    className="primary-button-submit"
-                                // onMouseUp={setColumnHandler}
-                            >
+                                    className="primary-button-submit">
                                 {text("startSprintWindow.submitBtn")}
-                                {/*<NavLink to="/scrum/board">Submit</NavLink>*/}
                             </Button>
                             <Button style={{marginLeft: "15px", width: "100px"}} onClick={onCancel}>
                                 {text("startSprintWindow.cancelBtn")}</Button>

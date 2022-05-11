@@ -37,12 +37,19 @@ class SprintStartWindowContainer extends React.Component {
         window.addEventListener("mouseup", event => this.startSprintWindowHandler(event))
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (this.props.sprintColumns !== prevProps.sprintColumns) {
+            this.setColumnHandler()
+            this.onCancel()
+
+        }
+    }
+
     componentWillUnmount() {
         window.removeEventListener("mouseup", event => this.startSprintWindowHandler(event))
     }
 
     handleSubmit = (data) => {
-        console.log('test1')
         this.props.startSprint({
             sprint_name: data.sprint_name,
             start_date: data.start_date._i,
@@ -55,13 +62,15 @@ class SprintStartWindowContainer extends React.Component {
     }
 
     setColumnHandler = () => {
-        console.log('test2')
         let columnId = null
         this.props.columns.map(col => col.column_name === 'TO DO' ? columnId = col.id : null)
         columnId && this.props.taskSprints.map((taskSprint, index) => {
-            console.log(taskSprint.id, index)
             if (taskSprint.sprint_task_sprint.sprint_name === this.props.title) {
                 this.props.setTaskSprintColumn(taskSprint.id, columnId, this.state.headers)
+            }
+        })
+        columnId && this.props.taskSprints.map((taskSprint, index) => {
+            if (taskSprint.sprint_task_sprint.sprint_name === this.props.title) {
                 this.props.changeIndexBoardTaskSprint(taskSprint.id, index,
                     this.props.sprint.id, this.state.headers)
             }
@@ -73,7 +82,6 @@ class SprintStartWindowContainer extends React.Component {
     }
 
     render() {
-
 
         return (
             <>
@@ -90,13 +98,13 @@ class SprintStartWindowContainer extends React.Component {
 const mapStateToProps = (state) => ({
     currentProject: state.projectsReducer.currentProject,
     taskSprints: state.taskSprintReducer.taskSprints,
-    columns: state.columnsReducer.columns
+    columns: state.columnsReducer.columns,
+    sprintColumns: state.columnsReducer.sprintColumns
 })
 
 export default compose(
     connect(mapStateToProps, {
-        startSprint, startSprintColumns, setTaskSprintColumn, setCurrentSprint,
-        changeIndexBoardTaskSprint
+        startSprint, startSprintColumns, setTaskSprintColumn, setCurrentSprint, changeIndexBoardTaskSprint
     })
 )(SprintStartWithFrom)
 

@@ -1,10 +1,16 @@
-import React, {createRef} from 'react'
+import React, {createRef, useContext} from 'react'
 import ColumnComponent from "./ColumnComponent"
 import {compose} from "redux"
 import {connect} from "react-redux"
 import {deleteColumnScrum} from "../../../redux/columns-reducer"
 import {AuthContext} from "../../../context/AuthContext"
-import {getTaskSprintForColumn, unsetTaskSprintsForColumn} from "../../../redux/taskSprint-reducer";
+import {getTaskSprintForColumn, unsetTaskSprintsForColumn} from "../../../redux/taskSprint-reducer"
+import {LanguageContext} from "../../../context/LanguageContext"
+
+const columnContainerWithText = props => {
+    const {text} = useContext(LanguageContext)
+    return <ColumnContainer {...props} text={text}/>
+}
 
 class ColumnContainer extends React.Component {
 
@@ -68,13 +74,15 @@ class ColumnContainer extends React.Component {
 
     render() {
 
+        const {column, title, tasks, taskSprintsForColumn, text} = this.props
+
         return (
             <>
-                <ColumnComponent column={this.props.column} settingsColumnHandler={this.settingsColumnHandler}
+                <ColumnComponent column={column} settingsColumnHandler={this.settingsColumnHandler}
                                  isSettings={this.state.isSettings} isSettingsActive={this.state.isSettingsActive}
-                                 settingsRef={this.settingsRef} title={this.props.title} tasks={this.props.tasks}
+                                 settingsRef={this.settingsRef} title={title} tasks={tasks} text={text}
                                  deleteColumnHandler={this.deleteColumnHandler}
-                                 taskSprintsForColumn={this.props.taskSprintsForColumn}/>
+                                 taskSprintsForColumn={taskSprintsForColumn}/>
             </>
         )
     }
@@ -87,4 +95,4 @@ const mapStateToProps = (state) => ({
 
 export default compose(
     connect(mapStateToProps, {deleteColumnScrum, getTaskSprintForColumn, unsetTaskSprintsForColumn})
-)(ColumnContainer)
+)(columnContainerWithText)

@@ -226,7 +226,8 @@
   "backlogComponent": {
     "title": "Backlog",
     "projects": "Projects",
-    "errorDnd": "You cannot move tasks in the backlog"
+    "errorDnd": "You cannot move tasks in the backlog",
+    "startSprintError": "You cannot move tasks in a running sprint"
   },
   "sprintComponent": {
     "start": "Start a sprint",
@@ -362,5 +363,8 @@
       "addBtn": "Add",
       "cancel": "Cancel"
     }
+  },
+  "columnComponent": {
+    "count": "Task count"
   }
 }

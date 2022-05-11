@@ -11,7 +11,7 @@ import {
 } from "../../../redux/taskSprint-reducer"
 import {createBacklogElementFromSprint, searchTasks} from "../../../redux/backlog-reducer"
 import {AuthContext} from "../../../context/AuthContext"
-import {getSprints} from "../../../redux/sprints-reducer"
+import {getSprints, getStartedSprint} from "../../../redux/sprints-reducer"
 import {reorderSprintMap} from "../../../utils/reorderBacklog"
 import {LanguageContext} from "../../../context/LanguageContext"
 
@@ -59,6 +59,9 @@ class BacklogContainer extends React.Component {
             window.M.toast({html: this.state.errorMessage})
             this.setState({errorMessage: ''})
         }
+        if (this.state.headers !== prevState.headers) {
+            this.props.getStartedSprint(this.props.currentProject.scrum_project.id, this.state.headers)
+        }
     }
 
     setIsTaskInfo(value) {
@@ -74,6 +77,14 @@ class BacklogContainer extends React.Component {
     }
 
     onDragEnd = result => {
+
+        if (this.props.currentSprint) {
+            if (result.source.droppableId?.split(',')[0] === this.props.currentSprint.sprint_name
+                || result.destination.droppableId?.split(',')[0] === this.props.currentSprint.sprint_name) {
+                this.setState({errorMessage: `${this.props.text("backlogComponent.startSprintError")}`})
+                return
+            }
+        }
 
         if (this.props.currentProject.user_role.id !== 1) {
             this.setState({errorMessage: `${this.props.text("backlogComponent.errorDnd")}`})
@@ -145,12 +156,13 @@ const mapStateToProps = (state) => ({
     sprints: state.sprintsReducer.sprints,
     backlogForProject: state.backlogReducer.backlogForProject,
     taskSprints: state.taskSprintReducer.taskSprints,
-    currentProject: state.projectsReducer.currentProject
+    currentProject: state.projectsReducer.currentProject,
+    currentSprint: state.sprintsReducer.currentSprint
 })
 
 export default compose(
     connect(mapStateToProps, {
-        unsetTaskSprints, getSprints, searchTasks, getTaskSprints, createBacklogElementFromSprint,
+        unsetTaskSprints, getSprints, searchTasks, getTaskSprints, createBacklogElementFromSprint, getStartedSprint,
         createSprintFromBacklog, moveTaskSprintFromSprint
     })
 )(BacklogContainerWithText)
