@@ -11,7 +11,8 @@ const SprintComponent = ({
                              onKeyDown, taskInputRef, isInputVisible, setIsSprintStartingMod, handleSubmit,
                              isSprintStartingMod, completeSprint, isSettingsSprint, isChangeSprint, setIsChangeSprint,
                              isSettingsSprintHandler, isDeleteSprint, setIsDeleteSprint, sprintDelRef,
-                             setIsSettingsSprint, deleteSprintHandler, tasks, title, sprintSettingsRef, settingsBtnRef
+                             setIsSettingsSprint, deleteSprintHandler, tasks, title, sprintSettingsRef, settingsBtnRef,
+                             currentProject
                          }) => {
 
     return (
@@ -27,17 +28,21 @@ const SprintComponent = ({
                         <div className="sprint-header-text"> –</div>
                         <div className="sprint-header-text">{sprint?.end_date}</div>
                     </>}
-                    <div className="sprint-header-text">({text("sprintComponent.taskCount")}: <span>{tasks ? tasks.length : null}</span>)</div>
-                    {sprint?.is_started
-                        ? <Button className="start-sprint-button" type="primary"
-                                  onClick={completeSprint}>{text("sprintComponent.complete")}</Button>
-                        : (index !== 0 || tasks?.length === 0
-                            ? <Button disabled={true}>{text("sprintComponent.start")}</Button>
-                            : <Button className="start-sprint-button" type="primary"
-                                      onClick={() => setIsSprintStartingMod(true)}>
-                                {text("sprintComponent.start")}</Button>)}
-                    <div className="sprint-settings" onClick={isSettingsSprintHandler} ref={settingsBtnRef}>
-                        <EllipsisOutlined/></div>
+                    <div
+                        className="sprint-header-text">({text("sprintComponent.taskCount")}: <span>{tasks ? tasks.length : null}</span>)
+                    </div>
+                    {currentProject.user_role.id === 1 ? <>
+                        {sprint?.is_started
+                            ? <Button className="start-sprint-button" type="primary"
+                                      onClick={completeSprint}>{text("sprintComponent.complete")}</Button>
+                            : (index !== 0 || tasks?.length === 0
+                                ? <Button disabled={true}>{text("sprintComponent.start")}</Button>
+                                : <Button className="start-sprint-button" type="primary"
+                                          onClick={() => setIsSprintStartingMod(true)}>
+                                    {text("sprintComponent.start")}</Button>)}
+                        <div className="sprint-settings" onClick={isSettingsSprintHandler} ref={settingsBtnRef}>
+                            <EllipsisOutlined/></div>
+                    </> : false}
                     {isSettingsSprint && <div className="sprint-settings-window" ref={sprintSettingsRef}>
                         <div onClick={() => {
                             setIsChangeSprint(true)
@@ -118,11 +123,14 @@ const SprintComponent = ({
                     tasks={tasks}
                     sprint={sprint}
                 />
-
-                <input className={`task-creations-input ${isInputVisible}`} ref={taskInputRef}
-                       onKeyDown={e => onKeyDown(e)} placeholder={`${text("sprintComponent.createTaskInput")}`}/>
-                {!isCreateTask && <button style={{display: "block"}} className="create-task-button"
-                                          onMouseUp={onSetIsCreateTask}>{text("sprintComponent.createTaskBtn")}</button>}
+                {currentProject.user_role.id === 1 ? <>
+                    <input className={`task-creations-input ${isInputVisible}`} ref={taskInputRef}
+                           onKeyDown={e => onKeyDown(e)} placeholder={`${text("sprintComponent.createTaskInput")}`}/>
+                    {!isCreateTask &&
+                        <button style={{display: "block"}} className="create-task-button"
+                                onMouseUp={onSetIsCreateTask}>{text("sprintComponent.createTaskBtn")}
+                        </button>}
+                </> : false}
             </div>
         </>
     )

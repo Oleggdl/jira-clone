@@ -79,6 +79,7 @@ const BacklogElementContainer = (props) => {
                                      setBacklogForProject={props.setBacklogForProject} taskInputRef={taskInputRef}
                                      onKeyDown={onKeyDown} onSetIsCreateTask={onSetIsCreateTask}
                                      isCreateTask={isCreateTask} title={props.title} text={text}
+                                     currentProject={props.currentProject}
             />
         </>
     )

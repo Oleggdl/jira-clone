@@ -225,7 +225,8 @@
   },
   "backlogComponent": {
     "title": "Backlog",
-    "projects": "Projects"
+    "projects": "Projects",
+    "errorDnd": "You cannot move tasks in the backlog"
   },
   "sprintComponent": {
     "start": "Start a sprint",
@@ -288,7 +289,8 @@
   "boardComponent": {
     "noSprint": "No sprint started",
     "projects": "Projects",
-    "boardName": "Board name"
+    "boardName": "Board name",
+    "errorDnd": "You cannot move tasks around the board"
   },
   "taskInfo": {
     "errorDelTask": "You cannot delete this task",

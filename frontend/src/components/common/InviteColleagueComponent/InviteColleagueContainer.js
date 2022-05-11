@@ -40,7 +40,8 @@ const InviteColleagueContainer = props => {
     return (
         <>
             <InviteColleagueComponent form={form} handleSubmit={handleSubmit} onReset={onReset} text={text}
-                                      setProjectHandler={setProjectHandler} projects={props.projects}/>
+                                      setProjectHandler={setProjectHandler} projects={props.projects}
+                                      currentProject={props.currentProject}/>
         </>
     )
 }

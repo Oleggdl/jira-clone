@@ -81,7 +81,7 @@ const TaskInformationContainer = (props) => {
                                       currentTaskFromServer={props.currentTaskFromServer}
                                       activeColor={activeColor} setActiveColor={setActiveColor}
                                       addMarksConfirm={addMarksConfirm} onCancel={onCancel}
-                                      currentTask={props.currentTask}
+                                      currentTask={props.currentTask} currentProject={props.currentProject}
                                       marksScrum={props.marksScrum} active={active} setActive={setActive}
                                       activeColorHandler={activeColorHandler} deleteMarkHandler={deleteMarkHandler}
             />
@@ -92,7 +92,8 @@ const TaskInformationContainer = (props) => {
 const mapStateToProps = state => ({
     currentTask: state.tasksReducer.currentTask,
     currentTaskFromServer: state.tasksReducer.currentTaskFromServer,
-    marksScrum: state.marksScrumReducer.marksScrum
+    marksScrum: state.marksScrumReducer.marksScrum,
+    currentProject: state.projectsReducer.currentProject
 })
 
 export default compose(

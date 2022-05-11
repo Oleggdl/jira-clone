@@ -185,26 +185,36 @@ class SprintContainer extends React.Component {
 
     render() {
 
+        const {
+            sprint, taskSprints, index, backlogForProjectSprint, text, title, tasks, form,
+            currentProject
+        } = this.props
+
+        const {
+            isCreateTask, isInputVisible, isChangeSprint, isSprintStartingMod, isSettingsSprint,
+            isDeleteSprint
+        } = this.state
+
         return (
             <>
-                <SprintComponent sprint={this.props.sprint} taskSprints={this.props.taskSprints}
-                                 index={this.props.index} sprintSettingsRef={this.sprintSettingsRef}
-                                 backlogForProjectSprint={this.props.backlogForProjectSprint}
+                <SprintComponent sprint={sprint} taskSprints={taskSprints}
+                                 index={index} sprintSettingsRef={this.sprintSettingsRef}
+                                 backlogForProjectSprint={backlogForProjectSprint}
                                  onSetIsCreateTask={this.onSetIsCreateTask} taskInputRef={this.taskInputRef}
-                                 isCreateTask={this.state.isCreateTask} onKeyDown={this.onKeyDown}
-                                 isInputVisible={this.state.isInputVisible} isChangeSprint={this.state.isChangeSprint}
-                                 setIsSprintStartingMod={this.setIsSprintStartingMod} text={this.props.text}
-                                 isSprintStartingMod={this.state.isSprintStartingMod}
+                                 isCreateTask={isCreateTask} onKeyDown={this.onKeyDown}
+                                 isInputVisible={isInputVisible} isChangeSprint={isChangeSprint}
+                                 setIsSprintStartingMod={this.setIsSprintStartingMod} text={text}
+                                 isSprintStartingMod={isSprintStartingMod}
                                  completeSprint={this.completeSprint} settingsBtnRef={this.settingsBtnRef}
-                                 isSettingsSprint={this.state.isSettingsSprint}
+                                 isSettingsSprint={isSettingsSprint}
                                  setIsSettingsSprint={this.setIsSettingsSprint}
                                  isSettingsSprintHandler={this.isSettingsSprintHandler}
-                                 isDeleteSprint={this.state.isDeleteSprint} handleSubmit={this.handleSubmit}
+                                 isDeleteSprint={isDeleteSprint} handleSubmit={this.handleSubmit}
                                  setIsDeleteSprint={this.setIsDeleteSprint} sprintDelRef={this.sprintDelRef}
                                  deleteSprintHandler={this.deleteSprintHandler}
-                                 setIsChangeSprint={this.setIsChangeSprint}
-                                 title={this.props.title} form={this.props.form}
-                                 tasks={this.props.tasks} onCancel={this.onCancel}
+                                 setIsChangeSprint={this.setIsChangeSprint} currentProject={currentProject}
+                                 title={title} form={form}
+                                 tasks={tasks} onCancel={this.onCancel}
                 />
             </>
         )

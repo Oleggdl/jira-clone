@@ -38,9 +38,12 @@ const CreateTaskComponent = ({
                         <Select placeholder={`${text("createTaskComponent.placeholders.project")}`}
                                 className="project-select"
                                 onChange={(e) => getExecutorsHandler(e)}>
-                            {projects.map(project =>
-                                <Option key={project.scrum_project.id}
-                                        value={project.scrum_project.id}>{project.scrum_project.project_name}</Option>)}
+                            {projects.map(project => {
+                                if (project.user_role.id === 1) {
+                                    return <Option key={project.scrum_project.id} value={project.scrum_project.id}>
+                                        {project.scrum_project.project_name}</Option>
+                                }
+                            })}
                         </Select>
                     </Form.Item>
                     <Form.Item

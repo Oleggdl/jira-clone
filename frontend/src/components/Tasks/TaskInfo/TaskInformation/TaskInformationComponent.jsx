@@ -6,7 +6,7 @@ import {CloseSquareOutlined} from "@ant-design/icons"
 const TaskInformationComponent = ({
                                       currentTaskScrum, setIsAddMarks, isAddMarks, marksAddRef, currentTaskFromServer,
                                       onCancel, setActiveColor, addMarksConfirm, marksScrum, currentTask, text,
-                                      active, setActive, activeColorHandler, deleteMarkHandler, form
+                                      active, setActive, activeColorHandler, deleteMarkHandler, form, currentProject
                                   }) => {
 
     const markColors = [
@@ -31,13 +31,15 @@ const TaskInformationComponent = ({
                 <div className="mark-element-container">
                     {marksScrum.map(mark =>
                         <div className="mark-element" style={{backgroundColor: mark.mark_color}}
-                             key={mark.id}>{mark.mark_text} <span onClick={() => deleteMarkHandler(mark)}>
-                            <CloseSquareOutlined/></span>
+                             key={mark.id}>{mark.mark_text} {currentProject.user_role.id !== 2 ?
+                            <span onClick={() => deleteMarkHandler(mark)}>
+                            <CloseSquareOutlined/></span> : false}
                         </div>)}
                 </div>
-                <button className="add-mark-button" onClick={() => setIsAddMarks(true)}>
-                    {text("taskInformation.addMark")}
-                </button>
+                {currentProject.user_role.id !== 2 ?
+                    <button className="add-mark-button" onClick={() => setIsAddMarks(true)}>
+                        {text("taskInformation.addMark")}
+                    </button> : false}
                 <h4>{text("taskInformation.sprint")}</h4>
                 <p>{currentTask.sprint_task_sprint?.sprint_name
                     ? currentTask.sprint_task_sprint?.sprint_name : 'None'}</p>

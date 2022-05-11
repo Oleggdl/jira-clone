@@ -4,7 +4,7 @@ import {Button, Form, Input, Select} from "antd"
 
 const {Option} = Select
 
-const InviteColleagueComponent = ({form, handleSubmit, onReset, projects, text}) => {
+const InviteColleagueComponent = ({form, handleSubmit, onReset, projects, text, currentProject}) => {
 
     const colleagueTypes = [{id: 'product_owner', name: 'Product owner'}, {id: 'developer', name: 'Developer'}]//todo
 
@@ -19,9 +19,13 @@ const InviteColleagueComponent = ({form, handleSubmit, onReset, projects, text})
                     <Form.Item label={`${text("inviteCUsers.project")}`} name="project"
                                rules={[{required: true, message: `${text("inviteCUsers.errors.project.required")}`}]}>
                         <Select placeholder={`${text("inviteCUsers.placeholders.project")}`} className="project-select">
-                            {projects.map(project =>
-                                <Option key={project.scrum_project.id} value={JSON.stringify(project.scrum_project)}>
-                                    {project.scrum_project.project_name}</Option>)}
+                            {projects.map(project => {
+                                if (project.user_role.id === 1) {
+                                    return <Option key={project.scrum_project.id}
+                                                   value={JSON.stringify(project.scrum_project)}>
+                                        {project.scrum_project.project_name}</Option>
+                                }
+                            })}
                         </Select>
                     </Form.Item>
                     <Form.Item label={`${text("inviteCUsers.userType")}`} name="userType"

@@ -7,13 +7,13 @@ import TextArea from "antd/es/input/TextArea"
 const CommentElementComponent = ({
                                      comment, isConfirmWindow, deleteHandler, cancelHandler, confirmHandler,
                                      changeCommentHandler, isChangeComment, form, onReset, onChangeComment,
-                                     currentUser, text
+                                     currentUser, text, currentProject
                                  }) => {
 
     return (
         <>
             <div className="comment-container">
-                <div className="comments-user-logo">{currentUser.username[0]}</div>
+                <div className="comments-user-logo">{comment.user_id.users.username[0]}</div>
                 <div style={{width: "100%"}}>
                     <div className="author-name">
                         <h3>{comment.user_id.users.username}</h3>
@@ -38,10 +38,10 @@ const CommentElementComponent = ({
                                 </Button>
                             </Form.Item>
                         </Form>}
-                    <div className="comments-buttons">
+                    {currentProject.user_role.id !== 2 ? <div className="comments-buttons">
                         <button onClick={changeCommentHandler}>{text("commentElement.changeBtn")}</button>
                         <button onClick={deleteHandler}>{text("commentElement.delBtn")}</button>
-                    </div>
+                    </div> : false}
                     {isConfirmWindow && <div className="confirm-window">
                         <h5>{text("commentElement.del.title")}</h5>
                         <Button className="primary-button" type="primary"

@@ -8,12 +8,11 @@ import HistoryContainer from "../History/HistoryContainer"
 import TaskInformationContainer from "./TaskInformation/TaskInformationContainer"
 
 const TaskInfoComponent = ({
-                               isCommentsHandler, isHistoryHandler, onReset, handleSubmit, form, text,
-                               taskInfoCloseHandler, taskInfoWrapper, isTextAreaFocus, textAreaDescriptionFocus,
-                               isComments, isCommentsActive, isHistoryActive, currentTask,
-                               currentTaskFromServer, getCurrentTaskFromServer, isTaskNameEditable,
-                               setIsTaskNameEditable, changeTaskNameHandler, formTaskName, getBacklogForProjectHandler,
-                               setIsDeleteTask, isDeleteTask, taskDelRef, confirmDeleteTask
+                               onReset, handleSubmit, form, text, taskInfoCloseHandler, taskInfoWrapper, currentTask,
+                               isTextAreaFocus, textAreaDescriptionFocus, isComments, currentTaskFromServer,
+                               getCurrentTaskFromServer, isTaskNameEditable, setIsTaskNameEditable, isDeleteTask,
+                               changeTaskNameHandler, formTaskName, getBacklogForProjectHandler, setIsDeleteTask,
+                               taskDelRef, confirmDeleteTask, currentProject
                            }) => {
 
     return (
@@ -23,7 +22,7 @@ const TaskInfoComponent = ({
                     <div className="task-info-left">
                         <button className="close-button" onClick={taskInfoCloseHandler}><CloseOutlined/></button>
                         <div style={{display: "flex"}}>
-                            {!isTaskNameEditable
+                            {!isTaskNameEditable || currentProject.user_role.id !== 1
                                 ? <h2 onDoubleClick={() => setIsTaskNameEditable(true)}>
                                     {currentTaskFromServer?.task_name}</h2>
                                 : <Form form={formTaskName} onFinish={values => {
@@ -58,9 +57,10 @@ const TaskInfoComponent = ({
                                             {text("taskInfo.taskName.canselBtn")}</Button>
                                     </Form.Item>
                                 </Form>}
-                            <button className="delete-task-button" onClick={() => setIsDeleteTask(true)}>
-                                {text("taskInfo.deleteBtn")}
-                            </button>
+                            {currentProject.user_role.id === 1 ?
+                                <button className="delete-task-button" onClick={() => setIsDeleteTask(true)}>
+                                    {text("taskInfo.deleteBtn")}
+                                </button> : false}
                             {isDeleteTask && <>
                                 <div className="delete-task-container">
                                     <h3>{text("taskInfo.deleteTask.title")}
@@ -93,7 +93,7 @@ const TaskInfoComponent = ({
                                 <TextArea ref={textAreaDescriptionFocus} row={4}
                                           placeholder={`${text("taskInfo.description.placeholder")}`}/>
                             </Form.Item>
-                            {isTextAreaFocus && <Form.Item>
+                            {isTextAreaFocus && currentProject.user_role.id === 1 ? <Form.Item>
                                 <Button type="primary" htmlType="submit" style={{width: "100px"}}
                                         className="primary-button-submit"
                                         onMouseUp={() => getCurrentTaskFromServer(currentTask)}>
@@ -102,13 +102,9 @@ const TaskInfoComponent = ({
                                 <Button style={{marginLeft: "15px", width: "100px"}} onClick={onReset}>
                                     {text("taskInfo.description.cancelBtn")}
                                 </Button>
-                            </Form.Item>}
+                            </Form.Item> : false}
                         </Form>
                         <h3>{text("taskInfo.comments")}</h3>
-                        {/*<div className="buttons-activity">*/}
-                        {/*    <button className={isCommentsActive} onClick={isCommentsHandler}>Comments</button>*/}
-                        {/*    /!*<button className={isHistoryActive} onClick={isHistoryHandler}>History</button>*!/*/}
-                        {/*</div>*/}
                         <div>
                             {isComments ? <CommentsContainer currentTask={currentTask}/> : <HistoryContainer/>}
                         </div>

@@ -19,8 +19,8 @@ const AllProjectsComponent = ({
                                to={`/scrum/${project.scrum_project.project_key}`}>
             {project.scrum_project.project_name}</NavLink>),
         projectKey: project.scrum_project.project_key,
-        projectType: project.scrum_project.project_type,
-        supervisor: project.scrum_project.supervisor.username
+        supervisor: project.scrum_project.supervisor.username,
+        project: project
     }))
 
     const columns = [
@@ -45,10 +45,11 @@ const AllProjectsComponent = ({
             render: (_, record) => {
                 return (
                     <>
-                        <div className="projects-actions" onClick={showActionsHandler}
-                             onMouseDown={() => getProjectById(record)}>
-                            <EllipsisOutlined/>
-                        </div>
+                        {record.project.user_role.id === 1 ?
+                            <div className="projects-actions" onClick={showActionsHandler}
+                                 onMouseDown={() => getProjectById(record)} onMouseUp={() => console.log(record)}>
+                                <EllipsisOutlined/>
+                            </div> : false}
                     </>
                 )
             }

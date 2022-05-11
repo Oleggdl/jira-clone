@@ -220,7 +220,8 @@
   },
   "backlogComponent": {
     "title": "Бэклог",
-    "projects": "Проекты"
+    "projects": "Проекты",
+    "errorDnd": "Вы не можете перемещать задачи в Бэклоге"
   },
   "sprintComponent": {
     "start": "Запустить спринт",
@@ -283,7 +284,8 @@
   "boardComponent": {
     "noSprint": "Нет запущенных спринтов",
     "projects": "Проекты",
-    "boardName": "Название доски"
+    "boardName": "Название доски",
+    "errorDnd": "Вы не можете перемещать задачи по доске"
   },
   "taskInfo": {
     "errorDelTask": "Вы не можете удалить эту задачу",

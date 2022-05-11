@@ -4,7 +4,7 @@ import SprintList from "../SprintComponent/SprintListComponents"
 
 const BacklogElementComponent = ({
                                      backlogForProject, createSprintHandler, isInputVisible, taskInputRef,
-                                     onKeyDown, onSetIsCreateTask, isCreateTask, tasks, title, text
+                                     onKeyDown, onSetIsCreateTask, isCreateTask, tasks, title, text, currentProject
                                  }) => {
     return (
         <>
@@ -13,8 +13,10 @@ const BacklogElementComponent = ({
                     <h4>{text("backlogElement.title")}</h4>
                     <div className="sprint-header-text">({text("backlogElement.text")}: <span>{tasks?.length}</span>)
                     </div>
-                    <button className="create-sprint-button"
-                            onClick={createSprintHandler}>{text("backlogElement.createSprintBtn")}</button>
+                    {currentProject.user_role.id === 1
+                        ? <button className="create-sprint-button"
+                                  onClick={createSprintHandler}>{text("backlogElement.createSprintBtn")}</button>
+                        : false}
                 </div>
                 <SprintList
                     listId={title}
@@ -22,13 +24,15 @@ const BacklogElementComponent = ({
                     tasks={tasks}
                     sprint={null}
                 />
-                <input className={`task-creations-input ${isInputVisible}`} ref={taskInputRef} onKeyDown={e => {
-                    onKeyDown(e)
-                }} placeholder={`${text("backlogElement.placeholder")}`}/>
-                {!isCreateTask &&
-                    <button style={{display: "block"}} className="create-task-button" onMouseUp={() => {
-                        onSetIsCreateTask()
-                    }}>{text("backlogElement.createTaskBtn")}</button>}
+                {currentProject.user_role.id === 1 ? <>
+                    <input className={`task-creations-input ${isInputVisible}`} ref={taskInputRef} onKeyDown={e => {
+                        onKeyDown(e)
+                    }} placeholder={`${text("backlogElement.placeholder")}`}/>
+                    {!isCreateTask &&
+                        <button style={{display: "block"}} className="create-task-button" onMouseUp={() => {
+                            onSetIsCreateTask()
+                        }}>{text("backlogElement.createTaskBtn")}</button>}
+                </> : false}
             </div>
         </>
     )

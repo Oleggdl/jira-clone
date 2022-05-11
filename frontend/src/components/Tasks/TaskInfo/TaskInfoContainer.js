@@ -153,7 +153,7 @@ const TaskInfoContainer = (props) => {
                                changeTaskNameHandler={changeTaskNameHandler} formTaskName={formTaskName}
                                getBacklogForProjectHandler={getBacklogForProjectHandler} taskDelRef={taskDelRef}
                                setIsDeleteTask={setIsDeleteTask} isDeleteTask={isDeleteTask}
-                               confirmDeleteTask={confirmDeleteTask}
+                               confirmDeleteTask={confirmDeleteTask} currentProject={props.currentProject}
             />
         </>
     )

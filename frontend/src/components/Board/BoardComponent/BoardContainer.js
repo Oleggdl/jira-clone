@@ -24,7 +24,8 @@ class BoardContainer extends React.Component {
         this.state = {
             isTaskInfo: false,
             headers: {},
-            columnsMap: []
+            columnsMap: [],
+            errorMessage: ''
         }
         this.setIsTaskInfo = this.setIsTaskInfo.bind(this)
     }
@@ -51,13 +52,21 @@ class BoardContainer extends React.Component {
             this.setState({columnsMap: this.props.columnMap})
             // console.log(this.props.columnMap)
         }
-        if (this.state.columnsMap !== prevState.columnsMap) {
-            console.log(this.state.columnsMap)
+        // if (this.state.columnsMap !== prevState.columnsMap) {
+        //     console.log(this.state.columnsMap)
+        // }
+        if (this.state.errorMessage !== prevState.errorMessage) {
+            window.M.toast({html: this.state.errorMessage})
+            this.setState({errorMessage: ''})
         }
     }
 
     onDragEnd = result => {
-        console.log(result)
+        if (this.props.currentProject.user_role.id === 2) {
+            this.setState({errorMessage: `${this.props.text("boardComponent.errorDnd")}`})
+            return
+        }
+
         if (!result.destination) {
             return
         }

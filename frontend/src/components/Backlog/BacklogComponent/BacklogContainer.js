@@ -35,6 +35,7 @@ class BacklogContainer extends React.Component {
             backlogForProjectSprint: [],
             headers: {},
             columns: this.props.initial,
+            errorMessage: ''
         }
         this.setIsTaskInfo = this.setIsTaskInfo.bind(this)
         this.setBacklogForProject = this.setBacklogForProject.bind(this)
@@ -54,6 +55,10 @@ class BacklogContainer extends React.Component {
         if (this.props.initial !== prevProps.initial) {
             this.setState({columns: this.props.initial})
         }
+        if (this.state.errorMessage !== prevState.errorMessage) {
+            window.M.toast({html: this.state.errorMessage})
+            this.setState({errorMessage: ''})
+        }
     }
 
     setIsTaskInfo(value) {
@@ -69,6 +74,11 @@ class BacklogContainer extends React.Component {
     }
 
     onDragEnd = result => {
+
+        if (this.props.currentProject.user_role.id !== 1) {
+            this.setState({errorMessage: `${this.props.text("backlogComponent.errorDnd")}`})
+            return
+        }
 
         if (!result.destination) {
             return

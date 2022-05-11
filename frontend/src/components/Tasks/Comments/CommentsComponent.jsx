@@ -7,7 +7,7 @@ import CommentElementContainer from "./CommentElement/CommentElementContainer"
 
 const CommentsComponent = ({
                                form, handleSubmit, onReset, textAreaAddComment, isTextAreaAddCommentFocus,
-                               commentsScrum, currentUser, text
+                               commentsScrum, currentUser, text, currentProject
                            }) => {
 
     return (
@@ -27,16 +27,16 @@ const CommentsComponent = ({
                             name="content"
                             rules={[{required: false}]}>
                             <TextArea ref={textAreaAddComment} row={4}
-                                      placeholder={`${text("commentComponent.submitBtn")}`}/>
+                                      placeholder={`${text("commentComponent.placeholder")}`}/>
                         </Form.Item>
                         <Form.Item name="create_date" style={{height: 0, margin: 0}}> </Form.Item>
-                        {isTextAreaAddCommentFocus && <Form.Item>
+                        {isTextAreaAddCommentFocus && currentProject.user_role.id !== 2 ? <Form.Item>
                             <Button type="primary" htmlType="submit" style={{width: "100px"}}>
                                 {text("commentComponent.submitBtn")}
                             </Button>
                             <Button style={{marginLeft: "15px", width: "100px"}} onClick={onReset}>
                                 {text("commentComponent.cancelBtn")}</Button>
-                        </Form.Item>}
+                        </Form.Item> : false}
                     </Form>
                 </div>
                 {(commentsScrum.sort((a, b) => b.id - a.id)).map(comment =>
