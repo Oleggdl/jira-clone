@@ -1,40 +1,39 @@
 import React from 'react'
 import './BacklogElement.scss'
-import TaskBacklogContainer from "../../Tasks/TaskBacklogComponent/TaskBacklogContainer"
-import {Droppable} from "react-beautiful-dnd"
+import SprintList from "../SprintComponent/SprintListComponents"
 
 const BacklogElementComponent = ({
                                      backlogForProject, createSprintHandler, isInputVisible, taskInputRef,
-                                     onKeyDown, onSetIsCreateTask, isCreateTask
+                                     onKeyDown, onSetIsCreateTask, isCreateTask, tasks, title, text, currentProject
                                  }) => {
-
     return (
         <>
             <div className="sprint-container">
                 <div className="sprint-container-header">
-                    <h4>Backlog</h4>
-                    <div>(Tasks count: <span>{backlogForProject?.length}</span>)</div>
-                    <button className="create-sprint-button" onClick={createSprintHandler}>Create a sprint</button>
+                    <h4>{text("backlogElement.title")}</h4>
+                    <div className="sprint-header-text">({text("backlogElement.text")}: <span>{tasks?.length}</span>)
+                    </div>
+                    {currentProject.user_role.id === 1
+                        ? <button className="create-sprint-button"
+                                  onClick={createSprintHandler}>{text("backlogElement.createSprintBtn")}</button>
+                        : false}
                 </div>
-                <Droppable droppableId="Backlog">
-                    {provided => (
-                        <div className={`todos`} ref={provided.innerRef} {...provided.droppableProps}>
-                            {backlogForProject?.map((task, index) => (
-                                <TaskBacklogContainer index={index} task={task} key={task.id}/>
-                            ))}
-                            {provided.placeholder}
-                        </div>
-                    )}
-                </Droppable>
-                <input className={`task-creations-input ${isInputVisible}`} ref={taskInputRef} onKeyDown={e => {
-                    onKeyDown(e)
-                }}/>
-                {!isCreateTask &&
-                    <button style={{display: "block"}} className="create-task-button" onMouseUp={() => {
-                        onSetIsCreateTask()
-                    }}>Create task</button>}
+                <SprintList
+                    listId={title}
+                    listType="SPRINT"
+                    tasks={tasks}
+                    sprint={null}
+                />
+                {currentProject.user_role.id === 1 ? <>
+                    <input className={`task-creations-input ${isInputVisible}`} ref={taskInputRef} onKeyDown={e => {
+                        onKeyDown(e)
+                    }} placeholder={`${text("backlogElement.placeholder")}`}/>
+                    {!isCreateTask &&
+                        <button style={{display: "block"}} className="create-task-button" onMouseUp={() => {
+                            onSetIsCreateTask()
+                        }}>{text("backlogElement.createTaskBtn")}</button>}
+                </> : false}
             </div>
-
         </>
     )
 }

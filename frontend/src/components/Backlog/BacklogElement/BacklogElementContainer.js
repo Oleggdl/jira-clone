@@ -3,8 +3,9 @@ import BacklogElementComponent from "./BacklogElementComponent"
 import {compose} from "redux"
 import {connect} from "react-redux"
 import {AuthContext} from "../../../context/AuthContext"
-import {createSprint} from "../../../redux/scrum/sprints-reducer"
-import {createBacklogElement} from "../../../redux/scrum/backlog-reducer"
+import {createSprint} from "../../../redux/sprints-reducer"
+import {createBacklogElement} from "../../../redux/backlog-reducer"
+import {LanguageContext} from "../../../context/LanguageContext"
 
 
 const BacklogElementContainer = (props) => {
@@ -14,6 +15,7 @@ const BacklogElementContainer = (props) => {
     const taskInputRef = useRef(null)
 
     const {token} = useContext(AuthContext)
+    const {text} = useContext(LanguageContext)
     const headers = {
         Authorization: `Bearer ${token}`
     }
@@ -24,8 +26,11 @@ const BacklogElementContainer = (props) => {
         taskInputRef.current.focus()
     }
 
-    const createSprintHandler = (data) => {
-        props.createSprint({is_started: false}, props.currentProject.scrum_project.id, headers)
+    const createSprintHandler = () => {
+        props.createSprint({
+            is_started: false,
+            sprint_name: `BoardSprint ${props.sprints.length !== 0 ? props.sprints[props.sprints.length - 1].id + 1 : 1}`
+        }, props.currentProject.scrum_project.id, headers)
     }
 
     useEffect(() => {
@@ -58,9 +63,10 @@ const BacklogElementContainer = (props) => {
                 create_date: create_date,
                 creator_id: null,
                 executor_id: null,
+                priority : 'normal',
                 task_description: null,
                 task_name: taskInputRef.current.value
-            }, props.currentProject.scrum_project.id, props.currentUser.id, props.currentUser.id, headers)
+            }, props.currentProject.scrum_project.id, props.currentUser.id, null, headers)
             taskInputRef.current.value = null
             setIsCreateTask(false)
             setIsInputVisible('input-visible')
@@ -73,7 +79,8 @@ const BacklogElementContainer = (props) => {
                                      createSprintHandler={createSprintHandler} isInputVisible={isInputVisible}
                                      setBacklogForProject={props.setBacklogForProject} taskInputRef={taskInputRef}
                                      onKeyDown={onKeyDown} onSetIsCreateTask={onSetIsCreateTask}
-                                     isCreateTask={isCreateTask}
+                                     isCreateTask={isCreateTask} title={props.title} text={text}
+                                     currentProject={props.currentProject}
             />
         </>
     )
@@ -82,7 +89,6 @@ const BacklogElementContainer = (props) => {
 const mapStateToProps = (state) => ({
     sprints: state.sprintsReducer.sprints,
     currentProject: state.projectsReducer.currentProject,
-    backlogForProject: state.backlogReducer.backlogForProject,
     currentUser: state.userReducer.currentUser,
 })
 

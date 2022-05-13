@@ -1,12 +1,13 @@
 import React, {useContext, useEffect, useRef, useState} from 'react'
 import {NavbarComponent} from "./NavbarComponent"
-import {useNavigate} from "react-router-dom"
+import {useNavigate, useSearchParams} from "react-router-dom"
 import {AuthContext} from "../../../context/AuthContext"
 import {compose} from "redux"
 import {connect} from "react-redux"
-import {getCurrentProject, getFavoriteProjects, getProjects} from "../../../redux/scrum/projects-reducer"
-import {getUser} from "../../../redux/scrum/users-reducer"
-import {getStartedSprint} from "../../../redux/scrum/sprints-reducer";
+import {getCurrentProject, getFavoriteProjects, getProjects, joinTheProject} from "../../../redux/projects-reducer"
+import {getUser} from "../../../redux/users-reducer"
+import {LanguageContext} from "../../../context/LanguageContext"
+import {CurrentLanguageContext} from "../../../context/CurrentLanguageContext";
 
 const userName = 'userName'
 
@@ -14,6 +15,8 @@ const NavbarContainer = props => {
 
     const [isProjectsMenu, setIsProjectsMenu] = useState(false)
     const [isStaffMenu, setIsStaffMenu] = useState(false)
+    const [isInviteColleague, setIsInviteColleague] = useState(false)
+    const [isSettings, setIsSettings] = useState(false)
 
     const modalStaff = useRef()
     const modalStaffTitle = useRef()
@@ -22,14 +25,21 @@ const NavbarContainer = props => {
     const modalProjects = useRef()
     const modalProjectsTitle = useRef()
     const buttonProjects = useRef()
+    const inviteWrapper = useRef()
+    const modalSettings = useRef()
+    const buttonSettings = useRef()
 
     const history = useNavigate()
     const auth = useContext(AuthContext)
-
+    const {changeLanguage} = useContext(LanguageContext)
+    const {currentLanguage, setCurrentLanguage} = useContext(CurrentLanguageContext)
     const {token} = useContext(AuthContext)
+
     const headers = {
         Authorization: `Bearer ${token}`
     }
+
+    const [searchParams, setSearchParams] = useSearchParams()
 
     useEffect(() => {
         const data = JSON.parse(localStorage.getItem(userName))
@@ -59,61 +69,111 @@ const NavbarContainer = props => {
         props.getFavoriteProjects(props.currentUser.id, headers)
     }
 
-    useEffect(() => {
-        window.addEventListener("click", function (event) {
-            if (event.target !== buttonStaff.current && event.target !== modalStaff.current
-                && event.target !== modalStaffTitle.current) {
-                setIsStaffMenu(false)
-            }
-        })
-
-        return window.removeEventListener("click", function (event) {
-            if (event.target !== buttonStaff.current && event.target !== modalStaff.current
-                && event.target !== modalStaffTitle.current) {
-                setIsStaffMenu(false)
-            }
-        })
-    })
+    const closeModalStaff = event => {
+        if (event.target !== buttonStaff.current && event.target !== modalStaff.current
+            && event.target !== modalStaffTitle.current) {
+            setIsStaffMenu(false)
+        }
+    }
 
     useEffect(() => {
-        window.addEventListener("click", function (event) {
-            if (event.target !== buttonProjects.current && event.target !== modalProjects.current
-                && event.target !== modalProjectsTitle.current) {
-                setIsProjectsMenu(false)
-            }
-        })
+        window.addEventListener("click", event => closeModalStaff(event))
+        return window.removeEventListener("click", event => closeModalStaff(event))
+    }, [])
 
-        return window.removeEventListener("click", function (event) {
-            if (event.target !== buttonProjects.current && event.target !== modalProjects.current
-                && event.target !== modalProjectsTitle.current) {
-                setIsProjectsMenu(false)
+    const closeSettingsWindow = event => {
+        if (modalSettings.current) {
+            if (!buttonSettings.current.contains(event.target) && !modalSettings.current.contains(event.target)) {
+                setIsSettings(false)
             }
-        })
-    })
+        }
+    }
+
+    useEffect(() => {
+        window.addEventListener("mousedown", event => closeSettingsWindow(event))
+        return window.removeEventListener("mousedown", event => closeSettingsWindow(event))
+    }, [])
+
+    const inviteWrapperHandler = (event) => {
+        if (event.target === inviteWrapper.current) {
+            setIsInviteColleague(false)
+        }
+    }
+
+    useEffect(() => {
+        window.addEventListener("click", event => inviteWrapperHandler(event))
+        return window.removeEventListener("click", event => inviteWrapperHandler(event))
+    }, [])
+
+    const closeModalProjects = event => {
+        if (event.target !== buttonProjects.current && event.target !== modalProjects.current
+            && event.target !== modalProjectsTitle.current) {
+            setIsProjectsMenu(false)
+        }
+    }
+
+    useEffect(() => {
+        window.addEventListener("click", event => closeModalProjects(event))
+        return window.removeEventListener("click", event => closeModalProjects(event))
+    }, [])
 
     const currentProjectHandler = project => {
         props.getCurrentProject(project)
     }
 
-    const startedSprintHandler = () => {
-        props.getStartedSprint(props.currentProject.scrum_project.id, headers)
+
+    const getProjects = () => {
+        if (!!props.currentUser.id) {
+            props.getProjects(props.currentUser.id, headers)
+        }
     }
+
+    useEffect(() => {
+        if (!!props.currentUser.id && !!searchParams.get("joinTheTeam")) {
+            let currentRole = null
+            if (searchParams.get("userType") === 'product_owner') {
+                currentRole = 2
+            } else if (searchParams.get("userType") === 'developer') {
+                currentRole = 3
+            }
+
+            props.joinTheProject(searchParams.get("projectId"), props.currentUser.id, currentRole, headers)
+        }
+    }, [props.currentUser])
+
+    const setSetting = () => {
+        !!isSettings ? setIsSettings(false) : setIsSettings(true)
+    }
+
+    const onChangeLanguage = e => {
+        setCurrentLanguage(e.target.value)
+        localStorage.setItem('currentLanguage', JSON.stringify(e.target.value))
+        setIsSettings(false)
+    }
+
+    useEffect(() => {
+        changeLanguage(currentLanguage)
+    }, [currentLanguage])
+
+    const {text} = useContext(LanguageContext)
 
     return (
         <>
             <NavbarComponent isProjectsMenu={isProjectsMenu} isStaffMenu={isStaffMenu} setIsStaffMenu={setIsStaffMenu}
                              modalStaff={modalStaff} modalStaffTitle={modalStaffTitle} buttonStaff={buttonStaff}
-                             modalProjects={modalProjects} modalProjectsTitle={modalProjectsTitle}
+                             modalProjects={modalProjects} modalProjectsTitle={modalProjectsTitle} text={text}
                              buttonProjects={buttonProjects} logoutHandler={logoutHandler} projects={props.projects}
                              currentUser={props.currentUser} currentProjectHandler={currentProjectHandler}
                              showProjectsMenu={showProjectsMenu} favoriteProjects={props.favoriteProjects}
-                             getFavoriteProjectHandler={getFavoriteProjectHandler}
-                             startedSprintHandler={startedSprintHandler}
+                             getFavoriteProjectHandler={getFavoriteProjectHandler} isInviteColleague={isInviteColleague}
+                             setIsInviteColleague={setIsInviteColleague}
+                             inviteWrapper={inviteWrapper} getProjects={getProjects} isSettings={isSettings}
+                             setSetting={setSetting} modalSettings={modalSettings} buttonSettings={buttonSettings}
+                             onChangeLanguage={onChangeLanguage} currentLanguage={currentLanguage}
             />
         </>
     )
 }
-
 
 const mapStateToProps = (state) => ({
     projects: state.projectsReducer.projects,
@@ -123,6 +183,6 @@ const mapStateToProps = (state) => ({
 })
 
 export default compose(
-    connect(mapStateToProps, {getProjects, getUser, getCurrentProject, getFavoriteProjects, getStartedSprint})
+    connect(mapStateToProps, {getProjects, getUser, getCurrentProject, getFavoriteProjects, joinTheProject})
 )(NavbarContainer)
 

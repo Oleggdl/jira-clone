@@ -38,7 +38,7 @@
   width: 100%;
   overflow-x: auto;
   overflow-y: auto;
-  margin-bottom: 40px;
+  padding-bottom: 40px;
 
   .button-add-column {
     border: unset;
@@ -51,6 +51,7 @@
     &:hover {
       background-color: $input_background;
     }
+
     span {
       svg {
         width: 30px;
@@ -82,5 +83,17 @@
   position: absolute;
   top: 7px;
   left: 230px;
+}
+
+.complete-board-btn-container {
+  position: absolute;
+  top: 40px;
+  right: 40px;
+}
+
+.complete-sprint-board-btn {
+  span {
+    color: #ffffff;
+  }
 }
 

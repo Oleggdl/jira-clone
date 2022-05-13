@@ -25,12 +25,10 @@ aside {
 }
 
 .project-logo {
-  width: 30px;
-  height: 30px;
+  width: 28px;
+  height: 28px;
   font-size: 10px;
   border-radius: 50%;
-  background-color: $main-color; //todo
-  background-size: cover;
 }
 
 .project-container-name {
@@ -43,7 +41,6 @@ ul {
   padding: unset;
 
   .board-link-container {
-    //position: relative;
     display: flex;
     padding-left: 10px;
 
@@ -58,15 +55,14 @@ ul {
       line-height: 2.5;
       padding-left: 7px;
       transition: .3s;
-
-
     }
+
     &:hover {
       background-color: $links-hover-color;
-      .board-link{
+
+      .board-link {
         color: $main-color;
       }
-
     }
   }
 }

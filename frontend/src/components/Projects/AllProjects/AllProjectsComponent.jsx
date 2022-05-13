@@ -4,13 +4,12 @@ import {Button, Table} from "antd"
 import './AllProjects.scss'
 import {NavLink} from "react-router-dom"
 import {EllipsisOutlined} from "@ant-design/icons"
-import ProjectInfoContainer from "./ProjectInfo/ProjectInfoContainer";
+import ProjectInfoContainer from "./ProjectInfo/ProjectInfoContainer"
 
 
 const AllProjectsComponent = ({
-                                  projects, onSearch, showActionsHandler, isActions, setIsActions,
-                                  projectWrapper, isDeleteModal, setIsDeleteModal, getProjectById,
-                                  currentProjectHandler
+                                  projects, onSearch, showActionsHandler, isActions, setIsActions, projectWrapper,
+                                  isDeleteModal, setIsDeleteModal, getProjectById, currentProjectHandler, text
                               }) => {
 
 
@@ -18,31 +17,25 @@ const AllProjectsComponent = ({
         key: project.id,
         projectName: (<NavLink onMouseDown={() => currentProjectHandler(project)}
                                to={`/scrum/${project.scrum_project.project_key}`}>
-            {project.scrum_project.project_name}
-        </NavLink>),
+            {project.scrum_project.project_name}</NavLink>),
         projectKey: project.scrum_project.project_key,
-        projectType: project.scrum_project.project_type,
-        supervisor: project.users.username
+        supervisor: project.scrum_project.supervisor.username,
+        project: project
     }))
 
     const columns = [
         {
-            title: 'Project name',
+            title: `${text("allProjects.table.name")}`,
             dataIndex: 'projectName',
             key: 'projectName'
         },
         {
-            title: 'Project key',
+            title: `${text("allProjects.table.key")}`,
             dataIndex: 'projectKey',
             key: 'projectKey',
         },
         {
-            title: 'Project type',
-            dataIndex: 'projectType',
-            key: 'projectType',
-        },
-        {
-            title: 'Supervisor',
+            title: `${text("allProjects.table.supervisor")}`,
             dataIndex: 'supervisor',
             key: 'supervisor',
         },
@@ -52,10 +45,11 @@ const AllProjectsComponent = ({
             render: (_, record) => {
                 return (
                     <>
-                        <div className="projects-actions" onClick={showActionsHandler}
-                             onMouseDown={() => getProjectById(record)}>
-                            <EllipsisOutlined/>
-                        </div>
+                        {record.project.user_role.id === 1 ?
+                            <div className="projects-actions" onClick={showActionsHandler}
+                                 onMouseDown={() => getProjectById(record)} onMouseUp={() => console.log(record)}>
+                                <EllipsisOutlined/>
+                            </div> : false}
                     </>
                 )
             }
@@ -66,9 +60,9 @@ const AllProjectsComponent = ({
         <>
             <div className="all-projects-container">
                 <Button type="primary" className="create-project-button">
-                    <NavLink to="/create_project">Create project</NavLink>
+                    <NavLink to="/create_project">{text("allProjects.button")}</NavLink>
                 </Button>
-                <h2>Projects</h2>
+                <h2>{text("allProjects.title")}</h2>
                 <Search style={{width: "300px", margin: "10px 0"}} onSearch={(value) => onSearch(value)} enterButton/>
                 <Table dataSource={dataSource} columns={columns}/>
                 {isActions && <ProjectInfoContainer setIsActions={setIsActions} setIsDeleteModal={setIsDeleteModal}

@@ -1,4 +1,4 @@
-import {projectsAPI, userScrumProjectAPI} from "../../api/api"
+import {projectsAPI, userScrumProjectAPI} from "../api/api"
 
 const GET_PROJECTS = 'GET_PROJECTS'
 const GET_CURRENT_PROJECT = 'GET_CURRENT_PROJECT'
@@ -82,9 +82,22 @@ export const createProject = (data, userId, userRoleId, authorization) => {
 
     return async dispatch => {
         const response = await projectsAPI.createProject(data, authorization)
+        const responseSupervisor = await projectsAPI.addSupervisor(response.data.id, userId, authorization)
         const responsePost = await userScrumProjectAPI.createUserScrumProject({}, authorization)
         const responsePut = await userScrumProjectAPI.putUserScrumProject(
             responsePost.data.id, userId, response.data.id, userRoleId, authorization)
+    }
+}
+
+export const joinTheProject = (projectId, userId, userRoleId, authorization) => {
+
+    return async dispatch => {
+        const responseGet = await userScrumProjectAPI.isUserProjectExist(userId, projectId, authorization)
+        if (!responseGet.data) {
+            const responsePost = await userScrumProjectAPI.createUserScrumProject({}, authorization)
+            const responsePut = await userScrumProjectAPI.putUserScrumProject(
+                responsePost.data.id, userId, projectId, userRoleId, authorization)
+        }
     }
 }
 
@@ -115,7 +128,16 @@ export const updateProject = (id, userScrumId, data, authorization) => {
 export const deleteProject = (id, userId, authorization) => {
 
     return async dispatch => {
-        const responsePut = await projectsAPI.deleteProject(id, authorization)
+        const responsePut = await projectsAPI.deleteProject(id, userId, authorization)
+        const response = await userScrumProjectAPI.getUserScrumProject(userId, authorization)
+        dispatch(getProjectsActionCreator(response.data))
+    }
+}
+
+export const deleteFromMyProjects = (id, userId, authorization) => {
+
+    return async dispatch => {
+        const responsePut = await userScrumProjectAPI.deleteUserScrumProject(id, authorization)
         const response = await userScrumProjectAPI.getUserScrumProject(userId, authorization)
         dispatch(getProjectsActionCreator(response.data))
     }

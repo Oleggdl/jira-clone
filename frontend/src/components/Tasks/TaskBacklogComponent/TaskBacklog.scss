@@ -3,26 +3,28 @@
 
 .task-backlog-component-container {
   display: flex;
-  @include task-container;
-  cursor: grab;
-
+  cursor: unset !important;
   border: unset;
   width: 100%;
+  box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.2);
+
+  @include task-container;
 
   &:hover {
+    background-color: $button-background-color;
+
     .task-backlog-component-settings {
       opacity: 1;
       cursor: pointer;
     }
-    .task-title{
+
+    .task-title {
       color: $main-color;
     }
-    background-color: $button-background-color;
   }
 }
 
 .task-backlog-component-key {
-
   padding-top: 3px;
   display: flex;
   padding-right: 15px;
@@ -40,15 +42,23 @@
 }
 
 .task-backlog-component-labels {
-  display: inline-block;
+  display: flex;
   margin-top: 2px;
   margin-left: auto;
   margin-right: 0;
   font-size: 1.3rem;
   padding: 1px 3px;
   border-radius: 2px;
-  background-color: $column-container-background;
   color: $secondary-text;
+}
+
+.mark-element-backlog {
+  min-width: 40px;
+  margin: 0 4px;
+}
+
+.task-priority-backlog {
+  padding: 6px 8px 0 0;
 }
 
 .task-backlog-component-settings {
@@ -58,9 +68,25 @@
   border-radius: 3px;
   background-color: $column-container-background;
   padding: 2px 5px;
+  font-size: 3rem;
+  line-height: 1;
 }
 
 .task-title {
   margin-top: 1px;
   transition: .3s;
+}
+
+.supervisor-task-logo {
+  width: 26px;
+  height: 26px;
+  margin-top: 3px;
+  border-radius: 50%;
+  background-color: $main-color;
+  text-transform: uppercase;
+  font-size: 16px;
+  text-align: center;
+  line-height: 1.6;
+  color: #ffffff;
+
 }

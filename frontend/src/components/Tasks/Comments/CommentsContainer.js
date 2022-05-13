@@ -4,13 +4,15 @@ import {useForm} from "antd/es/form/Form"
 import {AuthContext} from "../../../context/AuthContext"
 import {compose} from "redux"
 import {connect} from "react-redux"
-import {createCommentScrum, getCommentsScrum} from "../../../redux/scrum/commentsScrum-reducer"
+import {createCommentScrum, getCommentsScrum} from "../../../redux/commentsScrum-reducer"
+import {LanguageContext} from "../../../context/LanguageContext"
 
 const CommentsContainer = (props) => {
 
     const [form] = useForm()
 
     const {token} = useContext(AuthContext)
+    const {text} = useContext(LanguageContext)
 
     const headers = {
         Authorization: `Bearer ${token}`
@@ -45,10 +47,10 @@ const CommentsContainer = (props) => {
 
     return (
         <>
-            <CommentsComponent form={form} handleSubmit={handleSubmit} onReset={onReset}
-                               textAreaAddComment={textAreaAddComment}
+            <CommentsComponent form={form} handleSubmit={handleSubmit} onReset={onReset} text={text}
+                               textAreaAddComment={textAreaAddComment} currentUser={props.currentUser}
                                isTextAreaAddCommentFocus={isTextAreaAddCommentFocus}
-                               commentsScrum={props.commentsScrum}/>
+                               commentsScrum={props.commentsScrum} currentProject={props.currentProject}/>
         </>
     )
 }
@@ -56,8 +58,8 @@ const CommentsContainer = (props) => {
 const mapStateToProps = (state) => ({
     commentsScrum: state.commentsScrumReducer.commentsScrum,
     currentTask: state.tasksReducer.currentTask,
-    currentUser: state.userReducer.currentUser,
-    currentProject: state.projectsReducer.currentProject
+    currentProject: state.projectsReducer.currentProject,
+    currentUser: state.userReducer.currentUser
 })
 
 export default compose(

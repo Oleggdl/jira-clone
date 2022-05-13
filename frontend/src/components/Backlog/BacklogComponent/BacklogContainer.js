@@ -1,112 +1,168 @@
-import React, {useContext, useEffect, useState} from 'react'
+import React, {useContext} from 'react'
 import BacklogComponent from "./BacklogComponent"
 import {compose} from "redux"
 import {connect} from "react-redux"
 import {TaskContext} from "../../../context/TaskContext"
-import {createTaskSprint, searchTasksInSprints, unsetTaskSprints} from "../../../redux/scrum/taskSprint-reducer"
-import {createBacklogElementFromSprint, getBacklogForProject, searchTasks} from "../../../redux/scrum/backlog-reducer"
+import {
+    createSprintFromBacklog,
+    getTaskSprints,
+    moveTaskSprintFromSprint,
+    unsetTaskSprints
+} from "../../../redux/taskSprint-reducer"
+import {createBacklogElementFromSprint, searchTasks} from "../../../redux/backlog-reducer"
 import {AuthContext} from "../../../context/AuthContext"
-import {TaskSprintContext} from "../../../context/TaskSprintContext";
+import {getSprints, getStartedSprint} from "../../../redux/sprints-reducer"
+import {reorderSprintMap} from "../../../utils/reorderBacklog"
+import {LanguageContext} from "../../../context/LanguageContext"
 
-const BacklogContainer = props => {
+const BacklogContainerWithText = props => {
+    const {text} = useContext(LanguageContext)
+    return <BacklogContainer {...props} text={text}/>
+}
 
-    const [isTaskInfo, setIsTaskInfo] = useState(false)
-    const [backlogForProject, setBacklogForProject] = useState(props.backlogForProject)
-    const [backlogForProjectSprint, setBacklogForProjectSprint] = useState([])
+class BacklogContainer extends React.Component {
 
-
-    const [currentSprintDnd, setCurrentSprintDnd] = useState(null)
-    const [currentBacklogDnd, setCurrentBacklogDnd] = useState(null)
-    const [currentTaskDnd, setCurrentTaskDnd] = useState(null)
-
-
-    const {token} = useContext(AuthContext)
-
-    const headers = {
-        Authorization: `Bearer ${token}`
+    static contextType = AuthContext
+    static defaultProps = {
+        isCombineEnabled: false
     }
 
-    const onDragEnd = (result) => {
-        const {destination, source} = result
-
-        console.log(result)
-
-        if (!destination) {
-            return;
+    constructor(props) {
+        super(props)
+        this.state = {
+            isTaskInfo: false,
+            backlogForProject: this.props.backlogForProject,
+            backlogForProjectSprint: [],
+            headers: {},
+            columns: this.props.initial,
+            errorMessage: ''
         }
+        this.setIsTaskInfo = this.setIsTaskInfo.bind(this)
+        this.setBacklogForProject = this.setBacklogForProject.bind(this)
+        this.setBacklogForProjectSprint = this.setBacklogForProjectSprint.bind(this)
+        this.onDragEnd = this.onDragEnd.bind(this)
+    }
+
+    componentDidMount() {
+        this.props.updateSprintsHandler()
+        this.setState({headers: {Authorization: `Bearer ${this.context.token}`}})
+        if (!!this.props.taskSprints) {
+            this.props.unsetTaskSprints()
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (this.props.initial !== prevProps.initial) {
+            this.setState({columns: this.props.initial})
+        }
+        if (this.state.errorMessage !== prevState.errorMessage) {
+            window.M.toast({html: this.state.errorMessage})
+            this.setState({errorMessage: ''})
+        }
+        if (this.state.headers !== prevState.headers) {
+            this.props.getStartedSprint(this.props.currentProject.scrum_project.id, this.state.headers)
+        }
+    }
+
+    setIsTaskInfo(value) {
+        this.setState({isTaskInfo: value})
+    }
+
+    setBacklogForProject(value) {
+        this.setState({backlogForProject: value})
+    }
+
+    setBacklogForProjectSprint(value) {
+        this.setState({backlogForProjectSprint: value})
+    }
+
+    onDragEnd = result => {
+
+        if (this.props.currentSprint) {
+            if (result.source.droppableId?.split(',')[0] === this.props.currentSprint.sprint_name
+                || result.destination.droppableId?.split(',')[0] === this.props.currentSprint.sprint_name) {
+                this.setState({errorMessage: `${this.props.text("backlogComponent.startSprintError")}`})
+                return
+            }
+        }
+
+        if (this.props.currentProject.user_role.id !== 1) {
+            this.setState({errorMessage: `${this.props.text("backlogComponent.errorDnd")}`})
+            return
+        }
+
+        if (!result.destination) {
+            return
+        }
+
+        const source = result.source
+        const destination = result.destination
 
         if (
-            destination.droppableId === source.droppableId &&
-            destination.index === source.index
+            source.droppableId === destination.droppableId &&
+            source.index === destination.index
         ) {
-            return;
+            return
         }
 
-        let add;
-        let active = backlogForProject
-        let complete = backlogForProjectSprint
-        // Source Logic
-        if (source.droppableId === "Backlog") {
-            add = active[source.index]
-            active.splice(source.index, 1)
-        } else {
-            add = complete[source.index]
-            complete.splice(source.index, 1)
+        const data = reorderSprintMap({
+            sprintMap: this.state.columns,
+            source,
+            destination
+        })
+
+        if (destination.droppableId === 'Backlog' && source.droppableId !== 'Backlog') {
+            this.props.createBacklogElementFromSprint(result.draggableId.split(',')[0],
+                result.draggableId.split(',')[1], this.props.currentProject.scrum_project.id, this.state.headers)
         }
 
-        // Destination Logic
-        if (destination.droppableId === "Backlog") {
-            active.splice(destination.index, 0, add)
-            // props.createBacklogElementFromSprint(6, 8, 3, headers)//todo
-        } else {
-            complete.splice(destination.index, 0, add)
-            // props.createTaskSprint(currentSprint?.id, currentTask, currentBacklog, headers)//todo
+        if (source.droppableId === 'Backlog' && destination.droppableId !== 'Backlog') {
+            this.props.createSprintFromBacklog(result.draggableId.split(',')[0], result.draggableId.split(',')[1],
+                destination.droppableId.split(',')[1], this.props.currentProject.scrum_project.id, this.state.headers)
         }
 
-        setBacklogForProjectSprint(complete)
-        setBacklogForProject(active)
+        if (destination.droppableId !== 'Backlog' && source.droppableId !== 'Backlog'
+            && destination.droppableId !== source.droppableId) {
+            this.props.moveTaskSprintFromSprint(result.draggableId.split(',')[0],
+                destination.droppableId.split(',')[1], this.props.currentProject.scrum_project.id, this.state.headers)
+        }
+
+
+        this.setState({
+            columns: data.sprintMap
+        })
     }
 
-    const onSearch = query => {
-        const q = query.replace(/[\\\}\{\/\]\[\+\-\.\,\#\@\!\%\^\&\*(\)\`\~\$\;\:]/g, '')
-        props.searchTasks(q, props.currentProject.scrum_project.id, headers)
-        props.searchTasksInSprints(q, 2, headers)
+    render() {
 
-        // props.sprints && props.sprints.map(sprint => props.searchTasksInSprints(q, sprint.id, headers))
+        return (
+            <>
+                <TaskContext.Provider value={{isTaskInfo: this.state.isTaskInfo, setIsTaskInfo: this.setIsTaskInfo}}>
+                    <BacklogComponent isTaskInfo={this.state.isTaskInfo} text={this.props.text}
+                                      onDragEnd={this.onDragEnd} updateTaskSprints={this.props.updateTaskSprints}
+                                      columns={this.state.columns} sprints={this.props.sprints}
+                                      backlogForProject={this.props.backlogForProject}
+                                      currentProject={this.props.currentProject}
+                                      setBacklogForProject={this.setBacklogForProject}
+                                      backlogForProjectSprint={this.state.backlogForProjectSprint}
+                                      setBacklogForProjectSprint={this.setBacklogForProjectSprint}/>
+                </TaskContext.Provider>
+            </>
+        )
     }
-
-
-    useEffect(() => {
-        if (!!props.taskSprints) {
-            return props.unsetTaskSprints()
-        }
-    }, [])
-
-    return (
-        <>
-            <TaskContext.Provider value={{isTaskInfo, setIsTaskInfo}}>
-                <TaskSprintContext.Provider value={{setCurrentSprintDnd, setCurrentBacklogDnd, setCurrentTaskDnd}}>
-                    <BacklogComponent sprints={props.sprints} isTaskInfo={isTaskInfo}
-                                      backlogForProject={props.backlogForProject} setBacklogForProject={setBacklogForProject}
-                                      backlogForProjectSprint={backlogForProjectSprint} onSearch={onSearch}
-                                      setBacklogForProjectSprint={setBacklogForProjectSprint}
-                                      onDragEnd={onDragEnd}/>
-                </TaskSprintContext.Provider>
-            </TaskContext.Provider>
-        </>
-    )
 }
 
 const mapStateToProps = (state) => ({
     sprints: state.sprintsReducer.sprints,
     backlogForProject: state.backlogReducer.backlogForProject,
     taskSprints: state.taskSprintReducer.taskSprints,
-    currentProject: state.projectsReducer.currentProject
+    currentProject: state.projectsReducer.currentProject,
+    currentSprint: state.sprintsReducer.currentSprint
 })
 
 export default compose(
     connect(mapStateToProps, {
-        unsetTaskSprints, getBacklogForProject, createTaskSprint,
-        createBacklogElementFromSprint, searchTasks, searchTasksInSprints
+        unsetTaskSprints, getSprints, searchTasks, getTaskSprints, createBacklogElementFromSprint, getStartedSprint,
+        createSprintFromBacklog, moveTaskSprintFromSprint
     })
-)(BacklogContainer)
+)(BacklogContainerWithText)

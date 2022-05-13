@@ -1,5 +1,5 @@
-import {sprintsAPI} from "../../api/api"
-
+import {sprintsAPI, taskSprintAPI} from "../api/api"
+import {getTaskSprintsActionCreator} from "./taskSprint-reducer";
 
 const GET_SPRINTS = 'GET_SPRINTS'
 const SET_CURRENT_SPRINT = 'SET_CURRENT_SPRINT'
@@ -8,7 +8,6 @@ let initialState = {
     sprints: [],
     currentSprint: null
 }
-
 
 const sprintsReducer = (state = initialState, action) => {
 
@@ -31,7 +30,6 @@ const sprintsReducer = (state = initialState, action) => {
             return state
     }
 }
-
 
 export const getSprintsActionCreator = sprints => ({type: GET_SPRINTS, sprints})
 export const setCurrentSprintActionCreator = currentSprint => ({type: SET_CURRENT_SPRINT, currentSprint})
@@ -60,6 +58,8 @@ export const startSprint = (data, id, projectId, authorization) => {
         const response = await sprintsAPI.startSprint(data, id, authorization)
         const responseGet = await sprintsAPI.getSprints(projectId, authorization)
         dispatch(getSprintsActionCreator(responseGet.data))
+        const responseGetTask = await taskSprintAPI.getTaskSprintForProject(projectId, authorization)
+        dispatch(getTaskSprintsActionCreator(responseGetTask.data))
     }
 }
 
@@ -71,18 +71,20 @@ export const setCurrentSprint = (currentSprint) => {
 }
 
 export const getStartedSprint = (projectId, authorization) => {
-
     return async dispatch => {
         const response = await sprintsAPI.getStartedSprint(projectId, authorization)
         dispatch(setCurrentSprintActionCreator(response.data[0]))
     }
 }
 
-export const deleteSprint = (id, authorization) => {
+export const deleteSprint = (id, projectId, authorization) => {
 
     return async dispatch => {
         const response = await sprintsAPI.deleteSprint(id, authorization)
-
+        const responseGet = await sprintsAPI.getSprints(projectId, authorization)
+        dispatch(getSprintsActionCreator(responseGet.data))
+        const responseGetTask = await taskSprintAPI.getTaskSprintForProject(projectId, authorization)
+        dispatch(getTaskSprintsActionCreator(responseGetTask.data))
     }
 }
 

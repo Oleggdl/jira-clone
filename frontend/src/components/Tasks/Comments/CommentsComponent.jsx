@@ -7,14 +7,14 @@ import CommentElementContainer from "./CommentElement/CommentElementContainer"
 
 const CommentsComponent = ({
                                form, handleSubmit, onReset, textAreaAddComment, isTextAreaAddCommentFocus,
-                               commentsScrum
+                               commentsScrum, currentUser, text, currentProject
                            }) => {
 
     return (
         <>
             <div className="comments-container">
                 <div className="form-add-comments">
-                    <div className="comments-user-logo"></div>
+                    <div className="comments-user-logo">{currentUser.username[0]}</div>
                     <Form name="create_comment"
                           form={form}
                           initialValues={
@@ -25,17 +25,18 @@ const CommentsComponent = ({
                           autoComplete="off">
                         <Form.Item
                             name="content"
-                            rules={[{required: false}]}
-                        >
-                            <TextArea ref={textAreaAddComment} row={4} placeholder="Add a comment"/>
+                            rules={[{required: false}]}>
+                            <TextArea ref={textAreaAddComment} row={4}
+                                      placeholder={`${text("commentComponent.placeholder")}`}/>
                         </Form.Item>
                         <Form.Item name="create_date" style={{height: 0, margin: 0}}> </Form.Item>
-                        {isTextAreaAddCommentFocus && <Form.Item>
+                        {isTextAreaAddCommentFocus && currentProject.user_role.id !== 2 ? <Form.Item>
                             <Button type="primary" htmlType="submit" style={{width: "100px"}}>
-                                Submit
+                                {text("commentComponent.submitBtn")}
                             </Button>
-                            <Button style={{marginLeft: "15px", width: "100px"}} onClick={onReset}>Cancel</Button>
-                        </Form.Item>}
+                            <Button style={{marginLeft: "15px", width: "100px"}} onClick={onReset}>
+                                {text("commentComponent.cancelBtn")}</Button>
+                        </Form.Item> : false}
                     </Form>
                 </div>
                 {(commentsScrum.sort((a, b) => b.id - a.id)).map(comment =>

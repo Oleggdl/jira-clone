@@ -1,12 +1,17 @@
 import React from 'react'
 import './Navbar.scss'
-import {NavLink} from "react-router-dom";
+import {NavLink} from "react-router-dom"
+import InviteColleagueContainer from "../InviteColleagueComponent/InviteColleagueContainer"
+import {SettingOutlined} from "@ant-design/icons"
+import {Radio, Space} from "antd"
 
 export const NavbarComponent = ({
                                     isProjectsMenu, isStaffMenu, modalProjectsTitle, setIsStaffMenu,
                                     buttonProjects, buttonStaff, modalProjects, modalStaff, modalStaffTitle,
-                                    logoutHandler, projects, currentUser, currentProjectHandler, showProjectsMenu,
-                                    favoriteProjects, getFavoriteProjectHandler, startedSprintHandler
+                                    logoutHandler, currentUser, currentProjectHandler, showProjectsMenu,
+                                    favoriteProjects, getFavoriteProjectHandler, isInviteColleague, setSetting,
+                                    setIsInviteColleague, inviteWrapper, getProjects, changeLanguage, isSettings,
+                                    modalSettings, buttonSettings, onChangeLanguage, currentLanguage, text
                                 }) => {
 
     function showStaffMenu() {
@@ -21,15 +26,15 @@ export const NavbarComponent = ({
                     <li>
                         <button onClick={() => {
                         }} className="nav-button" style={{padding: "unset"}}>
-                            <NavLink to="create_task">Create</NavLink>
+                            <NavLink to="create_task">{text("navbar.create")}</NavLink>
                         </button>
                     </li>
                     <li className="projects-container">
                         <button onMouseUp={showProjectsMenu} onMouseDown={getFavoriteProjectHandler}
-                                className="nav-button" ref={buttonProjects}>Projects
+                                className="nav-button" ref={buttonProjects}>{text("navbar.projects.title")}
                         </button>
                         {isProjectsMenu && <div className="dropdown-content" ref={modalProjects}>
-                            <h3 ref={modalProjectsTitle}>Recent</h3>
+                            <h3 ref={modalProjectsTitle}>{text("navbar.projects.favorites")}</h3>
                             <ul>
                                 <li>
                                     <ul className="recent-projects">
@@ -43,34 +48,41 @@ export const NavbarComponent = ({
                                     </ul>
                                 </li>
 
-                                <li className="dropdown-content-links"><NavLink to="/all_projects">Show all
-                                    projects</NavLink></li>
-
-                                <li className="dropdown-content-links"><NavLink to="/create_project">Create
-                                    project</NavLink></li>
+                                <li className="dropdown-content-links"><NavLink to="/all_projects">
+                                    {text("navbar.projects.show")}</NavLink></li>
+                                <li className="dropdown-content-links"><NavLink to="/create_project">
+                                    {text("navbar.projects.create")}</NavLink></li>
                             </ul>
                         </div>}
                     </li>
-                    <li className="staff-container">
-                        <button onClick={showStaffMenu} className="nav-button" ref={buttonStaff}>Staff</button>
+                    <div className="staff-container">
+                        <button onClick={showStaffMenu} onMouseDown={getProjects} className="nav-button"
+                                ref={buttonStaff}>{text("navbar.staff.title")}
+                        </button>
                         {isStaffMenu && <div className="dropdown-content" ref={modalStaff}>
-                            <h3 ref={modalStaffTitle}>Your colleague</h3>
-                            <ul>
-                                <li>
-                                    <ul className="your-colleague">
-                                        <li className="user-links"><NavLink to="/">User_1</NavLink></li>
-                                        <li className="user-links"><NavLink to="/">User_2</NavLink></li>
-                                        <li className="user-links"><NavLink to="/">User_3</NavLink></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                            <li className="dropdown-content-links"><NavLink to="/">Invite a colleague</NavLink></li>
+                            <h3 ref={modalStaffTitle} style={{marginLeft: '10px'}}>{text("navbar.staff.colleague")}</h3>
+                            <button className="invite-button" onClick={() => setIsInviteColleague(true)}>
+                                {text("navbar.staff.invite")}
+                            </button>
                         </div>}
-                    </li>
+                        {isInviteColleague && <InviteColleagueContainer setIsInviteColleague={setIsInviteColleague}/>}
+                        {isInviteColleague && <div className="invite-colleague-wrapper" ref={inviteWrapper}></div>}
+                    </div>
                     <li className="user-link"><h2>{currentUser.username}</h2></li>
                     <li className="logoutLink">
-                        <button onClick={logoutHandler} className="nav-button">Log out</button>
+                        <button onClick={logoutHandler} className="nav-button">{text("navbar.logout")}</button>
                     </li>
+                    <li className="settings-link" onClick={setSetting} ref={buttonSettings}><SettingOutlined/></li>
+                    {isSettings && <div className="settings-window" ref={modalSettings}>
+                        <h3>{text("navbar.languages.current")}: <span>{currentLanguage}</span></h3>
+                        <Radio.Group onChange={e => onChangeLanguage(e)} name="language" value={currentLanguage}>
+                            <Space direction="vertical">
+                                <Radio value={'ru'}>{text("navbar.languages.ru")}</Radio>
+                                <Radio value={'en'}>{text("navbar.languages.en")}</Radio>
+                                <Radio value={'by'}>{text("navbar.languages.by")}</Radio>
+                            </Space>
+                        </Radio.Group>
+                    </div>}
                 </ul>
             </div>
         </nav>

@@ -3,7 +3,8 @@ import DeleteProjectComponent from "./DeleteProjectComponent"
 import {AuthContext} from "../../../context/AuthContext"
 import {compose} from "redux"
 import {connect} from "react-redux"
-import {deleteProject} from "../../../redux/scrum/projects-reducer"
+import {deleteFromMyProjects, deleteProject} from "../../../redux/projects-reducer"
+import {LanguageContext} from "../../../context/LanguageContext";
 
 const DeleteProjectContainer = props => {
 
@@ -12,6 +13,7 @@ const DeleteProjectContainer = props => {
     const [value, setValue] = useState('')
 
     const {token} = useContext(AuthContext)
+    const {text} = useContext(LanguageContext)
     const headers = {
         Authorization: `Bearer ${token}`
     }
@@ -35,18 +37,27 @@ const DeleteProjectContainer = props => {
         } else setIsDisabled(true)
     }, [value])
 
-    const deleteProjectHandler = (event) => {
-        event.preventDefault()
-        props.deleteProject(props.projectData.id, props.currentUser.id, headers)
-        props.setIsDeleteModal(false)
-        props.setIsActions(false)
+    const deleteProjectHandler = event => {
+        if (props.projectData.supervisor.username === props.currentUser.username) {
+            event.preventDefault()
+            props.deleteProject(props.projectData.id, props.currentUser.id, headers)
+            props.setIsDeleteModal(false)
+            props.setIsActions(false)
+        } else {
+            event.preventDefault()
+            props.deleteFromMyProjects(props.userScrumProject.id, props.currentUser.id, headers)
+            props.setIsDeleteModal(false)
+            props.setIsActions(false)
+        }
+
+
     }
 
     return (
         <>
             <DeleteProjectComponent deleteProjectWrapper={deleteProjectWrapper} isDisabled={isDisabled}
                                     projectData={props.projectData} value={value} setValue={setValue}
-                                    deleteProjectHandler={deleteProjectHandler}/>
+                                    deleteProjectHandler={deleteProjectHandler} text={text}/>
         </>
     )
 }
@@ -56,5 +67,5 @@ const mapStateToProps = (state) => ({
 })
 
 export default compose(
-    connect(mapStateToProps, {deleteProject})
+    connect(mapStateToProps, {deleteProject, deleteFromMyProjects})
 )(DeleteProjectContainer)

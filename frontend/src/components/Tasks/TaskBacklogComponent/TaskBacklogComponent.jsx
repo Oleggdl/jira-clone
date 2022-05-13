@@ -1,48 +1,52 @@
 import React from 'react'
 import {EllipsisOutlined, SolutionOutlined} from "@ant-design/icons"
 import './TaskBacklog.scss'
-import {Draggable} from "react-beautiful-dnd"
+import SvgSelector from "../../common/Svg/SvgSelector"
 
 const TaskBacklogComponent = ({
-                                  currentProject, taskInfoHandler, task, index, getCurrentTaskFromServer,
-                                  setIsTaskInfo
+                                  currentProject, taskInfoHandler, task, getCurrentTaskFromServer,
+                                  setIsTaskInfo, marksScrumAll, provided
                               }) => {
+
+    const taskScrumId = task.task_scrum ? task.task_scrum.id.toString() : task.scrum_task_id.id.toString()
+
+    const currentTask = task.scrum_task_id ? task.scrum_task_id : task.task_scrum
 
     return (
         <>
-            <Draggable draggableId={task.task_scrum
-                ? task.task_scrum.id.toString() : task.scrum_task_id.id.toString()} index={index}
-            >
-                {provided => (
-                    <div
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        ref={provided.innerRef}
-                    >
-                        <div>
-                            <div className="task-backlog-component-container">
-                                <div className="task-backlog-component-key">
-                                    <SolutionOutlined/>
-                                    <div>{currentProject.project_key}-{task.task_scrum
-                                        ? task.task_scrum.id : task.scrum_task_id.id}</div>
-                                </div>
-
-                                <div className="task-title">{task.scrum_task_id
-                                    ? task.scrum_task_id.task_name
-                                    : task.task_scrum.task_name}</div>
-                                <div className="task-backlog-component-labels">Ready</div>
-                                <div className="task-backlog-component-settings"
-                                     onMouseDown={() => {
-                                         taskInfoHandler(task)
-                                         getCurrentTaskFromServer(task)
-                                     }} onMouseUp={() => setIsTaskInfo(true)}
-                                ><EllipsisOutlined/></div>
+            <div ref={provided.innerRef}
+                 {...provided.draggableProps}
+                 {...provided.dragHandleProps}>
+                <div className="task-backlog-component-container">
+                    <div className="task-backlog-component-key">
+                        <SolutionOutlined/>
+                        <div>{currentProject.project_key}-{currentTask.id}</div>
+                    </div>
+                    <div className="task-title">{currentTask.task_name}</div>
+                    <div className="task-backlog-component-labels">
+                        {marksScrumAll[taskScrumId] && marksScrumAll[taskScrumId].map(mark =>
+                            <div className="mark-element mark-element-backlog"
+                                 style={{backgroundColor: mark.mark_color}}
+                                 key={mark.id}>{mark.mark_text}
+                            </div>)}
+                    </div>
+                    <div className="task-priority-backlog">
+                        <div className="task-priority">
+                            <div className="priority-icon">
+                                <SvgSelector svgName={`${currentTask.priority}`}/>
                             </div>
                         </div>
                     </div>
-                )}
-
-            </Draggable>
+                    {currentTask?.executor_id?.username
+                        && <div className="supervisor-task-logo">{currentTask?.executor_id?.username[0]}</div>}
+                    <div className="task-backlog-component-settings" onMouseUp={() => setIsTaskInfo(true)}
+                         onMouseDown={() => {
+                             taskInfoHandler(task)
+                             getCurrentTaskFromServer(task)
+                         }}><EllipsisOutlined/>
+                    </div>
+                </div>
+            </div>
         </>
     )
 }

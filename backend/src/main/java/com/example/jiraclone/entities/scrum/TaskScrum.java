@@ -22,6 +22,7 @@ public class TaskScrum {
     private String task_name;
     private String create_date;
     private String task_description;
+    private String priority;
 
     @ManyToOne()
     @JoinColumn(name = "creator_id", referencedColumnName = "id")
@@ -42,4 +43,8 @@ public class TaskScrum {
     @JsonIgnore
     @OneToMany(mappedBy = "task_scrum", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<TaskSprint> taskSprints;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "task_scrum_marks", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<MarksScrum> marksScrums;
 }

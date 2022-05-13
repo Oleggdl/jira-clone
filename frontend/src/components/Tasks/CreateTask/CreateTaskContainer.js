@@ -4,19 +4,21 @@ import {useForm} from "antd/es/form/Form"
 import {AuthContext} from "../../../context/AuthContext"
 import {compose} from "redux"
 import {connect} from "react-redux"
-import {getCurrentProject, getProjects} from "../../../redux/scrum/projects-reducer"
-import {createBacklogElement} from "../../../redux/scrum/backlog-reducer"
-import {getUsersOnProject} from "../../../redux/scrum/tasks-reducer"
+import {getCurrentProject, getProjects} from "../../../redux/projects-reducer"
+import {createBacklogElement} from "../../../redux/backlog-reducer"
+import {getUsersOnProject} from "../../../redux/tasks-reducer"
+import {LanguageContext} from "../../../context/LanguageContext"
 
 const CreateTaskContainer = props => {
 
     const [form] = useForm()
 
     const {token} = useContext(AuthContext)
-
     const headers = {
         Authorization: `Bearer ${token}`
     }
+
+    const {text} = useContext(LanguageContext)
 
     const executorRef = useRef(null)
 
@@ -32,13 +34,13 @@ const CreateTaskContainer = props => {
         props.createBacklogElement({
             create_date: values.create_date,
             creator_id: null,
+            priority : 'normal',
             executor_id: null,
             task_description: values.task_description,
             task_name: values.task_name
         }, values.project, props.currentUser.id, values.executor_id, headers)
         onReset()
     }
-
 
     useEffect(() => {
         props.getProjects(props.currentUser.id, headers)
@@ -47,13 +49,12 @@ const CreateTaskContainer = props => {
     return (
         <>
             <CreateTaskComponent handleSubmit={handleSubmit} onReset={onReset} form={form} projects={props.projects}
-                                 sprints={props.sprints} currentUser={props.currentUser}
+                                 sprints={props.sprints} currentUser={props.currentUser} executorRef={executorRef}
                                  usersOnProject={props.usersOnProject} getExecutorsHandler={getExecutorsHandler}
-                                 executorRef={executorRef} />
+                                 text={text}/>
         </>
     )
 }
-
 
 const mapStateToProps = (state) => ({
     projects: state.projectsReducer.projects,

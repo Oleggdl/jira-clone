@@ -48,11 +48,11 @@
 
   .task-info-left {
     width: 70%;
-    //height: 700px;
     padding-right: 40px;
     overflow-y: auto;
 
     h2 {
+      width: 100%;
       font-size: 2.6rem;
       @include disabled-selection;
     }
@@ -67,7 +67,6 @@
       span {
         color: #ffffff;
       }
-
     }
 
     .primary-button-submit:first-child {
@@ -95,45 +94,10 @@
       }
     }
   }
-
-  .task-info-right {
-    width: 30%;
-    padding: 20px;
-    border: 1px #bebebe solid;
-    border-radius: 5px;
-
-    h3 {
-      font-size: 2.1rem;
-    }
-
-    .supervisor-logo {
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background-color: $main-color;
-      margin-right: 5px;
-    }
-
-    .supervisor-container {
-      display: flex;
-
-      span {
-        font-size: 1.4rem;
-        font-weight: bold;
-        text-transform: uppercase;
-        line-height: 1.5;
-      }
-    }
-
-    h4 {
-      margin-top: 20px;
-      font-size: 1.6rem;
-    }
-  }
 }
 
 .delete-task-button {
-  width: 100px;
+  min-width: 120px;
   height: 32px;
   margin: 7px 0 0 auto;
   border: 1px #e51414 solid;
@@ -151,7 +115,6 @@
 
 .delete-task-container {
   position: absolute;
-  height: 280px;
   width: 400px;
   top: calc(50% - 320px);
   left: calc(50% - 200px);

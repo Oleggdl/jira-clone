@@ -1,45 +1,64 @@
 import React from 'react'
 import './Backlog.scss'
-import SprintContainer from "../SprintComponent/SprintContainer"
-import BacklogElementContainer from "../BacklogElement/BacklogElementContainer"
-import Search from "antd/es/input/Search"
 import TaskInfoContainer from "../../Tasks/TaskInfo/TaskInfoContainer"
 import {DragDropContext} from "react-beautiful-dnd"
+import {NavLink} from "react-router-dom"
+import SprintContainer from "../SprintComponent/SprintContainer"
+import BacklogElementContainer from "../BacklogElement/BacklogElementContainer"
 
 const BacklogComponent = ({
-                              sprints, isTaskInfo, backlogForProject, setBacklogForProject, onDragEnd,
-                              setBacklogForProjectSprint, backlogForProjectSprint, onSearch,
+                              isTaskInfo, setBacklogForProject, onDragEnd, text,
+                              setBacklogForProjectSprint, backlogForProjectSprint, currentProject,
+                              columns, sprints, updateTaskSprints, backlogForProject
                           }) => {
+
+    const board = (
+        <div>
+            {sprints && sprints.sort((a, b) => a.id - b.id).map((sprint, index) => (
+                <SprintContainer
+                    key={sprint.sprint_name}
+                    index={index}
+                    text={text}
+                    title={sprint.sprint_name}
+                    tasks={columns[`${sprint.sprint_name},${sprint.id}`]}
+                    sprint={sprint}
+                    updateTaskSprints={updateTaskSprints}
+                    backlogForProjectSprint={backlogForProjectSprint}
+                    setBacklogForProjectSprint={setBacklogForProjectSprint}
+                />
+            ))}
+            <BacklogElementContainer
+                backlogForProject={backlogForProject}
+                setBacklogForProject={setBacklogForProject}
+                title={'Backlog'}
+                text={text}
+                tasks={columns['Backlog']}
+                updateTaskSprints={updateTaskSprints}
+                backlogForProjectSprint={backlogForProjectSprint}
+                setBacklogForProjectSprint={setBacklogForProjectSprint}
+            />
+        </div>
+    )
 
     return (
         <>
             <div className="backlog-container">
                 <div className="project-path">
-                    <span className="project-text">Projects</span>
+                    <span className="project-text"><NavLink to="/all_projects">{text("backlogComponent.projects")}</NavLink></span>
                     <span> / </span>
-                    <span className="project-text">Project name</span>
+                    <span>{currentProject?.scrum_project.project_name}</span>
                 </div>
-                <h2>Backlog</h2>
+                <h2>{text("backlogComponent.title")}</h2>
                 <div className="search-tasks-container" style={{width: "320px"}}>
-                    <Search style={{width: "300px", margin: "10px 0"}}
-                            onSearch={(value) => onSearch(value)} enterButton/>
                 </div>
-
-                <DragDropContext onDragEnd={onDragEnd}>
-                    {sprints && sprints.sort((a, b) => a.id - b.id).map((sprint, index) =>
-                        <SprintContainer sprint={sprint} index={index} key={sprint.id}
-                                         backlogForProjectSprint={backlogForProjectSprint}
-                                         setBacklogForProjectSprint={setBacklogForProjectSprint}/>)}
-
-
-                    <BacklogElementContainer backlogForProject={backlogForProject}
-                                             setBacklogForProject={setBacklogForProject}
-                    />
-
-                </DragDropContext>
+                <React.Fragment>
+                    <DragDropContext onDragEnd={onDragEnd}>
+                        <div>{board}</div>
+                    </DragDropContext>
+                </React.Fragment>
             </div>
-            {isTaskInfo && <TaskInfoContainer setBacklogForProject={setBacklogForProject}/>}
-
+            {isTaskInfo && <TaskInfoContainer setBacklogForProject={setBacklogForProject}
+                                              updateTaskSprints={updateTaskSprints}/>}
         </>
     )
 }

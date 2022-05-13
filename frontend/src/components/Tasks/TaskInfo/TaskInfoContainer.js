@@ -4,10 +4,13 @@ import {useForm} from "antd/es/form/Form"
 import {TaskContext} from "../../../context/TaskContext"
 import {compose} from "redux"
 import {connect} from "react-redux"
-import {getSprints} from "../../../redux/scrum/sprints-reducer"
+import {getSprints} from "../../../redux/sprints-reducer"
 import {AuthContext} from "../../../context/AuthContext"
-import {getCurrentTaskFromServer, updateTaskDescription, updateTaskName} from "../../../redux/scrum/tasks-reducer"
-import {deleteTask, getBacklogForProject} from "../../../redux/scrum/backlog-reducer"
+import {getCurrentTaskFromServer, updateTaskDescription, updateTaskName} from "../../../redux/tasks-reducer"
+import {deleteTask, getBacklogForProject} from "../../../redux/backlog-reducer"
+import {getMarksScrum} from "../../../redux/marksScrum-reducer"
+import {useMessage} from "../../../hooks/message.hook"
+import {LanguageContext} from "../../../context/LanguageContext"
 
 const TaskInfoContainer = (props) => {
 
@@ -16,7 +19,18 @@ const TaskInfoContainer = (props) => {
     const [isHistoryActive, setIsHistoryActive] = useState('')
     const [isTaskNameEditable, setIsTaskNameEditable] = useState(false)
     const [isDeleteTask, setIsDeleteTask] = useState(false)
+    const [errorMessage, setErrorMessage] = useState('')
 
+    const message = useMessage()
+    const {text} = useContext(LanguageContext)
+
+    useEffect(() => {
+        window.M.updateTextFields()
+    })
+
+    useEffect(() => {
+        message(errorMessage)
+    }, [message, errorMessage])
 
     const isCommentsHandler = () => {
         setIsComments(true)
@@ -37,30 +51,26 @@ const TaskInfoContainer = (props) => {
         setIsTaskInfo(false)
     }
 
-    useEffect(() => {
-        window.addEventListener("click", function (event) {
-            if (event.target === taskInfoWrapper.current) {
-                setIsTaskInfo(false)
-            }
-        })
-        return window.removeEventListener("click", function (event) {
-            if (event.target === taskInfoWrapper.current) {
-                setIsTaskInfo(false)
-            }
-        })
-    }, [])
+    const closeTaskInfoHandler = (event) => {
+        if (event.target === taskInfoWrapper.current) {
+            setIsTaskInfo(false)
+        }
+    }
 
     useEffect(() => {
-        window.addEventListener("click", function (event) {
-            if (event.target === taskDelRef.current) {
-                setIsDeleteTask(false)
-            }
-        })
-        return window.removeEventListener("click", function (event) {
-            if (event.target === taskDelRef.current) {
-                setIsDeleteTask(false)
-            }
-        })
+        window.addEventListener("click", event => closeTaskInfoHandler(event))
+        return window.removeEventListener("click", event => closeTaskInfoHandler(event))
+    }, [])
+
+    const deleteTaskWindowHandler = event => {
+        if (event.target === taskDelRef.current) {
+            setIsDeleteTask(false)
+        }
+    }
+
+    useEffect(() => {
+        window.addEventListener("click", event => deleteTaskWindowHandler(event))
+        return window.removeEventListener("click", event => deleteTaskWindowHandler(event))
     }, [])
 
     const [form] = useForm()
@@ -75,11 +85,11 @@ const TaskInfoContainer = (props) => {
     }
 
     useEffect(() => {
+        props.getMarksScrum(currentTaskScrum.id, headers)
         textAreaDescriptionFocus.current.resizableTextArea.textArea.onfocus = function () {
             setIsTextAreaFocus(true)
         }
     }, [textAreaDescriptionFocus, onReset])
-
 
     const currentTaskScrum = !!props.currentTask.scrum_task_id
         ? props.currentTask.scrum_task_id
@@ -104,20 +114,30 @@ const TaskInfoContainer = (props) => {
     }
 
     const changeTaskNameHandler = values => {
-        props.updateTaskName(currentTaskScrum.id, {task_name: values.task_name}, headers)
+        props.updateTaskName(currentTaskScrum.id, {task_name: values.task_name}, props.currentProject.scrum_project.id, headers)
     }
-
-    // useEffect(() => {
-    //     return props.setBacklogForProject(props.backlogForProject)
-    // }, [])
 
     const getBacklogForProjectHandler = () => {
         props.getBacklogForProject(props.currentProject.scrum_project.id, headers)
     }
 
     const confirmDeleteTask = () => {
-        props.deleteTask(currentTaskScrum.id, headers)
-        setIsTaskInfo(false)
+
+        const currentTask = props.currentTask.task_scrum
+            ? props.currentTask.task_scrum : props.currentTask.scrum_task_id
+
+        if (props.currentUser.username === currentTask.creator_id.username
+            || props.currentProject.user_role.id === 1) {
+            props.deleteTask(currentTaskScrum.id, props.currentUser.id, props.currentProject.scrum_project.id, headers)
+            setIsTaskInfo(false)
+            props.updateTaskSprints()
+        } else {
+            setIsTaskInfo(false)
+            props.updateTaskSprints()
+            setErrorMessage(`${text("taskInfo.errorDelTask")}`)
+            message(`${text("taskInfo.errorDelTask")}`)
+        }
+
     }
 
     return (
@@ -126,14 +146,14 @@ const TaskInfoContainer = (props) => {
                                isHistoryHandler={isHistoryHandler} handleSubmit={handleSubmit} onReset={onReset}
                                form={form} taskInfoWrapper={taskInfoWrapper} isTextAreaFocus={isTextAreaFocus}
                                textAreaDescriptionFocus={textAreaDescriptionFocus} isComments={isComments}
-                               isCommentsActive={isCommentsActive} isHistoryActive={isHistoryActive}
-                               currentTaskScrum={currentTaskScrum} currentTaskFromServer={props.currentTaskFromServer}
+                               isCommentsActive={isCommentsActive} isHistoryActive={isHistoryActive} text={text}
+                               currentTaskFromServer={props.currentTaskFromServer}
                                getCurrentTaskFromServer={getCurrentTaskFromServer} currentTask={props.currentTask}
                                isTaskNameEditable={isTaskNameEditable} setIsTaskNameEditable={setIsTaskNameEditable}
                                changeTaskNameHandler={changeTaskNameHandler} formTaskName={formTaskName}
                                getBacklogForProjectHandler={getBacklogForProjectHandler} taskDelRef={taskDelRef}
                                setIsDeleteTask={setIsDeleteTask} isDeleteTask={isDeleteTask}
-                               confirmDeleteTask={confirmDeleteTask}
+                               confirmDeleteTask={confirmDeleteTask} currentProject={props.currentProject}
             />
         </>
     )
@@ -144,12 +164,14 @@ const mapStateToProps = state => ({
     currentProject: state.projectsReducer.currentProject,
     currentTaskFromServer: state.tasksReducer.currentTaskFromServer,
     backlogForProject: state.backlogReducer.backlogForProject,
+    currentUser: state.userReducer.currentUser,
+    isTaskDeleted: state.backlogReducer.isTaskDeleted
 })
 
 export default compose(
     connect(mapStateToProps, {
         getSprints, updateTaskDescription, updateTaskName, getCurrentTaskFromServer,
-        getBacklogForProject, deleteTask
+        getBacklogForProject, deleteTask, getMarksScrum
     })
 )(TaskInfoContainer)
 
