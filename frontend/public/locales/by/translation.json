@@ -362,5 +362,16 @@
   },
   "columnComponent": {
     "count": "Колькасць задач"
+  },
+  "completeSprintComponent": {
+    "title": "Завяршыць спрынт",
+    "numberComplete": "Колькасць выкананых задач",
+    "numberNotComplete": "Колькасць нявыкананых задач",
+    "text": "Абярыце, куды трэба перамясціць усе нявыкананыя задачы",
+    "move": "Перамясціць у",
+    "btnComplete": "Завяршыць",
+    "btnCancel": "Адмена",
+    "backlog": "Бэклог",
+    "newSprint": "Новы спрынт"
   }
 }

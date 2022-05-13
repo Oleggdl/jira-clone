@@ -5,7 +5,8 @@ import {connect} from "react-redux"
 import {AuthContext} from "../../../context/AuthContext"
 import {getBacklogForProject} from "../../../redux/backlog-reducer"
 import {getTaskSprints, getTaskSprintsForSprint, unsetTaskSprints} from "../../../redux/taskSprint-reducer"
-import {getStartedSprint} from "../../../redux/sprints-reducer";
+import {getStartedSprint} from "../../../redux/sprints-reducer"
+import {getUsersOnProject} from "../../../redux/tasks-reducer"
 
 class ScrumContainer extends React.Component {
 
@@ -90,6 +91,7 @@ class ScrumContainer extends React.Component {
         if (this.state.headers !== prevState.headers || this.props.currentProject !== prevProps.currentProject) {
             this.props.getBacklogForProject(this.props.currentProject.scrum_project.id, this.state.headers)
             this.props.getTaskSprints(this.props.currentProject.scrum_project.id, this.state.headers)
+            this.props.getUsersOnProject(this.props.currentProject.scrum_project.id, this.state.headers)
         }
         if (this.props.currentSprint !== prevProps.currentSprint) {
             if (!!this.props.currentSprint) {
@@ -157,6 +159,7 @@ const mapStateToProps = (state) => ({
 
 export default compose(
     connect(mapStateToProps, {
-        getBacklogForProject, getTaskSprints, unsetTaskSprints, getTaskSprintsForSprint, getStartedSprint
+        getBacklogForProject, getTaskSprints, unsetTaskSprints, getTaskSprintsForSprint, getStartedSprint,
+        getUsersOnProject
     })
 )(ScrumContainer)

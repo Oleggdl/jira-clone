@@ -362,5 +362,16 @@
   },
   "columnComponent": {
     "count": "Количество задач"
+  },
+  "completeSprintComponent": {
+    "title": "Завершить спринт",
+    "numberComplete": "Количество выполненных задач",
+    "numberNotComplete": "Количество невыполненных задач",
+    "text": "Выберите, куда следует переместить все невыполненные задачи",
+    "move": "Переместить в",
+    "btnComplete": "Завершить",
+    "btnCancel": "Отмена",
+    "backlog": "Бэклог",
+    "newSprint": "Новый спринт"
   }
 }

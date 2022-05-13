@@ -4,8 +4,13 @@ import './Board.scss'
 import TaskInfoContainer from "../../Tasks/TaskInfo/TaskInfoContainer"
 import {NavLink} from "react-router-dom"
 import {DragDropContext} from "react-beautiful-dnd"
+import {Button} from "antd";
+import CompleteSprintContainer from "../../Backlog/SprintComponent/CompelteSprintWindow/CompleteSprintContainer";
 
-const BoardComponent = ({isTaskInfo, columns, currentSprint, currentProject, onDragEnd, columnsMap, text}) => {
+const BoardComponent = ({
+                            isTaskInfo, columns, currentSprint, currentProject, onDragEnd, columnsMap, text,
+                            setCompleteWindow, isCompleteWindow
+                        }) => {
 
     const board = (
         <div>
@@ -27,6 +32,8 @@ const BoardComponent = ({isTaskInfo, columns, currentSprint, currentProject, onD
 
     return (
         <>
+            {isCompleteWindow &&
+                <CompleteSprintContainer text={text} setCompleteWindow={setCompleteWindow} columnsMap={columnsMap}/>}
             <div className="board-container">
                 <div className="project-path">
                     <span className="project-text"><NavLink
@@ -34,9 +41,12 @@ const BoardComponent = ({isTaskInfo, columns, currentSprint, currentProject, onD
                     <span> / </span>
                     <span>{currentProject?.scrum_project.project_name}</span>
                 </div>
+                {currentProject.user_role.id === 1 && !!currentSprint? <div className="complete-board-btn-container">
+                    <Button className="complete-sprint-board-btn" type="primary"
+                            onClick={() => setCompleteWindow(true)}>{text("sprintComponent.complete")}</Button>
+                </div> : false}
                 <h2>{currentSprint ? currentSprint.sprint_name : `${text("boardComponent.boardName")}`}</h2>
-                <div className="search-tasks-container" style={{width: "320px"}}>
-                </div>
+                {/*<div className="search-tasks-container" style={{width: "320px"}}></div>*/}
                 <React.Fragment>
                     <DragDropContext onDragEnd={onDragEnd}>
                         <div>{board}</div>

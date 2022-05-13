@@ -1,5 +1,6 @@
 package com.example.jiraclone.services;
 
+import com.example.jiraclone.classes.ExecutorId;
 import com.example.jiraclone.entities.Users;
 import com.example.jiraclone.entities.scrum.ProjectScrum;
 import com.example.jiraclone.entities.scrum.TaskScrum;
@@ -58,7 +59,14 @@ public class TaskService {
         taskScrum.setCreator_id(creator);
         TaskScrum updatedTaskScrum = taskScrumRepository.save(taskScrum);
         return ResponseEntity.ok(updatedTaskScrum);
+    }
 
+    public ResponseEntity<TaskScrum> createTaskNotExecutor(Long taskId, Long creatorId) {
+        TaskScrum taskScrum = taskScrumRepository.findById(taskId).get();
+        Users creator = userRepository.findById(creatorId).get();
+        taskScrum.setCreator_id(creator);
+        TaskScrum updatedTaskScrum = taskScrumRepository.save(taskScrum);
+        return ResponseEntity.ok(updatedTaskScrum);
     }
 
     public ResponseEntity<TaskScrum> updateTask(Long id, TaskScrum taskScrumDetails) {
@@ -85,6 +93,19 @@ public class TaskService {
         TaskScrum taskScrum = taskScrumRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Task not exist with id:" + id));
         taskScrum.setPriority(taskScrumDetails.getPriority());
+        TaskScrum updateTaskScrum = taskScrumRepository.save(taskScrum);
+        return ResponseEntity.ok(updateTaskScrum);
+    }
+
+    public ResponseEntity<TaskScrum> updateTaskExecutor(Long id, ExecutorId taskScrumDetails) {
+        TaskScrum taskScrum = taskScrumRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Task not exist with id:" + id));
+        if (taskScrumDetails.getNotExecutor()) {
+            taskScrum.setExecutor_id(null);
+        } else {
+            Users executor = userRepository.findById(taskScrumDetails.getExecutorId()).get();
+            taskScrum.setExecutor_id(executor);
+        }
         TaskScrum updateTaskScrum = taskScrumRepository.save(taskScrum);
         return ResponseEntity.ok(updateTaskScrum);
     }

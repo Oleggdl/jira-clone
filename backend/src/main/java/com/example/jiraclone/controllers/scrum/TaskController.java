@@ -1,5 +1,6 @@
 package com.example.jiraclone.controllers.scrum;
 
+import com.example.jiraclone.classes.ExecutorId;
 import com.example.jiraclone.entities.scrum.TaskScrum;
 import com.example.jiraclone.repositories.UserRepository;
 import com.example.jiraclone.repositories.scrum.ColumnScrumRepository;
@@ -47,6 +48,11 @@ public class TaskController {
         return taskService.createTaskWithUsers(taskId, creatorId, executorId);
     }
 
+    @PutMapping("/tasks/not_executor/{taskId}/{creatorId}")
+    public ResponseEntity<TaskScrum> createTaskNotExecutor(@PathVariable Long taskId, @PathVariable Long creatorId) {
+        return taskService.createTaskNotExecutor(taskId, creatorId);
+    }
+
     @PutMapping("/tasks/{id}")
     public ResponseEntity<TaskScrum> updateTask(@PathVariable Long id, @RequestBody TaskScrum taskScrumDetails) {
         return taskService.updateTask(id, taskScrumDetails);
@@ -62,6 +68,12 @@ public class TaskController {
     public ResponseEntity<TaskScrum> updateTaskPriority(@PathVariable Long id,
                                                         @RequestBody TaskScrum taskScrumDetails) {
         return taskService.updateTaskPriority(id, taskScrumDetails);
+    }
+
+    @PutMapping("/tasks/executor/{id}")
+    public ResponseEntity<TaskScrum> updateTaskExecutor(@PathVariable Long id,
+                                                        @RequestBody ExecutorId taskScrumDetails) {
+        return taskService.updateTaskExecutor(id, taskScrumDetails);
     }
 
     @PutMapping("/tasks/name/{id}")

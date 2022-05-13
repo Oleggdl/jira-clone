@@ -4,7 +4,7 @@ import {Button, DatePicker, Form, Input} from "antd"
 import SprintStartWindowContainer from "./SprintStartWindow/SprintStartWindowContainer"
 import {EllipsisOutlined} from "@ant-design/icons"
 import SprintList from "./SprintListComponents"
-import moment from "moment";
+import moment from "moment"
 
 const SprintComponent = ({
                              sprint, index, taskSprints, isCreateTask, onSetIsCreateTask, onCancel, form, text,
@@ -12,7 +12,7 @@ const SprintComponent = ({
                              isSprintStartingMod, completeSprint, isSettingsSprint, isChangeSprint, setIsChangeSprint,
                              isSettingsSprintHandler, isDeleteSprint, setIsDeleteSprint, sprintDelRef,
                              setIsSettingsSprint, deleteSprintHandler, tasks, title, sprintSettingsRef, settingsBtnRef,
-                             currentProject
+                             currentProject, isCompleteWindow, setCompleteWindow
                          }) => {
 
     return (
@@ -33,14 +33,14 @@ const SprintComponent = ({
                     </div>
                     {currentProject.user_role.id === 1 ? <>
                         {sprint?.is_started
-                            ? <Button className="start-sprint-button" type="primary"
-                                      onClick={completeSprint}>{text("sprintComponent.complete")}</Button>
+                            ? false
                             : (index !== 0 || tasks?.length === 0
                                 ? <Button disabled={true}>{text("sprintComponent.start")}</Button>
                                 : <Button className="start-sprint-button" type="primary"
                                           onClick={() => setIsSprintStartingMod(true)}>
                                     {text("sprintComponent.start")}</Button>)}
-                        <div className="sprint-settings" onClick={isSettingsSprintHandler} ref={settingsBtnRef}>
+                        <div className="sprint-settings" style={{marginLeft: `${sprint?.is_started ? 'auto' : ''}`}}
+                             onClick={isSettingsSprintHandler} ref={settingsBtnRef}>
                             <EllipsisOutlined/></div>
                     </> : false}
                     {isSettingsSprint && <div className="sprint-settings-window" ref={sprintSettingsRef}>
@@ -123,7 +123,7 @@ const SprintComponent = ({
                     tasks={tasks}
                     sprint={sprint}
                 />
-                {currentProject.user_role.id === 1 ? <>
+                {currentProject.user_role.id === 1 && !sprint?.is_started ? <>
                     <input className={`task-creations-input ${isInputVisible}`} ref={taskInputRef}
                            onKeyDown={e => onKeyDown(e)} placeholder={`${text("sprintComponent.createTaskInput")}`}/>
                     {!isCreateTask &&

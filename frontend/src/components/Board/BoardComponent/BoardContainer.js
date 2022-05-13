@@ -25,15 +25,21 @@ class BoardContainer extends React.Component {
             isTaskInfo: false,
             headers: {},
             columnsMap: [],
-            errorMessage: ''
+            errorMessage: '',
+            isCompleteWindow: false
         }
         this.setIsTaskInfo = this.setIsTaskInfo.bind(this)
+        this.setCompleteWindow = this.setCompleteWindow.bind(this)
     }
 
     setIsTaskInfo(value) {
         this.setState({
             isTaskInfo: value
         })
+    }
+
+    setCompleteWindow(value) {
+        this.setState({isCompleteWindow: value})
     }
 
     componentDidMount() {
@@ -151,13 +157,16 @@ class BoardContainer extends React.Component {
 
     render() {
 
+        const {columns, currentProject, currentSprint, text} = this.props
+
         return (
             <>
                 <TaskContext.Provider value={{isTaskInfo: this.state.isTaskInfo, setIsTaskInfo: this.setIsTaskInfo}}>
-                    <BoardComponent isTaskInfo={this.state.isTaskInfo} columns={this.props.columns}
-                                    currentSprint={this.props.currentSprint} onDragEnd={this.onDragEnd}
-                                    currentProject={this.props.currentProject} columnsMap={this.state.columnsMap}
-                                    text={this.props.text}
+                    <BoardComponent isTaskInfo={this.state.isTaskInfo} columns={columns}
+                                    currentSprint={currentSprint} onDragEnd={this.onDragEnd}
+                                    currentProject={currentProject} columnsMap={this.state.columnsMap}
+                                    text={text} setCompleteWindow={this.setCompleteWindow}
+                                    isCompleteWindow={this.state.isCompleteWindow}
                     />
                 </TaskContext.Provider>
             </>

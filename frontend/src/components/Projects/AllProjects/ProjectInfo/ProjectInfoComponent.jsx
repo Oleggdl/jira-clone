@@ -32,7 +32,7 @@ const ProjectInfoComponent = ({
                         rules={[{required: true, message: `${text("projectInfo.errors.name.required")}`},
                             {max: 50, message: `${text("projectInfo.errors.name.max")}`},
                             {min: 3, message: `${text("projectInfo.errors.name.min")}`},
-                            {pattern: new RegExp(/[a-z]/gim), message: `${text("projectInfo.errors.name.pattern")}`}]}>
+                            {pattern: new RegExp(/[а-яa-zўі]/gim), message: `${text("projectInfo.errors.name.pattern")}`}]}>
                         <Input placeholder={`${text("projectInfo.placeholders.name")}`}/>
                     </Form.Item>
                     <Form.Item label={`${text("projectInfo.key")}`} name="project_key" className="project-key"

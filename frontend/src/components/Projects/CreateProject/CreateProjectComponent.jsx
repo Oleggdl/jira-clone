@@ -21,7 +21,7 @@ const CreateProjectComponent = ({form, handleSubmit, onReset, text}) => {
                         rules={[{required: true, message: `${text("createProject.errors.name.required")}`},
                             {max: 50, message: `${text("createProject.errors.name.max")}`},
                             {min: 3, message: `${text("createProject.errors.name.min")}`},
-                            {pattern: new RegExp(/[a-z]/gi), message: `${text("createProject.errors.name.pattern")}`}
+                            {pattern: new RegExp(/[а-яa-zўі]/gi), message: `${text("createProject.errors.name.pattern")}`}
                         ]}>
                         <Input placeholder={`${text("createProject.placeholders.name")}`}/>
                     </Form.Item>
@@ -29,7 +29,7 @@ const CreateProjectComponent = ({form, handleSubmit, onReset, text}) => {
                                rules={[{required: true, message: `${text("createProject.errors.key.required")}`},
                                    {max: 7, message: `${text("createProject.errors.key.max")}`},
                                    {
-                                       pattern: new RegExp(/[a-z]/gi),
+                                       pattern: new RegExp(/[а-яa-zўі]/gi),
                                        message: `${text("createProject.errors.key.pattern")}`
                                    }]}>
                         <Input placeholder={`${text("createProject.placeholders.key")}`}/>

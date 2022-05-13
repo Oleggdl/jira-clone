@@ -58,6 +58,9 @@ export const tasksAPI = {
     putTask(taskId, creatorId, executorId, headers) {
         return instance.put(`scrum/tasks/${taskId}/${creatorId}/${executorId}`, null, {headers: headers})
     },
+    putTaskNotExecutor(taskId, creatorId, headers) {
+        return instance.put(`scrum/tasks/not_executor/${taskId}/${creatorId}`, null, {headers: headers})
+    },
     updateTaskDescription(taskId, data, headers) {
         return instance.put(`scrum/tasks/description/${taskId}`, data, {headers: headers})
     },
@@ -78,6 +81,9 @@ export const tasksAPI = {
     },
     changeTaskPriority(id, data, headers) {
         return instance.put(`/scrum/tasks/priority/${id}`, data, {headers: headers})
+    },
+    changeTaskExecutor(id, data, headers) {
+        return instance.put(`/scrum/tasks/executor/${id}`, data, {headers: headers})
     }
 }
 

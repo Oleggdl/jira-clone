@@ -367,5 +367,16 @@
   },
   "columnComponent": {
     "count": "Task count"
+  },
+  "completeSprintComponent": {
+    "title": "Complete sprint",
+    "numberComplete": "Number of completed tasks",
+    "numberNotComplete": "Number of not completed tasks",
+    "text": "Choose where all not completed tasks should be moved",
+    "move": "Move to",
+    "btnComplete": "Complete",
+    "btnCancel": "Cancel",
+    "backlog": "Backlog",
+    "newSprint": "New sprint"
   }
 }

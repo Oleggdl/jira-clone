@@ -56,7 +56,7 @@ export const AuthComponent = ({
                                 {max: 30, message: `${text("authPage.signup.errors.name.max")}`},
                                 {min: 3, message: `${text("authPage.signup.errors.name.min")}`},
                                 {
-                                    pattern: new RegExp(/[a-z]/gi),
+                                    pattern: new RegExp(/[а-яa-zўі]/gi),
                                     message: `${text("authPage.signup.errors.name.pattern")}`
                                 }]}>
                             <Input placeholder={`${text("authPage.signup.placeholders.name")}`}/>

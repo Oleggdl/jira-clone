@@ -61,8 +61,13 @@ export const createBacklogElement = (data, projectId, creatorId, executorId, aut
     return async dispatch => {
         const responseCreateTask = await tasksAPI.createTask(data, authorization)
 
-        const responseTaskPut =
-            await tasksAPI.putTask(responseCreateTask.data.id, creatorId, executorId, authorization)
+        if (executorId) {
+            const responseTaskPut =
+                await tasksAPI.putTask(responseCreateTask.data.id, creatorId, executorId, authorization)
+        } else {
+            const responseNotExecutor =
+                await tasksAPI.putTaskNotExecutor(responseCreateTask.data.id, creatorId, authorization)
+        }
 
         const responsePost = await backlogAPI.createBacklogElement({}, authorization)
 

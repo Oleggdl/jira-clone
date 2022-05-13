@@ -53,7 +53,7 @@ const CreateTaskComponent = ({
                             {max: 50, message: `${text("createTaskComponent.errors.task.max")}`},
                             {min: 3, message: `${text("createTaskComponent.errors.task.min")}`},
                             {
-                                pattern: new RegExp(/[a-z]/gi),
+                                pattern: new RegExp(/[а-яa-zўі]/gi),
                                 message: `${text("createTaskComponent.errors.task.pattern")}`
                             }]}>
                         <Input placeholder={`${text("createTaskComponent.placeholders.name")}`}/>

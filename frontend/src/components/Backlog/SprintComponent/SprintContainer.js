@@ -94,7 +94,7 @@ class SprintContainer extends React.Component {
                 create_date: create_date,
                 creator_id: null,
                 executor_id: null,
-                priority : 'normal',
+                priority: 'normal',
                 task_description: null,
                 task_name: this.taskInputRef.current.value
             }, this.props.sprint.id, this.props.currentUser.id, this.props.currentProject.scrum_project.id, this.state.headers)
@@ -104,25 +104,6 @@ class SprintContainer extends React.Component {
             // this.props.unsetTaskSprints()
             // this.props.updateTaskSprints()
         }
-    }
-
-    completeSprint = () => {
-        if (this.props.sprints.length === 1) {
-            this.props.taskSprints.map(taskSprint => {
-                if (taskSprint.sprint_task_sprint.sprint_name === this.props.title) {
-                    this.props.createBacklogElementFromSprint(taskSprint.id, taskSprint.task_scrum.id,
-                        this.props.currentProject.scrum_project.id, this.state.headers)
-                }
-            })
-        } else {
-            this.props.taskSprints.map(taskSprint => {
-                if (taskSprint.sprint_task_sprint.sprint_name === this.props.title) {
-                    this.props.createTaskSprintFromSprint(taskSprint.id, taskSprint.task_scrum.id,
-                        this.props.sprints[1].id, this.props.currentProject.scrum_project.id, this.state.headers)
-                }
-            })
-        }
-        this.props.deleteSprint(this.props.sprint.id, this.props.currentProject.scrum_project.id, this.state.headers)
     }
 
     deleteSprintHandler = () => {
@@ -168,13 +149,13 @@ class SprintContainer extends React.Component {
     }
 
     handleSubmit = (data) => {
-        console.log(data)
-        this.props.startSprint({
-            sprint_name: data.sprint_name,
-            start_date: data.start_date && data.start_date._d,
-            end_date: data.end_date && data.end_date._d,
-            is_started: false
-        }, this.props.sprint.id, this.props.currentProject.scrum_project.id, this.state.headers)
+        console.log(data.start_date._d)
+        // this.props.startSprint({
+        //     sprint_name: data.sprint_name,
+        //     start_date: data.start_date && data.start_date._d,
+        //     end_date: data.end_date && data.end_date._d,
+        //     is_started: false
+        // }, this.props.sprint.id, this.props.currentProject.scrum_project.id, this.state.headers)
         this.onCancel()
     }
 
@@ -187,20 +168,19 @@ class SprintContainer extends React.Component {
     render() {
 
         const {
-            sprint, taskSprints, index, backlogForProjectSprint, text, title, tasks, form,
+            sprint, taskSprints, index, text, title, tasks, form,
             currentProject
         } = this.props
 
         const {
             isCreateTask, isInputVisible, isChangeSprint, isSprintStartingMod, isSettingsSprint,
-            isDeleteSprint
+            isDeleteSprint, isCompleteWindow
         } = this.state
 
         return (
             <>
-                <SprintComponent sprint={sprint} taskSprints={taskSprints}
+                <SprintComponent sprint={sprint} taskSprints={taskSprints} setCompleteWindow={this.setCompleteWindow}
                                  index={index} sprintSettingsRef={this.sprintSettingsRef}
-                                 backlogForProjectSprint={backlogForProjectSprint}
                                  onSetIsCreateTask={this.onSetIsCreateTask} taskInputRef={this.taskInputRef}
                                  isCreateTask={isCreateTask} onKeyDown={this.onKeyDown}
                                  isInputVisible={isInputVisible} isChangeSprint={isChangeSprint}
@@ -214,7 +194,7 @@ class SprintContainer extends React.Component {
                                  setIsDeleteSprint={this.setIsDeleteSprint} sprintDelRef={this.sprintDelRef}
                                  deleteSprintHandler={this.deleteSprintHandler}
                                  setIsChangeSprint={this.setIsChangeSprint} currentProject={currentProject}
-                                 title={title} form={form}
+                                 title={title} form={form} isCompleteWindow={isCompleteWindow}
                                  tasks={tasks} onCancel={this.onCancel}
                 />
             </>

@@ -60,7 +60,7 @@ const SprintStartWindowComponent = ({
                                 {max: 50, message: `${text("startSprintWindow.errors.max")}`},
                                 {min: 3, message: `${text("startSprintWindow.errors.min")}`},
                                 {
-                                    pattern: new RegExp(/[a-z]/gi),
+                                    pattern: new RegExp(/[а-яa-zўі]/gi),
                                     message: `${text("startSprintWindow.errors.pattern")}`
                                 }]}>
                             <Input placeholder={`${text("startSprintWindow.namePlaceholder")}`}/>

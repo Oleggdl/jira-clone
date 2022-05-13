@@ -117,8 +117,10 @@ export const createNewTaskSprint = (data, sprintId, creatorId, projectId, author
 
     return async dispatch => {
         const responseCreateTask = await tasksAPI.createTask(data, authorization)
-        const responseTaskPut =
-            await tasksAPI.putTask(responseCreateTask.data.id, creatorId, creatorId, authorization)
+
+        const responseNotExecutor =
+            await tasksAPI.putTaskNotExecutor(responseCreateTask.data.id, creatorId, authorization)
+
         const response = await taskSprintAPI.createTaskSprint({}, authorization)
         const responsePut = await taskSprintAPI.createTaskSprintPut(response.data.id,
             sprintId, responseCreateTask.data.id, authorization)

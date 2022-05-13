@@ -10,7 +10,8 @@ const TaskInformationComponent = ({
                                       currentTaskScrum, setIsAddMarks, isAddMarks, marksAddRef, currentTaskFromServer,
                                       onCancel, setActiveColor, addMarksConfirm, marksScrum, currentTask, text,
                                       active, setActive, activeColorHandler, deleteMarkHandler, form, currentProject,
-                                      currentPriority, setCurrentPriority
+                                      currentPriority, setCurrentPriority, usersOnProject, currentExecutor,
+                                      setCurrentExecutor
                                   }) => {
 
     const markColors = [
@@ -49,7 +50,7 @@ const TaskInformationComponent = ({
                 <p>{currentTask.sprint_task_sprint?.sprint_name
                     ? currentTask.sprint_task_sprint?.sprint_name : 'None'}</p>
                 <h4>{text("taskInformation.priority")}</h4>
-                {currentProject.user_role.id === 2
+                {currentProject.user_role.id !== 1
                     ? <div className="task-priority">
                         <div className="priority-icon">
                             <SvgSelector svgName={`${currentTaskScrum.priority}`}/>
@@ -71,12 +72,21 @@ const TaskInformationComponent = ({
                         </Select>
                     </div>}
                 <h4>{text("taskInformation.executor")}</h4>
-                <div className="supervisor-container">
-                    {currentTaskScrum?.executor_id?.username
-                        && <div className="supervisor-logo">{currentTaskScrum?.executor_id?.username[0]}</div>}
-                    <span>{currentTaskScrum?.executor_id?.username
-                        ? currentTaskScrum?.executor_id?.username : `${text("taskInformation.noAppointment")}`}</span>
-                </div>
+                {currentProject.user_role.id === 2 ? <div className="supervisor-container">
+                        {currentTaskScrum?.executor_id?.username
+                            && <div className="supervisor-logo">{currentTaskScrum?.executor_id?.username[0]}</div>}
+                        <span>{currentTaskScrum?.executor_id?.username
+                            ? currentTaskScrum?.executor_id?.username : `${text("taskInformation.noAppointment")}`}</span>
+                    </div>
+                    : <Select className="project-select" style={{width: '100%'}}
+                              onChange={e => setCurrentExecutor(e)} value={currentExecutor}>
+                        <Option value={null}>None</Option>
+                        {usersOnProject.map((executor, index) => {
+                            if (executor.user_role.id === 3) {
+                                return <Option key={index} value={executor.users.id}>{executor.users.username}</Option>
+                            }
+                        })}
+                    </Select>}
                 <h4>{text("taskInformation.createDate")}</h4>
                 <p>{currentTaskScrum?.create_date}</p>
             </div>
