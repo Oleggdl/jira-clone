@@ -6,8 +6,8 @@ import {connect} from "react-redux"
 import {getColumns} from "../../../redux/columns-reducer"
 import {AuthContext} from "../../../context/AuthContext"
 import {getStartedSprint} from "../../../redux/sprints-reducer"
-import {reorderColumnMap} from "../../../utils/reorderBoard";
-import {changeIndexBoardTaskSprint, setTaskSprintColumn} from "../../../redux/taskSprint-reducer"
+import {reorderColumnMap} from "../../../utils/reorderBoard"
+import {changeIndexBoardTaskSprint, changeIndexColumn, setTaskSprintColumn} from "../../../redux/taskSprint-reducer"
 import {LanguageContext} from "../../../context/LanguageContext"
 
 const BoardContainerWithText = props => {
@@ -118,7 +118,6 @@ class BoardContainer extends React.Component {
         }
 
         if (source.droppableId !== destination.droppableId) {
-            this.props.setTaskSprintColumn(draggableId, destination.droppableId.split(',')[1], this.state.headers)
 
             let prevIndex
             this.state.columnsMap[source.droppableId].map(item => {
@@ -126,9 +125,6 @@ class BoardContainer extends React.Component {
                     prevIndex = item.index
                 }
             })
-
-            this.props.changeIndexBoardTaskSprint(draggableId, destination.index,
-                this.props.currentSprint?.id, this.state.headers)
 
             this.state.columnsMap[source.droppableId].map(item => {
                 if (item.id !== parseInt(draggableId)) {
@@ -147,9 +143,11 @@ class BoardContainer extends React.Component {
                     }
                 }
             })
+            this.props.changeIndexColumn(draggableId, destination.droppableId.split(',')[1], destination.index,
+                this.props.currentSprint?.id, this.state.headers)
+
             prevIndex = 0
         }
-
         this.setState({
             columnsMap: data.boardMap
         })
@@ -181,5 +179,8 @@ const mapStateToProps = (state) => ({
 })
 
 export default compose(
-    connect(mapStateToProps, {getColumns, getStartedSprint, setTaskSprintColumn, changeIndexBoardTaskSprint})
+    connect(mapStateToProps, {
+        getColumns, getStartedSprint, setTaskSprintColumn, changeIndexBoardTaskSprint,
+        changeIndexColumn
+    })
 )(BoardContainerWithText)

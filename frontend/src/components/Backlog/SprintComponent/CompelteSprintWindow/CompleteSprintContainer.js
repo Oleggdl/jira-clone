@@ -4,7 +4,7 @@ import {compose} from "redux"
 import {connect} from "react-redux"
 import {createTaskSprintFromSprint} from "../../../../redux/taskSprint-reducer"
 import {createBacklogElementFromSprint, deleteTask} from "../../../../redux/backlog-reducer"
-import {deleteSprint, getStartedSprint} from "../../../../redux/sprints-reducer"
+import {completeDeleteSprint, unsetCurrentSprint} from "../../../../redux/sprints-reducer"
 import {AuthContext} from "../../../../context/AuthContext"
 
 class CompleteSprintContainer extends Component {
@@ -76,20 +76,23 @@ class CompleteSprintContainer extends Component {
                 }
             })
         }
-        this.props.deleteSprint(this.props.currentSprint.id, this.props.currentProject.scrum_project.id,
+
+        this.props.completeDeleteSprint(this.props.currentSprint.id, this.props.currentProject.scrum_project.id,
             this.state.headers)
+        this.props.unsetCurrentSprint()
         this.props.setCompleteWindow(false)
     }
 
     render() {
-        const {text, setCompleteWindow, columnsMap, sprints} = this.props
+        const {text, setCompleteWindow, columnsMap, sprints, currentSprint} = this.props
 
         return (
             <>
                 <CompleteSprintComponent completeSprintWrapper={this.completeSprintWrapper} text={text}
                                          setCompleteWindow={setCompleteWindow} columnsMap={columnsMap}
                                          setMoveType={this.setMoveType} moveType={this.state.moveType}
-                                         completeSprint={this.completeSprint} sprints={sprints}/>
+                                         completeSprint={this.completeSprint} sprints={sprints}
+                                         currentSprint={currentSprint}/>
             </>
         )
     }
@@ -106,7 +109,7 @@ const mapStateToProps = (state) => ({
 
 export default compose(
     connect(mapStateToProps, {
-        createBacklogElementFromSprint, createTaskSprintFromSprint, deleteTask, deleteSprint,
-        getStartedSprint
+        createBacklogElementFromSprint, createTaskSprintFromSprint, deleteTask, completeDeleteSprint,
+        unsetCurrentSprint
     })
 )(CompleteSprintContainer)

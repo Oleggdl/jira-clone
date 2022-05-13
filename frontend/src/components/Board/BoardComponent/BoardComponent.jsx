@@ -12,11 +12,21 @@ const BoardComponent = ({
                             setCompleteWindow, isCompleteWindow
                         }) => {
 
+    const sortArray = (x, y) => {
+        if (x.column_name < y.column_name) {
+            return 1
+        }
+        if (x.column_name > y.column_name) {
+            return -1
+        }
+        return 0;
+    }
+
     const board = (
         <div>
             {currentSprint
                 ? <div className="columns-container">
-                    {columns.sort((a, b) => a.id - b.id).map((column, index) =>
+                    {columns.sort(sortArray).map((column, index) =>
                         <ColumnContainer key={column.id}
                                          column={column}
                                          index={index}
@@ -41,12 +51,11 @@ const BoardComponent = ({
                     <span> / </span>
                     <span>{currentProject?.scrum_project.project_name}</span>
                 </div>
-                {currentProject.user_role.id === 1 && !!currentSprint? <div className="complete-board-btn-container">
+                {currentProject.user_role.id === 1 && !!currentSprint ? <div className="complete-board-btn-container">
                     <Button className="complete-sprint-board-btn" type="primary"
                             onClick={() => setCompleteWindow(true)}>{text("sprintComponent.complete")}</Button>
                 </div> : false}
                 <h2>{currentSprint ? currentSprint.sprint_name : `${text("boardComponent.boardName")}`}</h2>
-                {/*<div className="search-tasks-container" style={{width: "320px"}}></div>*/}
                 <React.Fragment>
                     <DragDropContext onDragEnd={onDragEnd}>
                         <div>{board}</div>

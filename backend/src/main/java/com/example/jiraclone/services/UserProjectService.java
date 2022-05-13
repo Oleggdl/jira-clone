@@ -99,9 +99,11 @@ public class UserProjectService {
         Users users = userRepository.findById(userId).get();
         ArrayList<UserScrumProject> userScrumProjectsArray = new ArrayList<>();
         for (int i = 0; i <= userScrumProject.size() - 1; i++) {
-            if (userScrumProject.get(i).getScrum_project().getProject_name().toUpperCase().contains(projectName
-                    .toUpperCase()) && userScrumProject.get(i).getUsers() == users) {
-                userScrumProjectsArray.add(userScrumProject.get(i));
+            if (userScrumProject.get(i).getScrum_project() != null) {
+                if (userScrumProject.get(i).getScrum_project().getProject_name().toUpperCase().contains(projectName
+                        .toUpperCase()) && userScrumProject.get(i).getUsers() == users) {
+                    userScrumProjectsArray.add(userScrumProject.get(i));
+                }
             }
         }
         return userScrumProjectsArray;

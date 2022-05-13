@@ -3,6 +3,7 @@ import {getTaskSprintsActionCreator} from "./taskSprint-reducer";
 
 const GET_SPRINTS = 'GET_SPRINTS'
 const SET_CURRENT_SPRINT = 'SET_CURRENT_SPRINT'
+const UNSET_CURRENT_SPRINT = 'UNSET_CURRENT_SPRINT'
 
 let initialState = {
     sprints: [],
@@ -26,6 +27,13 @@ const sprintsReducer = (state = initialState, action) => {
             }
         }
 
+        case UNSET_CURRENT_SPRINT: {
+            return {
+                ...state,
+                currentSprint: action.currentSprint
+            }
+        }
+
         default:
             return state
     }
@@ -33,6 +41,7 @@ const sprintsReducer = (state = initialState, action) => {
 
 export const getSprintsActionCreator = sprints => ({type: GET_SPRINTS, sprints})
 export const setCurrentSprintActionCreator = currentSprint => ({type: SET_CURRENT_SPRINT, currentSprint})
+export const unsetCurrentSprintActionCreator = () => ({type: UNSET_CURRENT_SPRINT})
 
 export const getSprints = (projectId, authorization) => {
 
@@ -77,6 +86,12 @@ export const getStartedSprint = (projectId, authorization) => {
     }
 }
 
+export const unsetCurrentSprint = () => {
+    return async dispatch => {
+        dispatch(unsetCurrentSprintActionCreator())
+    }
+}
+
 export const deleteSprint = (id, projectId, authorization) => {
 
     return async dispatch => {
@@ -85,6 +100,17 @@ export const deleteSprint = (id, projectId, authorization) => {
         dispatch(getSprintsActionCreator(responseGet.data))
         const responseGetTask = await taskSprintAPI.getTaskSprintForProject(projectId, authorization)
         dispatch(getTaskSprintsActionCreator(responseGetTask.data))
+    }
+}
+
+export const completeDeleteSprint = (id, projectId, authorization) => {
+
+    return async dispatch => {
+        const response = await sprintsAPI.deleteSprint(id, authorization)
+        // const responseGet = await sprintsAPI.getSprints(projectId, authorization)
+        // dispatch(getSprintsActionCreator(responseGet.data))
+        // const responseGetTask = await taskSprintAPI.getTaskSprintForProject(projectId, authorization)
+        // dispatch(getTaskSprintsActionCreator(responseGetTask.data))
     }
 }
 

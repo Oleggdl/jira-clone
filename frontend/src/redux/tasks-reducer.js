@@ -1,7 +1,7 @@
 import {backlogAPI, sprintsAPI, tasksAPI, taskSprintAPI} from "../api/api"
 import {getTaskSprintsActionCreator} from "./taskSprint-reducer"
 import {getBacklogForProjectActionCreator} from "./backlog-reducer";
-import {getSprintsActionCreator} from "./sprints-reducer";
+import {getSprintsActionCreator, setCurrentSprintActionCreator} from "./sprints-reducer";
 
 const GET_TASKS = 'GET_TASKS'
 const SET_CREATED_TASK_ID = 'SET_CREATED_TASK_ID'
@@ -85,7 +85,6 @@ export const getUsersOnProject = (projectId, authorization) => {
 export const updateTaskDescription = (taskId, data, authorization) => {
     return async dispatch => {
         const response = await tasksAPI.updateTaskDescription(taskId, data, authorization)
-        dispatch(getUsersOnProjectActionCreator(response.data))
         const responseGet = await tasksAPI.getTaskById(taskId, authorization)
         dispatch(getCurrentTaskFromServerActionCreator(responseGet.data))
     }
@@ -94,7 +93,9 @@ export const updateTaskDescription = (taskId, data, authorization) => {
 export const updateTaskName = (taskId, data, projectId, authorization) => {
     return async dispatch => {
         const response = await tasksAPI.updateTaskName(taskId, data, authorization)
-        dispatch(getUsersOnProjectActionCreator(response.data))
+        // dispatch(getUsersOnProjectActionCreator(response.data))
+        const responseProject = await backlogAPI.getBacklogForProject(projectId, authorization)
+        dispatch(getBacklogForProjectActionCreator(responseProject.data))
         const responseGet = await tasksAPI.getTaskById(taskId, authorization)
         dispatch(getCurrentTaskFromServerActionCreator(responseGet.data))
         const responseTaskSprint = await taskSprintAPI.getTaskSprintForProject(projectId, authorization)
@@ -111,6 +112,8 @@ export const updateTaskPriority = (taskId, data, projectId, authorization) => {
         dispatch(getTaskSprintsActionCreator(responseTaskSprint.data))
         const responseProject = await backlogAPI.getBacklogForProject(projectId, authorization)
         dispatch(getBacklogForProjectActionCreator(responseProject.data))
+        const responseTasks = await sprintsAPI.getStartedSprint(projectId, authorization)
+        dispatch(setCurrentSprintActionCreator(responseTasks.data[0]))
     }
 }
 
@@ -123,6 +126,8 @@ export const changeTaskExecutor = (taskId, data, projectId, authorization) => {
         dispatch(getBacklogForProjectActionCreator(responseProject.data))
         const responseTaskSprint = await taskSprintAPI.getTaskSprintForProject(projectId, authorization)
         dispatch(getTaskSprintsActionCreator(responseTaskSprint.data))
+        const responseTasks = await sprintsAPI.getStartedSprint(projectId, authorization)
+        dispatch(setCurrentSprintActionCreator(responseTasks.data[0]))
     }
 }
 

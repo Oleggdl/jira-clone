@@ -16,9 +16,9 @@ const TaskInformationComponent = ({
 
     const markColors = [
         {id: 'red', value: '#ff4e4e'},
+        {id: 'yellow', value: '#f3ff49'},
         {id: 'green', value: '#53ff4f'},
         {id: 'blue', value: '#4656ff'},
-        {id: 'yellow', value: '#f3ff49'},
         {id: 'purple', value: '#f94dff'},
         {id: 'orange', value: '#ffa44b'},
     ]

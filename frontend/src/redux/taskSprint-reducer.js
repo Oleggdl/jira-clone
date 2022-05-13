@@ -188,4 +188,14 @@ export const changeIndexBoardTaskSprint = (taskSprintId, index, sprintId, author
     }
 }
 
+export const changeIndexColumn = (taskSprintId, columnId, index, sprintId, authorization) => {
+
+    return async dispatch => {
+        const responseTaskSprint = await taskSprintAPI.startSprintColumn(taskSprintId, columnId, authorization)
+        const response = await taskSprintAPI.changeIndexBoardTaskSprint(taskSprintId, index, authorization)
+        const responseGet = await taskSprintAPI.getTaskSprints(sprintId, authorization)
+        dispatch(getTaskSprintsForSprintActionCreator(responseGet.data))
+    }
+}
+
 export default taskSprintReducer

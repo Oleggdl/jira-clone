@@ -7,7 +7,7 @@ const TaskBoardComponent = ({
                                 taskInfoHandler, taskSprint, currentProject, getCurrentTaskFromServer,
                                 setIsTaskInfo, marksScrumAll, provided
                             }) => {
-    const currentTask = taskSprint.task_scrum ? taskSprint.task_scrum : taskSprint.scrum_task_id
+    const currentTask = taskSprint?.task_scrum ? taskSprint?.task_scrum : taskSprint?.scrum_task_id
 
     return (
         <>
@@ -19,19 +19,24 @@ const TaskBoardComponent = ({
                         taskInfoHandler(taskSprint)
                         getCurrentTaskFromServer(taskSprint)
                     }}><EllipsisOutlined/></div>
-                    {/*<div className="task-title">{taskSprint?.task_scrum?.task_name}</div>*/}
-                    <div className="task-title">{taskSprint?.id} / {taskSprint?.index}</div>
+                    <div className="task-title">{taskSprint?.task_scrum?.task_name}</div>
+                    {/*<div className="task-title">{taskSprint?.id} / {taskSprint?.index}</div>*/}
                     <div className="task-board-marks">
-                        {marksScrumAll[taskSprint.task_scrum.id] && marksScrumAll[taskSprint.task_scrum.id].map(mark =>
+                        {marksScrumAll[taskSprint?.task_scrum.id] && marksScrumAll[taskSprint?.task_scrum.id].map(mark =>
                             <div key={mark.id} className="task-component-labels"
                                  style={{backgroundColor: `${mark.mark_color}`}}>{mark.mark_text}</div>)}
                     </div>
+
                     <div className="task-component-key">
-                        <SolutionOutlined/>
-                        <div className="task-component-key-item">{currentProject.project_key}-{currentTask.id}</div>
-                        <div className="task-priority" style={{marginLeft: '10px'}}>
+                        <SolutionOutlined style={{marginTop: '8px'}}/>
+                        <div className="task-component-key-item">{currentProject.project_key}-{currentTask?.id}</div>
+                        <div className="executor-logo">
+                            {currentTask?.executor_id?.username
+                                && <div className="supervisor-task-logo">{currentTask?.executor_id?.username[0]}</div>}
+                        </div>
+                        <div className="task-priority">
                             <div className="priority-icon">
-                                <SvgSelector svgName={`${currentTask.priority}`}/>
+                                <SvgSelector svgName={`${currentTask?.priority}`}/>
                             </div>
                         </div>
                     </div>

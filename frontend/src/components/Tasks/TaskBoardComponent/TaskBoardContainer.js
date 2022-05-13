@@ -32,7 +32,7 @@ class TaskBoardContainer extends React.Component {
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (this.state.headers !== prevState.headers) {
-            this.props.getMarksScrumAll(this.props.taskSprint.task_scrum.id, this.state.headers)
+            this.props.getMarksScrumAll(this.props.taskSprint?.task_scrum.id, this.state.headers)
         }
         if (this.props.usersOnProject !== prevProps.usersOnProject) {
             this.props.getStartedSprint(this.props.currentProject.scrum_project.id, this.state.headers)

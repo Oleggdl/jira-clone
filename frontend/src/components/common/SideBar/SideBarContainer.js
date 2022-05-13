@@ -22,6 +22,7 @@ const SideBarContainer = props => {
 
     const getStartedSprint = () => {
         props.getStartedSprint(props.currentProject.scrum_project.id, headers)
+        props.getSprints(props.currentProject.scrum_project.id, headers)
     }
 
     const getSprints = () => {

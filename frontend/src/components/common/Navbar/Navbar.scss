@@ -235,6 +235,10 @@ li {
 
   h3{
     margin-bottom: 15px;
+
+    span{
+      text-transform: capitalize;
+    }
   }
 
   .ant-space-item {

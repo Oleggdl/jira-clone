@@ -8,7 +8,6 @@ const ScrumComponent = ({
                             sprintsMap, updateTaskSprints, unsetTaskSprintsHandler, sprints, updateSprintsHandler,
                             columnMap, columns
                         }) => {
-    // console.log(columnMap)
     return (
         <>
             <SideBarContainer updateTaskSprints={updateTaskSprints}/>

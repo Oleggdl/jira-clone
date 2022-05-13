@@ -44,7 +44,7 @@ const TaskInformationContainer = (props) => {
     useEffect(() => {
         props.updateTaskPriority(currentTaskScrum.id, {priority: currentPriority},
             props.currentProject.scrum_project.id, headers)
-        props.getStartedSprint(props.currentProject.scrum_project.id, headers)
+        // props.getStartedSprint(props.currentProject.scrum_project.id, headers)
     }, [currentPriority])
 
     const onCancel = () => {

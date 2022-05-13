@@ -10,14 +10,14 @@ class InnerColumnList extends React.Component {
     render() {
         return this.props.tasks ? this.props.tasks.sort((a, b) => a.index - b.index).map((task, index) => (
             <Draggable
-                key={task.id}
-                draggableId={task.id.toString()}
-                index={task.index}
+                key={task?.id}
+                draggableId={task?.id.toString()}
+                index={task?.index}
                 shouldRespectForceTouch={false}
             >
                 {dragProvided => (
                     <TaskBoardContainer
-                        key={task.id}
+                        key={task?.id}
                         taskSprint={task}
                         provided={dragProvided}
                     />
