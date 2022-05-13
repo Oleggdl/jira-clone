@@ -68,7 +68,7 @@ export const NavbarComponent = ({
                         {isInviteColleague && <InviteColleagueContainer setIsInviteColleague={setIsInviteColleague}/>}
                         {isInviteColleague && <div className="invite-colleague-wrapper" ref={inviteWrapper}></div>}
                     </div>
-                    <li className="user-link"><h2>{currentUser.username}</h2></li>
+                    <li className="user-link"><h2 style={{textTransform: 'uppercase'}}>{currentUser.username}</h2></li>
                     <li className="logoutLink">
                         <button onClick={logoutHandler} className="nav-button">{text("navbar.logout")}</button>
                     </li>

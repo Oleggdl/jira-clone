@@ -62,6 +62,17 @@ export const AuthComponent = ({
                             <Input placeholder={`${text("authPage.signup.placeholders.name")}`}/>
                         </Form.Item>
                         <Form.Item
+                            label={`${text("authPage.signup.surname")}`} name="surname"
+                            rules={[{required: true, message: `${text("authPage.signup.errors.surname.required")}`},
+                                {max: 30, message: `${text("authPage.signup.errors.surname.max")}`},
+                                {min: 3, message: `${text("authPage.signup.errors.surname.min")}`},
+                                {
+                                    pattern: new RegExp(/[а-яa-zўі]/gi),
+                                    message: `${text("authPage.signup.errors.surname.pattern")}`
+                                }]}>
+                            <Input placeholder={`${text("authPage.signup.placeholders.surname")}`}/>
+                        </Form.Item>
+                        <Form.Item
                             label={`${text("authPage.signup.username")}`}
                             name="username"
                             rules={[{required: true, message: `${text("authPage.signup.errors.username.required")}`},
@@ -100,6 +111,22 @@ export const AuthComponent = ({
                                     message: `${text("authPage.signup.errors.password.pattern2")}`
                                 }]}>
                             <Password placeholder={`${text("authPage.signup.placeholders.password")}`}/>
+                        </Form.Item>
+                        <Form.Item
+                            label={`${text("authPage.signup.passwordRepeat")}`}
+                            name="passwordRepeat"
+                            rules={[{required: true, message: `${text("authPage.signup.errors.passwordRepeat.required")}`},
+                                {max: 30, message: `${text("authPage.signup.errors.passwordRepeat.max")}`},
+                                {min: 8, message: `${text("authPage.signup.errors.passwordRepeat.min")}`},
+                                {
+                                    pattern: new RegExp(/[0-9]/g),
+                                    message: `${text("authPage.signup.errors.passwordRepeat.pattern1")}`
+                                },
+                                {
+                                    pattern: new RegExp(/[a-z]/gi),
+                                    message: `${text("authPage.signup.errors.passwordRepeat.pattern2")}`
+                                }]}>
+                            <Password placeholder={`${text("authPage.signup.placeholders.passwordRepeat")}`}/>
                         </Form.Item>
                         <Form.Item className="button-container">
                             <Button style={{marginLeft: '43px'}} type="primary" htmlType="submit">

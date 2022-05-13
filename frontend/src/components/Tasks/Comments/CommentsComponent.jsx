@@ -14,7 +14,7 @@ const CommentsComponent = ({
         <>
             <div className="comments-container">
                 <div className="form-add-comments">
-                    <div className="comments-user-logo">{currentUser.username[0]}</div>
+                    <div className="comments-user-logo">{currentUser.name[0]}{currentUser.surname[0]}</div>
                     <Form name="create_comment"
                           form={form}
                           initialValues={

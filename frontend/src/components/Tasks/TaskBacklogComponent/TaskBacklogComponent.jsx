@@ -30,7 +30,7 @@ const TaskBacklogComponent = ({
                                  key={mark.id}>{mark.mark_text}
                             </div>)}
                     </div>
-                    <div className="task-priority-backlog">
+                    <div className="task-priority-backlog" style={{paddingTop: '2px'}}>
                         <div className="task-priority">
                             <div className="priority-icon">
                                 <SvgSelector svgName={`${currentTask.priority}`}/>
@@ -38,7 +38,8 @@ const TaskBacklogComponent = ({
                         </div>
                     </div>
                     {currentTask?.executor_id?.username
-                        && <div className="supervisor-task-logo">{currentTask?.executor_id?.username[0]}</div>}
+                        && <div className="supervisor-task-logo">
+                            {currentTask?.executor_id?.name[0]}{currentTask?.executor_id?.surname[0]}</div>}
                     <div className="task-backlog-component-settings" onMouseUp={() => setIsTaskInfo(true)}
                          onMouseDown={() => {
                              taskInfoHandler(task)

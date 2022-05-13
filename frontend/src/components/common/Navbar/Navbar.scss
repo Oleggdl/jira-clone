@@ -118,8 +118,10 @@ li {
 
 .recent-projects, .your-colleague {
   li {
+    padding-top: 6px!important;
+    padding-bottom: 6px!important;
     font-size: 14px;
-    line-height: 2.5;
+    line-height: 1.6!important;
   }
 }
 

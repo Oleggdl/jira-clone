@@ -3,9 +3,9 @@
 
 .invite-colleague-container {
   position: fixed;
-  width: 480px;
+  width: 520px;
   top: calc(50% - 250px);
-  left: calc(50% - 240px);
+  left: calc(50% - 260px);
   background-color: $main-background-color;
   z-index: 5;
   padding: 40px 40px 0 40px;
@@ -18,7 +18,7 @@
   }
 
   .ant-form-item-label {
-    width: 110px;
+    width: 150px;
   }
 }
 

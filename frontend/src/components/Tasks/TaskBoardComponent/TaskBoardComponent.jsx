@@ -32,7 +32,8 @@ const TaskBoardComponent = ({
                         <div className="task-component-key-item">{currentProject.project_key}-{currentTask?.id}</div>
                         <div className="executor-logo">
                             {currentTask?.executor_id?.username
-                                && <div className="supervisor-task-logo">{currentTask?.executor_id?.username[0]}</div>}
+                                && <div className="supervisor-task-logo" style={{marginTop: 0}}>
+                                    {currentTask?.executor_id?.name[0]}{currentTask?.executor_id?.surname[0]}</div>}
                         </div>
                         <div className="task-priority">
                             <div className="priority-icon">

@@ -67,18 +67,24 @@ const AuthContainer = (props) => {
 
     const registerHandler = async (values) => {
         try {
-            const data = await request('api/auth/signup', 'POST', {
-                name: values.name, email: values.email, username: values.username, password: values.password
-            })
-            message(data.message)
-            const dataLogin = await request('api/auth/signin', 'POST', {
-                name: '', email: '', username: values.username, password: values.password
-            })
-            auth.login(dataLogin.token, dataLogin.id)
-            props.getUser(dataLogin)
-            localStorage.setItem(userName, JSON.stringify({
-                userName: dataLogin
-            }))
+            if (values.passwordRepeat === values.password) {
+                const data = await request('api/auth/signup', 'POST', {
+                    name: values.name, surname: values.surname, email: values.email, username: values.username,
+                    password: values.password
+                })
+                message(data.message)
+                const dataLogin = await request('api/auth/signin', 'POST', {
+                    name: '', surname: '', email: '', username: values.username, password: values.password
+                })
+                auth.login(dataLogin.token, dataLogin.id)
+                props.getUser(dataLogin)
+                localStorage.setItem(userName, JSON.stringify({
+                    userName: dataLogin
+                }))
+            } else {
+                message(text("authPage.signup.dontMatch"))
+            }
+
         } catch (e) {
         }
         onReset()
@@ -87,7 +93,7 @@ const AuthContainer = (props) => {
     const loginHandler = async (values) => {
         try {
             const data = await request('api/auth/signin', 'POST', {
-                name: '', email: '', username: values.username, password: values.password
+                name: '', surname: '', email: '', username: values.username, password: values.password
             })
             auth.login(data.token, data.id)
             message(data.message)

@@ -28,10 +28,6 @@ const InviteColleagueContainer = props => {
         props.setIsInviteColleague(false)
     }
 
-    const setProjectHandler = (id) => {
-        props.getUsersOnProject(id, headers)
-    }
-    console.log(props.currentUser)
     const onReset = () => {
         form.resetFields()
         props.setIsInviteColleague(false)
@@ -40,8 +36,7 @@ const InviteColleagueContainer = props => {
     return (
         <>
             <InviteColleagueComponent form={form} handleSubmit={handleSubmit} onReset={onReset} text={text}
-                                      setProjectHandler={setProjectHandler} projects={props.projects}
-                                      currentProject={props.currentProject}/>
+                                      projects={props.projects}/>
         </>
     )
 }

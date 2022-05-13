@@ -4,9 +4,11 @@ import {Button, Form, Input, Select} from "antd"
 
 const {Option} = Select
 
-const InviteColleagueComponent = ({form, handleSubmit, onReset, projects, text, currentProject}) => {
+const InviteColleagueComponent = ({form, handleSubmit, onReset, projects, text}) => {
 
-    const colleagueTypes = [{id: 'product_owner', name: 'Product owner'}, {id: 'developer', name: 'Developer'}]//todo
+    const colleagueTypes = [
+        {id: 'product_owner', name: `${text("inviteCUsers.type.owner")}`},
+        {id: 'developer', name: `${text("inviteCUsers.type.developer")}`}]
 
     return (
         <>

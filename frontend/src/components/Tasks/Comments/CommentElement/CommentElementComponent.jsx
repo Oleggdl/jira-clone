@@ -13,7 +13,8 @@ const CommentElementComponent = ({
     return (
         <>
             <div className="comment-container">
-                <div className="comments-user-logo">{comment.user_id.users.username[0]}</div>
+                <div className="comments-user-logo">
+                    {comment.user_id.users.name[0]}{comment.user_id.users.surname[0]}</div>
                 <div style={{width: "100%"}}>
                     <div className="author-name">
                         <h3>{comment.user_id.users.username}</h3>

@@ -1,4 +1,4 @@
-import React, {useContext} from 'react'
+import React, {createRef, useContext} from 'react'
 import BacklogComponent from "./BacklogComponent"
 import {compose} from "redux"
 import {connect} from "react-redux"
@@ -35,12 +35,33 @@ class BacklogContainer extends React.Component {
             backlogForProjectSprint: [],
             headers: {},
             columns: this.props.initial,
-            errorMessage: ''
+            errorMessage: '',
+            isUserInfo: false,
+            currentUser: {}
         }
+        this.userInfoWrapper = createRef()
         this.setIsTaskInfo = this.setIsTaskInfo.bind(this)
         this.setBacklogForProject = this.setBacklogForProject.bind(this)
         this.setBacklogForProjectSprint = this.setBacklogForProjectSprint.bind(this)
         this.onDragEnd = this.onDragEnd.bind(this)
+        this.setIsUserInfo = this.setIsUserInfo.bind(this)
+        this.setCurrentUser = this.setCurrentUser.bind(this)
+    }
+
+    setIsUserInfo(value) {
+        this.setState({isUserInfo: value})
+    }
+
+    setCurrentUser(value) {
+        this.setState({currentUser: value})
+    }
+
+    onCloseUserInfo(e) {
+        if (this.userInfoWrapper) {
+            if (this.userInfoWrapper.current === e.target) {
+                this.setIsUserInfo(false)
+            }
+        }
     }
 
     componentDidMount() {
@@ -49,6 +70,7 @@ class BacklogContainer extends React.Component {
         if (!!this.props.taskSprints) {
             this.props.unsetTaskSprints()
         }
+        window.addEventListener('click', e => this.onCloseUserInfo(e))
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -62,6 +84,10 @@ class BacklogContainer extends React.Component {
         if (this.state.headers !== prevState.headers) {
             this.props.getStartedSprint(this.props.currentProject.scrum_project.id, this.state.headers)
         }
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('click', e => this.onCloseUserInfo(e))
     }
 
     setIsTaskInfo(value) {
@@ -135,17 +161,23 @@ class BacklogContainer extends React.Component {
 
     render() {
 
+        const {text, updateTaskSprints, backlogForProject, currentProject, usersOnProject, sprints} = this.props
+
+        const {isTaskInfo, columns, backlogForProjectSprint, isUserInfo, currentUser} = this.state
+
         return (
             <>
                 <TaskContext.Provider value={{isTaskInfo: this.state.isTaskInfo, setIsTaskInfo: this.setIsTaskInfo}}>
-                    <BacklogComponent isTaskInfo={this.state.isTaskInfo} text={this.props.text}
-                                      onDragEnd={this.onDragEnd} updateTaskSprints={this.props.updateTaskSprints}
-                                      columns={this.state.columns} sprints={this.props.sprints}
-                                      backlogForProject={this.props.backlogForProject}
-                                      currentProject={this.props.currentProject}
+                    <BacklogComponent isTaskInfo={isTaskInfo} text={text} isUserInfo={isUserInfo}
+                                      onDragEnd={this.onDragEnd} updateTaskSprints={updateTaskSprints}
+                                      columns={columns} sprints={sprints} backlogForProject={backlogForProject}
+                                      currentProject={currentProject} usersOnProject={usersOnProject}
                                       setBacklogForProject={this.setBacklogForProject}
-                                      backlogForProjectSprint={this.state.backlogForProjectSprint}
-                                      setBacklogForProjectSprint={this.setBacklogForProjectSprint}/>
+                                      setIsUserInfo={this.setIsUserInfo} userInfoWrapper={this.userInfoWrapper}
+                                      backlogForProjectSprint={backlogForProjectSprint}
+                                      setBacklogForProjectSprint={this.setBacklogForProjectSprint}
+                                      currentUser={currentUser} setCurrentUser={this.setCurrentUser}
+                    />
                 </TaskContext.Provider>
             </>
         )
@@ -157,7 +189,8 @@ const mapStateToProps = (state) => ({
     backlogForProject: state.backlogReducer.backlogForProject,
     taskSprints: state.taskSprintReducer.taskSprints,
     currentProject: state.projectsReducer.currentProject,
-    currentSprint: state.sprintsReducer.currentSprint
+    currentSprint: state.sprintsReducer.currentSprint,
+    usersOnProject: state.tasksReducer.usersOnProject
 })
 
 export default compose(

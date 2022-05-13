@@ -41,7 +41,9 @@ public class AuthService {
         return ResponseEntity.ok(new JwtResponse(jwt,
                 userDetails.getId(),
                 userDetails.getUsername(),
-                userDetails.getEmail()));
+                userDetails.getEmail(),
+                userDetails.getName(),
+                userDetails.getSurname()));
     }
 
     public ResponseEntity<?> registerUser(SignupRequest signupRequest) {
@@ -53,6 +55,8 @@ public class AuthService {
         }
         Users users = new Users(signupRequest.getUsername(),
                 signupRequest.getEmail(),
+                signupRequest.getName(),
+                signupRequest.getSurname(),
                 passwordEncoder.encode(signupRequest.getPassword()));
         userRepository.save(users);
         return ResponseEntity.ok(new MessageResponse("User CREATED"));

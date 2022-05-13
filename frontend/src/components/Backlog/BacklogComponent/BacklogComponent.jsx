@@ -5,13 +5,14 @@ import {DragDropContext} from "react-beautiful-dnd"
 import {NavLink} from "react-router-dom"
 import SprintContainer from "../SprintComponent/SprintContainer"
 import BacklogElementContainer from "../BacklogElement/BacklogElementContainer"
+import {CloseOutlined} from "@ant-design/icons";
 
 const BacklogComponent = ({
-                              isTaskInfo, setBacklogForProject, onDragEnd, text,
-                              setBacklogForProjectSprint, backlogForProjectSprint, currentProject,
-                              columns, sprints, updateTaskSprints, backlogForProject
+                              isTaskInfo, setBacklogForProject, onDragEnd, text, usersOnProject, userInfoWrapper,
+                              setBacklogForProjectSprint, backlogForProjectSprint, currentProject, currentUser,
+                              columns, sprints, updateTaskSprints, backlogForProject, isUserInfo, setIsUserInfo,
+                              setCurrentUser
                           }) => {
-
     const board = (
         <div>
             {sprints && sprints.sort((a, b) => a.id - b.id).map((sprint, index) => (
@@ -40,15 +41,36 @@ const BacklogComponent = ({
         </div>
     )
 
+    const roleType = role => {
+        switch (role) {
+            case 'DEVELOPER':
+                return `${text("backlogComponent.roles.developer")}`
+            case 'SCRUM_MASTER':
+                return `${text("backlogComponent.roles.scrum")}`
+            case 'PRODUCT_OWNER':
+                return `${text("backlogComponent.roles.owner")}`
+        }
+    }
+
     return (
         <>
             <div className="backlog-container">
                 <div className="project-path">
-                    <span className="project-text"><NavLink to="/all_projects">{text("backlogComponent.projects")}</NavLink></span>
+                    <span className="project-text"><NavLink
+                        to="/all_projects">{text("backlogComponent.projects")}</NavLink></span>
                     <span> / </span>
                     <span>{currentProject?.scrum_project.project_name}</span>
                 </div>
                 <h2>{text("backlogComponent.title")}</h2>
+                <div className="users-on-project">
+                    {usersOnProject.map(user =>
+                        <div className="user-logo" key={user.id}
+                             onClick={() => {
+                                 setIsUserInfo(true)
+                                 setCurrentUser(user)
+                             }}>{user.users.name[0]}{user.users.surname[0]}</div>
+                    )}
+                </div>
                 <div className="search-tasks-container" style={{width: "320px"}}>
                 </div>
                 <React.Fragment>
@@ -57,6 +79,22 @@ const BacklogComponent = ({
                     </DragDropContext>
                 </React.Fragment>
             </div>
+            {isUserInfo && <>
+                <div className="user-on-project-role">
+                    <button className="close-button" onClick={() => setIsUserInfo(false)}>
+                        <CloseOutlined/>
+                    </button>
+                    <div style={{display: 'flex', justifyContent: 'center', marginBottom: '20px'}}>
+                        <div className="user-logo">{currentUser.users.name[0]}{currentUser.users.surname[0]}</div>
+                        <div className="user-info-role-type">{roleType(currentUser.user_role.name)}</div>
+                    </div>
+                    <h3>{text("authPage.signup.name")}: <span>{currentUser.users.name}</span></h3>
+                    <h3>{text("authPage.signup.surname")}: <span>{currentUser.users.surname}</span></h3>
+                    <h3>{text("authPage.signup.username")}: <span>{currentUser.users.username}</span></h3>
+                    <h3>{text("authPage.signup.email")}: <span>{currentUser.users.email}</span></h3>
+                </div>
+                <div className="user-info-wrapper" ref={userInfoWrapper}></div>
+            </>}
             {isTaskInfo && <TaskInfoContainer setBacklogForProject={setBacklogForProject}
                                               updateTaskSprints={updateTaskSprints}/>}
         </>

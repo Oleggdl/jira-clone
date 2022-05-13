@@ -30,7 +30,8 @@ const TaskInformationComponent = ({
                 <h3>{text("taskInformation.title")}</h3>
                 <h4>{text("taskInformation.author")}</h4>
                 <div className="supervisor-container">
-                    <div className="supervisor-logo">{currentTaskScrum?.creator_id?.username[0]}</div>
+                    <div className="supervisor-logo">
+                        {currentTaskScrum?.creator_id?.name[0]}{currentTaskScrum?.creator_id?.surname[0]}</div>
                     <span>{currentTaskScrum?.creator_id?.username}</span>
                 </div>
                 <h4>{text("taskInformation.marks")}</h4>
@@ -74,7 +75,9 @@ const TaskInformationComponent = ({
                 <h4>{text("taskInformation.executor")}</h4>
                 {currentProject.user_role.id === 2 ? <div className="supervisor-container">
                         {currentTaskScrum?.executor_id?.username
-                            && <div className="supervisor-logo">{currentTaskScrum?.executor_id?.username[0]}</div>}
+                            && <div className="supervisor-logo">
+                                {currentTaskScrum?.executor_id?.name[0]}{currentTaskScrum?.executor_id?.surname[0]}
+                            </div>}
                         <span>{currentTaskScrum?.executor_id?.username
                             ? currentTaskScrum?.executor_id?.username : `${text("taskInformation.noAppointment")}`}</span>
                     </div>

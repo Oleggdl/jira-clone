@@ -114,6 +114,10 @@
       "email": "Enter email",
       "userType": "Select type of user"
     },
+    "type": {
+      "developer": "Developer",
+      "owner": "Product owner"
+    },
     "errors": {
       "project": {
         "required": "Please select project!"
@@ -147,17 +151,22 @@
     "signup": {
       "title": "User registration",
       "name": "Name",
+      "surname": "Surname",
       "username": "Username",
       "email": "Email",
       "password": "Password",
+      "passwordRepeat": "Repeat password",
       "loginBtn": "Log in",
+      "dontMatch": "Passwords do not match",
       "text": "Already exists an account?",
       "signUp": "Sign up",
       "placeholders": {
         "username": "Enter username",
         "name": "Enter name",
+        "surname": "Enter surname",
         "email": "Enter email",
-        "password": "Enter password"
+        "password": "Enter password",
+        "passwordRepeat": "Enter your password again"
       },
       "errors": {
         "username": {
@@ -178,8 +187,21 @@
           "min": "Name must be at least 3 characters",
           "pattern": "Name must contain letters"
         },
+        "surname": {
+          "required": "Please input surname!",
+          "max": "Surname cannot be longer than 30 characters",
+          "min": "Surname must be at least 3 characters",
+          "pattern": "Name must contain letters"
+        },
         "password": {
           "required": "Please input password!",
+          "max": "Password cannot be longer than 30 characters",
+          "min": "Password must be at least 8 characters",
+          "pattern1": "Password must contain numbers",
+          "pattern2": "Password must contain letters"
+        },
+        "passwordRepeat": {
+          "required": "Please repeat password!",
           "max": "Password cannot be longer than 30 characters",
           "min": "Password must be at least 8 characters",
           "pattern1": "Password must contain numbers",
@@ -227,7 +249,12 @@
     "title": "Backlog",
     "projects": "Projects",
     "errorDnd": "You cannot move tasks in the backlog",
-    "startSprintError": "You cannot move tasks in a running sprint"
+    "startSprintError": "You cannot move tasks in a running sprint",
+    "roles": {
+      "developer": "Developer",
+      "scrum": "Scrum master",
+      "owner": "Product owner"
+    }
   },
   "sprintComponent": {
     "start": "Start a sprint",
