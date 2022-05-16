@@ -5,7 +5,7 @@ import {DragDropContext} from "react-beautiful-dnd"
 import {NavLink} from "react-router-dom"
 import SprintContainer from "../SprintComponent/SprintContainer"
 import BacklogElementContainer from "../BacklogElement/BacklogElementContainer"
-import {CloseOutlined} from "@ant-design/icons";
+import UserOnProjectContainer from "../../common/UserOnProjectComponent/UserOnProjectContainer"
 
 const BacklogComponent = ({
                               isTaskInfo, setBacklogForProject, onDragEnd, text, usersOnProject, userInfoWrapper,
@@ -79,22 +79,9 @@ const BacklogComponent = ({
                     </DragDropContext>
                 </React.Fragment>
             </div>
-            {isUserInfo && <>
-                <div className="user-on-project-role">
-                    <button className="close-button" onClick={() => setIsUserInfo(false)}>
-                        <CloseOutlined/>
-                    </button>
-                    <div style={{display: 'flex', justifyContent: 'center', marginBottom: '20px'}}>
-                        <div className="user-logo">{currentUser.users.name[0]}{currentUser.users.surname[0]}</div>
-                        <div className="user-info-role-type">{roleType(currentUser.user_role.name)}</div>
-                    </div>
-                    <h3>{text("authPage.signup.name")}: <span>{currentUser.users.name}</span></h3>
-                    <h3>{text("authPage.signup.surname")}: <span>{currentUser.users.surname}</span></h3>
-                    <h3>{text("authPage.signup.username")}: <span>{currentUser.users.username}</span></h3>
-                    <h3>{text("authPage.signup.email")}: <span>{currentUser.users.email}</span></h3>
-                </div>
-                <div className="user-info-wrapper" ref={userInfoWrapper}></div>
-            </>}
+            {isUserInfo && <UserOnProjectContainer currentUser={currentUser} text={text} roleType={roleType}
+                                                   userInfoWrapper={userInfoWrapper} setIsUserInfo={setIsUserInfo}
+                                                   isUserInfo={isUserInfo}/>}
             {isTaskInfo && <TaskInfoContainer setBacklogForProject={setBacklogForProject}
                                               updateTaskSprints={updateTaskSprints}/>}
         </>

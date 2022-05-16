@@ -91,7 +91,7 @@ const SprintComponent = ({
                                         {max: 50, message: `${text("sprintComponent.change.errors.max")}`},
                                         {min: 3, message: `${text("sprintComponent.change.errors.min")}`},
                                         {
-                                            pattern: new RegExp(/[a-z]/gi),
+                                            pattern: new RegExp(/[а-яa-zўі]/gi),
                                             message: `${text("sprintComponent.change.errors.pattern")}`
                                         }]}>
                                     <Input placeholder={`${text("sprintComponent.change.placeholders.name")}`}/>

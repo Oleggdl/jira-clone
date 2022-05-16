@@ -149,13 +149,13 @@ class SprintContainer extends React.Component {
     }
 
     handleSubmit = (data) => {
-        console.log(data.start_date._d)
-        // this.props.startSprint({
-        //     sprint_name: data.sprint_name,
-        //     start_date: data.start_date && data.start_date._d,
-        //     end_date: data.end_date && data.end_date._d,
-        //     is_started: false
-        // }, this.props.sprint.id, this.props.currentProject.scrum_project.id, this.state.headers)
+        // console.log(data.start_date._d)
+        this.props.startSprint({
+            sprint_name: data.sprint_name,
+            start_date: data.start_date && data.start_date._d,
+            end_date: data.end_date && data.end_date._d,
+            is_started: false
+        }, this.props.sprint.id, this.props.currentProject.scrum_project.id, this.state.headers)
         this.onCancel()
     }
 

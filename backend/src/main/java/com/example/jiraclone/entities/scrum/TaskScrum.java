@@ -21,7 +21,7 @@ public class TaskScrum {
 
     private String task_name;
     private String create_date;
-    private String task_description;
+    private String task_description;//todo
     private String priority;
 
     @ManyToOne()

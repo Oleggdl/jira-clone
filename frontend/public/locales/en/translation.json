@@ -100,7 +100,7 @@
     "text2.2": " sprints, tasks, labels and remove all collaborator associations.",
     "typeText1": "Please type ",
     "typeText2": " to confirm.",
-    "button": "I understand the consequences, delete this repository"
+    "button": "I understand the consequences, delete this project"
   },
   "inviteCUsers": {
     "title": "Invite users to Jira-clone",
@@ -405,5 +405,14 @@
     "btnCancel": "Cancel",
     "backlog": "Backlog",
     "newSprint": "New sprint"
+  },
+  "userOnProject": {
+    "title": "Deleting a user",
+    "text1": "Are you sure you want to remove user ",
+    "text2": " from the project ",
+    "text3": "All links, comments, tags and so on will be removed.",
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "deleteBtn": "Remove user from project"
   }
 }

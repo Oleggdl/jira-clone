@@ -153,7 +153,6 @@ class BacklogContainer extends React.Component {
                 destination.droppableId.split(',')[1], this.props.currentProject.scrum_project.id, this.state.headers)
         }
 
-
         this.setState({
             columns: data.sprintMap
         })

@@ -49,8 +49,6 @@ const DeleteProjectContainer = props => {
             props.setIsDeleteModal(false)
             props.setIsActions(false)
         }
-
-
     }
 
     return (

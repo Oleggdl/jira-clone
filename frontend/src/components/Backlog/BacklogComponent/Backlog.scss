@@ -14,51 +14,6 @@
   justify-content: left;
 }
 
-.user-on-project-role {
-  position: fixed;
-  z-index: 10;
-  width: 400px;
-  left: calc(50% - 200px);
-  top: 25%;
-  background-color: $aside-background-color;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 20px 40px;
-  border-radius: 5px;
-  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-
-  button {
-    position: absolute;
-    right: 10px;
-    top: 10px;
-    width: 30px;
-    height: 30px;
-    padding: 5px 0 0 0;
-    transition: .3s;
-    cursor: pointer;
-    background: none;
-    border: 1px solid #ffffff;
-    border-radius: 3px;
-
-    svg {
-      width: 20px;
-      height: 20px;
-    }
-
-    &:hover {
-      background-color: #d9d9d9;
-    }
-  }
-
-  h3 {
-    font-weight: bold;
-
-    span {
-      font-weight: 500;
-    }
-  }
-}
-
 .user-info-wrapper {
   position: fixed;
   top: -64px;
@@ -88,8 +43,10 @@
   }
 }
 
-.user-info-role-type {
-  margin: 3px 0 0 5px;
-  font-size: 18px;
-  font-weight: bold;
+.delete-user-from-project {
+  margin-top: 30px;
+
+  span {
+    color: unset;
+  }
 }

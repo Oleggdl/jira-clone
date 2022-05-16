@@ -12,7 +12,7 @@ const TaskInfoComponent = ({
                                isTextAreaFocus, textAreaDescriptionFocus, isComments, currentTaskFromServer,
                                getCurrentTaskFromServer, isTaskNameEditable, setIsTaskNameEditable, isDeleteTask,
                                changeTaskNameHandler, formTaskName, getBacklogForProjectHandler, setIsDeleteTask,
-                               taskDelRef, confirmDeleteTask, currentProject
+                               taskDelRef, confirmDeleteTask, currentProject, setIsTextAreaFocus
                            }) => {
 
     return (
@@ -99,7 +99,8 @@ const TaskInfoComponent = ({
                                         onMouseUp={() => getCurrentTaskFromServer(currentTask)}>
                                     {text("taskInfo.description.submitBtn")}
                                 </Button>
-                                <Button style={{marginLeft: "15px", width: "100px"}} onClick={onReset}>
+                                <Button style={{marginLeft: "15px", width: "100px"}}
+                                        onClick={() => setIsTextAreaFocus(false)}>
                                     {text("taskInfo.description.cancelBtn")}
                                 </Button>
                             </Form.Item> : false}
