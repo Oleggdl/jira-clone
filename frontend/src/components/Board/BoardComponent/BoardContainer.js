@@ -7,7 +7,7 @@ import {getColumns} from "../../../redux/columns-reducer"
 import {AuthContext} from "../../../context/AuthContext"
 import {getStartedSprint} from "../../../redux/sprints-reducer"
 import {reorderColumnMap} from "../../../utils/reorderBoard"
-import {changeIndexBoardTaskSprint, changeIndexColumn, setTaskSprintColumn} from "../../../redux/taskSprint-reducer"
+import {changeIndexBoardTaskSprint, changeIndexColumn} from "../../../redux/taskSprint-reducer"
 import {LanguageContext} from "../../../context/LanguageContext"
 
 const BoardContainerWithText = props => {
@@ -180,7 +180,6 @@ const mapStateToProps = (state) => ({
 
 export default compose(
     connect(mapStateToProps, {
-        getColumns, getStartedSprint, setTaskSprintColumn, changeIndexBoardTaskSprint,
-        changeIndexColumn
+        getColumns, getStartedSprint, changeIndexBoardTaskSprint, changeIndexColumn
     })
 )(BoardContainerWithText)

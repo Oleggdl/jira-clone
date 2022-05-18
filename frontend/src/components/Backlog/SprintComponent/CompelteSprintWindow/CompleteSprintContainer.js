@@ -47,6 +47,7 @@ class CompleteSprintContainer extends Component {
     }
 
     completeSprint = () => {
+        // console.log(this.props.sprints)
         if (this.state.moveType === 'sprint_name') {
             Object.keys(this.props.columnsMap).map(item => {
                 if (item.split(',')[0] !== 'DONE') {
@@ -77,10 +78,11 @@ class CompleteSprintContainer extends Component {
             })
         }
 
-        this.props.completeDeleteSprint(this.props.currentSprint.id, this.props.currentProject.scrum_project.id,
-            this.state.headers)
+
         this.props.unsetCurrentSprint()
         this.props.setCompleteWindow(false)
+        this.props.completeDeleteSprint(this.props.currentSprint.id, this.props.currentProject.scrum_project.id,
+            this.state.headers)
     }
 
     render() {

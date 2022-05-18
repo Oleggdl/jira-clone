@@ -5,13 +5,13 @@ import TaskInfoContainer from "../../Tasks/TaskInfo/TaskInfoContainer"
 import {NavLink} from "react-router-dom"
 import {DragDropContext} from "react-beautiful-dnd"
 import {Button} from "antd";
-import CompleteSprintContainer from "../../Backlog/SprintComponent/CompelteSprintWindow/CompleteSprintContainer";
+import CompleteSprintContainer from "../../Backlog/SprintComponent/CompelteSprintWindow/CompleteSprintContainer"
 
 const BoardComponent = ({
                             isTaskInfo, columns, currentSprint, currentProject, onDragEnd, columnsMap, text,
                             setCompleteWindow, isCompleteWindow
                         }) => {
-
+    console.log(columnsMap)
     const sortArray = (x, y) => {
         if (x.column_name < y.column_name) {
             return 1

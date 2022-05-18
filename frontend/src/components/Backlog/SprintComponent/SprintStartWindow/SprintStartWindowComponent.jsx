@@ -1,7 +1,7 @@
 import React from 'react'
 import './SprintStartWindow.scss'
 import {Button, DatePicker, Form, Input} from "antd"
-import moment from "moment"
+import moment from "moment";
 
 const SprintStartWindowComponent = ({
                                         form, handleSubmit, onCancel, startSprintWrapper, index, sprint, taskCount,
@@ -51,7 +51,6 @@ const SprintStartWindowComponent = ({
                                   sprint_name: sprint.sprint_name || `BoardSprint ${index + 1}`,
                                   start_date: moment(currentDate, 'DD/MM/YYYY'),
                                   end_date: moment(currentDateArray.join('.'), 'DD/MM/YYYY')
-
                               }}>
                         <h4>{text("startSprintWindow.name")}</h4>
                         <Form.Item

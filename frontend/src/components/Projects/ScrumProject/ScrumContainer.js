@@ -102,11 +102,7 @@ class ScrumContainer extends React.Component {
             this.setState({
                 columnTasks: this.props.taskSprintsForSprint
             })
-        }
-        if (this.props.taskSprintsForSprint !== prevProps.taskSprintsForSprint) {
-            this.setState({
-                columnTasks: this.props.taskSprintsForSprint
-            })
+            console.log(this.props.taskSprintsForSprint)
         }
         if (this.state.columnTasks !== prevState.columnTasks
             || this.props.currentProject !== prevProps.currentProject) {
@@ -115,8 +111,7 @@ class ScrumContainer extends React.Component {
                     (previous, column) => ({
                         ...previous,
                         [`${column.column_name},${column.id}`]: this.getByColumn(column.column_name, this.state.columnTasks)
-                    }),
-                    {})
+                    }), {})
             })
         }
     }

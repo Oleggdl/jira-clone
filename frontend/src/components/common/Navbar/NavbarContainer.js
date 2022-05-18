@@ -7,7 +7,7 @@ import {connect} from "react-redux"
 import {getCurrentProject, getFavoriteProjects, getProjects, joinTheProject} from "../../../redux/projects-reducer"
 import {getUser} from "../../../redux/users-reducer"
 import {LanguageContext} from "../../../context/LanguageContext"
-import {CurrentLanguageContext} from "../../../context/CurrentLanguageContext";
+import {CurrentLanguageContext} from "../../../context/CurrentLanguageContext"
 
 const userName = 'userName'
 
@@ -42,7 +42,7 @@ const NavbarContainer = props => {
     const [searchParams, setSearchParams] = useSearchParams()
 
     useEffect(() => {
-        const data = JSON.parse(localStorage.getItem(userName))
+        const data = JSON.parse(sessionStorage.getItem(userName))
         if (data && data.userName) {
             props.getUser(data.userName)
         }

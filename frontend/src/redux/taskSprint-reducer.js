@@ -129,10 +129,13 @@ export const createNewTaskSprint = (data, sprintId, creatorId, projectId, author
     }
 }
 
-export const setTaskSprintColumn = (taskSprintId, columnId, authorization) => {
+export const setTaskSprintColumn = (taskSprintId, columnId, sprintId, index, authorization) => {
 
     return async dispatch => {
         const responseTaskSprint = await taskSprintAPI.startSprintColumn(taskSprintId, columnId, authorization)
+        const response = await taskSprintAPI.changeIndexBoardTaskSprint(taskSprintId, index, authorization)
+        const responseGet = await taskSprintAPI.getTaskSprints(sprintId, authorization)
+        dispatch(getTaskSprintsForSprintActionCreator(responseGet.data))
     }
 }
 
@@ -189,7 +192,6 @@ export const changeIndexBoardTaskSprint = (taskSprintId, index, sprintId, author
 }
 
 export const changeIndexColumn = (taskSprintId, columnId, index, sprintId, authorization) => {
-
     return async dispatch => {
         const responseTaskSprint = await taskSprintAPI.startSprintColumn(taskSprintId, columnId, authorization)
         const response = await taskSprintAPI.changeIndexBoardTaskSprint(taskSprintId, index, authorization)

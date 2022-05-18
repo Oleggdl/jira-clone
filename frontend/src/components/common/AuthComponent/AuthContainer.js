@@ -78,7 +78,7 @@ const AuthContainer = (props) => {
                 })
                 auth.login(dataLogin.token, dataLogin.id)
                 props.getUser(dataLogin)
-                localStorage.setItem(userName, JSON.stringify({
+                sessionStorage.setItem(userName, JSON.stringify({
                     userName: dataLogin
                 }))
             } else {
@@ -98,7 +98,7 @@ const AuthContainer = (props) => {
             auth.login(data.token, data.id)
             message(data.message)
             props.getUser(data)
-            localStorage.setItem(userName, JSON.stringify({
+            sessionStorage.setItem(userName, JSON.stringify({
                 userName: data
             }))
         } catch (e) {

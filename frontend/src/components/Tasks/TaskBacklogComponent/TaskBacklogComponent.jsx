@@ -22,7 +22,7 @@ const TaskBacklogComponent = ({
                         <SolutionOutlined/>
                         <div>{currentProject.project_key}-{currentTask.id}</div>
                     </div>
-                    <div className="task-title">{currentTask.task_name}</div>
+                    <div className="task-title">{currentTask.task_name} - {task.index}</div>
                     <div className="task-backlog-component-labels">
                         {marksScrumAll[taskScrumId] && marksScrumAll[taskScrumId].map(mark =>
                             <div className="mark-element mark-element-backlog"

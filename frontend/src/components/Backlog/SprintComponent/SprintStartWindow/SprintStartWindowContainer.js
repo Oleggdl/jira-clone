@@ -39,9 +39,15 @@ class SprintStartWindowContainer extends React.Component {
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (this.props.sprintColumns !== prevProps.sprintColumns) {
-            this.setColumnHandler()
-            this.onCancel()
+            let columnId = null
+            this.props.columns.map(col => col.column_name === 'TO DO' ? columnId = col.id : null)
 
+            columnId && this.props.taskSprints.filter(item =>
+                item.sprint_task_sprint.sprint_name === this.props.title).map((taskSprint, index) => {
+                this.props.setTaskSprintColumn(taskSprint.id, columnId, this.props.sprint.id, index, this.state.headers)
+            })
+
+            this.onCancel()
         }
     }
 
@@ -49,7 +55,31 @@ class SprintStartWindowContainer extends React.Component {
         window.removeEventListener("mouseup", event => this.startSprintWindowHandler(event))
     }
 
-    handleSubmit = (data) => {
+    handleSubmit = data => {
+        // const startDate = data.start_date._d.toString().match(/(.+)\s\d{2}\s\d{4}/)
+        // const endDate = data.end_date._d.toString().match(/(.+)\s\d{2}\s\d{4}/)
+        //
+        // const monthSelector = {
+        //     'Jan': '01',
+        //     'Feb': '02',
+        //     'Mar': '03',
+        //     'Apr': '04',
+        //     'May': '05',
+        //     'Jun': '06',
+        //     'Jul': '07',
+        //     'Aug': '08',
+        //     'Sep': '09',
+        //     'Oct': '10',
+        //     'Nov': '11',
+        //     'Dec': '12'
+        // }
+        //
+        // const newStartDate = `${startDate[0].split(' ')[3]}-`
+        //     + `${monthSelector[startDate[0].split(' ')[1]]}-${startDate[0].split(' ')[2]}`
+        //
+        // const newEndDate = `${endDate[0].split(' ')[3]}-`
+        //     + `${monthSelector[endDate[0].split(' ')[1]]}-${endDate[0].split(' ')[2]}`
+
         this.props.startSprint({
             sprint_name: data.sprint_name,
             start_date: data.start_date._i,
@@ -59,22 +89,6 @@ class SprintStartWindowContainer extends React.Component {
         this.props.startSprintColumns({column_name: 'TO DO'}, this.props.sprint.id, this.state.headers)
         this.props.startSprintColumns({column_name: 'IN WORK'}, this.props.sprint.id, this.state.headers)
         this.props.startSprintColumns({column_name: 'DONE'}, this.props.sprint.id, this.state.headers)
-    }
-
-    setColumnHandler = () => {
-        let columnId = null
-        this.props.columns.map(col => col.column_name === 'TO DO' ? columnId = col.id : null)
-        columnId && this.props.taskSprints.map((taskSprint, index) => {
-            if (taskSprint.sprint_task_sprint.sprint_name === this.props.title) {
-                this.props.setTaskSprintColumn(taskSprint.id, columnId, this.state.headers)
-            }
-        })
-        columnId && this.props.taskSprints.map((taskSprint, index) => {
-            if (taskSprint.sprint_task_sprint.sprint_name === this.props.title) {
-                this.props.changeIndexBoardTaskSprint(taskSprint.id, index,
-                    this.props.sprint.id, this.state.headers)
-            }
-        })
     }
 
     onCancel = () => {
@@ -88,8 +102,7 @@ class SprintStartWindowContainer extends React.Component {
                 <SprintStartWindowComponent form={this.props.form} handleSubmit={this.handleSubmit}
                                             onCancel={this.onCancel} text={this.props.text}
                                             startSprintWrapper={this.startSprintWrapper} index={this.props.index}
-                                            sprint={this.props.sprint} taskCount={this.props.taskCount}
-                                            setColumnHandler={this.setColumnHandler}/>
+                                            sprint={this.props.sprint} taskCount={this.props.taskCount}/>
             </>
         )
     }
