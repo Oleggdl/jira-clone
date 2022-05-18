@@ -56,34 +56,34 @@ class SprintStartWindowContainer extends React.Component {
     }
 
     handleSubmit = data => {
-        // const startDate = data.start_date._d.toString().match(/(.+)\s\d{2}\s\d{4}/)
-        // const endDate = data.end_date._d.toString().match(/(.+)\s\d{2}\s\d{4}/)
-        //
-        // const monthSelector = {
-        //     'Jan': '01',
-        //     'Feb': '02',
-        //     'Mar': '03',
-        //     'Apr': '04',
-        //     'May': '05',
-        //     'Jun': '06',
-        //     'Jul': '07',
-        //     'Aug': '08',
-        //     'Sep': '09',
-        //     'Oct': '10',
-        //     'Nov': '11',
-        //     'Dec': '12'
-        // }
-        //
-        // const newStartDate = `${startDate[0].split(' ')[3]}-`
-        //     + `${monthSelector[startDate[0].split(' ')[1]]}-${startDate[0].split(' ')[2]}`
-        //
-        // const newEndDate = `${endDate[0].split(' ')[3]}-`
-        //     + `${monthSelector[endDate[0].split(' ')[1]]}-${endDate[0].split(' ')[2]}`
+        const startDate = data.start_date._d.toString().match(/(.+)\s\d{2}\s\d{4}/)
+        const endDate = data.end_date._d.toString().match(/(.+)\s\d{2}\s\d{4}/)
+
+        const monthSelector = {
+            'Jan': '01',
+            'Feb': '02',
+            'Mar': '03',
+            'Apr': '04',
+            'May': '05',
+            'Jun': '06',
+            'Jul': '07',
+            'Aug': '08',
+            'Sep': '09',
+            'Oct': '10',
+            'Nov': '11',
+            'Dec': '12'
+        }
+
+        const newStartDate = `${startDate[0].split(' ')[3]}-`
+            + `${monthSelector[startDate[0].split(' ')[1]]}-${startDate[0].split(' ')[2]}`
+
+        const newEndDate = `${endDate[0].split(' ')[3]}-`
+            + `${monthSelector[endDate[0].split(' ')[1]]}-${endDate[0].split(' ')[2]}`
 
         this.props.startSprint({
-            sprint_name: data.sprint_name,
-            start_date: data.start_date._i,
-            end_date: data.end_date._i,
+            sprint_name: this.props.sprint.sprint_name || `BoardSprint ${this.props.index + 1}`,
+            start_date: newStartDate,
+            end_date: newEndDate,
             is_started: true
         }, this.props.sprint.id, this.props.currentProject.scrum_project.id, this.state.headers)
         this.props.startSprintColumns({column_name: 'TO DO'}, this.props.sprint.id, this.state.headers)

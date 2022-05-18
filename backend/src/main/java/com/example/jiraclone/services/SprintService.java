@@ -80,6 +80,16 @@ public class SprintService {
         return ResponseEntity.ok(updateSprint);
     }
 
+    public ResponseEntity<Sprint> updateSprintSettings(Long id, Sprint sprintDetails) {
+        Sprint sprint = sprintRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Sprint not exist with id:" + id));
+        sprint.setSprint_name(sprintDetails.getSprint_name());
+        sprint.setStart_date(sprintDetails.getStart_date());
+        sprint.setEnd_date(sprintDetails.getEnd_date());
+        Sprint updateSprint = sprintRepository.save(sprint);
+        return ResponseEntity.ok(updateSprint);
+    }
+
     public ResponseEntity<Map<String, Boolean>> deleteSprint(Long id) {
         Sprint sprint = sprintRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Sprint not exist with id:" + id));

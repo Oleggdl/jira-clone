@@ -11,7 +11,7 @@ const BoardComponent = ({
                             isTaskInfo, columns, currentSprint, currentProject, onDragEnd, columnsMap, text,
                             setCompleteWindow, isCompleteWindow
                         }) => {
-    console.log(columnsMap)
+
     const sortArray = (x, y) => {
         if (x.column_name < y.column_name) {
             return 1

@@ -79,10 +79,11 @@ class CompleteSprintContainer extends Component {
         }
 
 
-        this.props.unsetCurrentSprint()
         this.props.setCompleteWindow(false)
         this.props.completeDeleteSprint(this.props.currentSprint.id, this.props.currentProject.scrum_project.id,
             this.state.headers)
+        this.props.unsetCurrentSprint()
+
     }
 
     render() {

@@ -1,6 +1,6 @@
 import React from 'react'
 import './SprintStartWindow.scss'
-import {Button, DatePicker, Form, Input} from "antd"
+import {Button, DatePicker, Form} from "antd"
 import moment from "moment";
 
 const SprintStartWindowComponent = ({
@@ -48,22 +48,13 @@ const SprintStartWindowComponent = ({
                           autoComplete="off"
                           initialValues={
                               {
-                                  sprint_name: sprint.sprint_name || `BoardSprint ${index + 1}`,
-                                  start_date: moment(currentDate, 'DD/MM/YYYY'),
-                                  end_date: moment(currentDateArray.join('.'), 'DD/MM/YYYY')
+                                  start_date: sprint.start_date ?  moment(sprint.start_date, 'YYYY/MM/DD') :
+                                       moment(currentDate, 'DD/MM/YYYY'),
+                                  end_date: sprint.end_date ?  moment(sprint.end_date, 'YYYY/MM/DD') :
+                                       moment(currentDateArray.join('.'), 'DD/MM/YYYY')
                               }}>
                         <h4>{text("startSprintWindow.name")}</h4>
-                        <Form.Item
-                            name="sprint_name"
-                            rules={[{required: true, message: `${text("startSprintWindow.errors.required")}`},
-                                {max: 50, message: `${text("startSprintWindow.errors.max")}`},
-                                {min: 3, message: `${text("startSprintWindow.errors.min")}`},
-                                {
-                                    pattern: new RegExp(/[а-яa-zўі]/gi),
-                                    message: `${text("startSprintWindow.errors.pattern")}`
-                                }]}>
-                            <Input placeholder={`${text("startSprintWindow.namePlaceholder")}`}/>
-                        </Form.Item>
+                        <h3>{sprint.sprint_name || `BoardSprint ${index + 1}`}</h3>
                         <h4>{text("startSprintWindow.startDate")}</h4>
                         <Form.Item name="start_date"
                                    rules={[{required: true, message: `${text("startSprintWindow.errors.start")}`}]}>

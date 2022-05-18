@@ -102,7 +102,6 @@ class ScrumContainer extends React.Component {
             this.setState({
                 columnTasks: this.props.taskSprintsForSprint
             })
-            console.log(this.props.taskSprintsForSprint)
         }
         if (this.state.columnTasks !== prevState.columnTasks
             || this.props.currentProject !== prevProps.currentProject) {

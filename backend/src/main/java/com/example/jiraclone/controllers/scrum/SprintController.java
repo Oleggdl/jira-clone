@@ -57,6 +57,11 @@ public class SprintController {
         return sprintService.updateSprint(id, sprintDetails);
     }
 
+    @PutMapping("/sprints/settings/{id}")
+    public ResponseEntity<Sprint> updateSprintSettings(@PathVariable Long id, @RequestBody Sprint sprintDetails) {
+        return sprintService.updateSprintSettings(id, sprintDetails);
+    }
+
     @DeleteMapping("/sprints/{id}")
     public ResponseEntity<Map<String, Boolean>> deleteSprint(@PathVariable Long id) {
         return sprintService.deleteSprint(id);

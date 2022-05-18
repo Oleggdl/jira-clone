@@ -100,6 +100,9 @@ export const sprintsAPI = {
     startSprint(data, id, headers) {
         return instance.put(`scrum/sprints/${id}`, data, {headers: headers})
     },
+    updateSprint(data, id, headers) {
+        return instance.put(`scrum/sprints/settings/${id}`, data, {headers: headers})
+    },
     getStartedSprint(projectId, headers) {
         return instance.get(`scrum/sprints/startedSprint/${projectId}`, {headers: headers})
     },

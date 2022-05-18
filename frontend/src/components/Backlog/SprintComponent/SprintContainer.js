@@ -3,7 +3,7 @@ import {compose} from "redux"
 import {connect} from "react-redux"
 import {createNewTaskSprint, createTaskSprintFromSprint, unsetTaskSprints} from "../../../redux/taskSprint-reducer"
 import {AuthContext} from "../../../context/AuthContext"
-import {deleteSprint, startSprint} from "../../../redux/sprints-reducer"
+import {deleteSprint, updateSprint} from "../../../redux/sprints-reducer"
 import {createBacklogElementFromSprint} from "../../../redux/backlog-reducer"
 import './Sprint.scss'
 import SprintComponent from "./SprintComponent"
@@ -149,11 +149,34 @@ class SprintContainer extends React.Component {
     }
 
     handleSubmit = (data) => {
-        // console.log(data.start_date._d)
-        this.props.startSprint({
+        const startDate = data.start_date && data.start_date._d.toString().match(/(.+)\s\d{2}\s\d{4}/)
+        const endDate = data.end_date && data.end_date._d.toString().match(/(.+)\s\d{2}\s\d{4}/)
+
+        const monthSelector = {
+            'Jan': '01',
+            'Feb': '02',
+            'Mar': '03',
+            'Apr': '04',
+            'May': '05',
+            'Jun': '06',
+            'Jul': '07',
+            'Aug': '08',
+            'Sep': '09',
+            'Oct': '10',
+            'Nov': '11',
+            'Dec': '12'
+        }
+
+        const newEndDate = endDate && `${endDate[0].split(' ')[3]}-`
+            + `${monthSelector[endDate[0].split(' ')[1]]}-${endDate[0].split(' ')[2]}`
+
+        const newStartDate = startDate && `${startDate[0].split(' ')[3]}-`
+            + `${monthSelector[startDate[0].split(' ')[1]]}-${startDate[0].split(' ')[2]}`
+
+        this.props.updateSprint({
             sprint_name: data.sprint_name,
-            start_date: data.start_date && data.start_date._d,
-            end_date: data.end_date && data.end_date._d,
+            start_date: newStartDate,
+            end_date: newEndDate,
             is_started: false
         }, this.props.sprint.id, this.props.currentProject.scrum_project.id, this.state.headers)
         this.onCancel()
@@ -212,7 +235,7 @@ const mapStateToProps = (state) => ({
 
 export default compose(
     connect(mapStateToProps, {
-        createNewTaskSprint, unsetTaskSprints, startSprint, deleteSprint, createBacklogElementFromSprint,
+        createNewTaskSprint, unsetTaskSprints, updateSprint, deleteSprint, createBacklogElementFromSprint,
         createTaskSprintFromSprint
     })
 )(SprintWithFrom)

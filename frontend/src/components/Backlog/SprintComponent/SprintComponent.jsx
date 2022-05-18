@@ -29,7 +29,8 @@ const SprintComponent = ({
                         <div className="sprint-header-text">{sprint?.end_date}</div>
                     </>}
                     <div
-                        className="sprint-header-text">({text("sprintComponent.taskCount")}: <span>{tasks ? tasks.length : null}</span>)
+                        className="sprint-header-text">({text("sprintComponent.taskCount")}: <span>{tasks
+                        ? tasks.length : null}</span>)
                     </div>
                     {currentProject.user_role.id === 1 ? <>
                         {sprint?.is_started
@@ -78,8 +79,9 @@ const SprintComponent = ({
                                   initialValues={
                                       {
                                           sprint_name: sprint.sprint_name,
-                                          start_date: sprint.start_date && moment(sprint.start_date, 'DD/MM/YYYY'),
-                                          end_date: sprint.end_date && moment(sprint.end_date, 'DD/MM/YYYY')
+                                          start_date: sprint.start_date
+                                              && moment(sprint.start_date, 'YYYY/MM/DD'),
+                                          end_date: sprint.end_date && moment(sprint.end_date, 'YYYY/MM/DD')
                                       }}>
                                 <h4>{text("sprintComponent.change.name")}</h4>
                                 <Form.Item

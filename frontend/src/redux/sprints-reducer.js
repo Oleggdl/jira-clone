@@ -72,6 +72,17 @@ export const startSprint = (data, id, projectId, authorization) => {
     }
 }
 
+export const updateSprint = (data, id, projectId, authorization) => {
+
+    return async dispatch => {
+        const response = await sprintsAPI.updateSprint(data, id, authorization)
+        const responseGet = await sprintsAPI.getSprints(projectId, authorization)
+        dispatch(getSprintsActionCreator(responseGet.data))
+        const responseGetTask = await taskSprintAPI.getTaskSprintForProject(projectId, authorization)
+        dispatch(getTaskSprintsActionCreator(responseGetTask.data))
+    }
+}
+
 export const setCurrentSprint = (currentSprint) => {
 
     return async dispatch => {
@@ -100,6 +111,7 @@ export const deleteSprint = (id, projectId, authorization) => {
         dispatch(getSprintsActionCreator(responseGet.data))
         const responseGetTask = await taskSprintAPI.getTaskSprintForProject(projectId, authorization)
         dispatch(getTaskSprintsActionCreator(responseGetTask.data))
+        console.log('test13')
     }
 }
 
