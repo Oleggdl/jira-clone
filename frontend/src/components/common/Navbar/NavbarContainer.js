@@ -14,17 +14,26 @@ const userName = 'userName'
 const NavbarContainer = props => {
 
     const [isProjectsMenu, setIsProjectsMenu] = useState(false)
+    const [isProjectsMenuBurger, setIsProjectsMenuBurger] = useState(false)
     const [isStaffMenu, setIsStaffMenu] = useState(false)
+    const [isStaffMenuBurger, setIsStaffMenuBurger] = useState(false)
     const [isInviteColleague, setIsInviteColleague] = useState(false)
     const [isSettings, setIsSettings] = useState(false)
+    const [isBurgerWindow, setIsBurgerWindow] = useState(false)
 
     const modalStaff = useRef()
-    const modalStaffTitle = useRef()
     const buttonStaff = useRef()
+    const modalStaffBurger = useRef()
+    const buttonStaffBurger = useRef()
+
+    const burgerWindowRef = useRef()
+    const burgerBtnRef = useRef()
 
     const modalProjects = useRef()
+    const modalProjectsBurger = useRef()
     const modalProjectsTitle = useRef()
     const buttonProjects = useRef()
+    const buttonProjectsBurger = useRef()
     const inviteWrapper = useRef()
     const modalSettings = useRef()
     const buttonSettings = useRef()
@@ -55,6 +64,7 @@ const NavbarContainer = props => {
     }
 
     const showProjectsMenu = () => {
+
         if (!!isProjectsMenu) {
             setIsProjectsMenu(false)
         } else {
@@ -65,13 +75,24 @@ const NavbarContainer = props => {
         }
     }
 
+    const showProjectsMenuBurger = () => {
+
+        if (!!isProjectsMenuBurger) {
+            setIsProjectsMenuBurger(false)
+        } else {
+            if (!!props.currentUser.id) {
+                props.getProjects(props.currentUser.id, headers)
+            }
+            setIsProjectsMenuBurger(true)
+        }
+    }
+
     const getFavoriteProjectHandler = () => {
         props.getFavoriteProjects(props.currentUser.id, headers)
     }
 
     const closeModalStaff = event => {
-        if (event.target !== buttonStaff.current && event.target !== modalStaff.current
-            && event.target !== modalStaffTitle.current) {
+        if (event.target !== buttonStaff.current && event.target !== modalStaff.current) {
             setIsStaffMenu(false)
         }
     }
@@ -79,6 +100,30 @@ const NavbarContainer = props => {
     useEffect(() => {
         window.addEventListener("click", event => closeModalStaff(event))
         return window.removeEventListener("click", event => closeModalStaff(event))
+    }, [])
+
+    const closeModalStaffBurger = event => {
+        if (event.target !== buttonStaffBurger.current && event.target !== modalStaffBurger.current) {
+            setIsStaffMenuBurger(false)
+        }
+    }
+
+    useEffect(() => {
+        window.addEventListener("click", event => closeModalStaffBurger(event))
+        return window.removeEventListener("click", event => closeModalStaffBurger(event))
+    }, [])
+
+    const onCloseBurgerWindow = event => {
+        if (burgerWindowRef.current) {
+            if (!burgerWindowRef.current.contains(event.target) && !burgerBtnRef.current.contains(event.target)) {
+                setIsBurgerWindow(false)
+            }
+        }
+    }
+
+    useEffect(() => {
+        window.addEventListener("click", event => onCloseBurgerWindow(event))
+        return window.removeEventListener("click", event => onCloseBurgerWindow(event))
     }, [])
 
     const closeSettingsWindow = event => {
@@ -106,15 +151,30 @@ const NavbarContainer = props => {
     }, [])
 
     const closeModalProjects = event => {
-        if (event.target !== buttonProjects.current && event.target !== modalProjects.current
-            && event.target !== modalProjectsTitle.current) {
-            setIsProjectsMenu(false)
+        if (modalProjects.current) {
+            if (!buttonProjects.current.contains(event.target) && !modalProjects.current.contains(event.target)) {
+                setIsProjectsMenu(false)
+            }
         }
     }
 
     useEffect(() => {
         window.addEventListener("click", event => closeModalProjects(event))
         return window.removeEventListener("click", event => closeModalProjects(event))
+    }, [])
+
+    const closeModalProjectsBurger = event => {
+        if (modalProjectsBurger.current) {
+            if (!buttonProjectsBurger.current.contains(event.target)
+                && !modalProjectsBurger.current.contains(event.target)) {
+                setIsProjectsMenuBurger(false)
+            }
+        }
+    }
+
+    useEffect(() => {
+        window.addEventListener("click", event => closeModalProjectsBurger(event))
+        return window.removeEventListener("click", event => closeModalProjectsBurger(event))
     }, [])
 
     const currentProjectHandler = project => {
@@ -157,19 +217,37 @@ const NavbarContainer = props => {
 
     const {text} = useContext(LanguageContext)
 
+    const onSetIsBurgerWindow = () => {
+        isBurgerWindow ? setIsBurgerWindow(false) : setIsBurgerWindow(true)
+    }
+
+    const showStaffMenu = () => {
+        !!isStaffMenu ? setIsStaffMenu(false) : setIsStaffMenu(true)
+    }
+
+    const showStaffMenuBurger = () => {
+        !!isStaffMenuBurger ? setIsStaffMenuBurger(false) : setIsStaffMenuBurger(true)
+    }
+
     return (
         <>
             <NavbarComponent isProjectsMenu={isProjectsMenu} isStaffMenu={isStaffMenu} setIsStaffMenu={setIsStaffMenu}
-                             modalStaff={modalStaff} modalStaffTitle={modalStaffTitle} buttonStaff={buttonStaff}
+                             modalStaff={modalStaff} modalStaffBurger={modalStaffBurger}   buttonStaff={buttonStaff}
                              modalProjects={modalProjects} modalProjectsTitle={modalProjectsTitle} text={text}
                              buttonProjects={buttonProjects} logoutHandler={logoutHandler} projects={props.projects}
                              currentUser={props.currentUser} currentProjectHandler={currentProjectHandler}
                              showProjectsMenu={showProjectsMenu} favoriteProjects={props.favoriteProjects}
                              getFavoriteProjectHandler={getFavoriteProjectHandler} isInviteColleague={isInviteColleague}
-                             setIsInviteColleague={setIsInviteColleague}
+                             setIsInviteColleague={setIsInviteColleague} isBurgerWindow={isBurgerWindow}
                              inviteWrapper={inviteWrapper} getProjects={getProjects} isSettings={isSettings}
                              setSetting={setSetting} modalSettings={modalSettings} buttonSettings={buttonSettings}
                              onChangeLanguage={onChangeLanguage} currentLanguage={currentLanguage}
+                             onSetIsBurgerWindow={onSetIsBurgerWindow} burgerWindowRef={burgerWindowRef}
+                             burgerBtnRef={burgerBtnRef} showStaffMenu={showStaffMenu} buttonStaffBurger={buttonStaffBurger}
+                             buttonProjectsBurger={buttonProjectsBurger} modalProjectsBurger={modalProjectsBurger}
+                             showProjectsMenuBurger={showProjectsMenuBurger} isProjectsMenuBurger={isProjectsMenuBurger}
+                             isStaffMenuBurger={isStaffMenuBurger} setIsStaffMenuBurger={setIsStaffMenuBurger}
+                             showStaffMenuBurger={showStaffMenuBurger} setIsProjectsMenu={setIsProjectsMenu}
             />
         </>
     )

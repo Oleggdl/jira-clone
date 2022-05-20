@@ -31,14 +31,14 @@ export const AuthComponent = ({
                             <Password placeholder={`${text("authPage.login.placeholders.password")}`}/>
                         </Form.Item>
                         <Form.Item className="button-container">
-                            <Button style={{marginLeft: '43px'}} type="primary" htmlType="submit">
+                            <Button type="primary" htmlType="submit">
                                 {text("authPage.login.loginBtn")}
                             </Button>
                         </Form.Item>
                         <hr/>
                         <p>{text("authPage.login.text")}</p>
                         <Form.Item className="button-container">
-                            <Button style={{marginLeft: '43px'}} onClick={() => setIsLogin(false)}>
+                            <Button onClick={() => setIsLogin(false)}>
                                 <NavLink to="/">{text("authPage.login.signUp")}</NavLink>
                             </Button>
                         </Form.Item>
@@ -115,7 +115,10 @@ export const AuthComponent = ({
                         <Form.Item
                             label={`${text("authPage.signup.passwordRepeat")}`}
                             name="passwordRepeat"
-                            rules={[{required: true, message: `${text("authPage.signup.errors.passwordRepeat.required")}`},
+                            rules={[{
+                                required: true,
+                                message: `${text("authPage.signup.errors.passwordRepeat.required")}`
+                            },
                                 {max: 30, message: `${text("authPage.signup.errors.passwordRepeat.max")}`},
                                 {min: 8, message: `${text("authPage.signup.errors.passwordRepeat.min")}`},
                                 {

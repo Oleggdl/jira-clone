@@ -1,6 +1,17 @@
 @import './src/styles/variables';
 @import './src/styles/mixins';
 
+.navbar-container {
+  display: flex;
+  position: relative;
+  height: 64px;
+  padding: 0 2rem;
+  color: $font-color;
+  background-color: $header-background-color;
+  z-index: 2;
+  box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.1);
+}
+
 a {
   text-decoration: none;
   color: $font-color;
@@ -14,7 +25,6 @@ li {
   display: flex;
   margin: 0;
   max-width: 100%;
-  padding-left: 30px;
 
   li {
     font-size: 1.6rem;
@@ -24,14 +34,7 @@ li {
 }
 
 .projects-wrapper {
-  position: relative;
-  height: 64px;
-  padding: 0 2rem;
-  color: $font-color;
-  background-color: $header-background-color;
-  display: flex;
-  z-index: 2;
-  box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.1);
+
 }
 
 .nav-button {
@@ -118,10 +121,10 @@ li {
 
 .recent-projects, .your-colleague {
   li {
-    padding-top: 6px!important;
-    padding-bottom: 6px!important;
+    padding-top: 6px !important;
+    padding-bottom: 6px !important;
     font-size: 14px;
-    line-height: 1.6!important;
+    line-height: 1.6 !important;
   }
 }
 
@@ -135,6 +138,7 @@ li {
     margin: unset;
     color: $main-color !important;
     font-size: 2.8rem;
+    padding-right: 30px;
     @include disabled-selection;
   }
 
@@ -162,11 +166,12 @@ li {
 
 .user-link {
   position: absolute;
-  right: 170px;
+  right: 80px;
 
   h2 {
-    line-height: 3.2;
-    font-size: 2rem;
+    margin: 0;
+    line-height: 4;
+    font-size: 1.6rem;
     font-weight: bold;
   }
 }
@@ -188,14 +193,6 @@ li {
   }
 }
 
-.logoutLink {
-  position: absolute;
-  right: 60px;
-
-  button {
-    padding: 0 25px;
-  }
-}
 
 .invite-button {
   width: 100%;
@@ -228,17 +225,16 @@ li {
   top: 64px;
   right: 0;
   width: 250px;
-  height: 200px;
-  padding: 30px;
+  padding: 30px 30px 20px 30px;
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
   background-color: #ffffff;
 
   @include disabled-selection;
 
-  h3{
+  h3 {
     margin-bottom: 15px;
 
-    span{
+    span {
       text-transform: capitalize;
     }
   }
@@ -247,5 +243,51 @@ li {
     span {
       font-size: 16px;
     }
+  }
+
+  .logoutLink {
+
+    button {
+      width: 100%;
+      text-align: left;
+      font-size: 1.8rem;
+      line-height: 1;
+    }
+  }
+}
+
+.burger-icon {
+  width: 64px;
+  height: 64px;
+  transition: .3s;
+  display: none;
+  cursor: pointer;
+  line-height: unset !important;
+
+  @include disabled-selection;
+
+  span {
+    margin: 17px 0 0 17px;
+
+    svg {
+      width: 30px;
+      height: 30px;
+    }
+  }
+
+  &:hover {
+    background-color: $links-hover-color;
+  }
+}
+
+
+@media only screen and (max-width: 900px) {
+
+  .projects-wrapper {
+    display: none;
+  }
+
+  .burger-icon {
+    display: block;
   }
 }

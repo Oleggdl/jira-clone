@@ -1,11 +1,11 @@
 package com.example.jiraclone.entities;
 
-import com.example.jiraclone.entities.scrum.UserScrumProject;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
+        import com.example.jiraclone.entities.scrum.UserScrumProject;
+        import com.fasterxml.jackson.annotation.JsonIgnore;
+        import lombok.Data;
 
-import javax.persistence.*;
-import java.util.Set;
+        import javax.persistence.*;
+        import java.util.Set;
 
 @Data
 @Entity

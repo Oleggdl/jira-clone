@@ -7,7 +7,7 @@ import {AuthContext} from "../../../context/AuthContext"
 import {getTaskSprintForColumn, unsetTaskSprintsForColumn} from "../../../redux/taskSprint-reducer"
 import {LanguageContext} from "../../../context/LanguageContext"
 
-const columnContainerWithText = props => {
+const ColumnContainerWithText = props => {
     const {text} = useContext(LanguageContext)
     return <ColumnContainer {...props} text={text}/>
 }
@@ -95,4 +95,4 @@ const mapStateToProps = (state) => ({
 
 export default compose(
     connect(mapStateToProps, {deleteColumnScrum, getTaskSprintForColumn, unsetTaskSprintsForColumn})
-)(columnContainerWithText)
+)(ColumnContainerWithText)

@@ -106,6 +106,7 @@ export const getBacklogForProject = (projectId, authorization) => {
 export const deleteTask = (taskId, userId, projectId, authorization) => {
 
     return async dispatch => {
+        console.log('test del')
         const responseDel = await tasksAPI.deleteTask(taskId, userId, projectId, authorization)
         dispatch(isTaskDeletedActionCreator(responseDel.data['deleted']))
         const response = await backlogAPI.getBacklogElements(authorization)
