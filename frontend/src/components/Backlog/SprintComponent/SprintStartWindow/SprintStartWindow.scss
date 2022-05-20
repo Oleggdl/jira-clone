@@ -1,7 +1,7 @@
 @import 'src/styles/variables';
 @import 'src/styles/mixins';
 
-.sprint-launch-container{
+.sprint-launch-container {
   position: fixed;
   width: 500px;
   height: 500px;
@@ -19,7 +19,7 @@
   }
 
   .primary-button-submit {
-    span{
+    span {
       color: #ffffff;
     }
   }
@@ -39,4 +39,12 @@
   height: calc(100% + 64px);
   background-color: rgb(0, 0, 0, 0.5);
   z-index: 2;
+}
+
+@media only screen and (max-width: 520px) {
+
+  .sprint-launch-container {
+    width: 100%;
+    left: 0;
+  }
 }

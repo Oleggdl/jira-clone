@@ -21,7 +21,10 @@ const CreateProjectComponent = ({form, handleSubmit, onReset, text}) => {
                         rules={[{required: true, message: `${text("createProject.errors.name.required")}`},
                             {max: 50, message: `${text("createProject.errors.name.max")}`},
                             {min: 3, message: `${text("createProject.errors.name.min")}`},
-                            {pattern: new RegExp(/[а-яa-zўі]/gi), message: `${text("createProject.errors.name.pattern")}`}
+                            {
+                                pattern: new RegExp(/[а-яa-zўі]/gi),
+                                message: `${text("createProject.errors.name.pattern")}`
+                            }
                         ]}>
                         <Input placeholder={`${text("createProject.placeholders.name")}`}/>
                     </Form.Item>
@@ -48,7 +51,7 @@ const CreateProjectComponent = ({form, handleSubmit, onReset, text}) => {
                         rules={[{required: false}]}>
                         <Checkbox/>
                     </Form.Item>
-                    <Form.Item wrapperCol={{offset: 7}}>
+                    <Form.Item className="create-project-btn">
                         <Button type="primary" htmlType="submit" style={{width: "100px"}}>
                             {text("createProject.createBtn")}
                         </Button>

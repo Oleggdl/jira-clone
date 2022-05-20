@@ -2,9 +2,8 @@
 
 .backlog-container {
   position: relative;
-  left: 300px;
-  padding: 40px;
-  width: calc(100% - 300px);
+  padding: 40px 40px 40px 20px;
+  width: 100%;
   overflow-y: auto;
   height: calc(100vh - 64px);
 }
@@ -48,5 +47,12 @@
 
   span {
     color: unset;
+  }
+}
+
+@media only screen and (max-width: 550px) {
+
+  .backlog-container {
+    padding: 70px 2px 30px 2px;
   }
 }

@@ -90,3 +90,14 @@
   color: #ffffff;
 
 }
+
+@media only screen and (max-width: 400px) {
+
+  .task-backlog-component-labels {
+    display: block;
+  }
+
+  .mark-element-backlog {
+    display: none;
+  }
+}

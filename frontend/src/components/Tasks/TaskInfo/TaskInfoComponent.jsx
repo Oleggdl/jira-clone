@@ -19,6 +19,7 @@ const TaskInfoComponent = ({
         <>
             <div className="task-info-wrapper" ref={taskInfoWrapper}>
                 <div className="task-info-container">
+                    <div className="task-info-block"><TaskInformationContainer/></div>
                     <div className="task-info-left">
                         <button className="close-button" onClick={taskInfoCloseHandler}><CloseOutlined/></button>
                         <div style={{display: "flex"}}>
@@ -110,7 +111,7 @@ const TaskInfoComponent = ({
                             {isComments ? <CommentsContainer currentTask={currentTask}/> : <HistoryContainer/>}
                         </div>
                     </div>
-                    <TaskInformationContainer/>
+                    <div className="task-info-flex"><TaskInformationContainer/></div>
                 </div>
             </div>
         </>

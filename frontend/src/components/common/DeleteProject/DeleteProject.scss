@@ -14,7 +14,7 @@
 
   @include disabled-selection;
 
-  span{
+  span {
     font-weight: bold;
   }
 
@@ -53,4 +53,15 @@
   }
 }
 
+@media only screen and (max-width: 530px) {
+
+  .delete-project-container {
+    width: 100%;
+    left: 0 !important;
+
+    .confirm-delete {
+      height: unset !important;
+    }
+  }
+}
 

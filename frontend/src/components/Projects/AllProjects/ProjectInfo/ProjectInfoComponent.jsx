@@ -15,10 +15,10 @@ const ProjectInfoComponent = ({
                 <Form name="create_task"
                       initialValues={
                           {
-                              project_name: projectData.project_name,
-                              project_key: projectData.project_key,
-                              project_description: projectData.project_description,
-                              is_favorite: projectData.is_favorite,
+                              project_name: projectData && projectData.project_name,
+                              project_key: projectData && projectData.project_key,
+                              project_description: projectData && projectData.project_description,
+                              is_favorite: projectData && projectData.is_favorite,
 
                           }}
                       form={form}
@@ -32,7 +32,10 @@ const ProjectInfoComponent = ({
                         rules={[{required: true, message: `${text("projectInfo.errors.name.required")}`},
                             {max: 50, message: `${text("projectInfo.errors.name.max")}`},
                             {min: 3, message: `${text("projectInfo.errors.name.min")}`},
-                            {pattern: new RegExp(/[а-яa-zўі]/gim), message: `${text("projectInfo.errors.name.pattern")}`}]}>
+                            {
+                                pattern: new RegExp(/[а-яa-zўі]/gim),
+                                message: `${text("projectInfo.errors.name.pattern")}`
+                            }]}>
                         <Input placeholder={`${text("projectInfo.placeholders.name")}`}/>
                     </Form.Item>
                     <Form.Item label={`${text("projectInfo.key")}`} name="project_key" className="project-key"
@@ -52,7 +55,7 @@ const ProjectInfoComponent = ({
                         rules={[{required: false}]}>
                         <Typography.Paragraph level={5} style={{margin: 0}}>
                             <span className="supervisor-name">
-                            {projectDataAll.scrum_project.supervisor.username}</span>
+                            {projectDataAll.scrum_project && projectDataAll.scrum_project.supervisor.username}</span>
                         </Typography.Paragraph>
                     </Form.Item>
 
@@ -63,7 +66,7 @@ const ProjectInfoComponent = ({
                         rules={[{required: false}]}>
                         <Checkbox/>
                     </Form.Item>
-                    <Form.Item wrapperCol={{offset: 7}} style={{marginBottom: "40px"}}>
+                    <Form.Item className="project-info-btn" style={{marginBottom: "40px"}}>
                         <Button type="primary" htmlType="submit" style={{width: "100px"}}>
                             {text("projectInfo.createBtn")}
                         </Button>

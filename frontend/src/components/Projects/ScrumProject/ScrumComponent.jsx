@@ -10,14 +10,16 @@ const ScrumComponent = ({
                         }) => {
     return (
         <>
-            <SideBarContainer updateTaskSprints={updateTaskSprints}/>
-            <Routes>
-                <Route path='board' element={<BoardContainer columnMap={columnMap} columns={columns}/>}/>
-                <Route path='backlog' element={<BacklogContainer initial={sprintsMap} sprints={sprints}
-                                                                 updateTaskSprints={updateTaskSprints}
-                                                                 unsetTaskSprintsHandler={unsetTaskSprintsHandler}
-                                                                 updateSprintsHandler={updateSprintsHandler}/>}/>
-            </Routes>
+            <div style={{display: 'flex'}}>
+                <SideBarContainer updateTaskSprints={updateTaskSprints}/>
+                <Routes>
+                    <Route path='board' element={<BoardContainer columnMap={columnMap} columns={columns}/>}/>
+                    <Route path='backlog' element={<BacklogContainer initial={sprintsMap} sprints={sprints}
+                                                                     updateTaskSprints={updateTaskSprints}
+                                                                     unsetTaskSprintsHandler={unsetTaskSprintsHandler}
+                                                                     updateSprintsHandler={updateSprintsHandler}/>}/>
+                </Routes>
+            </div>
         </>
     )
 }

@@ -11,7 +11,7 @@ const BacklogElementComponent = ({
             <div className="sprint-container">
                 <div className="sprint-container-header">
                     <h4>{text("backlogElement.title")}</h4>
-                    <div className="sprint-header-text">({text("backlogElement.text")}: <span>{tasks?.length}</span>)
+                    <div className="sprint-header-text backlog-task-count">({text("backlogElement.text")}: <span>{tasks?.length}</span>)
                     </div>
                     {currentProject.user_role.id === 1
                         ? <button className="create-sprint-button"

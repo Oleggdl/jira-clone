@@ -1,4 +1,4 @@
-import React, {useContext} from 'react'
+import React, {useContext, useState} from 'react'
 import SideBarComponent from "./SideBarComponent"
 import {compose} from "redux"
 import {connect} from "react-redux"
@@ -11,6 +11,8 @@ const SideBarContainer = props => {
 
     const {token} = useContext(AuthContext)
     const {text} = useContext(LanguageContext)
+
+    const [isSidebar, setIsSidebar] = useState(false)
 
     const headers = {
         Authorization: `Bearer ${token}`
@@ -33,7 +35,9 @@ const SideBarContainer = props => {
         <>
             <SideBarComponent currentProject={props.currentProject.scrum_project} getSprints={getSprints}
                               getBacklogElements={getBacklogElements} getStartedSprint={getStartedSprint}
-                              updateTaskSprints={props.updateTaskSprints} text={text}/>
+                              updateTaskSprints={props.updateTaskSprints} text={text} isSidebar={isSidebar}
+                              setIsSidebar={setIsSidebar}
+            />
         </>
     )
 }

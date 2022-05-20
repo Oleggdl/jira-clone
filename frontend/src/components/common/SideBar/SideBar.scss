@@ -5,7 +5,7 @@
 }
 
 aside {
-  position: absolute;
+  position: relative;
   width: 300px;
   height: calc(100vh - 64px);
   background-color: $aside-background-color;
@@ -67,4 +67,49 @@ ul {
   }
 }
 
+.close-sidebar-btn {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
 
+  span {
+    svg {
+      width: 30px;
+      height: 30px;
+    }
+  }
+}
+
+.open-sidebar-btn {
+  height: 150px;
+  border: unset;
+  font-size: 2rem;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 10px 10px;
+  writing-mode: vertical-rl !important;
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  background-color: #ffffff;
+  color: $main-color;
+}
+
+@media only screen and (max-width: 760px) {
+
+  aside {
+    position: absolute;
+    z-index: 10;
+  }
+}
+
+@media only screen and (max-width: 550px) {
+
+  .open-sidebar-btn {
+    position: absolute;
+    z-index: 1;
+    height: unset;
+    writing-mode: horizontal-tb !important;
+  }
+}

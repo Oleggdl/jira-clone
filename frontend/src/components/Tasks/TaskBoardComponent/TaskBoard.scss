@@ -72,3 +72,10 @@
   background-color: $column-container-background;
   padding: 2px 5px;
 }
+
+@media only screen and (max-width: 400px) {
+
+  .task-board-marks {
+    display: none;
+  }
+}

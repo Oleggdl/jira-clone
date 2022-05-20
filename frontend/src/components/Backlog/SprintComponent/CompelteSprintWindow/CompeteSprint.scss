@@ -38,3 +38,12 @@
     color: #ffffff;
   }
 }
+
+@media only screen and (max-width: 530px) {
+
+  .complete-sprint-container {
+    width: 100%;
+    left: 0;
+    padding: 20px;
+  }
+}

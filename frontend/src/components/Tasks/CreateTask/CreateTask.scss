@@ -17,7 +17,8 @@
   h2 {
     text-align: center;
   }
-  button:first-child{
+
+  button:first-child {
     span {
       color: #ffffff;
     }
@@ -25,5 +26,25 @@
 
   .ant-form-item-label {
     width: 130px;
+  }
+}
+
+.create-task-btn-container {
+  margin-left: 130px !important;
+}
+
+
+@media only screen and (max-width: 720px) {
+
+  .create-task-container {
+    left: 0;
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 575px) {
+
+  .create-task-btn-container {
+    margin-left: 0 !important;
   }
 }

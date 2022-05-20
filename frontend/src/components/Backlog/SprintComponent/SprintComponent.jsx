@@ -22,15 +22,17 @@ const SprintComponent = ({
                                                                 text={text} taskCount={tasks ? tasks.length : null}/>}
             <div className="sprint-container">
                 <div className="sprint-container-header">
-                    <h4>{sprint?.sprint_name || `BoardSprint ${index + 1}`}</h4>
-                    {sprint?.start_date && <>
-                        <div className="sprint-header-text">{sprint?.start_date}</div>
-                        <div className="sprint-header-text"> –</div>
-                        <div className="sprint-header-text">{sprint?.end_date}</div>
-                    </>}
-                    <div
-                        className="sprint-header-text">({text("sprintComponent.taskCount")}: <span>{tasks
-                        ? tasks.length : null}</span>)
+                    <div className="title-and-date-container">
+                        <h4>{sprint?.sprint_name || `BoardSprint ${index + 1}`}</h4>
+                        {sprint?.start_date && <div style={{display: 'flex'}}>
+                            <div className="sprint-header-text">{sprint?.start_date}</div>
+                            <div className="sprint-header-text"> –</div>
+                            <div className="sprint-header-text">{sprint?.end_date}</div>
+                        </div>}
+                        <div
+                            className="sprint-header-text">({text("sprintComponent.taskCount")}: <span>{tasks
+                            ? tasks.length : null}</span>)
+                        </div>
                     </div>
                     {currentProject.user_role.id === 1 ? <>
                         {sprint?.is_started

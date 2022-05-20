@@ -51,7 +51,8 @@ const BoardComponent = ({
                     <span> / </span>
                     <span>{currentProject?.scrum_project.project_name}</span>
                 </div>
-                {currentProject.user_role.id === 1 && !!currentSprint ? <div className="complete-board-btn-container">
+                {currentProject.user_role.id === 1 && !!currentSprint
+                    ? <div className="complete-board-btn-container">
                     <Button className="complete-sprint-board-btn" type="primary"
                             onClick={() => setCompleteWindow(true)}>{text("sprintComponent.complete")}</Button>
                 </div> : false}

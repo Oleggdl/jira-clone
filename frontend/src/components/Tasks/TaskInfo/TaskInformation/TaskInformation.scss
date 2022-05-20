@@ -2,7 +2,7 @@
 @import 'src/styles/mixins';
 
 .task-info-right {
-  width: 30%;
+  min-width: 250px;
   padding: 20px;
   border: 1px #bebebe solid;
   border-radius: 5px;
@@ -51,7 +51,7 @@
 .add-marks-container {
   position: absolute;
   width: 500px;
-  top: calc(50% - 300px);
+  top: 15vh;
   left: calc(50% - 250px);
   background-color: $main-background-color;
   z-index: 5;
@@ -162,3 +162,14 @@
   margin-left: 5px;
   text-transform: capitalize;
 }
+
+@media only screen and (max-width: 530px) {
+
+  .add-marks-container {
+    width: 100%;
+    left: 0;
+  }
+}
+
+
+

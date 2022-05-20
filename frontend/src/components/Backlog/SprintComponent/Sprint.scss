@@ -224,7 +224,7 @@
   overflow-y: auto;
 }
 
-.change-sprint-container{
+.change-sprint-container {
   position: fixed;
   width: 500px;
   height: 460px;
@@ -236,13 +236,39 @@
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
   border-radius: 5px;
 
-  h2{
+  h2 {
     margin-bottom: 30px;
   }
 
   .primary-button-submit {
-    span{
+    span {
       color: #ffffff;
     }
+  }
+}
+
+.title-and-date-container {
+  display: flex;
+}
+
+@media only screen and (max-width: 440px) {
+
+  .title-and-date-container {
+    display: block;
+  }
+  .sprint-header-text {
+    padding: 0 !important;
+  }
+  .delete-sprint-container {
+    width: 100%;
+    left: 0;
+  }
+}
+
+@media only screen and (max-width: 520px) {
+
+  .change-sprint-container {
+    width: 100%;
+    left: 0;
   }
 }

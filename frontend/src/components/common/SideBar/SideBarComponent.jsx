@@ -1,17 +1,20 @@
 import React from 'react'
 import './SideBar.scss'
 import {NavLink} from "react-router-dom"
-import {DatabaseOutlined, ProjectOutlined} from "@ant-design/icons"
+import {CloseOutlined, DatabaseOutlined, ProjectOutlined} from "@ant-design/icons"
 
 const SideBarComponent = ({
                               currentProject, getSprints, getBacklogElements, getStartedSprint, updateTaskSprints,
-                              text
+                              text, isSidebar, setIsSidebar
                           }) => {
 
     return (
         <>
-            <aside>
+            {!isSidebar &&
+                <div className="open-sidebar-btn" onClick={() => setIsSidebar(true)}>Open Sidebar</div>}
+            {isSidebar && <aside>
                 <div className="project-container">
+                    <div className="close-sidebar-btn" onClick={() => setIsSidebar(false)}><CloseOutlined/></div>
                     <div className="project-logo">
                         <svg height="28" preserveAspectRatio="xMidYMid" width="28"
                              xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink"
@@ -49,7 +52,7 @@ const SideBarComponent = ({
                         <NavLink to="board" className="board-link">{text("sideBar.board")}</NavLink>
                     </li>
                 </ul>
-            </aside>
+            </aside>}
         </>
     )
 }

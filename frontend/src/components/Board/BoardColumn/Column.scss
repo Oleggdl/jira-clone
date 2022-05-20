@@ -2,9 +2,11 @@
 @import './src/styles/mixins';
 
 .column-container {
-  min-width: 430px;
+  width: 32%;
+  min-width: 280px;
+  max-width: 430px;
+  margin-right: 5px;
   height: 100%;
-  margin-right: 25px;
   position: relative;
   padding: 10px;
   background-color: $column-container-background;
@@ -15,7 +17,7 @@
 
     h5 {
       margin: 5px 10px 0 auto;
-      color: #727272!important;
+      color: #727272 !important;
     }
 
     &:hover {
@@ -38,3 +40,20 @@
 .column-task-container {
   padding-top: 10px;
 }
+
+@media only screen and (min-width: 1470px) {
+
+  .column-container {
+    margin-right: 15px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+
+  .column-container {
+    width: 100%;
+    min-width: unset;
+    margin-bottom: 30px;
+  }
+}
+

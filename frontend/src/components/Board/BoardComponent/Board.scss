@@ -2,9 +2,8 @@
 
 .board-container {
   position: relative;
-  left: 300px;
+  width: 100%;
   padding: 30px 40px 0 40px;
-  width: calc(100% - 300px);
   overflow-y: auto;
   height: calc(100vh - 64px);
 
@@ -35,6 +34,7 @@
 
 .columns-container {
   display: flex;
+  justify-content: space-between;
   width: 100%;
   overflow-x: auto;
   overflow-y: auto;
@@ -97,3 +97,27 @@
   }
 }
 
+@media only screen and (max-width: 550px) {
+
+  .board-container {
+    padding: 100px 40px 0 40px;
+  }
+
+  .complete-board-btn-container {
+    top: 60px;
+  }
+}
+
+@media only screen and (min-width: 1470px) {
+
+  .columns-container {
+    justify-content: left;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+
+  .columns-container {
+    display: block;
+  }
+}

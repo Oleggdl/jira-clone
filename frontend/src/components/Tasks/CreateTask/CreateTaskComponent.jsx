@@ -83,7 +83,7 @@ const CreateTaskComponent = ({
                         <Title level={4}>{currentUser.username}</Title>
                     </Form.Item>
                     <Form.Item name="create_date" style={{height: 0, margin: 0}}> </Form.Item>
-                    <Form.Item wrapperCol={{offset: 5}}>
+                    <Form.Item className="create-task-btn-container">
                         <Button type="primary" htmlType="submit" style={{width: "100px"}}>
                             {text("createTaskComponent.submitBtn")}
                         </Button>

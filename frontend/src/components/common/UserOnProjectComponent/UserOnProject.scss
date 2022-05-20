@@ -5,7 +5,7 @@
   z-index: 10;
   width: 500px;
   min-height: 325px;
-  left: calc(50% - 200px);
+  left: calc(50% - 250px);
   top: 25%;
   background-color: $aside-background-color;
   margin-left: auto;
@@ -74,5 +74,22 @@
 
   button {
     min-width: 120px;
+  }
+}
+
+@media only screen and (max-width: 530px) {
+
+  .user-on-project-role {
+    width: 100%;
+    left: 0;
+  }
+}
+
+@media only screen and (max-width: 430px) {
+
+  .user-on-project-role {
+    width: 100%;
+    left: 0;
+    padding: 40px 10px;
   }
 }
