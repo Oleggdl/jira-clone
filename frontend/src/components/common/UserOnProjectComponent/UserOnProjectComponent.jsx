@@ -24,10 +24,11 @@ const UserOnProjectComponent = ({
                         <h3>{text("authPage.signup.surname")}: <span>{currentUser.users.surname}</span></h3>
                         <h3>{text("authPage.signup.username")}: <span>{currentUser.users.username}</span></h3>
                         <h3>{text("authPage.signup.email")}: <span>{currentUser.users.email}</span></h3>
-                        {currentProject.user_role.id === 1 ? <div className="delete-user-from-project">
-                            <Button type="primary" danger ghost
-                                    onClick={() => setIsDeleteUser(true)}>{text("userOnProject.deleteBtn")}</Button>
-                        </div> : false}
+                        {currentProject.user_role.id === 1 && currentUser.users.id !== currentProject.users.id
+                            ? <div className="delete-user-from-project">
+                                <Button type="primary" danger ghost
+                                        onClick={() => setIsDeleteUser(true)}>{text("userOnProject.deleteBtn")}</Button>
+                            </div> : false}
                     </>
                     : <>
                         <div className="remove-user-window">

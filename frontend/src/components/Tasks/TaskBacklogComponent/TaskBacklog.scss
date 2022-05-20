@@ -14,8 +14,7 @@
     background-color: $button-background-color;
 
     .task-backlog-component-settings {
-      opacity: 1;
-      cursor: pointer;
+      background-color: #c0c0c0;
     }
 
     .task-title {
@@ -63,11 +62,11 @@
 
 .task-backlog-component-settings {
   margin-left: 10px;
-  opacity: 0;
   transition: .3s;
   border-radius: 3px;
   background-color: $column-container-background;
   padding: 2px 5px;
+  cursor: pointer;
   font-size: 3rem;
   line-height: 1;
 }

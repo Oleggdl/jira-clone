@@ -1,7 +1,7 @@
 @import './src/styles/mixins';
 
 .welcome-title {
-  margin-top: 200px;
+  margin-top: 15vh;
   text-align: center;
   font-size: 4rem;
   @include disabled-selection;

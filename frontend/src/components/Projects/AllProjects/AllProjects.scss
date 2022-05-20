@@ -146,3 +146,11 @@
   }
 }
 
+@media only screen and (max-height: 830px) {
+
+  .settings-project {
+    form {
+      top: 0 !important;
+    }
+  }
+}

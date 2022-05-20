@@ -171,5 +171,11 @@
   }
 }
 
+@media only screen and (max-height: 730px) {
 
+  .task-info-right {
+    height: 100%;
+    overflow-y: auto;
+  }
+}
 
