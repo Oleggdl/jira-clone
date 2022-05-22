@@ -23,7 +23,7 @@ const TaskInfoComponent = ({
                     <div className="task-info-left">
                         <button className="close-button" onClick={taskInfoCloseHandler}><CloseOutlined/></button>
                         <div style={{display: "flex"}}>
-                            {!isTaskNameEditable || currentProject.user_role.id !== 1 || currentTask.isCompleted
+                            {!isTaskNameEditable || currentProject.user_role.id !== 2 || currentTask.isCompleted
                                 ? <h2 onDoubleClick={() => setIsTaskNameEditable(true)}>
                                     {currentTaskFromServer?.task_name}</h2>
                                 : <Form form={formTaskName} onFinish={values => {
@@ -58,7 +58,7 @@ const TaskInfoComponent = ({
                                             {text("taskInfo.taskName.canselBtn")}</Button>
                                     </Form.Item>
                                 </Form>}
-                            {currentProject.user_role.id === 1 && !currentTask.isCompleted ?
+                            {currentProject.user_role.id === 2 && !currentTask.isCompleted ?
                                 <button className="delete-task-button" onClick={() => setIsDeleteTask(true)}>
                                     {text("taskInfo.deleteBtn")}
                                 </button> : false}
@@ -94,7 +94,7 @@ const TaskInfoComponent = ({
                                 <TextArea ref={textAreaDescriptionFocus} row={4}
                                           placeholder={`${text("taskInfo.description.placeholder")}`}/>
                             </Form.Item>
-                            {isTextAreaFocus && currentProject.user_role.id === 1 && !currentTask.isCompleted ?
+                            {isTextAreaFocus && currentProject.user_role.id === 2 && !currentTask.isCompleted ?
                                 <Form.Item>
                                     <Button type="primary" htmlType="submit" style={{width: "100px"}}
                                             className="primary-button-submit"

@@ -2,7 +2,7 @@ import axios from "axios"
 
 const instance = axios.create({
     withCredentials: false,
-    baseURL: `http://localhost:8080/jira-clone`,
+    baseURL: `http://localhost:8080/TaskManager`,
 })
 
 export const projectsAPI = {

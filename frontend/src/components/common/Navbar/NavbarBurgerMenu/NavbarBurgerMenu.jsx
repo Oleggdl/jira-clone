@@ -12,7 +12,7 @@ const NavbarBurgerMenu = ({
     return (
         <>
             <div className="burger-window-container" ref={burgerWindowRef}>
-                <div className="brand-logo"><h1>Jira-clone</h1></div>
+                <div className="brand-logo"><h1>TaskManager</h1></div>
                 <ul className="nav-container nav-burger-container">
                     <li>
                         <button onClick={() => onSetIsBurgerWindow()} className="nav-button"

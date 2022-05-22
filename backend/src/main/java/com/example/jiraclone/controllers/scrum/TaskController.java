@@ -14,7 +14,7 @@ import java.util.Map;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("jira-clone/scrum")
+@RequestMapping("TaskManager/scrum")
 public class TaskController {
 
     @Autowired

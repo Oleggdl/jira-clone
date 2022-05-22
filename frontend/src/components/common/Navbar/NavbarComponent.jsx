@@ -24,7 +24,7 @@ export const NavbarComponent = ({
             <div className="burger-icon" onClick={onSetIsBurgerWindow} ref={burgerBtnRef}><MenuOutlined/></div>
             <div className="projects-wrapper">
                 <ul className="nav-container">
-                    <div className="brand-logo"><h1>Jira-clone</h1></div>
+                    <div className="brand-logo"><h1>TaskManager</h1></div>
                     <li className="nav-button-link">
                         <button onClick={() => {
                         }} className="nav-button" style={{padding: "unset"}}>

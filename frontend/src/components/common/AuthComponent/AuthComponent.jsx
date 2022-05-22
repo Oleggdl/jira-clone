@@ -13,7 +13,7 @@ export const AuthComponent = ({
 
     return (
         <div className="auth-component-container">
-            <h1>Jira-clone</h1>
+            <h1>TaskManager</h1>
             {isLogIn ? <div className="auth-container">
                     <div className="container-title">{text("authPage.login.title")}</div>
                     <Form name="auth_login_form"

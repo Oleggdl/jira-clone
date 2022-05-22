@@ -24,7 +24,7 @@ const BacklogElementComponent = ({
                     tasks={tasks}
                     sprint={null}
                 />
-                {currentProject.user_role.id === 1 ? <>
+                {currentProject.user_role.id === 2 ? <>
                     <input className={`task-creations-input ${isInputVisible}`} ref={taskInputRef} onKeyDown={e => {
                         onKeyDown(e)
                     }} placeholder={`${text("backlogElement.placeholder")}`}/>

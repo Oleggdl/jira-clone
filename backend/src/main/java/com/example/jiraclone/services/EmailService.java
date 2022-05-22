@@ -36,7 +36,7 @@ public class EmailService {
             context.setVariable("projectId", request.getProjectId());
             context.setVariable("projectName", request.getProjectName());
             context.setVariable("userName", request.getUserName());
-            context.setVariable("link", "https://oleggdl.github.io/jiira-clone?joinTheTeam=true&&userType=" + userType + "&&projectId=" + request.getProjectId());
+            context.setVariable("link", "http://localhost:3000?joinTheTeam=true&&userType=" + userType + "&&projectId=" + request.getProjectId());
 
 
             String body = templateEngine.process("joinTheTeamEmail", context);
@@ -49,7 +49,7 @@ public class EmailService {
             String mailSubject = userName + " is waiting for you to join them";
             //olegblotski@gmail.com
 
-            helper.setFrom(emailFrom, "Jira-clone");
+            helper.setFrom(emailFrom, "TaskManager");
             helper.setTo(emailTo);
             helper.setSubject(mailSubject);
             helper.setText(body, true);

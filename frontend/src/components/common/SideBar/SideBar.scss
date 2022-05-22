@@ -29,6 +29,13 @@ aside {
   height: 28px;
   font-size: 10px;
   border-radius: 50%;
+
+  span {
+    svg {
+      width: 28px;
+      height: 28px;
+    }
+  }
 }
 
 .project-container-name {

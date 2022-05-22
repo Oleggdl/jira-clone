@@ -39,7 +39,7 @@ const CreateTaskComponent = ({
                                 className="project-select"
                                 onChange={(e) => getExecutorsHandler(e)}>
                             {projects.map(project => {
-                                if (project.user_role.id === 1) {
+                                if (project.user_role.id === 2) {
                                     return <Option key={project.scrum_project.id} value={project.scrum_project.id}>
                                         {project.scrum_project.project_name}</Option>
                                 }

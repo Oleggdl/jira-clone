@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("jira-clone/email")
+@RequestMapping("TaskManager/email")
 public class EmailController {
 
     @Autowired
