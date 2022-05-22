@@ -63,7 +63,8 @@ const BacklogElementContainer = (props) => {
                 create_date: create_date,
                 creator_id: null,
                 executor_id: null,
-                priority : 'normal',
+                isCompleted: false,
+                priority: 'normal',
                 task_description: null,
                 task_name: taskInputRef.current.value
             }, props.currentProject.scrum_project.id, props.currentUser.id, null, headers)

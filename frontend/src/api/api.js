@@ -194,6 +194,12 @@ export const backlogAPI = {
     getBacklogForProject(projectId, headers) {
         return instance.get(`scrum/backlog/tasks/${projectId}`, {headers: headers})
     },
+    getCompletedBacklogForProject(projectId, headers) {
+        return instance.get(`/scrum/backlog/completed-tasks/${projectId}`, {headers: headers})
+    },
+    updateCompletesTasks(id, data, headers) {
+        return instance.put(`scrum/backlog/completedTasks/${id}`, data, {headers: headers})
+    },
     searchTask(query, projectId, headers) {
         return instance.get(`scrum/backlog/search/${projectId}?taskName=${query}`, {headers: headers})
     }

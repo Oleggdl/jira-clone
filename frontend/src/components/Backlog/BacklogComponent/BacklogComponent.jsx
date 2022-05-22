@@ -6,6 +6,7 @@ import {NavLink} from "react-router-dom"
 import SprintContainer from "../SprintComponent/SprintContainer"
 import BacklogElementContainer from "../BacklogElement/BacklogElementContainer"
 import UserOnProjectContainer from "../../common/UserOnProjectComponent/UserOnProjectContainer"
+import CompletedTasksContainer from "../CompletedTasksComponent/CompletedTasksContainer";
 
 const BacklogComponent = ({
                               isTaskInfo, setBacklogForProject, onDragEnd, text, usersOnProject, userInfoWrapper,
@@ -78,6 +79,7 @@ const BacklogComponent = ({
                         <div>{board}</div>
                     </DragDropContext>
                 </React.Fragment>
+                <CompletedTasksContainer/>
             </div>
             {isUserInfo && <UserOnProjectContainer currentUser={currentUser} text={text} roleType={roleType}
                                                    userInfoWrapper={userInfoWrapper} setIsUserInfo={setIsUserInfo}

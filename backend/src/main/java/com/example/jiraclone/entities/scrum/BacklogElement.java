@@ -15,6 +15,7 @@ public class BacklogElement {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    private Boolean isCompleted;
 
     @ManyToOne
     @JoinColumn(name = "scrum_project_id", referencedColumnName = "id")

@@ -36,7 +36,7 @@ public class EmailService {
             context.setVariable("projectId", request.getProjectId());
             context.setVariable("projectName", request.getProjectName());
             context.setVariable("userName", request.getUserName());
-            context.setVariable("link", "http://localhost:3000?joinTheTeam=true&&userType=" + userType + "&&projectId=" + request.getProjectId());
+            context.setVariable("link", "https://oleggdl.github.io/jiira-clone?joinTheTeam=true&&userType=" + userType + "&&projectId=" + request.getProjectId());
 
 
             String body = templateEngine.process("joinTheTeamEmail", context);

@@ -70,6 +70,7 @@ const CommentElementContainer = (props) => {
                                      confirmHandler={confirmHandler} changeCommentHandler={changeCommentHandler}
                                      isChangeComment={isChangeComment} setIsChangeComment={setIsChangeComment}
                                      form={form} onReset={onReset} onChangeComment={onChangeComment}
+                                     currentTask={props.currentTask}
                                      currentUser={props.currentUser} currentProject={props.currentProject}/>
         </>
     )

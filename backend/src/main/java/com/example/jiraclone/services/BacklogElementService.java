@@ -38,7 +38,19 @@ public class BacklogElementService {
         List<BacklogElement> backlogElements = backlogRepository.findAll();
         ArrayList<BacklogElement> backlogProjectElements = new ArrayList<>();
         for (int i = 0; i <= backlogElements.size() - 1; i++) {
-            if (backlogElements.get(i).getScrum_project_id() == projectScrum) {
+            if (backlogElements.get(i).getScrum_project_id() == projectScrum && !backlogElements.get(i).getIsCompleted()) {
+                backlogProjectElements.add(backlogElements.get(i));
+            }
+        }
+        return backlogProjectElements;
+    }
+
+    public List<BacklogElement> getCompletedBacklogElements(Long projectId) {
+        ProjectScrum projectScrum = projectScrumRepository.findById(projectId).get();
+        List<BacklogElement> backlogElements = backlogRepository.findAll();
+        ArrayList<BacklogElement> backlogProjectElements = new ArrayList<>();
+        for (int i = 0; i <= backlogElements.size() - 1; i++) {
+            if (backlogElements.get(i).getScrum_project_id() == projectScrum && backlogElements.get(i).getIsCompleted()) {
                 backlogProjectElements.add(backlogElements.get(i));
             }
         }
@@ -76,6 +88,13 @@ public class BacklogElementService {
         ProjectScrum projectScrum = projectScrumRepository.findById(projectId).get();
         backlogElement.setScrum_task_id(taskScrum);
         backlogElement.setScrum_project_id(projectScrum);
+        BacklogElement updateBacklogElement = backlogRepository.save(backlogElement);
+        return ResponseEntity.ok(updateBacklogElement);
+    }
+
+    public ResponseEntity<BacklogElement> updateCompletedTasks(Long backlogId, BacklogElement backlogElementDetails) {
+        BacklogElement backlogElement = backlogRepository.findById(backlogId).get();
+        backlogElement.setIsCompleted(backlogElementDetails.getIsCompleted());
         BacklogElement updateBacklogElement = backlogRepository.save(backlogElement);
         return ResponseEntity.ok(updateBacklogElement);
     }

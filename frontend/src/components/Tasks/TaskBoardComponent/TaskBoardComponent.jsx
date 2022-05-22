@@ -19,7 +19,11 @@ const TaskBoardComponent = ({
                         taskInfoHandler(taskSprint)
                         getCurrentTaskFromServer(taskSprint)
                     }}><EllipsisOutlined/></div>
-                    <div className="task-title">{taskSprint?.task_scrum?.task_name}</div>
+                    <div className="task-title"
+                         style={{
+                             textDecoration: `${taskSprint.sprint_column.column_name === 'DONE'
+                                 ? 'line-through' : ''}`
+                         }}>{taskSprint?.task_scrum?.task_name}</div>
                     {/*<div className="task-title">{taskSprint?.id} / {taskSprint?.index}</div>*/}
                     <div className="task-board-marks">
                         {marksScrumAll[taskSprint?.task_scrum.id] && marksScrumAll[taskSprint?.task_scrum.id].map(mark =>

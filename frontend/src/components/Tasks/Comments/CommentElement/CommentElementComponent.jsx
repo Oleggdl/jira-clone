@@ -7,7 +7,7 @@ import TextArea from "antd/es/input/TextArea"
 const CommentElementComponent = ({
                                      comment, isConfirmWindow, deleteHandler, cancelHandler, confirmHandler,
                                      changeCommentHandler, isChangeComment, form, onReset, onChangeComment,
-                                     currentUser, text, currentProject
+                                     currentUser, text, currentProject, currentTask
                                  }) => {
 
     return (
@@ -39,7 +39,7 @@ const CommentElementComponent = ({
                                 </Button>
                             </Form.Item>
                         </Form>}
-                    {currentProject.user_role.id !== 2 ? <div className="comments-buttons">
+                    {currentProject.user_role.id !== 2 && !currentTask.isCompleted ? <div className="comments-buttons">
                         <button onClick={changeCommentHandler}>{text("commentElement.changeBtn")}</button>
                         <button onClick={deleteHandler}>{text("commentElement.delBtn")}</button>
                     </div> : false}

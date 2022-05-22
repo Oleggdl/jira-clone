@@ -95,8 +95,12 @@
   .task-backlog-component-labels {
     display: block;
   }
+}
+
+@media only screen and (max-width: 500px) {
 
   .mark-element-backlog {
     display: none;
   }
 }
+

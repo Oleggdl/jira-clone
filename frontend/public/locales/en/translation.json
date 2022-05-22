@@ -1,6 +1,6 @@
 {
   "welcomeComponent": {
-    "title": "Welcome to Jira-clone app",
+    "title": "Welcome to TaskManager app",
     "text": "This application is designed to create tasks, assign executors, set priorities and track the progress of these tasks."
   },
   "navbar": {
@@ -103,7 +103,7 @@
     "button": "I understand the consequences, delete this project"
   },
   "inviteCUsers": {
-    "title": "Invite users to Jira-clone",
+    "title": "Invite users to TaskManager",
     "project": "Project",
     "userType": "User type",
     "email": "Email",
@@ -414,5 +414,8 @@
     "confirm": "Confirm",
     "cancel": "Cancel",
     "deleteBtn": "Remove user from project"
+  },
+  "completedTasks": {
+    "title": "Completed tasks"
   }
 }

@@ -49,7 +49,7 @@ const CommentsContainer = (props) => {
         <>
             <CommentsComponent form={form} handleSubmit={handleSubmit} onReset={onReset} text={text}
                                textAreaAddComment={textAreaAddComment} currentUser={props.currentUser}
-                               isTextAreaAddCommentFocus={isTextAreaAddCommentFocus}
+                               isTextAreaAddCommentFocus={isTextAreaAddCommentFocus} currentTask={props.currentTask}
                                commentsScrum={props.commentsScrum} currentProject={props.currentProject}/>
         </>
     )

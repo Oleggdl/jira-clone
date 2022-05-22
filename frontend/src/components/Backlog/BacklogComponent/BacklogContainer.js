@@ -9,7 +9,11 @@ import {
     moveTaskSprintFromSprint,
     unsetTaskSprints
 } from "../../../redux/taskSprint-reducer"
-import {createBacklogElementFromSprint, searchTasks} from "../../../redux/backlog-reducer"
+import {
+    createBacklogElementFromSprint,
+    getCompletedBacklogForProject,
+    searchTasks
+} from "../../../redux/backlog-reducer"
 import {AuthContext} from "../../../context/AuthContext"
 import {getSprints, getStartedSprint} from "../../../redux/sprints-reducer"
 import {reorderSprintMap} from "../../../utils/reorderBacklog"
@@ -83,6 +87,7 @@ class BacklogContainer extends React.Component {
         }
         if (this.state.headers !== prevState.headers) {
             this.props.getStartedSprint(this.props.currentProject.scrum_project.id, this.state.headers)
+            this.props.getCompletedBacklogForProject(this.props.currentProject.scrum_project.id, this.state.headers)
         }
     }
 
@@ -160,7 +165,9 @@ class BacklogContainer extends React.Component {
 
     render() {
 
-        const {text, updateTaskSprints, backlogForProject, currentProject, usersOnProject, sprints} = this.props
+        const {
+            text, updateTaskSprints, backlogForProject, currentProject, usersOnProject, sprints, completedTasks
+        } = this.props
 
         const {isTaskInfo, columns, backlogForProjectSprint, isUserInfo, currentUser} = this.state
 
@@ -176,6 +183,7 @@ class BacklogContainer extends React.Component {
                                       backlogForProjectSprint={backlogForProjectSprint}
                                       setBacklogForProjectSprint={this.setBacklogForProjectSprint}
                                       currentUser={currentUser} setCurrentUser={this.setCurrentUser}
+                                      completedTasks={completedTasks}
                     />
                 </TaskContext.Provider>
             </>
@@ -195,6 +203,6 @@ const mapStateToProps = (state) => ({
 export default compose(
     connect(mapStateToProps, {
         unsetTaskSprints, getSprints, searchTasks, getTaskSprints, createBacklogElementFromSprint, getStartedSprint,
-        createSprintFromBacklog, moveTaskSprintFromSprint
+        createSprintFromBacklog, moveTaskSprintFromSprint, getCompletedBacklogForProject
     })
 )(BacklogContainerWithText)

@@ -51,8 +51,20 @@ public class BacklogElementController {
         return backlogElementService.uniteBacklogAndTask(taskId, backlogId, projectId);
     }
 
+    @PutMapping("/backlog/completedTasks/{id}")
+    public ResponseEntity<BacklogElement> updateCompletedTasks(@PathVariable Long id,
+                                                               @RequestBody BacklogElement backlogElement) {
+
+        return backlogElementService.updateCompletedTasks(id, backlogElement);
+    }
+
     @DeleteMapping("/backlog/{id}")
     public ResponseEntity<Map<String, Boolean>> deleteBacklogElement(@PathVariable Long id) {
         return backlogElementService.deleteBacklogElement(id);
+    }
+
+    @GetMapping("/backlog/completed-tasks/{projectId}")
+    public List<BacklogElement> getCompletedBacklogElements(@PathVariable Long projectId) {
+        return backlogElementService.getCompletedBacklogElements(projectId);
     }
 }

@@ -127,14 +127,6 @@ const SprintComponent = ({
                     tasks={tasks}
                     sprint={sprint}
                 />
-                {currentProject.user_role.id === 1 && !sprint?.is_started ? <>
-                    <input className={`task-creations-input ${isInputVisible}`} ref={taskInputRef}
-                           onKeyDown={e => onKeyDown(e)} placeholder={`${text("sprintComponent.createTaskInput")}`}/>
-                    {!isCreateTask &&
-                        <button style={{display: "block"}} className="create-task-button"
-                                onMouseUp={onSetIsCreateTask}>{text("sprintComponent.createTaskBtn")}
-                        </button>}
-                </> : false}
             </div>
         </>
     )

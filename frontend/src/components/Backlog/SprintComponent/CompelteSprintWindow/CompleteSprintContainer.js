@@ -3,7 +3,7 @@ import CompleteSprintComponent from "./CompleteSprintComponent"
 import {compose} from "redux"
 import {connect} from "react-redux"
 import {createTaskSprintFromSprint} from "../../../../redux/taskSprint-reducer"
-import {createBacklogElementFromSprint, deleteTask} from "../../../../redux/backlog-reducer"
+import {completeTask, createBacklogElementFromSprint, deleteTask} from "../../../../redux/backlog-reducer"
 import {completeDeleteSprint, unsetCurrentSprint} from "../../../../redux/sprints-reducer"
 import {AuthContext} from "../../../../context/AuthContext"
 
@@ -57,9 +57,11 @@ class CompleteSprintContainer extends Component {
                     })
                 } else if (item.split(',')[0] === 'DONE') {
                     this.props.columnsMap[item].map(task => {
-                        this.props.deleteTask(task.task_scrum.id, this.props.currentUser.id,
+                        this.props.completeTask(task.id, task.task_scrum.id,
                             this.props.currentProject.scrum_project.id, this.state.headers)
                     })
+
+
                 }
             })
         } else {
@@ -71,7 +73,7 @@ class CompleteSprintContainer extends Component {
                     })
                 } else if (item.split(',')[0] === 'DONE') {
                     this.props.columnsMap[item].map(task => {
-                        this.props.deleteTask(task.task_scrum.id, this.props.currentUser.id,
+                        this.props.completeTask(task.id, task.task_scrum.id,
                             this.props.currentProject.scrum_project.id, this.state.headers)
                     })
                 }
@@ -113,6 +115,6 @@ const mapStateToProps = (state) => ({
 export default compose(
     connect(mapStateToProps, {
         createBacklogElementFromSprint, createTaskSprintFromSprint, deleteTask, completeDeleteSprint,
-        unsetCurrentSprint
+        unsetCurrentSprint, completeTask
     })
 )(CompleteSprintContainer)

@@ -38,12 +38,12 @@ const TaskInformationComponent = ({
                 <div className="mark-element-container">
                     {marksScrum.map(mark =>
                         <div className="mark-element" style={{backgroundColor: mark.mark_color}}
-                             key={mark.id}>{mark.mark_text} {currentProject.user_role.id !== 2 ?
-                            <span onClick={() => deleteMarkHandler(mark)}>
+                             key={mark.id}>{mark.mark_text} {currentProject.user_role.id !== 2 && !currentTask.isCompleted
+                            ? <span onClick={() => deleteMarkHandler(mark)}>
                             <CloseSquareOutlined/></span> : false}
                         </div>)}
                 </div>
-                {currentProject.user_role.id !== 2 ?
+                {currentProject.user_role.id !== 2 && !currentTask.isCompleted ?
                     <button className="add-mark-button" onClick={() => setIsAddMarks(true)}>
                         {text("taskInformation.addMark")}
                     </button> : false}
@@ -51,7 +51,7 @@ const TaskInformationComponent = ({
                 <p>{currentTask.sprint_task_sprint?.sprint_name
                     ? currentTask.sprint_task_sprint?.sprint_name : 'None'}</p>
                 <h4>{text("taskInformation.priority")}</h4>
-                {currentProject.user_role.id !== 1
+                {currentProject.user_role.id !== 1 || currentTask.isCompleted
                     ? <div className="task-priority">
                         <div className="priority-icon">
                             <SvgSelector svgName={`${currentTaskScrum.priority}`}/>
@@ -73,7 +73,8 @@ const TaskInformationComponent = ({
                         </Select>
                     </div>}
                 <h4>{text("taskInformation.executor")}</h4>
-                {currentProject.user_role.id === 2 ? <div className="supervisor-container">
+                {currentProject.user_role.id === 2 || currentTask.isCompleted
+                    ? <div className="supervisor-container">
                         {currentTaskScrum?.executor_id?.username
                             && <div className="supervisor-logo">
                                 {currentTaskScrum?.executor_id?.name[0]}{currentTaskScrum?.executor_id?.surname[0]}
