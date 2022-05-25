@@ -11,7 +11,7 @@ const SideBarComponent = ({
     return (
         <>
             {!isSidebar &&
-                <div className="open-sidebar-btn" onClick={() => setIsSidebar(true)}>Open Sidebar</div>}
+                <div className="open-sidebar-btn" onClick={() => setIsSidebar(true)}>{text("sideBar.openSidebar")}</div>}
             {isSidebar && <aside>
                 <div className="project-container">
                     <div className="close-sidebar-btn" onClick={() => setIsSidebar(false)}><CloseOutlined/></div>

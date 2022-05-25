@@ -91,7 +91,8 @@ ul {
 }
 
 .open-sidebar-btn {
-  height: 150px;
+  max-height: 280px;
+  text-align: center;
   border: unset;
   font-size: 2rem;
   font-weight: bold;

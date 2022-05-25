@@ -240,7 +240,8 @@
   "sideBar": {
     "title": "Планирование",
     "backlog": "Бэклог",
-    "board": "Доска"
+    "board": "Доска",
+    "openSidebar": "Открыть боковую панель"
   },
   "backlogComponent": {
     "title": "Бэклог",
