@@ -58,8 +58,8 @@ const TaskInfoComponent = ({
                                             {text("taskInfo.taskName.canselBtn")}</Button>
                                     </Form.Item>
                                 </Form>}
-                            {currentProject.user_role.id === 2 && !currentTask.isCompleted ?
-                                <button className="delete-task-button" onClick={() => setIsDeleteTask(true)}>
+                            {currentProject.user_role.id === 2 && !currentTask.isCompleted && currentTask.scrum_task_id
+                                ? <button className="delete-task-button" onClick={() => setIsDeleteTask(true)}>
                                     {text("taskInfo.deleteBtn")}
                                 </button> : false}
                             {isDeleteTask && <>
